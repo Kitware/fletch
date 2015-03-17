@@ -19,7 +19,7 @@ endif()
 # included packages has a version number change.
 #
 # The variant version number is incremented for other minor changes or
-# bugfixes that result in adjustments to the vision-tplConfig.cmake file
+# bugfixes that result in adjustments to the fletchConfig.cmake file
 # (in other words, non-package changing differences that client projects
 # can still detect after the change)
 #-
@@ -27,7 +27,7 @@ set(fletch_VERSION_MAJOR 1)
 set(fletch_VERSION_MINOR 0)
 set(fletch_VERSION_PATCH 0)
 
-set(fletch_VERSION "${fletch_VERSION_MAJOR}.${vision-tpl_VERSION_MINOR}.${vision-tpl_VERSION_PATCH}")
+set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VERSION_PATCH}")
 
 set(fletch_CMAKE_DIR "${fletch_SOURCE_DIR}/CMake")
 set(CMAKE_MODULE_PATH ${fletch_CMAKE_DIR} ${CMAKE_MODULE_PATH})
@@ -68,15 +68,15 @@ set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 
 
 # We don't really need to install this file, but doing so allows us
-# to call make install on vision-tpl, which is useful when installing
+# to call make install on fletch, which is useful when installing
 # to a custom location.
-#install( FILES ${feltch_BINARY_DIR}/feltchConfig-version.cmake
-#  DESTINATION ${feltch_BUILD_INSTALL_SHARE_CMAKE_PREFIX} )
+#install( FILES ${fletch_BINARY_DIR}/fletchConfig-version.cmake
+#  DESTINATION ${fletch_BUILD_INSTALL_SHARE_CMAKE_PREFIX} )
 
 
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
-set(feltch_VERSION ${fletch_VERSION})
+set(fletch_VERSION ${fletch_VERSION})
 set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
 ")
 

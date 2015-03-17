@@ -1,8 +1,8 @@
-# The full vision-tpl version number.
-SET(PACKAGE_VERSION "@vision-tpl_VERSION_MAJOR@.@vision-tpl_VERSION_MINOR@.@vision-tpl_VERSION_PATCH@")
+# The full fletch version number.
+SET(PACKAGE_VERSION "@fletch_VERSION_MAJOR@.@fletch_VERSION_MINOR@.@fletch_VERSION_PATCH@")
 
 if (NOT "${PACKAGE_FIND_VERSION}" STREQUAL "")
-    if (NOT "@vision-tpl_VERSION_MAJOR@" VERSION_EQUAL ${PACKAGE_FIND_VERSION_MAJOR})
+    if (NOT "@fletch_VERSION_MAJOR@" VERSION_EQUAL ${PACKAGE_FIND_VERSION_MAJOR})
         # Major versions represent significant enough differences that we don't
         # want to try to mix them.
         set(PACKAGE_VERSION_UNSUITABLE 1)
