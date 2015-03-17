@@ -1,0 +1,126 @@
+cmake_minimum_required(VERSION 2.8.10)
+project(fletch)
+
+# Policy to address @foo@ variable expansion
+if(POLICY CMP0053)
+  cmake_policy(SET CMP0053 NEW)
+endif()
+
+#+
+# A word about Fletch versioning:
+#
+# The Major version number is reserved for the overall
+# fletch version.  It will not change from 1 until, for example,
+# the entire fletch strucure is ineveitably rewritten as a collection
+# of custom Perl scripts.
+#
+# The Minor version number will be incremented any time
+# a new package or set of packages are included or if one of the already
+# included packages has a version number change.
+#
+# The variant version number is incremented for other minor changes or
+# bugfixes that result in adjustments to the vision-tplConfig.cmake file
+# (in other words, non-package changing differences that client projects
+# can still detect after the change)
+#-
+set(fletch_VERSION_MAJOR 1)
+set(fletch_VERSION_MINOR 0)
+set(fletch_VERSION_PATCH 0)
+
+set(fletch_VERSION "${fletch_VERSION_MAJOR}.${vision-tpl_VERSION_MINOR}.${vision-tpl_VERSION_PATCH}")
+
+set(fletch_CMAKE_DIR "${fletch_SOURCE_DIR}/CMake")
+set(CMAKE_MODULE_PATH ${fletch_CMAKE_DIR} ${CMAKE_MODULE_PATH})
+
+set(CPACK_PACKAGE_VERSION_MAJOR ${fletch_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${fletch_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${fletch_VERSION_PATCH})
+
+set(fletch_DOWNLOAD_DIR ${fletch_SOURCE_DIR}/Downloads CACHE PATH
+    "Directory to download tarballs into.")
+
+add_custom_target(Download)
+
+#
+# Create a CMake Version file
+#
+configure_file(
+	${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
+  ${fletch_BINARY_DIR}/fletchConfig-version.cmake
+  @ONLY IMMEDIATE)
+
+# If fletch is being configured from the outside ( e.g. from a super-build)
+# allow the configuring package to set the install prefix.
+if (NOT fletch_BUILD_INSTALL_PREFIX)
+  set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
+endif()
+
+#+
+# Each External_xxx is responsible for updating this file with their
+# package information.  The goal is to insure that the file contains
+# any variables (e.g. FOO_DIR) that would help a dependent project find
+# packages that are built by Fletch.
+#-
+
+set(fletch_CONFIG_INPUT ${fletch_BINARY_DIR}/fletchConfig.cmake.in )
+set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
+set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
+
+
+# We don't really need to install this file, but doing so allows us
+# to call make install on vision-tpl, which is useful when installing
+# to a custom location.
+#install( FILES ${feltch_BINARY_DIR}/feltchConfig-version.cmake
+#  DESTINATION ${feltch_BUILD_INSTALL_SHARE_CMAKE_PREFIX} )
+
+
+file(WRITE ${fletch_CONFIG_INPUT} "
+# Configuration file for the fletch build
+set(feltch_VERSION ${fletch_VERSION})
+set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
+")
+
+
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND UNIX)
+  message(STATUS "Setting build type is set to 'Debug' as none was specified.")
+  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
+endif()
+
+option(BUILD_SHARED_LIBS "Build shared libraries where possible." ON)
+
+# Enable /MP flag for Visual Studio 2008 and greater
+if(MSVC_VERSION GREATER 1400)
+  # Allow the MP flag to get set externally. If not set, default to OFF.
+  if(NOT fletch_ENABLE_MULTI_PROCESS_BUILDS)
+    set(fletch_ENABLE_MULTI_PROCESS_BUILDS OFF)
+  endif()
+  set(ENABLE_MULTI_PROCESS_BUILDS ${fletch_ENABLE_MULTI_PROCESS_BUILDS} CACHE BOOL "Enable multi-process builds")
+  set(PROCESSOR_COUNT "$ENV{NUMBER_OF_PROCESSORS}")
+  set(CMAKE_CXX_MP_NUM_PROCESSORS ${PROCESSOR_COUNT} CACHE STRING "The maximum number of processes for the /MP flag")
+  if (ENABLE_MULTI_PROCESS_BUILDS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${CMAKE_CXX_MP_NUM_PROCESSORS}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP${CMAKE_CXX_MP_NUM_PROCESSORS}")
+  endif ()
+endif()
+
+include(fletch-tarballs)
+include(ExternalProject)
+
+#
+#  Set up a download target
+#
+set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
+foreach(source ${fletch_external_sources})
+  if(fletch_ENABLE_${source})
+    include(External_${source})
+    add_dependencies(Download ${source}-download)
+
+    # Workaround for a bug in Visual Studio generators
+    set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
+    set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_ALL True)
+  endif()
+endforeach()
+
+configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
+
