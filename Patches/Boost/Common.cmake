@@ -68,9 +68,14 @@ list(APPEND B2_FLAVOR_ARGS runtime-link=shared)
 # Always build with multi-threading support
 list(APPEND B2_FLAVOR_ARGS threading=multi)
 
+if (NOT FLETCH_BUILD_WITH_PYTHON)
+  # Keeps BCP from trying to build Python anyway
+  set(_fletch_boost_python_arg "--without-python")
+endif()
+
 # Compile the complete list of B2 args
 set(B2_ARGS
-  --abbreviate-paths -j${NCPU} --toolset=${BOOST_TOOLSET} --disable-icu --without-python
+  --abbreviate-paths -j${NCPU} --toolset=${BOOST_TOOLSET} --disable-icu ${_fletch_boost_python_arg}
   -sNO_BZIP2=1
   ${B2_FLAVOR_ARGS}
 )

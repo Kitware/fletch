@@ -41,6 +41,16 @@ set(fletch_DOWNLOAD_DIR ${fletch_SOURCE_DIR}/Downloads CACHE PATH
 
 add_custom_target(Download)
 
+# 
+# Do we want to build in Python support where available
+#
+option(FLETCH_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
+
+if (FLETCH_BUILD_WITH_PYTHON) 
+	find_package(PythonInterp)
+	find_package(PythonLibs)
+endif()
+
 #
 # Create a CMake Version file
 #
@@ -78,6 +88,7 @@ file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
 set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
+set(fletch_WITH_PYTHON ${FLETCH_BUILD_WITH_PYTHON})
 ")
 
 
