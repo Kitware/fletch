@@ -39,6 +39,13 @@ set(OpenCV_md5 "7f958389e71c77abdf5efe1da988b80c")
 
 list(APPEND fletch_external_sources OpenCV)
 
+# EIGEN
+set(Eigen_version 3.2.1)
+set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
+set(Eigen_md5 "a0e0a32d62028218b1c1848ad7121476")
+set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
+list(APPEND fletch_external_sources Eigen)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
