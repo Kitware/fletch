@@ -46,6 +46,14 @@ set(Eigen_md5 "a0e0a32d62028218b1c1848ad7121476")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
+if(NOT WIN32)
+  set(libxml2_release "2.9")
+  set(libxml2_patch_version 0)
+  set(libxml2_url "ftp://xmlsoft.org/libxml2/libxml2-sources-${libxml2_release}.${libxml2_patch_version}.tar.gz")
+  set(libxml2_md5 "7da7af8f62e111497d5a2b61d01bd811")
+  list(APPEND fletch_external_sources libxml2)
+endif()
+
 # jom
 if(WIN32)
   # this is only used by the Qt external project to speed builds
