@@ -46,6 +46,24 @@ set(Eigen_md5 "a0e0a32d62028218b1c1848ad7121476")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
+# jom
+if(WIN32)
+  # this is only used by the Qt external project to speed builds
+  set(jom_version 1_0_16)
+  set(jom_url "http://download.qt.io/official_releases/jom/jom_${jom_version}.zip")
+  set(jom_md5 "4e88c6378c039f4a2786a4e72129b6d7")
+endif()
+
+# Qt
+set(Qt_release_location official_releases) # official_releases or archive
+set(Qt_version_major 4)
+set(Qt_version_minor 8)
+set(Qt_patch_version 6)
+set(Qt_version ${Qt_version_major}.${Qt_version_minor}.${Qt_patch_version})
+set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/${Qt_version_major}.${Qt_version_minor}/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
+set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
+list(APPEND fletch_external_sources Qt)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
