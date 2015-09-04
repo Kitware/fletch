@@ -32,13 +32,13 @@ function(get_system_library_name lib_name result)
 endfunction()
 
 #
-# Check whether vision-tpl builds the given package or we should look for
+# Check whether fletch builds the given package or we should look for
 # it in the system.
 # Arguments:
 # PACKAGE: Name of the package you want to add a dependency to
 # PACKAGE_DEPENDENCY: Name of the dependency you want to add to the PACKAGE
 # PACKAGE_DEPENDENCY_ALIAS: (Optional) Name used to find the package using
-#   find package. Use this when the library build by vision-tpl name differs from
+#   find package. Use this when the library build by fletch name differs from
 #   the cannonical name used by cmake to find packages.
 # OPTIONAL: (Optional) Used when the PACKAGE_DEPENDENCY is optional to build the
 #   PACKAGE. This means that not finding the PACKAGE_DEPENDENCY will not prevent
@@ -54,7 +54,7 @@ endfunction()
 #   appended to this variable, intended to be used to list ExternalProject
 #   dependencies to ensure correct build order.
 # ${PACKAGE}_WITH_${PACKAGE_DEPENDENCY}: Whether the PACKAGE builds against the
-#   PACKAGE_DEPENDENCY independently if it's built by vision-tpl or taken from
+#   PACKAGE_DEPENDENCY independently if it's built by fletch or taken from
 #   the system.
 #
 macro(add_package_dependency)
@@ -85,7 +85,7 @@ macro(add_package_dependency)
   endif()
 
   set(${MY_PACKAGE}_WITH_${MY_PACKAGE_DEPENDENCY})
-  if(vision-tpl_ENABLE_${MY_PACKAGE_DEPENDENCY})
+  if(fletch_ENABLE_${MY_PACKAGE_DEPENDENCY})
     set(${MY_PACKAGE}_DEPENDS ${${MY_PACKAGE}_DEPENDS} ${MY_PACKAGE_DEPENDENCY})
     set(${MY_PACKAGE}_WITH_${MY_PACKAGE_DEPENDENCY} ON)
   else()
@@ -115,7 +115,7 @@ macro(add_package_dependency)
       message(FATAL_ERROR
         " ${dependency_name} is required to build ${MY_PACKAGE}.\n "
         "Either:\n "
-        "- Turn on vision-tpl_ENABLE_${MY_PACKAGE_DEPENDENCY}.\n "
+        "- Turn on fletch_ENABLE_${MY_PACKAGE_DEPENDENCY}.\n "
         "- Provide the location of an external ${dependency_name}.\n"
         )
     endif()

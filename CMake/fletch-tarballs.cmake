@@ -54,6 +54,48 @@ if(WIN32)
   set(jom_md5 "4e88c6378c039f4a2786a4e72129b6d7")
 endif()
 
+
+# ZLib
+set(ZLib_version 1.2.8)
+set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
+set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
+set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
+set(zlib_dlname "zlib-${ZLib_version}.zip")
+list(APPEND fletch_external_sources ZLib)
+
+# PNG
+set(PNG_version_major 1)
+set(PNG_version_minor 6)
+set(PNG_version_patch 17)
+set(PNG_version "${PNG_version_major}.${PNG_version_minor}.${PNG_version_patch}")
+set(PNG_major_minor_no_dot "${PNG_version_major}${PNG_version_minor}")
+set(PNG_version_no_dot "${PNG_major_minor_no_dot}${PNG_version_patch}")
+if(WIN32)
+  set(PNG_url "http://downloads.sourceforge.net/project/libpng/libpng${PNG_major_minor_no_dot}/${PNG_version}/lpng${PNG_version_no_dot}.zip")
+  set(PNG_md5 "7bcdc8ba18d6ccb6047db846fdc8feb0")
+else()
+  set(PNG_url "http://downloads.sourceforge.net/project/libpng/libpng${PNG_major_minor_no_dot}/${PNG_version}/libpng-${PNG_version}.tar.gz")
+  set(PNG_md5 "134282f1752dcf4cd81a37b8ff421cef")
+endif()
+list(APPEND fletch_external_sources PNG)
+
+# libjpeg-turbo
+set(libjpeg-turbo_version "1.4.0")
+set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
+set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
+list(APPEND fletch_external_sources libjpeg-turbo)
+
+# YASM for building jpeg-turbo, not third party library
+set(yasm_version "1.3.0")
+set(yasm_url "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz")
+set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
+
+# libtiff
+set(libtiff_version "4.0.4beta")
+set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
+set(libtiff_md5 "49c93f9c06f16c1563a7a88802671aef")
+list(APPEND fletch_external_sources libtiff)
+
 # Qt
 set(Qt_release_location official_releases) # official_releases or archive
 set(Qt_version_major 4)
