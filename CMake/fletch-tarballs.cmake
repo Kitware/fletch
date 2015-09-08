@@ -114,6 +114,12 @@ set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/${Qt_versio
 set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
 list(APPEND fletch_external_sources Qt)
 
+# VTK
+set(VTK_version 6.2)
+set(VTK_url "http://www.vtk.org/files/release/${VTK_version}/VTK-${VTK_version}.0.zip")
+set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
+list(APPEND fletch_external_sources VTK)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
