@@ -87,6 +87,29 @@ else()
 endif()
 list(APPEND fletch_external_sources PNG)
 
+# libjson
+set(libjson_version_major 7)
+set(libjson_version_minor 6)
+set(libjson_version_patch 1)
+set(libjson_version "${libjson_version_major}.${libjson_version_minor}.${libjson_version_patch}")
+set(libjson_url "http://downloads.sourceforge.net/libjson/libjson_${libjson_version}.zip")
+set(libjson_md5 "82f3fcbf9f8cf3c4e25e1bdd77d65164")
+list(APPEND fletch_external_sources libjson)
+
+# shapelib
+set(shapelib_version 1.3.0b2)
+set(shapelib_url "http://download2.osgeo.org/shapelib/shapelib-${shapelib_version}.tar.gz")
+set(shapelib_md5 "708ea578bc299dcd9f723569d12bee8d")
+list(APPEND fletch_external_sources shapelib)
+
+# TinyXML
+set(TinyXML_version_major "2")
+set(TinyXML_version_minor "6")
+set(TinyXML_version_patch "2")
+set(TinyXML_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML_version_major}_${TinyXML_version_minor}_${TinyXML_version_patch}.zip")
+set(TinyXML_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
+list(APPEND fletch_external_sources TinyXML)
+
 # libjpeg-turbo
 set(libjpeg-turbo_version "1.4.0")
 set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
@@ -104,6 +127,13 @@ set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.g
 set(libtiff_md5 "49c93f9c06f16c1563a7a88802671aef")
 list(APPEND fletch_external_sources libtiff)
 
+# libkml
+set(libkml_version "20150626git6eb692")
+set(libkml_tag "6eb69288a14412934f81f531e37787903d2755c6")
+set(libkml_url "https://github.com/kitware/libkml/archive/${libkml_tag}.zip")
+set(libkml_md5 "f70ba0e364ee74f7be17ded8bb68fb35")
+list(APPEND fletch_external_sources libkml)
+
 # Qt
 set(Qt_release_location official_releases) # official_releases or archive
 set(Qt_version_major 4)
@@ -114,10 +144,22 @@ set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/${Qt_versio
 set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
 list(APPEND fletch_external_sources Qt)
 
+# PROJ.4
+set(PROJ4_version "4.8.0" )
+set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
+set(PROJ4_md5 "d815838c92a29179298c126effbb1537" )
+list(APPEND fletch_external_sources PROJ4 ) 
+
+# GeographicLib
+set(GeographicLib_version "1.30" )
+set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
+set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
+list(APPEND fletch_external_sources GeographicLib )
+
 # VTK
-set(VTK_version 6.2)
+set(VTK_version 6.1)
 set(VTK_url "http://www.vtk.org/files/release/${VTK_version}/VTK-${VTK_version}.0.zip")
-set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
+set(VTK_md5 "11d300b0ecddc23cf5256b0a0de69167")
 list(APPEND fletch_external_sources VTK)
 
 #+
