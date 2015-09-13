@@ -128,10 +128,10 @@ set(libtiff_md5 "49c93f9c06f16c1563a7a88802671aef")
 list(APPEND fletch_external_sources libtiff)
 
 # libkml
-set(libkml_version "20150626git6eb692")
-set(libkml_tag "6eb69288a14412934f81f531e37787903d2755c6")
+set(libkml_version "20150911git79b3eb0")
+set(libkml_tag "79b3eb066eacd8fb117b10dc990b53b4cd11f33d")
 set(libkml_url "https://github.com/kitware/libkml/archive/${libkml_tag}.zip")
-set(libkml_md5 "f70ba0e364ee74f7be17ded8bb68fb35")
+set(libkml_md5 "a232dfd4eb07489768b207d88b983267")
 list(APPEND fletch_external_sources libkml)
 
 # Qt
