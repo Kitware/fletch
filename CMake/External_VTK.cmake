@@ -216,4 +216,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # VTK
 ########################################
 set(VTK_ROOT @VTK_ROOT@)
+
+set(fletch_ENABLED_VTK TRUE)
 ")

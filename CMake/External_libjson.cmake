@@ -35,5 +35,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(LIBJSON_ROOT    @LIBJSON_ROOT@)
 set(LIBJSON_LIBNAME @LIBJSON_LIBNAME@)
+
+set(fletch_ENABLED_libjson TRUE)
 ")
 

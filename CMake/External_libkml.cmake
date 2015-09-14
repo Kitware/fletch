@@ -55,5 +55,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(LIBKML_ROOT    @LIBKML_ROOT@)
 set(LIBKML_LIBNAME @LIBKML_LIBNAME@)
+
+set(fletch_ENABLED_libml TRUE)
 ")
 

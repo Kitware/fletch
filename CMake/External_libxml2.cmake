@@ -28,4 +28,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(LIBXML2_ROOT    @LIBXML2_ROOT@)
 set(LIBXML2_LIBNAME @LIBXML2_LIBNAME@)
+
+set(fletch_ENABLED_libxml2 TRUE)
 ")

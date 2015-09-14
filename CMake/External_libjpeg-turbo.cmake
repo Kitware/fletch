@@ -65,3 +65,14 @@ else()
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
   )
 endif()
+
+set(libjpeg-turbo_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
+file(APPEND ${fletch_CONFIG_INPUT} "
+################################
+# libjpeg-turbo
+################################
+set(libjpeg-turbo_ROOT @libjpeg-turbo_ROOT@)
+
+
+set(fletch_ENABLED_libjpeg-turbo TRUE)
+")

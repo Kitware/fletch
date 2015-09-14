@@ -172,5 +172,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # Qt
 ########################################
 set(QT_QMAKE_EXECUTABLE @QT_QMAKE_EXECUTABLE@)
+
+set(fletch_ENABLED_Qt TRUE)
 ")
 

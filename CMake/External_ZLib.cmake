@@ -39,4 +39,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # ZLib
 ########################################
 set(ZLIB_ROOT @ZLIB_ROOT@)
+
+set(fletch_ENABLED_ZLib TRUE)
 ")

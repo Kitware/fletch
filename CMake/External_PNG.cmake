@@ -41,4 +41,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # PNG
 ################################
 set(PNG_ROOT @PNG_ROOT@)
+
+set(fletch_ENABLED_PNG TRUE)
 ")
