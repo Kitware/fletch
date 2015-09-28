@@ -87,4 +87,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(OpenCV_ROOT @OpenCV_ROOT@)
 set(OpenCV_DIR @OpenCV_DIR@)
+
+set(fletch_ENABLED_OpenCV TRUE)
 ")
