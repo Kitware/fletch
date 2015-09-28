@@ -33,9 +33,9 @@ set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
 list(APPEND fletch_external_sources Boost)
 
 # OpenCV
-set(OpenCV_version "2.4.9")
+set(OpenCV_version "2.4.11")
 set(OpenCV_url "http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/${OpenCV_version}/opencv-${OpenCV_version}.zip")
-set(OpenCV_md5 "7f958389e71c77abdf5efe1da988b80c")
+set(OpenCV_md5 "32f498451bff1817a60e1aabc2939575")
 
 list(APPEND fletch_external_sources OpenCV)
 
