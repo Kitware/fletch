@@ -32,6 +32,10 @@ set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VER
 set(fletch_CMAKE_DIR "${fletch_SOURCE_DIR}/CMake")
 set(CMAKE_MODULE_PATH ${fletch_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+endif()
+
 
 set(CPACK_PACKAGE_VERSION_MAJOR ${fletch_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${fletch_VERSION_MINOR})
@@ -48,6 +52,11 @@ add_custom_target(Download)
 # Do we want to build in Python support where available
 #
 option(FLETCH_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
+
+#
+# Convenience Option for Dashboards to turn on ALL available Packages
+#
+option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 
 if (FLETCH_BUILD_WITH_PYTHON) 
     find_package(PythonInterp)
@@ -103,6 +112,9 @@ endif()
 
 option(BUILD_SHARED_LIBS "Build shared libraries where possible." ON)
 
+# Since much of KWIVER is plugin based, shared libs are the default
+mark_as_advanced(BUILD_SHARED_LIBS)
+
 
 
 # Enable /MP flag for Visual Studio 2008 and greater
@@ -148,6 +160,10 @@ endif()
 #
 set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
 foreach(source ${fletch_external_sources})
+  if (fletch_ENABLE_ALL_PACKAGES)
+	  set(fletch_ENABLE_${source} TRUE CACHE BOOL "" FORCE)
+  endif()
+
   if(fletch_ENABLE_${source})
     include(External_${source})
     set(fletch_current_package ${source})
@@ -157,6 +173,7 @@ foreach(source ${fletch_external_sources})
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_ALL True)
   endif()
+
 endforeach()
 
 if (NOT "#@${fletch_requires_make}" STREQUAL "#@")                                                                                                                                                                  
