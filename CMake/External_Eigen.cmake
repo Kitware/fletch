@@ -8,9 +8,9 @@ ExternalProject_Add(Eigen
   INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
   BUILD_IN_SOURCE 0
   PATCH_COMMAND ${CMAKE_COMMAND}
-    -DEigen_patch:PATH=${vision-tpl_SOURCE_DIR}/Patches/Eigen
-    -DEigen_source:PATH=${vision-tpl_BUILD_PREFIX}/src/Eigen
-    -P ${vision-tpl_SOURCE_DIR}/Patches/Eigen/Patch.cmake
+    -DEigen_patch:PATH=${fletch_SOURCE_DIR}/Patches/Eigen
+    -DEigen_source:PATH=${fletch_BUILD_PREFIX}/src/Eigen
+    -P ${fletch_SOURCE_DIR}/Patches/Eigen/Patch.cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
