@@ -59,7 +59,7 @@ if(WIN32)
   # this is only used by the Qt external project to speed builds
   set(jom_version 1_0_16)
   set(jom_url "http://download.qt.io/official_releases/jom/jom_${jom_version}.zip")
-  set(jom_md5 "4e88c6378c039f4a2786a4e72129b6d7")
+  set(jom_md5 "95fcaabe82f7bb88fd70e3f646850e1f")
 endif()
 
 
@@ -74,16 +74,16 @@ list(APPEND fletch_external_sources ZLib)
 # PNG
 set(PNG_version_major 1)
 set(PNG_version_minor 6)
-set(PNG_version_patch 17)
+set(PNG_version_patch 19)
 set(PNG_version "${PNG_version_major}.${PNG_version_minor}.${PNG_version_patch}")
 set(PNG_major_minor_no_dot "${PNG_version_major}${PNG_version_minor}")
 set(PNG_version_no_dot "${PNG_major_minor_no_dot}${PNG_version_patch}")
 if(WIN32)
-  set(PNG_url "http://downloads.sourceforge.net/project/libpng/libpng${PNG_major_minor_no_dot}/${PNG_version}/lpng${PNG_version_no_dot}.zip")
-  set(PNG_md5 "7bcdc8ba18d6ccb6047db846fdc8feb0")
+	set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/${PNG_version}/lpng${PNG_major_minor_no_dot}${PNG_version_patch}.zip")
+    set(PNG_md5 "ff0e82b4d8516daa7ed6b1bf93acca48")
 else()
-  set(PNG_url "http://downloads.sourceforge.net/project/libpng/libpng${PNG_major_minor_no_dot}/${PNG_version}/libpng-${PNG_version}.tar.gz")
-  set(PNG_md5 "134282f1752dcf4cd81a37b8ff421cef")
+  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/${PNG_version}/libpng-${PNG_version}.tar.gz")
+  set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
 endif()
 list(APPEND fletch_external_sources PNG)
 
@@ -122,9 +122,9 @@ set(yasm_url "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz")
 set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 
 # libtiff
-set(libtiff_version "4.0.4beta")
+set(libtiff_version "4.0.6")
 set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
-set(libtiff_md5 "49c93f9c06f16c1563a7a88802671aef")
+set(libtiff_md5 "d1d2e940dea0b5ad435f21f03d96dd72")
 list(APPEND fletch_external_sources libtiff)
 
 # libkml
