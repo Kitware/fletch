@@ -52,6 +52,7 @@ add_custom_target(Download)
 # Do we want to build in Python support where available
 #
 option(FLETCH_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
+mark_as_advanced(FLETCH_BUILD_WITH_PYTHON)
 
 #
 # Convenience Option for Dashboards to turn on ALL available Packages
