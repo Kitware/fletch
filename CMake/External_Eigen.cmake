@@ -20,6 +20,7 @@ ExternalProject_Add(Eigen
 )
 
 set(EIGEN_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
+set(EIGEN_INCLUDE_DIR ${EIGEN_ROOT}/include/eigen3 CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
@@ -27,6 +28,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(EIGEN_ROOT    @EIGEN_ROOT@)
 set(EIGEN3_ROOT    @EIGEN_ROOT@)
-
+set(EIGEN_INCLUDE_DIR @EIGEN_INCLUDE_DIR@)
 set(fletch_ENABLED_Eigen TRUE)
 ")
