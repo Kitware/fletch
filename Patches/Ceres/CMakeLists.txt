@@ -688,11 +688,11 @@ IF (UNIX)
     "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-missing-field-initializers")
 
   #gcc 4.4 doesn't include these flags, so check before adding them.
-  include(CheckCXXCompilerFlag)
-  check_cxx_compiler_flag("-Werror=all" have_error_all)
-  if (have_error_all)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror=all -Werror=extra")
-  endif()
+#  include(CheckCXXCompilerFlag)
+#  check_cxx_compiler_flag("-Werror=all" have_error_all)
+#  if (have_error_all)
+#  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror=all -Werror=extra")
+#  endif()
 ENDIF (UNIX)
 
 # Use a larger inlining threshold for Clang, since it hobbles Eigen,
