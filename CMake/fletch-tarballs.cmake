@@ -157,9 +157,9 @@ set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
 list(APPEND fletch_external_sources GeographicLib )
 
 # VTK
-set(VTK_version 6.1)
+set(VTK_version 6.2)
 set(VTK_url "http://www.vtk.org/files/release/${VTK_version}/VTK-${VTK_version}.0.zip")
-set(VTK_md5 "11d300b0ecddc23cf5256b0a0de69167")
+set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
 list(APPEND fletch_external_sources VTK)
 
 #+
