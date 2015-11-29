@@ -160,15 +160,19 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # PYTHON
-find_package(PythonInterp)
-find_package(PythonLibs)
+if (FLETCH_BUILD_WITH_PYTHON)
+    find_package(PythonInterp)
+    find_package(PythonLibs)
 
-if(PythonInterp_FOUND AND PythonLibs_FOUND)
-  set(VTK_WRAP_PYTHON ON)
-  message(STATUS "VTK build with python support")
-else()
-  set(VTK_WRAP_PYTHON OFF)
-  message(STATUS "VTK build without python support")
+    if(PythonInterp_FOUND AND PythonLibs_FOUND)
+      set(VTK_WRAP_PYTHON ON)
+      message(STATUS "VTK building with python support")
+    else()
+      set(VTK_WRAP_PYTHON OFF)
+      message(WARNING "VTK building without python support. Python NOT found.")
+    endif()
+    else()
+    set(VTK_WRAP_PYTHON OFF)
 endif()
 
 #
@@ -205,7 +209,7 @@ ExternalProject_Add(VTK
   CMAKE_ARGS
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-	-DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     ${vtk_cmake_args}
 )
