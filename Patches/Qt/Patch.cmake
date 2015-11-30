@@ -40,6 +40,12 @@ file(COPY
   DESTINATION ${Qt_source}/src/gui/dialogs
   )
 
+# gui/painting
+file(COPY
+	${Qt_patch}/gui/painting/qpaintengine_mac.cpp
+	DESTINATION ${Qt_source}/src/gui/painting
+	)
+
 # gui/kernel
 file(COPY
   ${Qt_patch}/gui/kernel/qapplication_mac.mm
