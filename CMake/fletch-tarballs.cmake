@@ -40,11 +40,24 @@ set(OpenCV_md5 "32f498451bff1817a60e1aabc2939575")
 list(APPEND fletch_external_sources OpenCV)
 
 # EIGEN
-set(Eigen_version 3.2.1)
+set(Eigen_version 3.2.2)
 set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "a0e0a32d62028218b1c1848ad7121476")
+set(Eigen_md5 "f8817c258b1495cb474d412e528aedb6")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
+
+#SuiteSparse
+set(SuiteSparse_version 4.4.5)
+set(SuiteSparse_url "http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-${SuiteSparse_version}.tar.gz")
+set(SuiteSparse_md5 "a2926c27f8a5285e4a10265cc68bbc18")
+list(APPEND fletch_external_sources SuiteSparse)
+
+# Ceres Solver
+set(Ceres_version 1.10.0)
+set(Ceres_url "http://ceres-solver.org/ceres-solver-${Ceres_version}.tar.gz")
+set(Ceres_md5 "dbf9f452bd46e052925b835efea9ab16")
+set(Ceres_dlname "ceres-${Ceres_version}.tar.gz")
+list(APPEND fletch_external_sources Ceres)
 
 if(NOT WIN32)
   set(libxml2_release "2.9")
