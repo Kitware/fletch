@@ -177,6 +177,12 @@ foreach(source ${fletch_external_sources})
 
 endforeach()
 
+#+
+# A common use case is to turn on everything and then turn a few things off in ccmake or
+# cmake-gui.  Unless we reset ENABLE_ALL, it'll just "fix" things again
+#-
+set(fletch_ENABLE_ALL_PACKAGES FALSE CACHE BOOL "" FORCE)
+
 if (NOT "#@${fletch_requires_make}" STREQUAL "#@")                                                                                                                                                                  
     if (NOT MAKE_EXECUTABLE)                                                                                                                                                                                              
         message(FATAL_ERROR "Could not find 'make', required to build ${fletch_requires_make}.")                                                                                                                       
