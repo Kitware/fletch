@@ -33,6 +33,7 @@ else()
 endif()
 
 option(fletch_ENABLE_EIGEN "Should Eigen Support be turned on for OpenCV?" ${_OpenCV_ENABLE_EIGEN_DEFAULT})
+endif(FALSE)
 
 # Handle GPU disable flag
 if(fletch_DISABLE_GPU_SUPPORT)
@@ -40,7 +41,6 @@ if(fletch_DISABLE_GPU_SUPPORT)
   set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DWITH_OPENCL=OFF -DWITH_OPENCLAMDBLAS=OFF -DWITH_OPENCLAMDFFT=OFF)
   set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DBUILD_opencv_gpu=OFF -DBUILD_opencv_ocl=OFF)
 endif()
-endif(FALSE)
 
 ExternalProject_Add(OpenCV
   DEPENDS ${_OpenCV_DEPENDS}
