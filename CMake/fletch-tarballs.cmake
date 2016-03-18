@@ -175,6 +175,76 @@ set(VTK_url "http://www.vtk.org/files/release/${VTK_version}/VTK-${VTK_version}.
 set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
 list(APPEND fletch_external_sources VTK)
 
+
+# LMDB
+if(NOT WIN32)
+  set(LMDB_version "0.9.16")
+  set(LMDB_url "https://github.com/LMDB/lmdb/archive/LMDB_${LMDB_version}.tar.gz")
+  set(LMDB_md5 "0de89730b8f3f5711c2b3a4ba517b648")
+  list(APPEND fletch_external_sources LMDB)
+endif()
+
+# HDF5
+set(HDF5_version "1.8.16")
+set(HDF5_url "http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-${HDF5_version}/src/hdf5-${HDF5_version}.tar")
+set(HDF5_md5 "6a551def8fe877331c4dddac3ded5729")
+list(APPEND fletch_external_sources HDF5)
+
+# SNAPPY
+if(NOT WIN32)
+  SET(Snappy_version "1.1.3")
+  SET(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
+  SET(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
+  list(APPEND fletch_external_sources Snappy)
+endif()
+
+# LevelDB
+if(NOT WIN32)
+  set(LevelDB_version "1.18")
+  set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
+  set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
+  list(APPEND fletch_external_sources LevelDB)
+endif()
+
+# GLog
+if(NOT WIN32)
+  set(GLog_version "0.3.3")
+  set(GLog_url "https://google-glog.googlecode.com/files/glog-${GLog_version}.tar.gz")
+  set(GLog_md5 "a6fd2c22f8996846e34c763422717c18")
+  list(APPEND fletch_external_sources GLog)
+endif()
+
+# GFlags
+set(GFlags_version "2.1.2")
+set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.gz")
+set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
+list(APPEND fletch_external_sources GFlags)
+
+#OpenBLAS
+if(NOT WIN32)
+  set(OpenBLAS_version "0.2.15")
+  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
+  set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
+  list(APPEND fletch_external_sources OpenBLAS)
+endif()
+
+# Protobuf
+if(NOT WIN32)
+  set(Protobuf_version "2.5.0" )
+  set(Protobuf_url "http://protobuf.googlecode.com/files/protobuf-${Protobuf_version}.tar.bz2" )
+  set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
+  list(APPEND fletch_external_sources Protobuf )
+endif()
+
+# Caffe
+if(NOT WIN32)
+  set(Caffe_version "rc3")
+  set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
+  set(Caffe_md5 "84e39223115753b48312a8bf48c31f59")
+  list(APPEND fletch_external_sources Caffe)
+endif()
+
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
