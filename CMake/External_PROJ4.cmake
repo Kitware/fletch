@@ -21,12 +21,15 @@ ExternalProject_Add(PROJ4
   )
 
 set(PROJ4_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
+set(PROJ4_INCLUDE_DIR "${PROJ4_ROOT}/include" CACHE PATH "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # PROJ4
 ########################################
 set(PROJ4_ROOT @PROJ4_ROOT@)
+set(PROJ4_INCLUDE_DIR @PROJ4_INCLUDE_DIR@)
+set(PROJ_INCLUDE_DIR @PROJ4_INCLUDE_DIR@)
 
 set(fletch_ENABLED_PROJ4 TRUE)
 ")
