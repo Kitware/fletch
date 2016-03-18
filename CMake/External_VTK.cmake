@@ -215,11 +215,13 @@ ExternalProject_Add(VTK
 )
 
 set(VTK_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
+set(VTK_DIR "${VTK_ROOT}/lib/cmake/vtk-${VTK_version}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # VTK
 ########################################
 set(VTK_ROOT @VTK_ROOT@)
+set(VTK_DIR @VTK_DIR@)
 
 set(fletch_ENABLED_VTK TRUE)
 ")
