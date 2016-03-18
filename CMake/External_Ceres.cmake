@@ -45,10 +45,13 @@ ExternalProject_Add(Ceres
   )
 
 set(Ceres_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
+set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Ceres
 ########################################
 set(Ceres_ROOT @Ceres_ROOT@)
+set(Ceres_DIR @Ceres_DIR@)
+set(fletch_ENABLED_Ceres TRUE)
 ")
