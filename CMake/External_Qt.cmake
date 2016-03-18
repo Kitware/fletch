@@ -148,6 +148,11 @@ set(Qt_configure ${Qt_configure}
   ${Qt_args_framework}
   )
 
+if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  list (APPEND Qt_configure
+    -platform unsupported/macx-clang )
+endif()
+
 ExternalProject_Add(Qt
   DEPENDS ${Qt_DEPENDS}
   URL ${Qt_file}
