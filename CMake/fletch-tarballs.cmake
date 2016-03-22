@@ -33,9 +33,23 @@ set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
 list(APPEND fletch_external_sources Boost)
 
 # OpenCV
-set(OpenCV_version "2.4.11")
-set(OpenCV_url "http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/${OpenCV_version}/opencv-${OpenCV_version}.zip")
-set(OpenCV_md5 "32f498451bff1817a60e1aabc2939575")
+# Support 2.4.11 and 3.1 optionally
+if (fletch_ENABLE_OpenCV)
+	set(OpenCV_SELECT_VERSION 2.4.11 CACHE STRING "Select the  version of OpenCV to build.")
+	set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS 2.4.11 3.1.0)
+endif()
+
+if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.1.0)
+	set(OpenCV_version "3.1.0")
+	set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+	set(OpenCV_md5 "6082ee2124d4066581a7386972bfd52a")
+else()
+	set(OpenCV_version "2.4.11")
+	set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+	set(OpenCV_md5 "b517e83489c709eee1d8be76b16976a7")
+else()
+	message(STATUS "OpenCV Version Not Supported")
+endif()
 
 list(APPEND fletch_external_sources OpenCV)
 

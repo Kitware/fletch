@@ -42,6 +42,12 @@ if(fletch_DISABLE_GPU_SUPPORT)
   set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DBUILD_opencv_gpu=OFF -DBUILD_opencv_ocl=OFF)
 endif()
 
+if (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
+	set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND} -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV -P ${fletch_SOURCE_DIR}/Patches/OpenCV/Patch.cmake)
+else()
+	set(OPENCV_PATCH_COMMAND "")
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${_OpenCV_DEPENDS}
   URL ${OpenCV_url}
@@ -50,10 +56,7 @@ ExternalProject_Add(OpenCV
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
-  PATCH_COMMAND ${CMAKE_COMMAND}
-  -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV
-  -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV
-  -P ${fletch_SOURCE_DIR}/Patches/OpenCV/Patch.cmake
+  PATCH_COMMAND ${OPENCV_PATCH_COMMAND}
 
   ${custom_cmake_command}
   CMAKE_GENERATOR ${gen}
