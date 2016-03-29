@@ -70,6 +70,7 @@ ExternalProject_Add(libtiff
     -DBUILD_SHARED_LIBS:BOOL=TRUE
     -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
     -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    -DCMAKE_INSTALL_LIBDIR:PATH=${vision-tpl_BUILD_INSTALL_PREFIX}/lib
     ${libtiff_args}
   )
 
