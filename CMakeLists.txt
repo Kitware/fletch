@@ -48,7 +48,7 @@ include(${fletch_CMAKE_DIR}/Utils.cmake)
 
 add_custom_target(Download)
 
-# 
+#
 # Do we want to build in Python support where available
 #
 option(FLETCH_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
@@ -59,7 +59,7 @@ mark_as_advanced(FLETCH_BUILD_WITH_PYTHON)
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 
-if (FLETCH_BUILD_WITH_PYTHON) 
+if (FLETCH_BUILD_WITH_PYTHON)
     find_package(PythonInterp)
     find_package(PythonLibs)
 endif()
@@ -136,25 +136,25 @@ endif()
 include(fletch-tarballs)
 include(ExternalProject)
 
-#+                                                                                                                                                                                                                     
-# Various packages that are not CMake-based need to use Make for their build                                                                                                                                           
-# steps. When we ourselves are using Make, we want to invoke it in the proper                                                                                                                                          
-# recursive manner via '$(MAKE)'; otherwise we need to use the actual                                                                                                                                                  
-# executable. Decide which, here, rather than replicating this logic all over                                                                                                                                          
-# the place.                                                                                                                                                                                                           
-#-                                      
-set(fletch_requires_make)                                                                                                                                                                                          
-macro(Fletch_Require_Make)                                                                                                                                                                                          
-    list(APPEND fletch_requires_make ${fletch_current_package})                                                                                                                                                  
-endmacro()                                                                                                                                                                                                             
+#+
+# Various packages that are not CMake-based need to use Make for their build
+# steps. When we ourselves are using Make, we want to invoke it in the proper
+# recursive manner via '$(MAKE)'; otherwise we need to use the actual
+# executable. Decide which, here, rather than replicating this logic all over
+# the place.
+#-
+set(fletch_requires_make)
+macro(Fletch_Require_Make)
+    list(APPEND fletch_requires_make ${fletch_current_package})
+endmacro()
 
-if (CMAKE_GENERATOR MATCHES ".*Makefiles")                                                                                                                                                                              
-    set(MAKE_EXECUTABLE "$(MAKE)")                                                                                                                                                                                       
-elseif(NOT "#@$ENV{MAKE}" STREQUAL "#@")                                                                                                                                                                               
-    set(MAKE_EXECUTABLE $ENV{MAKE})                                                                                                                                                                                      
-else()                                                                                                                                                                                                                 
-    find_program(MAKE_EXECUTABLE make)                                                                                                                                                                                   
-endif()                            
+if (CMAKE_GENERATOR MATCHES ".*Makefiles")
+    set(MAKE_EXECUTABLE "$(MAKE)")
+elseif(NOT "#@$ENV{MAKE}" STREQUAL "#@")
+    set(MAKE_EXECUTABLE $ENV{MAKE})
+else()
+    find_program(MAKE_EXECUTABLE make)
+endif()
 
 #
 #  Set up a download target
@@ -183,12 +183,12 @@ endforeach()
 #-
 set(fletch_ENABLE_ALL_PACKAGES FALSE CACHE BOOL "" FORCE)
 
-if (NOT "#@${fletch_requires_make}" STREQUAL "#@")                                                                                                                                                                  
-    if (NOT MAKE_EXECUTABLE)                                                                                                                                                                                              
-        message(FATAL_ERROR "Could not find 'make', required to build ${fletch_requires_make}.")                                                                                                                       
-    endif()                                                                                                                                                                                                              
-endif()                                                                                                                                                                                                                
-                                      
+if (NOT "#@${fletch_requires_make}" STREQUAL "#@")
+    if (NOT MAKE_EXECUTABLE)
+        message(FATAL_ERROR "Could not find 'make', required to build ${fletch_requires_make}.")
+    endif()
+endif()
+
 
 configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
 

@@ -86,7 +86,7 @@ if(WIN32)
   # multi-thread builds can intermittantly fail.  Essentially during the install
   # step different targets will check if a directory exists and call MD when it doesn't.
   # On windows if the race is a tie and two threads see that the directory doesn't exist,
-  # the second thread will error out because MD fails if the directory exists.  A 
+  # the second thread will error out because MD fails if the directory exists.  A
   # Work around is to turn off multi threaded builds for install:
   set(Qt_install_cmd ${JOM_EXE} -j1 install)
   set(Qt_configure configure.exe)
