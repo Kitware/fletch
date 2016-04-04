@@ -162,7 +162,7 @@ endif()
 set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
 foreach(source ${fletch_external_sources})
   if (fletch_ENABLE_ALL_PACKAGES)
-	  set(fletch_ENABLE_${source} TRUE CACHE BOOL "" FORCE)
+    set(fletch_ENABLE_${source} TRUE CACHE BOOL "" FORCE)
   endif()
 
   if(fletch_ENABLE_${source})

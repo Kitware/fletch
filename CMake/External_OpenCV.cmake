@@ -43,9 +43,9 @@ if(fletch_DISABLE_GPU_SUPPORT)
 endif()
 
 if (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
-	set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND} -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV -P ${fletch_SOURCE_DIR}/Patches/OpenCV/Patch.cmake)
+  set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND} -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV -P ${fletch_SOURCE_DIR}/Patches/OpenCV/Patch.cmake)
 else()
-	set(OPENCV_PATCH_COMMAND "")
+  set(OPENCV_PATCH_COMMAND "")
 endif()
 
 ExternalProject_Add(OpenCV
