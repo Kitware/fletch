@@ -32,7 +32,8 @@ set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VER
 set(fletch_CMAKE_DIR "${fletch_SOURCE_DIR}/CMake")
 set(CMAKE_MODULE_PATH ${fletch_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 
-if (NOT CMAKE_BUILD_TYPE)
+# Don't force a build type in mutli-configuration platforms
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 endif()
 
