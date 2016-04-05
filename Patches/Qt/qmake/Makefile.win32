@@ -24,7 +24,7 @@ LINK	    = link
 #
 !if "$(QMAKESPEC)" == "win32-msvc2005"
 CFLAGS_EXTRA      = /Zc:wchar_t-
-!elseif "$(QMAKESPEC)" == "win32-msvc2008" || "$(QMAKESPEC)" == "win32-msvc2010" || "$(QMAKESPEC)" == "win32-msvc2012" || "$(QMAKESPEC)" == "win32-msvc2013"
+!elseif "$(QMAKESPEC)" == "win32-msvc2008" || "$(QMAKESPEC)" == "win32-msvc2010" || "$(QMAKESPEC)" == "win32-msvc2012" || "$(QMAKESPEC)" == "win32-msvc2013"  || "$(QMAKESPEC)" == "win32-msvc2015"
 CFLAGS_EXTRA      = /MP
 !endif
 
