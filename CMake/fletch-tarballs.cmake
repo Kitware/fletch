@@ -37,12 +37,26 @@ list(APPEND fletch_external_sources Boost)
 if (fletch_ENABLE_OpenCV)
   set(OpenCV_SELECT_VERSION 2.4.11 CACHE STRING "Select the  version of OpenCV to build.")
   set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS 2.4.11 3.1.0)
+
+  # Expose optional contrib repo when enabling OpenCV version >= 3.x
+  if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.0.0 OR OpenCV_SELECT_VERSION VERSION_GREATER 3.0.0)
+    list(APPEND fletch_external_sources OpenCV_contrib)
+  endif()
+endif()
+
+# Remove Contrib repo option when OpenCV not enable or incorrect version
+if ( NOT fletch_ENABLE_OpenCV OR OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
+  unset(fletch_ENABLE_OpenCV_contrib CACHE)
 endif()
 
 if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.1.0)
   set(OpenCV_version "3.1.0")
   set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
   set(OpenCV_md5 "6082ee2124d4066581a7386972bfd52a")
+  # Paired contrib repo information
+  set(OpenCV_contrib_version "${OpenCV_version}")
+  set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
+  set(OpenCV_contrib_md5 "0d0bfeabe539542791b465ec1c7c90e6")
 elseif (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
   set(OpenCV_version "2.4.11")
   set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")

@@ -48,6 +48,12 @@ else()
   set(OPENCV_PATCH_COMMAND "")
 endif()
 
+# Include link to contrib repo if enabled
+if (fletch_ENABLE_OpenCV_contrib)
+  set(OpenCV_CONTRIB_ARG "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
+  set(_OpenCV_DEPENDS OpenCV_contrib ${_OpenCV_DEPENDS})
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${_OpenCV_DEPENDS}
   URL ${OpenCV_url}
@@ -73,6 +79,7 @@ ExternalProject_Add(OpenCV
   -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
   -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
   ${OpenCV_EXTRA_BUILD_FLAGS}
+  ${OpenCV_CONTRIB_ARG}
   )
 
 set(OpenCV_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
