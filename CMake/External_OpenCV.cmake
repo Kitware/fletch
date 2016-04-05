@@ -43,9 +43,15 @@ if(fletch_DISABLE_GPU_SUPPORT)
 endif()
 
 if (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
-	set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND} -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV -P ${fletch_SOURCE_DIR}/Patches/OpenCV/Patch.cmake)
+  set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND} -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV -P ${fletch_SOURCE_DIR}/Patches/OpenCV/Patch.cmake)
 else()
-	set(OPENCV_PATCH_COMMAND "")
+  set(OPENCV_PATCH_COMMAND "")
+endif()
+
+# Include link to contrib repo if enabled
+if (fletch_ENABLE_OpenCV_contrib)
+  set(OpenCV_CONTRIB_ARG "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
+  set(_OpenCV_DEPENDS OpenCV_contrib ${_OpenCV_DEPENDS})
 endif()
 
 ExternalProject_Add(OpenCV
@@ -73,6 +79,7 @@ ExternalProject_Add(OpenCV
   -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
   -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
   ${OpenCV_EXTRA_BUILD_FLAGS}
+  ${OpenCV_CONTRIB_ARG}
   )
 
 set(OpenCV_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
