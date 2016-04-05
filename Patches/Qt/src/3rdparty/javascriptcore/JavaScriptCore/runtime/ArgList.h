@@ -171,8 +171,8 @@ namespace JSC {
         void* operator new[](size_t);
         void operator delete[](void*);
 
-		void* operator new(size_t s, void*v);
-        void operator delete(void* v, size_t);
+		void* operator new(size_t s, void*v){ ::operator new(s,v); }
+        void operator delete(void* v, size_t){ if (v != 0 ) ::operator delete(v); }
     };
 
     class ArgList {
