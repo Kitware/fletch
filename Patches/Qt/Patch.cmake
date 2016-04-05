@@ -91,6 +91,7 @@ set(VS_2015_FILES
   src/3rdparty/javascriptcore/JavaScriptCore/pcre/pcre_compile.cpp
   src/3rdparty/javascriptcore/JavaScriptCore/wtf/StringExtras.h
   src/3rdparty/javascriptcore/JavaScriptCore/wtf/TypeTraits.h
+  src/3rdparty/javascriptcore/JavaScriptCore/runtime/ArgList.h
   src/3rdparty/javascriptcore/WebKit.pri
   tools/designer/src/uitools/uitools.pro
   mkspecs/win32-msvc2015/
