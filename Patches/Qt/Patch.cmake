@@ -39,9 +39,9 @@ file(COPY
 
 # gui/painting
 file(COPY
-	${Qt_patch}/gui/painting/qpaintengine_mac.cpp
-	DESTINATION ${Qt_source}/src/gui/painting
-	)
+  ${Qt_patch}/gui/painting/qpaintengine_mac.cpp
+  DESTINATION ${Qt_source}/src/gui/painting
+  )
 
 # gui/kernel
 file(COPY
@@ -88,7 +88,6 @@ set(VS_2015_FILES
   configure.exe
   src/3rdparty/clucene/src/CLucene/StdHeader.h
   src/3rdparty/clucene/src/CLucene/util/VoidMap.h
-  src/3rdparty/javascriptcore/JavaScriptCore/pcre/pcre_compile.cpp
   src/3rdparty/javascriptcore/JavaScriptCore/wtf/StringExtras.h
   src/3rdparty/javascriptcore/JavaScriptCore/wtf/TypeTraits.h
   src/3rdparty/javascriptcore/JavaScriptCore/runtime/ArgList.h
