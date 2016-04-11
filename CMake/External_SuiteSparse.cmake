@@ -41,6 +41,9 @@ elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
     message(FATAL "SuiteSparse requires lapack and openblas. Please install and try again")
   endif()
 
+  # Make sure the install directories are created, which is not a guarantee with SuiteSparse built alone (first)
+  file(MAKE_DIRECTORY ${fletch_BUILD_INSTALL_PREFIX}/include)
+  file(MAKE_DIRECTORY ${fletch_BUILD_INSTALL_PREFIX}/lib)
   Fletch_Require_Make()
   ExternalProject_Add(SuiteSparse
     DEPENDS ${SuiteSparse_DEPENDS}
