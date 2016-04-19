@@ -1,38 +1,26 @@
 # The OpenCV external project
 
 if (FALSE)
-# Set FFmpeg dependency if we're locally building it.
-if(fletch_ENABLE_FFmpeg)
-  message(STATUS "OpenCV depending on internal FFmpeg")
-  set(_OpenCV_DEPENDS FFmpeg ${_OpenCV_DEPENDS})
+  # Set FFmpeg dependency if we're locally building it.
+  if(fletch_ENABLE_FFmpeg)
+    message(STATUS "OpenCV depending on internal FFmpeg")
+    set(OpenCV_DEPENDS FFmpeg ${OpenCV_DEPENDS})
 
-  # OpenCV uses pkg-config to find libraries to link against and use, so placing
-  # our instal target library pkgconfig directory on the path link in order to
-  # take precedence.
-  if(NOT WIN32)
-    option(OpenCV_Enable_FFmpeg "" OFF)
-    if (OpenCV_Enable_FFmpeg)
-      # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
-      set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
-      message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
+    # OpenCV uses pkg-config to find libraries to link against and use, so placing
+    # our instal target library pkgconfig directory on the path link in order to
+    # take precedence.
+    if(NOT WIN32)
+      option(OpenCV_Enable_FFmpeg "" OFF)
+      if (OpenCV_Enable_FFmpeg)
+        # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
+        set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
+        message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
+      endif()
+    else()
+      message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
+      # TODO: Figure out how OpenCV finds ffmpeg on Windows.
     endif()
-  else()
-    message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
-    # TODO: Figure out how OpenCV finds ffmpeg on Windows.
   endif()
-endif()
-
-# Set Eigen dependency if we're locally building it
-if (fletch_ENABLE_Eigen)
-  message(STATUS "OpenCV depending on internal Eigen")
-  set(_OpenCV_ENABLE_EIGEN_DEFAULT TRUE)
-  set(_OpenCV_DEPENDS Eigen ${_OpenCV_DEPENDS})
-  set(OpenCV_EXTRA_BUILD_FLAGS -DEIGEN_INCLUDE_PATH:PATH=${fletch_INSTALL_PREFIX} ${OpenCV_EXTRA_BUILD_FLAGS})
-else()
-  set(_OpenCV_ENABLE_EIGEN_DEFAULT FALSE)
-endif()
-
-option(fletch_ENABLE_EIGEN "Should Eigen Support be turned on for OpenCV?" ${_OpenCV_ENABLE_EIGEN_DEFAULT})
 endif(FALSE)
 
 # Handle GPU disable flag
@@ -51,11 +39,30 @@ endif()
 # Include link to contrib repo if enabled
 if (fletch_ENABLE_OpenCV_contrib)
   set(OpenCV_CONTRIB_ARG "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
-  set(_OpenCV_DEPENDS OpenCV_contrib ${_OpenCV_DEPENDS})
+  list( APPEND OpenCV_DEPENDS OpenCV_contrib)
+endif()
+
+# Set Eigen dependency if we're locally building it
+option(fletch_ENABLE_EIGEN "Should Eigen Support be turned on for OpenCV?" ${_OpenCV_ENABLE_EIGEN_DEFAULT})
+if (fletch_ENABLE_Eigen)
+  message(STATUS "OpenCV depending on internal Eigen")
+  set(_OpenCV_ENABLE_EIGEN_DEFAULT TRUE)
+  list( APPEND OpenCV_DEPENDS Eigen)
+  set(OpenCV_EXTRA_BUILD_FLAGS -DEIGEN_INCLUDE_PATH:PATH=${fletch_INSTALL_PREFIX} ${OpenCV_EXTRA_BUILD_FLAGS})
+else()
+  set(_OpenCV_ENABLE_EIGEN_DEFAULT FALSE)
+endif()
+
+# PNG
+if(fletch_ENABLE_PNG)
+  set(OpenCV_args_PNG -DPNG_PNG_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/include -DPNG_LIBRARY_RELEASE=${PNG_LIBRARY} -DPNG_LIBRARY_Debug=${PNG_LIBRARY} -DBUILD_PNG=OFF)
+  list(APPEND OpenCV_DEPENDS PNG)
+else()
+  set(OpenCV_args_PNG -DBUILD_PNG=ON)
 endif()
 
 ExternalProject_Add(OpenCV
-  DEPENDS ${_OpenCV_DEPENDS}
+  DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
   URL_MD5 ${OpenCV_md5}
   PREFIX ${fletch_BUILD_PREFIX}
@@ -78,6 +85,7 @@ ExternalProject_Add(OpenCV
   -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
   -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
   -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+  ${OpenCV_args_PNG}
   ${OpenCV_EXTRA_BUILD_FLAGS}
   ${OpenCV_CONTRIB_ARG}
   )
