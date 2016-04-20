@@ -89,6 +89,7 @@ if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.1.0)
   # Paired contrib repo information
   set(OpenCV_contrib_version "${OpenCV_version}")
   set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
+  set(OpenCV_contrib_dlname "opencv_contrib-${OpenCV_version}.zip")
   set(OpenCV_contrib_md5 "0d0bfeabe539542791b465ec1c7c90e6")
 elseif (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
   set(OpenCV_version "2.4.11")
