@@ -32,6 +32,31 @@ set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version
 set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
 list(APPEND fletch_external_sources Boost)
 
+# ZLib
+set(ZLib_version 1.2.8)
+set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
+set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
+set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
+set(zlib_dlname "zlib-${ZLib_version}.zip")
+list(APPEND fletch_external_sources ZLib)
+
+# PNG
+set(PNG_version_major 1)
+set(PNG_version_minor 6)
+set(PNG_version_patch 19)
+set(PNG_version "${PNG_version_major}.${PNG_version_minor}.${PNG_version_patch}")
+set(PNG_major_minor_no_dot "${PNG_version_major}${PNG_version_minor}")
+set(PNG_version_no_dot "${PNG_major_minor_no_dot}${PNG_version_patch}")
+if(WIN32)
+  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/lpng${PNG_major_minor_no_dot}${PNG_version_patch}.zip")
+  set(PNG_md5 "ff0e82b4d8516daa7ed6b1bf93acca48")
+else()
+  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/libpng-${PNG_version}.tar.gz")
+  set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
+endif()
+list(APPEND fletch_external_sources PNG)
+
+
 # OpenCV
 # Support 2.4.11 and 3.1 optionally
 if (fletch_ENABLE_OpenCV)
@@ -43,6 +68,13 @@ if (fletch_ENABLE_OpenCV)
     list(APPEND fletch_external_sources OpenCV_contrib)
   endif()
 endif()
+
+# EIGEN
+set(Eigen_version 3.2.7)
+set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
+set(Eigen_md5 "76959f105cfbda3ba77889bc204f4bd2")
+set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
+list(APPEND fletch_external_sources Eigen)
 
 # Remove Contrib repo option when OpenCV not enable or incorrect version
 if ( NOT fletch_ENABLE_OpenCV OR OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
@@ -66,13 +98,6 @@ else()
 endif()
 
 list(APPEND fletch_external_sources OpenCV)
-
-# EIGEN
-set(Eigen_version 3.2.7)
-set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "76959f105cfbda3ba77889bc204f4bd2")
-set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
-list(APPEND fletch_external_sources Eigen)
 
 #SuiteSparse
 set(SuiteSparse_version 4.4.5)
@@ -102,31 +127,6 @@ if(WIN32)
   set(jom_url "http://download.qt.io/official_releases/jom/jom_${jom_version}.zip")
   set(jom_md5 "95fcaabe82f7bb88fd70e3f646850e1f")
 endif()
-
-
-# ZLib
-set(ZLib_version 1.2.8)
-set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
-set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
-set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
-set(zlib_dlname "zlib-${ZLib_version}.zip")
-list(APPEND fletch_external_sources ZLib)
-
-# PNG
-set(PNG_version_major 1)
-set(PNG_version_minor 6)
-set(PNG_version_patch 19)
-set(PNG_version "${PNG_version_major}.${PNG_version_minor}.${PNG_version_patch}")
-set(PNG_major_minor_no_dot "${PNG_version_major}${PNG_version_minor}")
-set(PNG_version_no_dot "${PNG_major_minor_no_dot}${PNG_version_patch}")
-if(WIN32)
-  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/lpng${PNG_major_minor_no_dot}${PNG_version_patch}.zip")
-  set(PNG_md5 "ff0e82b4d8516daa7ed6b1bf93acca48")
-else()
-  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/libpng-${PNG_version}.tar.gz")
-  set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
-endif()
-list(APPEND fletch_external_sources PNG)
 
 # libjson
 set(libjson_version_major 7)
