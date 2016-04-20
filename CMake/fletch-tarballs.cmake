@@ -96,7 +96,7 @@ elseif (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
 else()
   message(STATUS "OpenCV Version Not Supported")
 endif()
-
+set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
 list(APPEND fletch_external_sources OpenCV)
 
 #SuiteSparse
