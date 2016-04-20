@@ -55,10 +55,13 @@ endif()
 
 # PNG
 if(fletch_ENABLE_PNG)
-  set(OpenCV_args_PNG -DPNG_PNG_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/include -DPNG_LIBRARY_RELEASE=${PNG_LIBRARY} -DPNG_LIBRARY_Debug=${PNG_LIBRARY} -DBUILD_PNG=OFF)
+  set(OpenCV_args_PNG
+    -DPNG_PNG_INCLUDE_DIR=${fletch_PNG_INCLUDE_DIR}
+    -DPNG_LIBRARY_RELEASE=${fletch_PNG_LIBRARY}
+    -DPNG_LIBRARY_Debug=${fletch_PNG_LIBRARY}
+    -DBUILD_PNG=OFF
+    )
   list(APPEND OpenCV_DEPENDS PNG)
-else()
-  set(OpenCV_args_PNG -DBUILD_PNG=ON)
 endif()
 
 ExternalProject_Add(OpenCV

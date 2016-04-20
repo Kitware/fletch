@@ -36,19 +36,22 @@ ExternalProject_Add(PNG
   )
 
 set(PNG_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
+
 if (WIN32)
-  set(PNG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.lib)
+  set(fletch_PNG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.lib)
 elseif(APPLE)
-  set(PNG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.dylib)
+  set(fletch_PNG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.dylib)
 else()
-  set(PNG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.so)
+  set(fletch_PNG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.so)
 endif()
+set(fletch_PNG_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # PNG
 ################################
 set(PNG_ROOT @PNG_ROOT@)
-set(PNG_LIBRARY @PNG_LIBRARY@)
+set(fletch_PNG_LIBRARY @fletch_PNG_LIBRARY@)
+set(fletch_PNG_INCLUDE_DIR @fletch_PNG_INCLUDE_DIR@)
 set(fletch_ENABLED_PNG TRUE)
 ")
