@@ -64,6 +64,16 @@ if(fletch_ENABLE_PNG)
   list(APPEND OpenCV_DEPENDS PNG)
 endif()
 
+# ZLib
+if(fletch_ENABLE_ZLib)
+  set(OpenCV_args_ZLib
+    -DZLIB_INCLUDE_DIR=${fletch_ZLIB_INCLUDE_DIR}
+    -DZLIB_LIBRARY_RELEASE=${fletch_ZLib_LIBRARY}
+    -DZLIB_LIBRARY_Debug=${fletch_ZLib_LIBRARY}
+    -DBUILD_ZLib=OFF)
+  list(APPEND OpenCV_DEPENDS ZLib)
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
@@ -89,6 +99,7 @@ ExternalProject_Add(OpenCV
   -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
   -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
   ${OpenCV_args_PNG}
+  ${OpenCV_args_ZLib}
   ${OpenCV_EXTRA_BUILD_FLAGS}
   ${OpenCV_CONTRIB_ARG}
   )
