@@ -43,19 +43,16 @@ if (fletch_ENABLE_OpenCV_contrib)
 endif()
 
 # Set Eigen dependency if we're locally building it
-option(fletch_ENABLE_EIGEN "Should Eigen Support be turned on for OpenCV?" ${_OpenCV_ENABLE_EIGEN_DEFAULT})
 if (fletch_ENABLE_Eigen)
-  message(STATUS "OpenCV depending on internal Eigen")
-  set(_OpenCV_ENABLE_EIGEN_DEFAULT TRUE)
-  list( APPEND OpenCV_DEPENDS Eigen)
-  set(OpenCV_EXTRA_BUILD_FLAGS -DEIGEN_INCLUDE_PATH:PATH=${fletch_INSTALL_PREFIX} ${OpenCV_EXTRA_BUILD_FLAGS})
-else()
-  set(_OpenCV_ENABLE_EIGEN_DEFAULT FALSE)
+  list(APPEND OpenCV_DEPENDS Eigen)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DEIGEN_INCLUDE_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}/include/eigen3
+    )
 endif()
 
 # PNG
 if(fletch_ENABLE_PNG)
-  set(OpenCV_args_PNG
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
     -DPNG_PNG_INCLUDE_DIR=${fletch_PNG_INCLUDE_DIR}
     -DPNG_LIBRARY_RELEASE=${fletch_PNG_LIBRARY}
     -DPNG_LIBRARY_Debug=${fletch_PNG_LIBRARY}
@@ -66,7 +63,7 @@ endif()
 
 # ZLib
 if(fletch_ENABLE_ZLib)
-  set(OpenCV_args_ZLib
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
     -DZLIB_INCLUDE_DIR=${fletch_ZLIB_INCLUDE_DIR}
     -DZLIB_LIBRARY_RELEASE=${fletch_ZLib_LIBRARY}
     -DZLIB_LIBRARY_Debug=${fletch_ZLib_LIBRARY}
@@ -92,14 +89,12 @@ ExternalProject_Add(OpenCV
   -DBUILD_opencv_java:BOOL=OFF
   -DBUILD_PERF_TESTS:BOOL=OFF
   -DBUILD_SHARED_LIBS:BOOL=True
-  -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
   -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
   -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
   -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
   -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
-  ${OpenCV_args_PNG}
-  ${OpenCV_args_ZLib}
+  -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
   ${OpenCV_EXTRA_BUILD_FLAGS}
   ${OpenCV_CONTRIB_ARG}
   )
