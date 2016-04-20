@@ -57,9 +57,17 @@ endif()
 list(APPEND fletch_external_sources PNG)
 
 
+# EIGEN
+set(Eigen_version 3.2.7)
+set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
+set(Eigen_md5 "76959f105cfbda3ba77889bc204f4bd2")
+set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
+list(APPEND fletch_external_sources Eigen)
+
+
 # OpenCV
 # Support 2.4.11 and 3.1 optionally
-if (fletch_ENABLE_OpenCV)
+if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES)
   set(OpenCV_SELECT_VERSION 2.4.11 CACHE STRING "Select the  version of OpenCV to build.")
   set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS 2.4.11 3.1.0)
 
@@ -68,13 +76,6 @@ if (fletch_ENABLE_OpenCV)
     list(APPEND fletch_external_sources OpenCV_contrib)
   endif()
 endif()
-
-# EIGEN
-set(Eigen_version 3.2.7)
-set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "76959f105cfbda3ba77889bc204f4bd2")
-set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
-list(APPEND fletch_external_sources Eigen)
 
 # Remove Contrib repo option when OpenCV not enable or incorrect version
 if ( NOT fletch_ENABLE_OpenCV OR OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
