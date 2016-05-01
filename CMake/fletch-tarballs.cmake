@@ -111,7 +111,7 @@ list(APPEND fletch_external_sources libjson)
 
 # shapelib
 set(shapelib_version 1.3.0b2)
-set(shapelib_url "http://download2.osgeo.org/shapelib/shapelib-${shapelib_version}.tar.gz")
+set(shapelib_url "http://pkgs.fedoraproject.org/repo/pkgs/shapelib/shapelib-${shapelib_version}.tar.gz/708ea578bc299dcd9f723569d12bee8d/shapelib-${shapelib_version}.tar.gz")
 set(shapelib_md5 "708ea578bc299dcd9f723569d12bee8d")
 list(APPEND fletch_external_sources shapelib)
 
