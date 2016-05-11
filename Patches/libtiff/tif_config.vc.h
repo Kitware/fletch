@@ -105,6 +105,7 @@
 #define HOST_FILLORDER FILLORDER_LSB2MSB
 
 /* Visual Studio 2015 / VC 14 / MSVC 19.00 finally has snprintf() */
+// Define have_snprintf so this doesn't break in other sections
 #if defined(_MSC_VER) && _MSC_VER < 1900
 #define snprintf _snprintf
 #else
