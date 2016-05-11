@@ -53,6 +53,10 @@ if(WIN32)
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     DOWNLOAD_COMMAND ${libtiff_download_command}
     BUILD_IN_SOURCE 1
+    PATCH_COMMAND ${CMAKE_COMMAND}
+      -DBoost_patch=${fletch_SOURCE_DIR}/Patches/libtiff
+      -DBoost_source=${fletch_BUILD_PREFIX}/src/libtiff
+      -P ${fletch_SOURCE_DIR}/Patches/libtiff/Patch.cmake
     CONFIGURE_COMMAND ""
     # Build with nmake
     BUILD_COMMAND nmake -f Makefile.vc clean
