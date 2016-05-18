@@ -72,7 +72,7 @@ if(WIN32)
   # this is only used by the Qt external project to speed builds
   set(jom_version 1_0_16)
   set(jom_url "http://download.qt.io/official_releases/jom/jom_${jom_version}.zip")
-  set(jom_md5 "95fcaabe82f7bb88fd70e3f646850e1f")
+  set(jom_md5 "a021066aefcea8999b382b1c7c12165e")
 endif()
 
 

@@ -26,9 +26,6 @@ file(COPY ${Qt_patch}/linux-g++44
 # rely on the underlying compiler flags to be set properly by the mkspec file
 file(COPY ${Qt_patch}/configure DESTINATION ${Qt_source})
 
-# As a workaround for Windows, pre-copy the mkspec files to allow the
-# make install step to work
-file(COPY ${Qt_source}/mkspecs DESTINATION ${Qt_install}/lib/qt4)
 
 # Copy over the mac related patch
 
@@ -42,9 +39,9 @@ file(COPY
 
 # gui/painting
 file(COPY
-	${Qt_patch}/gui/painting/qpaintengine_mac.cpp
-	DESTINATION ${Qt_source}/src/gui/painting
-	)
+  ${Qt_patch}/gui/painting/qpaintengine_mac.cpp
+  DESTINATION ${Qt_source}/src/gui/painting
+  )
 
 # gui/kernel
 file(COPY
@@ -81,3 +78,39 @@ file(COPY
 
 # Workaround to build Qt with c++11
 file(COPY ${Qt_source}/src DESTINATION ${Qt_source})
+
+# Fix the build for VS 2015
+# this patch is a merge of these two patches:
+#https://fami.codefreak.ru/mirrors/qt/unofficial_builds/qt4.8.7-msvc2015/02-fix_build_with_msvc2015-45e8f4ee.diff
+#https://fami.codefreak.ru/gitlab/peter/qt4/commit/51e706b1899b3e59f7789bf94184643ccfabeebd
+
+set(VS_2015_FILES
+  configure.exe
+  src/3rdparty/clucene/src/CLucene/StdHeader.h
+  src/3rdparty/clucene/src/CLucene/util/VoidMap.h
+  src/3rdparty/javascriptcore/JavaScriptCore/wtf/StringExtras.h
+  src/3rdparty/javascriptcore/JavaScriptCore/wtf/TypeTraits.h
+  src/3rdparty/javascriptcore/JavaScriptCore/runtime/ArgList.h
+  src/3rdparty/javascriptcore/WebKit.pri
+  tools/designer/src/uitools/uitools.pro
+  mkspecs/win32-msvc2015/
+  mkspecs/win32-msvc2015/qmake.conf
+  mkspecs/win32-msvc2015/qplatformdefs.h
+  qmake/Makefile.win32
+  qmake/generators/win32/msvc_objectmodel.h
+  tools/configure/configureapp.cpp
+  tools/configure/environment.cpp
+  tools/configure/environment.h
+)
+
+foreach(f ${VS_2015_FILES})
+  get_filename_component(dest ${Qt_source}/${f} DIRECTORY)
+  message("COPY  ${Qt_patch}/${f}    DESTINATION ${dest}")
+  file(COPY ${Qt_patch}/${f} DESTINATION ${dest})
+endforeach()
+
+
+# As a workaround for Windows, pre-copy the mkspec files to allow the
+# make install step to work.  This should always be the last step
+# in this file, in case things are added to the mkspecs.
+file(COPY ${Qt_source}/mkspecs DESTINATION ${Qt_install}/lib/qt4)
