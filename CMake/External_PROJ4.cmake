@@ -27,6 +27,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # PROJ4
 ########################################
 set(PROJ4_ROOT @PROJ4_ROOT@)
+set(PROJ_ROOT @PROJ4_ROOT@)
 
 set(fletch_ENABLED_PROJ4 TRUE)
+set(fletch_ENABLED_PROJ TRUE)
 ")
