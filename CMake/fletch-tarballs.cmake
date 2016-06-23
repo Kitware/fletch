@@ -40,9 +40,9 @@ set(OpenCV_md5 "32f498451bff1817a60e1aabc2939575")
 list(APPEND fletch_external_sources OpenCV)
 
 # EIGEN
-set(Eigen_version 3.2.7)
+set(Eigen_version 3.2.8)
 set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "76959f105cfbda3ba77889bc204f4bd2")
+set(Eigen_md5 "135d8d43aaee5fb54cf5f3e981b1a6db")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
