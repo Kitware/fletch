@@ -1565,11 +1565,12 @@ int vtkEnSightReader::ReadVariableFiles(vtkMultiBlockDataSet *output)
           fileNum = 1;
           for (j = 1; j < numStepsList->GetNumberOfIds(); j++)
             {
-            numSteps += numStepsList->GetId(j);
+             int curNumSteps = numStepsList->GetId(j);
+             numSteps += curNumSteps;
             if (timeStep > numSteps)
               {
               fileNum++;
-              timeStepInFile -= numStepsList->GetId(j);
+              timeStepInFile -= curNumSteps;
               }
             }
           }
@@ -1709,11 +1710,12 @@ int vtkEnSightReader::ReadVariableFiles(vtkMultiBlockDataSet *output)
           fileNum = 1;
           for (j = 1; j < numStepsList->GetNumberOfIds(); j++)
             {
-            numSteps += numStepsList->GetId(j);
+            int curNumSteps = numStepsList->GetId(j);
+            numSteps += curNumSteps;
             if (timeStep > numSteps)
               {
               fileNum++;
-              timeStepInFile -= numStepsList->GetId(j);
+              timeStepInFile -= curNumSteps;
               }
             }
           }

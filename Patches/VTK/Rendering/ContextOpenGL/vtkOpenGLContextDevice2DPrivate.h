@@ -172,7 +172,7 @@ struct TextPropertyKey
   // Transform a text property into an unsigned long
   static unsigned int GetIdFromTextProperty(vtkTextProperty* textProperty)
   {
-    unsigned long id;
+    vtkIdType id;
     vtkFreeTypeTools::GetInstance()->MapTextPropertyToId(textProperty, &id);
     return static_cast<unsigned int>(id);
   }

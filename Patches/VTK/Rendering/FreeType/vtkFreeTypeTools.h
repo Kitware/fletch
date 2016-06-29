@@ -89,8 +89,8 @@ public:
   vtkGetMacro(MaximumNumberOfFaces, unsigned int);
   vtkSetClampMacro(MaximumNumberOfSizes,unsigned int,1,VTK_UNSIGNED_INT_MAX);
   vtkGetMacro(MaximumNumberOfSizes, unsigned int);
-  vtkSetClampMacro(MaximumNumberOfBytes,unsigned long,1,VTK_UNSIGNED_LONG_MAX);
-  vtkGetMacro(MaximumNumberOfBytes, unsigned long);
+  vtkSetClampMacro(MaximumNumberOfBytes,vtkIdType,1,VTK_UNSIGNED_LONG_MAX);
+  vtkGetMacro(MaximumNumberOfBytes, vtkIdType);
 
   // Description:
   // Given a text property and a string, get the bounding box {xmin, xmax,
@@ -160,8 +160,8 @@ public:
   // binary mask concatenating the attributes of the text property that are
   // relevant to our cache (Color, Opacity, Justification setting are not
   // stored).
-  void MapTextPropertyToId(vtkTextProperty *tprop, unsigned long *tprop_cache_id);
-  void MapIdToTextProperty(unsigned long tprop_cache_id, vtkTextProperty *tprop);
+  void MapTextPropertyToId(vtkTextProperty *tprop, vtkIdType *tprop_cache_id);
+  void MapIdToTextProperty(vtkIdType tprop_cache_id, vtkTextProperty *tprop);
 
   // Description:
   // Set whether the image produced should be scaled up to the nearest power of
@@ -252,11 +252,11 @@ protected:
                 FT_UInt32 c,
                 FT_Glyph *glyph,
                 int request = GLYPH_REQUEST_DEFAULT);
-  bool GetSize(unsigned long tprop_cache_id, int font_size, FT_Size *size);
-  bool GetFace(unsigned long tprop_cache_id, FT_Face *face);
-  bool GetGlyphIndex(unsigned long tprop_cache_id, FT_UInt32 c,
+  bool GetSize(vtkIdType tprop_cache_id, int font_size, FT_Size *size);
+  bool GetFace(vtkIdType tprop_cache_id, FT_Face *face);
+  bool GetGlyphIndex(vtkIdType tprop_cache_id, FT_UInt32 c,
                      FT_UInt *gindex);
-  bool GetGlyph(unsigned long tprop_cache_id,
+  bool GetGlyph(vtkIdType tprop_cache_id,
                 int font_size,
                 FT_UInt gindex,
                 FT_Glyph *glyph,
@@ -271,18 +271,18 @@ protected:
 
   // Description:
   // Attempt to get the typeface of the specified font.
-  bool GetFace(vtkTextProperty *prop, unsigned long &prop_cache_id,
+  bool GetFace(vtkTextProperty *prop, vtkIdType &prop_cache_id,
                FT_Face &face, bool &face_has_kerning);
 
   // Description:
   // Now attempt to get the bitmap for the specified character.
-  FT_Bitmap* GetBitmap(FT_UInt32 c, unsigned long prop_cache_id,
+  FT_Bitmap* GetBitmap(FT_UInt32 c, vtkIdType prop_cache_id,
                        int prop_font_size, FT_UInt &gindex,
                        FT_BitmapGlyph &bitmap_glyph);
 
   // Description:
   // Attempt to get the outline for the specified character.
-  FT_Outline* GetOutline(FT_UInt32 c, unsigned long prop_cache_id,
+  FT_Outline* GetOutline(FT_UInt32 c, vtkIdType prop_cache_id,
                          int prop_font_size, FT_UInt &gindex,
                          FT_OutlineGlyph &outline_glyph);
 
@@ -309,7 +309,7 @@ protected:
 
   unsigned int MaximumNumberOfFaces;
   unsigned int MaximumNumberOfSizes;
-  unsigned long MaximumNumberOfBytes;
+  vtkIdType MaximumNumberOfBytes;
 
   bool ForceCompiledFonts;
   bool DebugTextures;
