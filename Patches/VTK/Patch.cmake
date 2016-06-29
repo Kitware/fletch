@@ -10,6 +10,7 @@ file(COPY ${VTK_PATCH_DIR}/vtkGraph.h
 )
 
 set(VS_2015_FILES
+  Common/Core/vtkWin32ProcessOutputWindow.cxx
   Common/Math/Testing/Cxx/TestQuaternion.cxx
   Domains/Chemistry/Testing/Cxx/TestPeriodicTable.cxx
   IO/EnSight/vtkEnSightReader.cxx
