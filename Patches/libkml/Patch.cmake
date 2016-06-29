@@ -5,9 +5,7 @@
 
 message("Patching libkml in ${libkml_source}")
 
-file(COPY
-  ${libkml_patch}/util.h
-  ${libkml_patch}/file_win32.cc
+file(COPY ${libkml_patch}/util.h
   DESTINATION ${libkml_source}/src/kml/base/
 )
 
