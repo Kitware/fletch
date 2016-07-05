@@ -32,12 +32,30 @@ set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version
 set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
 list(APPEND fletch_external_sources Boost)
 
-# OpenCV
-set(OpenCV_version "2.4.11")
-set(OpenCV_url "http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/${OpenCV_version}/opencv-${OpenCV_version}.zip")
-set(OpenCV_md5 "32f498451bff1817a60e1aabc2939575")
+# ZLib
+set(ZLib_version 1.2.8)
+set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
+set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
+set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
+set(zlib_dlname "zlib-${ZLib_version}.zip")
+list(APPEND fletch_external_sources ZLib)
 
-list(APPEND fletch_external_sources OpenCV)
+# PNG
+set(PNG_version_major 1)
+set(PNG_version_minor 6)
+set(PNG_version_patch 19)
+set(PNG_version "${PNG_version_major}.${PNG_version_minor}.${PNG_version_patch}")
+set(PNG_major_minor_no_dot "${PNG_version_major}${PNG_version_minor}")
+set(PNG_version_no_dot "${PNG_major_minor_no_dot}${PNG_version_patch}")
+if(WIN32)
+  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/lpng${PNG_major_minor_no_dot}${PNG_version_patch}.zip")
+  set(PNG_md5 "ff0e82b4d8516daa7ed6b1bf93acca48")
+else()
+  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/libpng-${PNG_version}.tar.gz")
+  set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
+endif()
+list(APPEND fletch_external_sources PNG)
+
 
 # EIGEN
 set(Eigen_version 3.2.8)
@@ -45,6 +63,43 @@ set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
 set(Eigen_md5 "135d8d43aaee5fb54cf5f3e981b1a6db")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
+
+
+# OpenCV
+# Support 2.4.11 and 3.1 optionally
+if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES)
+  set(OpenCV_SELECT_VERSION 2.4.11 CACHE STRING "Select the  version of OpenCV to build.")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS 2.4.11 3.1.0)
+
+  # Expose optional contrib repo when enabling OpenCV version >= 3.x
+  if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.0.0 OR OpenCV_SELECT_VERSION VERSION_GREATER 3.0.0)
+    list(APPEND fletch_external_sources OpenCV_contrib)
+  endif()
+endif()
+
+# Remove Contrib repo option when OpenCV not enable or incorrect version
+if ( NOT fletch_ENABLE_OpenCV OR OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
+  unset(fletch_ENABLE_OpenCV_contrib CACHE)
+endif()
+
+if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.1.0)
+  set(OpenCV_version "3.1.0")
+  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+  set(OpenCV_md5 "6082ee2124d4066581a7386972bfd52a")
+  # Paired contrib repo information
+  set(OpenCV_contrib_version "${OpenCV_version}")
+  set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
+  set(OpenCV_contrib_dlname "opencv_contrib-${OpenCV_version}.zip")
+  set(OpenCV_contrib_md5 "0d0bfeabe539542791b465ec1c7c90e6")
+elseif (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
+  set(OpenCV_version "2.4.11")
+  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+  set(OpenCV_md5 "b517e83489c709eee1d8be76b16976a7")
+else()
+  message(STATUS "OpenCV Version Not Supported")
+endif()
+set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+list(APPEND fletch_external_sources OpenCV)
 
 #SuiteSparse
 set(SuiteSparse_version 4.4.5)
@@ -74,31 +129,6 @@ if(WIN32)
   set(jom_url "http://download.qt.io/official_releases/jom/jom_${jom_version}.zip")
   set(jom_md5 "a021066aefcea8999b382b1c7c12165e")
 endif()
-
-
-# ZLib
-set(ZLib_version 1.2.8)
-set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
-set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
-set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
-set(zlib_dlname "zlib-${ZLib_version}.zip")
-list(APPEND fletch_external_sources ZLib)
-
-# PNG
-set(PNG_version_major 1)
-set(PNG_version_minor 6)
-set(PNG_version_patch 19)
-set(PNG_version "${PNG_version_major}.${PNG_version_minor}.${PNG_version_patch}")
-set(PNG_major_minor_no_dot "${PNG_version_major}${PNG_version_minor}")
-set(PNG_version_no_dot "${PNG_major_minor_no_dot}${PNG_version_patch}")
-if(WIN32)
-  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/lpng${PNG_major_minor_no_dot}${PNG_version_patch}.zip")
-  set(PNG_md5 "ff0e82b4d8516daa7ed6b1bf93acca48")
-else()
-  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/libpng-${PNG_version}.tar.gz")
-  set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
-endif()
-list(APPEND fletch_external_sources PNG)
 
 # libjson
 set(libjson_version_major 7)
@@ -161,7 +191,7 @@ list(APPEND fletch_external_sources Qt)
 set(PROJ4_version "4.8.0" )
 set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
 set(PROJ4_md5 "d815838c92a29179298c126effbb1537" )
-list(APPEND fletch_external_sources PROJ4 ) 
+list(APPEND fletch_external_sources PROJ4 )
 
 # GeographicLib
 set(GeographicLib_version "1.30" )

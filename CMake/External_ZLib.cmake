@@ -33,12 +33,30 @@ elseif(NOT APPLE)
     )
 endif()
 
+set (fletch_ZLIB_INCLUDE_DIR
+  ${fletch_BUILD_INSTALL_PREFIX}/install/include
+  )
+
+if (WIN32)
+  set(ZLIB_LIB_NAME zlib)
+else()
+  set(ZLIB_LIB_NAME zlib)
+endif()
+get_system_library_name(
+  ${ZLIB_LIB_NAME}
+  fletch_ZLib_LIB
+  )
+
+set(fletch_ZLib_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/${fletch_ZLib_LIB})
+
 set(ZLIB_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # ZLib
 ########################################
 set(ZLIB_ROOT @ZLIB_ROOT@)
+set(fletch_ZLIB_INCLUDE_DIR @fletch_ZLIB_INCLUDE_DIR@)
+set(fletch_ZLib_LIBRARY @fletch_ZLib_LIBRARY@)
 
 set(fletch_ENABLED_ZLib TRUE)
 ")
