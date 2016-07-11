@@ -118,6 +118,7 @@ add_library(tiff ${tiff_SOURCES} ${tiff_HEADERS} ${nodist_tiff_HEADERS}
             ${tiff_port_SOURCES} libtiff.def)
 target_link_libraries(tiff ${TIFF_LIBRARY_DEPS})
 set_target_properties(tiff PROPERTIES SOVERSION ${SO_COMPATVERSION})
+set_target_properties(tiff PROPERTIES DEBUG_POSTFIX "")
 if(NOT CYGWIN)
     # This property causes shared libraries on Linux to have the full version
     # encoded into their final filename.  We disable this on Cygwin because
