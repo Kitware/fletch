@@ -175,6 +175,11 @@ set(VTK_url "http://www.vtk.org/files/release/${VTK_version}/VTK-${VTK_version}.
 set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
 list(APPEND fletch_external_sources VTK)
 
+# VXL
+set(VXL_url "https://github.com/vxl/vxl/archive/c57d698f16b8a2f5c6456a490aaf4a8ce91531ce.zip")
+set(VXL_md5 "8d5b5c9623d0ba66531fc525e9a5b424")
+list(APPEND fletch_external_sources VXL)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
