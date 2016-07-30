@@ -35,8 +35,8 @@ endif()
 option(fletch_ENABLE_EIGEN "Should Eigen Support be turned on for OpenCV?" ${_OpenCV_ENABLE_EIGEN_DEFAULT})
 endif(FALSE)
 
-# Explicitly disable OpenCV's highgui
-option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui (may conflict with system ffmpeg)?" FALSE )
+# Allow OpenCV's highgui to be turned off
+option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui? (generally should be left on)" TRUE )
 set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DBUILD_opencv_highgui=${fletch_ENABLE_OpenCV_highgui})
 
 # Handle GPU disable flag
