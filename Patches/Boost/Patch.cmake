@@ -16,3 +16,9 @@ file(COPY ${Boost_patch}/cas128strong.hpp ${Boost_patch}/gcc-atomic.hpp
 file(COPY ${Boost_patch}/transform_width.hpp
   DESTINATION ${Boost_source}/boost/archive/iterators/
 )
+
+# Following patch fixes compile errors for gcc>=5.2
+# https://svn.boost.org/trac/boost/ticket/10125
+file(COPY ${Boost_patch}/pthread/once_atomic.hpp ${Boost_patch}/pthread/once.hpp
+  DESTINATION ${Boost_source}/boost/thread/pthread/
+  )
