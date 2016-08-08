@@ -12,3 +12,7 @@ file(COPY ${OpenCV_patch}/CMakeLists.txt
 file(COPY ${OpenCV_patch}/OpenCVModule.cmake
   DESTINATION ${OpenCV_source}/cmake/
 )
+
+file(COPY ${OpenCV_patch}/OpenCVDetectCUDA.cmake
+  DESTINATION ${OpenCV_source}/cmake/
+)
