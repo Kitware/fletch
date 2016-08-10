@@ -37,7 +37,7 @@ elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
 
   find_library(LAPACK_FOUND lapack)
   find_library(OPENBLAS_FOUND openblas)
-  if (NOT LAPACK_FOUND AND NOT OPENBLAS_FOUND)
+  if (NOT LAPACK_FOUND OR NOT OPENBLAS_FOUND)
     message(FATAL "SuiteSparse requires lapack and openblas. Please install and try again")
   endif()
 
