@@ -69,7 +69,7 @@
 # C and C++ compiler flags.  The first three are standard for *.c and *.cpp
 # Add -DNTIMER if you do use any timing routines (otherwise -lrt is required).
 # CF = $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -O3 -fexceptions -fPIC -DNTIMER
-  CF = $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -O3 -fexceptions -fPIC
+  CF = $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -O3 -fexceptions -fPIC @SPARSESUITE_NOTIMER@
 # for the MKL BLAS:
 # CF = $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -O3 -fexceptions -fPIC -I$(MKLROOT)/include -D_GNU_SOURCE
 # with no optimization:
