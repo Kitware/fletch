@@ -120,7 +120,7 @@ INSTALL_INCLUDE = @fletch_BUILD_INSTALL_PREFIX@/include
 
 # This is probably slow ... it might connect to the Standard Reference BLAS:
 # BLAS = -lblas -lgfortran
-  LAPACK = -llapack
+  LAPACK = @LAPACK_LIBRARY@
 
 # MKL 
 # BLAS = -Wl,--start-group $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a $(MKLROOT)/lib/intel64/libmkl_core.a $(MKLROOT)/lib/intel64/libmkl_intel_thread.a -Wl,--end-group -lpthread -lm
@@ -131,7 +131,7 @@ INSTALL_INCLUDE = @fletch_BUILD_INSTALL_PREFIX@/include
 # LAPACK =
 
 # OpenBLAS
-  BLAS = -lopenblas
+  BLAS = @OPENBLAS_LIBRARY@
 # LAPACK = 
 
 # NOTE: this next option for the "Goto BLAS" has nothing to do with a "goto"
