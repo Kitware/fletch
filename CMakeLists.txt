@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.10)
+cmake_minimum_required(VERSION 2.8.12)
 project(fletch)
 
 # Policy to address @foo@ variable expansion
@@ -32,7 +32,8 @@ set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VER
 set(fletch_CMAKE_DIR "${fletch_SOURCE_DIR}/CMake")
 set(CMAKE_MODULE_PATH ${fletch_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 
-if (NOT CMAKE_BUILD_TYPE)
+# Don't force a build type in mutli-configuration platforms
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 endif()
 
@@ -142,6 +143,7 @@ include(ExternalProject)
 # recursive manner via '$(MAKE)'; otherwise we need to use the actual
 # executable. Decide which, here, rather than replicating this logic all over
 # the place.
+#-
 set(fletch_requires_make)
 macro(Fletch_Require_Make)
   list(APPEND fletch_requires_make ${fletch_current_package})
