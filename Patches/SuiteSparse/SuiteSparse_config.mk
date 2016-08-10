@@ -69,7 +69,7 @@
 # C and C++ compiler flags.  The first three are standard for *.c and *.cpp
 # Add -DNTIMER if you do use any timing routines (otherwise -lrt is required).
 # CF = $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -O3 -fexceptions -fPIC -DNTIMER
-  CF = $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -O3 -fexceptions -fPIC
+  CF = $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -O3 -fexceptions -fPIC @SPARSESUITE_NOTIMER@
 # for the MKL BLAS:
 # CF = $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -O3 -fexceptions -fPIC -I$(MKLROOT)/include -D_GNU_SOURCE
 # with no optimization:
@@ -90,7 +90,7 @@ F77FLAGS = $(FFLAGS) -O
 F77LIB =
 
 # C and Fortran libraries.  Remove -lrt if you don't have it.
-  LIB = -lm -lrt
+  LIB = -lm @LIBRT_LIBRARY@
 # Using the following requires CF = ... -DNTIMER on POSIX C systems.
 # LIB = -lm
 
@@ -120,7 +120,7 @@ INSTALL_INCLUDE = @fletch_BUILD_INSTALL_PREFIX@/include
 
 # This is probably slow ... it might connect to the Standard Reference BLAS:
 # BLAS = -lblas -lgfortran
-  LAPACK = -llapack
+  LAPACK = @LAPACK_LIBRARY@
 
 # MKL 
 # BLAS = -Wl,--start-group $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a $(MKLROOT)/lib/intel64/libmkl_core.a $(MKLROOT)/lib/intel64/libmkl_intel_thread.a -Wl,--end-group -lpthread -lm
@@ -131,7 +131,7 @@ INSTALL_INCLUDE = @fletch_BUILD_INSTALL_PREFIX@/include
 # LAPACK =
 
 # OpenBLAS
-  BLAS = -lopenblas
+  BLAS = @OPENBLAS_LIBRARY@
 # LAPACK = 
 
 # NOTE: this next option for the "Goto BLAS" has nothing to do with a "goto"

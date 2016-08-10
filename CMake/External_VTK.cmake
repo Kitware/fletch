@@ -132,10 +132,9 @@ add_package_dependency(
   PACKAGE_DEPENDENCY_ALIAS TIFF
 )
 if(NOT TIFF_FOUND)
-  # Libtiff is always libtiff, even on windows !
   get_system_libary_vars(prefix extension)
   set(TIFF_INCLUDE_DIR ${install_include_dir})
-  set(TIFF_LIBRARY ${install_library_dir}/libtiff.${extension})
+  set(TIFF_LIBRARY ${install_library_dir}/${prefix}tiff.${extension})
 endif()
 set(vtk_cmake_args ${vtk_cmake_args}
   -DVTK_USE_SYSTEM_TIFF:BOOL=ON

@@ -40,9 +40,9 @@ set(OpenCV_md5 "32f498451bff1817a60e1aabc2939575")
 list(APPEND fletch_external_sources OpenCV)
 
 # EIGEN
-set(Eigen_version 3.2.7)
+set(Eigen_version 3.2.8)
 set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "76959f105cfbda3ba77889bc204f4bd2")
+set(Eigen_md5 "135d8d43aaee5fb54cf5f3e981b1a6db")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
@@ -72,7 +72,7 @@ if(WIN32)
   # this is only used by the Qt external project to speed builds
   set(jom_version 1_0_16)
   set(jom_url "http://download.qt.io/official_releases/jom/jom_${jom_version}.zip")
-  set(jom_md5 "95fcaabe82f7bb88fd70e3f646850e1f")
+  set(jom_md5 "a021066aefcea8999b382b1c7c12165e")
 endif()
 
 
@@ -111,7 +111,7 @@ list(APPEND fletch_external_sources libjson)
 
 # shapelib
 set(shapelib_version 1.3.0b2)
-set(shapelib_url "http://download2.osgeo.org/shapelib/shapelib-${shapelib_version}.tar.gz")
+set(shapelib_url "http://pkgs.fedoraproject.org/repo/pkgs/shapelib/shapelib-${shapelib_version}.tar.gz/708ea578bc299dcd9f723569d12bee8d/shapelib-${shapelib_version}.tar.gz")
 set(shapelib_md5 "708ea578bc299dcd9f723569d12bee8d")
 list(APPEND fletch_external_sources shapelib)
 
@@ -174,6 +174,11 @@ set(VTK_version 6.2)
 set(VTK_url "http://www.vtk.org/files/release/${VTK_version}/VTK-${VTK_version}.0.zip")
 set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
 list(APPEND fletch_external_sources VTK)
+
+# VXL
+set(VXL_url "https://github.com/vxl/vxl/archive/fee98c789fef1d79db902ad23fbdb92c03476456.zip")
+set(VXL_md5 "ca283418dc04fc736068ae18888fa9aa")
+list(APPEND fletch_external_sources VXL)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
