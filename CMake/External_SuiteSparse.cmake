@@ -35,12 +35,24 @@ if (BUILD_CXSPARSE_ONLY)
 
 elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
 
-  find_library(LAPACK_LIBRARY lapack)
-  find_library(OPENBLAS_LIBRARY openblas)
-  if (NOT LAPACK_LIBRARY OR NOT OPENBLAS_LIBRARY)
+  find_package(LAPACK)
+  find_package(BLAS)
+  if (NOT LAPACK_FOUND OR NOT BLAS_FOUND)
     message(FATAL "SuiteSparse requires lapack and openblas. Please install and try again")
   endif()
+
+  set(SUITESPARSE_LAPACK ${LAPACK_LIBRARIES})
+  if (SUITESPARSE_LAPACK MATCHES "Accelerate.framework")
+    set(SUITESPARSE_LAPACK "-framework Accelerate")
+  endif()
+
+  set(SUITESPARSE_BLAS ${BLAS_LIBRARIES})
+  if (SUITESPARSE_BLAS MATCHES "Accelerate.framework")
+    set(SUITESPARSE_BLAS "-framework Accelerate")
+  endif()
+
   find_library(LIBRT_LIBRARY rt)
+  mark_as_advanced(LIBRT_LIBRARY)
   set(SUITESPARSE_LIBRT ${LIBRT_LIBRARY})
   if (NOT LIBRT_LIBRARY)
     set(SUITESPARSE_NOTIMER "-DNTIMER")
@@ -65,8 +77,8 @@ elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
       -DSuiteSparse_source=${fletch_BUILD_PREFIX}/src/SuiteSparse
       -DBUILD_CXSPARSE_ONLY:BOOL=${BUILD_CXSPARSE_ONLY}
       -Dfletch_BUILD_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-      -DLAPACK_LIBRARY=${LAPACK_LIBRARY}
-      -DOPENBLAS_LIBRARY=${OPENBLAS_LIBRARY}
+      -DLAPACK_LIBRARIES=${SUITESPARSE_LAPACK}
+      -DBLAS_LIBRARIES=${SUITESPARSE_BLAS}
       -DLIBRT_LIBRARY=${SUITESPARSE_LIBRT}
       -DSUITESPARSE_NOTIMER=${SUITESPARSE_NOTIMER}
       -P ${fletch_SOURCE_DIR}/Patches/SuiteSparse/Patch.cmake
