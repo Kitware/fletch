@@ -17,8 +17,12 @@ file(COPY ${Boost_patch}/transform_width.hpp
   DESTINATION ${Boost_source}/boost/archive/iterators/
 )
 
-# Following patch fixes compile errors for gcc>=5.2
+# Following patches fix compile errors for gcc5.2
 # https://svn.boost.org/trac/boost/ticket/10125
 file(COPY ${Boost_patch}/pthread/once_atomic.hpp ${Boost_patch}/pthread/once.hpp
-  DESTINATION ${Boost_source}/boost/thread/pthread/
-  )
+DESTINATION ${Boost_source}/boost/thread/pthread/
+)
+
+file(COPY ${Boost_patch}/win32/once.hpp
+DESTINATION ${Boost_source}/boost/thread/win32/
+)
