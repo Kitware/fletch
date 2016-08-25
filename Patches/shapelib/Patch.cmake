@@ -8,4 +8,4 @@
 message("Patching shapelib")
 file(COPY ${shapelib_patch}/CMakeLists.txt DESTINATION ${shapelib_source})
 #file(COPY ${shapelib_patch}/SHAPELIBConfig.cmake.in DESTINATION ${shapelib_source})
-#file(COPY ${shapelib_patch}/shapefil.h DESTINATION ${shapelib_source})
+file(COPY ${shapelib_patch}/shapefil.h DESTINATION ${shapelib_source})

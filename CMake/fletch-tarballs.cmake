@@ -110,10 +110,10 @@ set(libjson_md5 "82f3fcbf9f8cf3c4e25e1bdd77d65164")
 list(APPEND fletch_external_sources libjson)
 
 # shapelib
-set(shapelib_version 1.3.0)
-set(shapelib_url "http://download.osgeo.org/shapelib/shapelib-${shapelib_version}.tar.gz")
-set(shapelib_md5 "2ff7d0b21d4b7506b452524492795f77")
-list(APPEND fletch_external_sources shapelib)
+set(shapelib_version 1.3.0b2)
+set(shapelib_url "http://pkgs.fedoraproject.org/repo/pkgs/shapelib/shapelib-${shapelib_version}.tar.gz/708ea578bc299dcd9f723569d12bee8d/shapelib-${shapelib_version}.tar.gz")
+set(shapelib_md5 "708ea578bc299dcd9f723569d12bee8d")
+list(APPEND vision-tpl_external_sources shapelib)
 
 # TinyXML
 set(TinyXML_version_major "2")
