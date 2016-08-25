@@ -113,7 +113,6 @@ list(APPEND fletch_external_sources libjson)
 set(shapelib_version 1.3.0)
 set(shapelib_url "http://download.osgeo.org/shapelib/shapelib-${shapelib_version}.tar.gz")
 set(shapelib_md5 "2ff7d0b21d4b7506b452524492795f77")
->>>>>>> 810126c42b5fb1b2ac4c2e68609a62b76ce55179
 list(APPEND fletch_external_sources shapelib)
 
 # TinyXML
