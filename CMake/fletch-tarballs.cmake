@@ -213,8 +213,8 @@ endif()
 # GLog
 if(NOT WIN32)
   set(GLog_version "0.3.3")
-  set(GLog_url "https://google-glog.googlecode.com/files/glog-${GLog_version}.tar.gz")
-  set(GLog_md5 "a6fd2c22f8996846e34c763422717c18")
+  set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
+  set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
   list(APPEND fletch_external_sources GLog)
 endif()
 
@@ -235,8 +235,8 @@ endif()
 # Protobuf
 if(NOT WIN32)
   set(Protobuf_version "2.5.0" )
-  set(Protobuf_url "http://protobuf.googlecode.com/files/protobuf-${Protobuf_version}.tar.bz2" )
-  set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
+  set(Protobuf_url "https://github.com/google/protobuf/archive/v${Protobuf_version}.tar.gz" )
+  set(Protobuf_md5 "9c21577a03adc1879aba5b52d06e25cf" )
   list(APPEND fletch_external_sources Protobuf )
 endif()
 
