@@ -208,8 +208,8 @@ endif()
 # GLog
 if(NOT WIN32)
   set(GLog_version "0.3.3")
-  set(GLog_url "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/google-glog/glog-${GLog_version}.tar.gz")
-  set(GLog_md5 "a6fd2c22f8996846e34c763422717c18")
+  set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
+  set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
   list(APPEND fletch_external_sources GLog)
 endif()
 
