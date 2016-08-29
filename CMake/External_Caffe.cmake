@@ -219,7 +219,7 @@ else()
     "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}")
 endif()
 
-if(fletch_DISABLE_GPU_SUPPORT))
+if(fletch_DISABLE_GPU_SUPPORT)
   set( CAFFE_GPU_ARGS
     -DCPU_ONLY:BOOL=ON
     )
