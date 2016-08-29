@@ -10,9 +10,14 @@ ExternalProject_Add(Protobuf
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    -DProtobuf_patch:PATH=${fletch_SOURCE_DIR}/Patches/Protobuf
+    -DProtobuf_source:PATH=${fletch_BUILD_PREFIX}/src/Protobuf
+    -P ${fletch_SOURCE_DIR}/Patches/Protobuf/Patch.cmake
   BUILD_IN_SOURCE 1
   ${PROTOBUF_PATCH_ARG}
-  CONFIGURE_COMMAND ./configure
+  CONFIGURE_COMMAND ./autogen.sh
+            COMMAND ./configure
     --prefix=${fletch_BUILD_INSTALL_PREFIX}
   BUILD_COMMAND ${MAKE_EXECUTABLE}
   INSTALL_COMMAND ${MAKE_EXECUTABLE} install
