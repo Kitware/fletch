@@ -11,7 +11,7 @@ add_package_dependency(
   PACKAGE_DEPENDENCY libjpeg-turbo
   PACKAGE_DEPENDENCY_ALIAS JPEG
   )
-  
+
 # libtiff
 add_package_dependency(
   PACKAGE VXL
@@ -45,13 +45,14 @@ set(VXL_ARGS_CONTRIB
 # Handle FFMPEG disable flag
 if(fletch_DISABLE_FFMPEG_SUPPORT)
   set(VXL_ARGS_VIDL
-    -DFFMPEG_CONFIG:FILEPATH=""
-    -DFFMPEG_INCLUDE1_DIR:PATH=""
-    -DFFMPEG_INCLUDE2_DIR:PATH=""
-    -DFFMPEG_avcodec_LIBRARY:PATH=""
-    -DFFMPEG_avformat_LIBRARY:PATH=""
-    -DFFMPEG_avutil_LIBRARY:PATH=""
-    -DFFMPEG_swscale_LIBRARY:PATH=""
+    -DFFMPEG_CONFIG:FILEPATH=
+    -DFFMPEG_INCLUDE1_DIR:PATH=
+    -DFFMPEG_INCLUDE2_DIR:PATH=
+    -DFFMPEG_avcodec_LIBRARY:PATH=
+    -DFFMPEG_avformat_LIBRARY:PATH=
+    -DFFMPEG_avutil_LIBRARY:PATH=
+    -DFFMPEG_swscale_LIBRARY:PATH=
+    -DWITH_FFMPEG:BOOL=OFF
   )
 endif()
 
@@ -119,7 +120,7 @@ ExternalProject_Add_Step(VXL forcebuild
 include_directories( SYSTEM ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/vcl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/core )
-							
+
 set(VXL_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
