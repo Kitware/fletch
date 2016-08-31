@@ -230,7 +230,7 @@ endif()
 # Protobuf
 if(NOT WIN32)
   set(Protobuf_version "2.5.0" )
-  set(Protobuf_url "http://protobuf.googlecode.com/files/protobuf-${Protobuf_version}.tar.bz2" )
+  set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
   set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
   list(APPEND fletch_external_sources Protobuf )
 endif()
