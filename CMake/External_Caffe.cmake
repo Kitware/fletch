@@ -181,6 +181,7 @@ if(fletch_ENABLE_HDF5)
     -DHDF5_hdf5_LIBRARY_RELEASE:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_libname}
     -DHDF5_hdf5_hl_LIBRARY_DEBUG:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
     -DHDF5_hdf5_hl_LIBRARY_RELEASE:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
+    -DHDF5_HL_LIBRARIES:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
     )
 else()
   set( CAFFE_HDF5_ARGS
@@ -191,6 +192,7 @@ else()
     -DHDF5_hdf5_LIBRARY_RELEASE:PATH=${HDF5_hdf5_LIBRARY_RELEASE}
     -DHDF5_hdf5_hl_LIBRARY_DEBUG:PATH=${HDF5_hdf5_hl_LIBRARY_DEBUG}
     -DHDF5_hdf5_hl_LIBRARY_RELEASE:PATH=${HDF5_hdf5_hl_LIBRARY_RELEASE}
+    -DHDF5_HL_LIBRARIES:PATH=${HDF5_HL_LIBRARIES}
   )
 endif()
 
