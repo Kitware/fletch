@@ -46,6 +46,11 @@ if(fletch_DISABLE_GPU_SUPPORT)
   set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DBUILD_opencv_gpu=OFF -DBUILD_opencv_ocl=OFF)
 endif()
 
+# Handle FFMPEG disable flag
+if(fletch_DISABLE_FFMPEG_SUPPORT)
+  set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DWITH_FFMPEG=OFF)
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${_OpenCV_DEPENDS}
   URL ${OpenCV_url}

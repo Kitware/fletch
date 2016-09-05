@@ -11,7 +11,7 @@ add_package_dependency(
   PACKAGE_DEPENDENCY libjpeg-turbo
   PACKAGE_DEPENDENCY_ALIAS JPEG
   )
-  
+
 # libtiff
 add_package_dependency(
   PACKAGE VXL
@@ -41,16 +41,20 @@ set(VXL_ARGS_CONTRIB
   -DBUILD_PRIP:BOOL=OFF
   )
 
-# Not using ffmpeg right now
-#set(VXL_ARGS_VIDL
-#  -DFFMPEG_CONFIG:FILEPATH=IGNORE
-#  -DFFMPEG_INCLUDE1_DIR:PATH=IGNORE
-#  -DFFMPEG_INCLUDE2_DIR:PATH=IGNORE
-#  -DFFMPEG_avcodec_LIBRARY:PATH=IGNORE
-#  -DFFMPEG_avformat_LIBRARY:PATH=IGNORE
-#  -DFFMPEG_avutil_LIBRARY:PATH=IGNORE
-#  -DFFMPEG_swscale_LIBRARY:PATH=IGNORE
-#  )
+
+# Handle FFMPEG disable flag
+if(fletch_DISABLE_FFMPEG_SUPPORT)
+  set(VXL_ARGS_VIDL
+    -DFFMPEG_CONFIG:FILEPATH=
+    -DFFMPEG_INCLUDE1_DIR:PATH=
+    -DFFMPEG_INCLUDE2_DIR:PATH=
+    -DFFMPEG_avcodec_LIBRARY:PATH=
+    -DFFMPEG_avformat_LIBRARY:PATH=
+    -DFFMPEG_avutil_LIBRARY:PATH=
+    -DFFMPEG_swscale_LIBRARY:PATH=
+    -DWITH_FFMPEG:BOOL=OFF
+  )
+endif()
 
 if(UNIX)
   set(VXL_ARGS_V3P
@@ -76,7 +80,7 @@ ExternalProject_Add(VXL
     ${KWIVER_ARGS_COMMON}
     ${VXL_ARGS_GUI}
     ${VXL_ARGS_CONTRIB}
-#    ${VXL_ARGS_VIDL}
+    ${VXL_ARGS_VIDL}
     ${VXL_ARGS_V3P}
     ${VXL_EXTRA_CMAKE_CXX_FLAGS}
 	-DCMAKE_CXX_STANDARD:STRING=11
@@ -116,7 +120,7 @@ ExternalProject_Add_Step(VXL forcebuild
 include_directories( SYSTEM ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/vcl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/core )
-							
+
 set(VXL_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################

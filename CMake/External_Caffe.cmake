@@ -234,6 +234,14 @@ else()
     "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}")
 endif()
 
+if(fletch_DISABLE_GPU_SUPPORT)
+  set( CAFFE_GPU_ARGS
+    -DCPU_ONLY:BOOL=ON
+    )
+else()
+  set( CAFFE_GPU_ARGS
+    )
+endif()
 
 # Main build and install command
 ExternalProject_Add(Caffe
@@ -262,6 +270,7 @@ ExternalProject_Add(Caffe
     ${CAFFE_GFlags_ARGS}
     ${CAFFE_HDF5_ARGS}
     ${CAFFE_OPENBLAS_ARGS}
+    ${CAFFE_GPU_ARGS}
   )
 
 set(Caffe_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
