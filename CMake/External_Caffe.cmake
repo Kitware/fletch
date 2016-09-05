@@ -165,14 +165,18 @@ if(fletch_ENABLE_HDF5)
 
     get_system_library_name( hdf5_debug hdf5_libname )
     get_system_library_name( hdf5_hl_debug hdf5_hl_libname )
+    get_system_library_name( hdf5_cpp_debug hdf5_cpp_libname )
+    get_system_library_name( hdf5_hl_cpp_debug hdf5_hl_cpp_libname )
+
 
   else()
 
     get_system_library_name( hdf5 hdf5_libname )
     get_system_library_name( hdf5_hl hdf5_hl_libname )
+    get_system_library_name( hdf5_cpp hdf5_cpp_libname )
+    get_system_library_name( hdf5_hl_cpp hdf5_hl_cpp_libname )
 
   endif()
-
   set( CAFFE_HDF5_ARGS
     -DHDF5_INCLUDE_DIRS:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DHDF5_HL_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
@@ -181,6 +185,16 @@ if(fletch_ENABLE_HDF5)
     -DHDF5_hdf5_LIBRARY_RELEASE:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_libname}
     -DHDF5_hdf5_hl_LIBRARY_DEBUG:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
     -DHDF5_hdf5_hl_LIBRARY_RELEASE:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
+    -DHDF5_HL_LIBRARIES:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
+
+    -DHDF5_CXX_LIBRARY_hdf5:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_libname}
+    -DHDF5_CXX_LIBRARY_hdf5_cpp:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_cpp_libname}
+    -DHDF5_CXX_LIBRARY_hdf5_hl:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
+    -DHDF5_CXX_LIBRARY_hdf5_hl_cpp:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_cpp_libname}
+
+    -DHDF5_C_LIBRARY_hdf5_hl:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_libname}
+    -DHDF5_C_LIBRARY_hdf5:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
+
     )
 else()
   set( CAFFE_HDF5_ARGS
@@ -191,6 +205,7 @@ else()
     -DHDF5_hdf5_LIBRARY_RELEASE:PATH=${HDF5_hdf5_LIBRARY_RELEASE}
     -DHDF5_hdf5_hl_LIBRARY_DEBUG:PATH=${HDF5_hdf5_hl_LIBRARY_DEBUG}
     -DHDF5_hdf5_hl_LIBRARY_RELEASE:PATH=${HDF5_hdf5_hl_LIBRARY_RELEASE}
+    -DHDF5_HL_LIBRARIES:PATH=${HDF5_HL_LIBRARIES}
   )
 endif()
 
