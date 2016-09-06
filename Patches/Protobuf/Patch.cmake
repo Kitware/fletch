@@ -6,6 +6,6 @@
 message ("Patching Protobuf in ${Protobuf_source}")
 
 file(COPY ${Protobuf_patch}/autogen.sh
-  DESTINATION ${Protobuf_source}/
+  DESTINATION ${Protobuf_source}/autogen.sh
 )
 
