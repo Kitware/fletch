@@ -12,7 +12,7 @@ set(_Boost_DIR_ARGS
   -DBoost_INSTALL_DIR=${fletch_BUILD_INSTALL_PREFIX}
 )
 
-if(FLETCH_BUILD_PYTHON)
+if(fletch_BUILD_WITH_PYTHON)
   set(fletch_EXTRA_BOOST_LIBS ${fletch_EXTRA_BOOST_LIBS} python)
 endif()
 
