@@ -52,17 +52,16 @@ add_custom_target(Download)
 #
 # Do we want to build in Python support where available
 #
-option(FLETCH_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
-mark_as_advanced(FLETCH_BUILD_WITH_PYTHON)
+option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
 
 #
 # Convenience Option for Dashboards to turn on ALL available Packages
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 
-if (FLETCH_BUILD_WITH_PYTHON)
-    find_package(PythonInterp)
-    find_package(PythonLibs)
+if (fletch_BUILD_WITH_PYTHON)
+  find_package(PythonInterp)
+  find_package(PythonLibs)
 endif()
 
 #
@@ -102,7 +101,7 @@ file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
 set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
-set(fletch_WITH_PYTHON ${FLETCH_BUILD_WITH_PYTHON})
+set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
 ")
 
 
