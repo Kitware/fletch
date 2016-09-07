@@ -70,7 +70,7 @@ list(APPEND B2_FLAVOR_ARGS runtime-link=shared)
 # Always build with multi-threading support
 list(APPEND B2_FLAVOR_ARGS threading=multi)
 
-if (NOT FLETCH_BUILD_WITH_PYTHON)
+if (NOT fletch_BUILD_WITH_PYTHON)
   # Keeps BCP from trying to build Python anyway
   set(_fletch_boost_python_arg "--without-python")
 endif()
