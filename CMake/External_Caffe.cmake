@@ -221,7 +221,7 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
 
   if(PYTHONLIBS_FOUND)
     set(PYTHON_ARGS -DBUILD_python:BOOL=ON -DBUILD_python_layer:BOOL=ON)
-  else(fletch_BUILD_WITH_PYTHON)
+  else()
     message(FATAL_ERROR "Caffe with Python support requires PythonLibs")
   endif()
 else()
