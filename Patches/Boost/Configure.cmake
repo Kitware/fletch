@@ -33,10 +33,6 @@ execute_command_wrapper(
   variant=debug ${B2_ARGS}
 )
 
-if (FLETCH_BUILD_WITH_PYTHON)
-  set(_fletch_bcp_build_python_arg python)
-endif()
-
 execute_command_wrapper(
   "Boost.Configure.BCP.Exec"
   ${Boost_SOURCE_DIR}
@@ -45,6 +41,6 @@ execute_command_wrapper(
   lexical_cast smart_ptr foreach uuid assign asio function_types
   typeof iostreams algorithm accumulators
   context date_time thread filesystem regex chrono system signals2 timer
-  integer property_tree graph spirit fusion ${_fletch_bcp_build_python_arg}
+  integer property_tree graph spirit fusion ${Boost_EXTRA_LIBS}
   ${Boost_BUILD_DIR}
 )
