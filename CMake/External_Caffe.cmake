@@ -238,6 +238,10 @@ if(fletch_DISABLE_GPU_SUPPORT)
   set( CAFFE_GPU_ARGS
     -DCPU_ONLY:BOOL=ON
     )
+elseif(fletch_DISABLE_CUDNN_SUPPORT)
+  set( CAFFE_GPU_ARGS
+    -DUSE_CUDNN:BOOL=OFF
+    )
 else()
   set( CAFFE_GPU_ARGS
     )
