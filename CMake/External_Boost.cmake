@@ -28,6 +28,8 @@ ExternalProject_Add(Boost
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Patch.cmake
   CONFIGURE_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
+    -DPYTHON_VERSION_MAJOR=${PYTHON_VERSION_MAJOR}
+    -DPYTHON_VERSION_MINOR=${PYTHON_VERSION_MINOR}
     ${_Boost_DIR_ARGS}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Configure.cmake
   BUILD_COMMAND ${CMAKE_COMMAND}
