@@ -8,6 +8,13 @@ if(NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
 using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" ;
 "
   )
+
+  if (fletch_BUILD_WITH_PYTHON)
+    file(APPEND ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "
+using python : ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR} ;
+"
+  )
+  endif()
 endif()
 
 if(WIN32)
