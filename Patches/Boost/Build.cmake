@@ -13,6 +13,10 @@ execute_command_wrapper(
   ${BOOTSTRAP}
 )
 
+if(fletch_BUILD_WITH_PYTHON)
+  set( B2_PYTHON_ARGS "include=${PYTHON_INCLUDE_DIR}" )
+endif()
+
 # Determine debug / release
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE)
 if(NOT CMAKE_BUILD_TYPE STREQUAL "debug") # adjust for relwithdebinfo
@@ -24,5 +28,5 @@ execute_command_wrapper(
   "Boost.Build.B2"
   ${Boost_BUILD_DIR}
   ${Boost_BUILD_DIR}/b2${CMAKE_EXECUTABLE_SUFFIX}
-  variant=${CMAKE_BUILD_TYPE} ${B2_ARGS}
+  variant=${CMAKE_BUILD_TYPE} ${B2_ARGS} ${B2_PYTHON_ARGS}
 )
