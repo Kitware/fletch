@@ -5,14 +5,18 @@
 
 message("Patching OpenCV in ${OpenVC_source}")
 
-file(COPY ${OpenCV_patch}/CMakeLists.txt
+file(COPY ${OpenCV_patch}/modules/features2d/CMakeLists.txt
   DESTINATION ${OpenCV_source}/modules/features2d/
 )
 
-file(COPY ${OpenCV_patch}/OpenCVModule.cmake
+file(COPY ${OpenCV_patch}/cmake/OpenCVModule.cmake
   DESTINATION ${OpenCV_source}/cmake/
 )
 
-file(COPY ${OpenCV_patch}/OpenCVDetectCUDA.cmake
+file(COPY ${OpenCV_patch}/cmake/OpenCVDetectCUDA.cmake
   DESTINATION ${OpenCV_source}/cmake/
+)
+
+file(COPY ${OpenCV_patch}/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/CMakeLists.txt
 )
