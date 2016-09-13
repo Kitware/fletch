@@ -18,5 +18,5 @@ file(COPY ${OpenCV_patch}/cmake/OpenCVDetectCUDA.cmake
 )
 
 file(COPY ${OpenCV_patch}/CMakeLists.txt
-  DESTINATION ${OpenCV_source}/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/
 )
