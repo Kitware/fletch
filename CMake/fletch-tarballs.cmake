@@ -242,9 +242,9 @@ endif()
 
 # Caffe
 if(NOT WIN32)
-  set(Caffe_version "viame/master-v1")
+  set(Caffe_version "viame/master-v1-w-frcnn")
   set(Caffe_url "https://github.com/mattdawkins/caffe/archive/${Caffe_version}.zip")
-  set(Caffe_md5 "3d01eb0e25b8fab31195b1f2fe0824cb")
+  set(Caffe_md5 "60c02416ba6e4d25b823918dddc01d03")
   list(APPEND fletch_external_sources Caffe)
 endif()
 
