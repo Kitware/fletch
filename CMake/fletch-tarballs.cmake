@@ -161,7 +161,7 @@ list(APPEND fletch_external_sources Qt)
 set(PROJ4_version "4.8.0" )
 set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
 set(PROJ4_md5 "d815838c92a29179298c126effbb1537" )
-list(APPEND fletch_external_sources PROJ4 ) 
+list(APPEND fletch_external_sources PROJ4 )
 
 # GeographicLib
 set(GeographicLib_version "1.30" )
@@ -189,9 +189,9 @@ if(NOT WIN32)
 endif()
 
 # HDF5
-set(HDF5_version "1.8.16")
-set(HDF5_url "http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-${HDF5_version}/src/hdf5-${HDF5_version}.tar")
-set(HDF5_md5 "6a551def8fe877331c4dddac3ded5729")
+set(HDF5_version "1.8.17")
+set(HDF5_url "https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-${HDF5_version}.tar")
+set(HDF5_md5 "bdf0fc3d648679eeb5d7b4b78f92a83f")
 list(APPEND fletch_external_sources HDF5)
 
 # SNAPPY
