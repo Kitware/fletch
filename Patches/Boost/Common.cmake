@@ -50,12 +50,7 @@ else()
   message(FATAL_ERROR "Unsupported compiler ${CMAKE_CXX_COMPILER_ID} on ${CMAKE_SYSTEM_NAME}")
 endif()
 
-# Windows needs to be static only right now
-if(WIN32)
-  list(APPEND B2_FLAVOR_ARGS link=static)
-else()
-  list(APPEND B2_FLAVOR_ARGS link=shared)
-endif()
+list(APPEND B2_FLAVOR_ARGS link=shared)
 
 # 32 or 64 bit
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
