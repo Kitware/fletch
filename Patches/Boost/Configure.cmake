@@ -7,7 +7,7 @@ if(NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
 
   if(APPLE AND fletch_BUILD_WITH_PYTHON)
     file(WRITE ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "
-using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" : <compileflags>-bundle -undefined dynamic_lookup <linkflags>-bundle -undefined dynamic_lookup ;
+using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" : <linkflags>\"-undefined dynamic_lookup\" ;
 "
   )
   else()
