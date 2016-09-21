@@ -4,12 +4,20 @@ message("Boost.Configure: Using toolset=${BOOST_TOOLSET}")
 
 message("Boost.Configure: Creating custom user-config.jam")
 if(NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-  file(WRITE ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "
+
+  if(APPLE AND fletch_BUILD_WITH_PYTHON)
+    file(WRITE ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "
+using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" : <linkflags>-bundle -undefined dynamic_lookup ;
+"
+  )
+  else()
+    file(WRITE ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "
 using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" ;
 "
   )
+  endif()
 
-  if (fletch_BUILD_WITH_PYTHON)
+  if(fletch_BUILD_WITH_PYTHON)
     file(APPEND ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "\n\
 using python : ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}\n\
              : ${PYTHON_EXECUTABLE}\n\
