@@ -32,6 +32,14 @@ set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version
 set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
 list(APPEND fletch_external_sources Boost)
 
+# ZLib
+set(ZLib_version 1.2.8)
+set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
+set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
+set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
+set(zlib_dlname "zlib-${ZLib_version}.zip")
+list(APPEND fletch_external_sources ZLib)
+
 # libjpeg-turbo
 set(libjpeg-turbo_version "1.4.0")
 set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
@@ -106,15 +114,6 @@ if(WIN32)
   set(jom_url "http://download.qt.io/official_releases/jom/jom_${jom_version}.zip")
   set(jom_md5 "a021066aefcea8999b382b1c7c12165e")
 endif()
-
-
-# ZLib
-set(ZLib_version 1.2.8)
-set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
-set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
-set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
-set(zlib_dlname "zlib-${ZLib_version}.zip")
-list(APPEND fletch_external_sources ZLib)
 
 # libjson
 set(libjson_version_major 7)
