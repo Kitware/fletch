@@ -189,9 +189,9 @@ if(NOT WIN32)
 endif()
 
 # HDF5
-set(HDF5_version "1.8.17")
-set(HDF5_url "https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-${HDF5_version}.tar")
-set(HDF5_md5 "bdf0fc3d648679eeb5d7b4b78f92a83f")
+set(HDF5_version "1.8.16")
+set(HDF5_url "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-${HDF5_version}/src/hdf5-${HDF5_version}.tar")
+set(HDF5_md5 "6a551def8fe877331c4dddac3ded5729")
 list(APPEND fletch_external_sources HDF5)
 
 # SNAPPY
