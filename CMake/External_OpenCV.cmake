@@ -1,58 +1,135 @@
 # The OpenCV external project
 
-if (FALSE)
 # Set FFmpeg dependency if we're locally building it.
-if(fletch_ENABLE_FFmpeg)
-  message(STATUS "OpenCV depending on internal FFmpeg")
-  set(_OpenCV_DEPENDS FFmpeg ${_OpenCV_DEPENDS})
+if(FALSE)
+  if(fletch_ENABLE_FFmpeg)
+    message(STATUS "OpenCV depending on internal FFmpeg")
+    list(APPEND OpenCV_DEPENDS FFmpeg)
 
-  # OpenCV uses pkg-config to find libraries to link against and use, so placing
-  # our instal target library pkgconfig directory on the path link in order to
-  # take precedence.
-  if(NOT WIN32)
-    option(OpenCV_Enable_FFmpeg "" OFF)
-    if (OpenCV_Enable_FFmpeg)
-      # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
-      set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
-      message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
+    # OpenCV uses pkg-config to find libraries to link against and use, so placing
+    # our instal target library pkgconfig directory on the path link in order to
+    # take precedence.
+    if(NOT WIN32)
+      option(OpenCV_Enable_FFmpeg "" OFF)
+      if (OpenCV_Enable_FFmpeg)
+        # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
+        set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
+        message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
+      endif()
+    else()
+      message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
+      # TODO: Figure out how OpenCV finds ffmpeg on Windows.
     endif()
-  else()
-    message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
-    # TODO: Figure out how OpenCV finds ffmpeg on Windows.
   endif()
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_FFMPEG=OFF)
 endif()
+
 
 # Set Eigen dependency if we're locally building it
 if (fletch_ENABLE_Eigen)
-  message(STATUS "OpenCV depending on internal Eigen")
+  message(STATUS "OpenCV depending on fletch Eigen")
   set(_OpenCV_ENABLE_EIGEN_DEFAULT TRUE)
-  set(_OpenCV_DEPENDS Eigen ${_OpenCV_DEPENDS})
-  set(OpenCV_EXTRA_BUILD_FLAGS -DEIGEN_INCLUDE_PATH:PATH=${fletch_INSTALL_PREFIX} ${OpenCV_EXTRA_BUILD_FLAGS})
+  list(APPEND OpenCV_DEPENDS Eigen)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=TRUE -DEIGEN_INCLUDE_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}/include/eigen3 ${OpenCV_EXTRA_BUILD_FLAGS})
 else()
-  set(_OpenCV_ENABLE_EIGEN_DEFAULT FALSE)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=FALSE)
 endif()
-
-option(fletch_ENABLE_EIGEN "Should Eigen Support be turned on for OpenCV?" ${_OpenCV_ENABLE_EIGEN_DEFAULT})
-endif(FALSE)
 
 # Allow OpenCV's highgui to be turned off
 option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui? (generally should be left on)" TRUE )
-set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DBUILD_opencv_highgui=${fletch_ENABLE_OpenCV_highgui})
+list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_highgui=${fletch_ENABLE_OpenCV_highgui})
 
 # Handle GPU disable flag
 if(fletch_DISABLE_GPU_SUPPORT)
-  set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DWITH_CUBLAS=OFF -DWITH_CUDA=OFF -DWITH_CUFFT=OFF)
-  set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DWITH_OPENCL=OFF -DWITH_OPENCLAMDBLAS=OFF -DWITH_OPENCLAMDFFT=OFF)
-  set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DBUILD_opencv_gpu=OFF -DBUILD_opencv_ocl=OFF)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_CUBLAS=OFF -DWITH_CUDA=OFF -DWITH_CUFFT=OFF)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_OPENCL=OFF -DWITH_OPENCLAMDBLAS=OFF -DWITH_OPENCLAMDFFT=OFF)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_gpu=OFF -DBUILD_opencv_ocl=OFF)
 endif()
 
-# Handle FFMPEG disable flag
-if(fletch_DISABLE_FFMPEG_SUPPORT)
-  set(OpenCV_EXTRA_BUILD_FLAGS ${OpenCV_EXTRA_BUILD_FLAGS} -DWITH_FFMPEG=OFF)
+# libtiff
+add_package_dependency(
+  PACKAGE OpenCV
+  PACKAGE_DEPENDENCY libtiff
+  PACKAGE_DEPENDENCY_ALIAS TIFF
+  OPTIONAL
+  EMBEDDED
+)
+list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_TIFF=ON)
+
+if (OpenCV_WITH_libtiff)
+  if(NOT TIFF_FOUND)
+    get_system_library_name(tiff tiff_lib)
+    set(TIFF_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
+    set(TIFF_LIBRARY_DEBUG ${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_lib})
+    set(TIFF_LIBRARY_RELEASE ${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_lib})
+  endif()
+
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DBUILD_TIFF:BOOL=OFF
+    -DTIFF_INCLUDE_DIR:PATH=${TIFF_INCLUDE_DIR}
+    -DTIFF_LIBRARY_DEBUG:FILEPATH=${TIFF_LIBRARY_DEBUG}
+    -DTIFF_LIBRARY_RELEASE:FILEPATH=${TIFF_LIBRARY_RELEASE}
+    )
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_TIFF=ON)
 endif()
+
+# PNG
+add_package_dependency(
+  PACKAGE OpenCV
+  PACKAGE_DEPENDENCY PNG
+  OPTIONAL
+  EMBEDDED
+)
+list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_PNG=ON)
+
+if(OpenCV_WITH_PNG)
+  if(NOT PNG_FOUND)
+    # PNG is always libpq, even on windows !
+    get_system_libary_vars(prefix extension)
+    set(PNG_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
+    set(PNG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.${extension})
+  endif()
+
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DBUILD_PNG=OFF
+    -DPNG_PNG_INCLUDE_DIR:PATH=${PNG_INCLUDE_DIR}
+    -DPNG_LIBRARY_DEBUG:FILEPATH=${PNG_LIBRARY}
+    -DPNG_LIBRARY_RELEASE:FILEPATH=${PNG_LIBRARY}
+    )
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_PNG=ON)
+endif()
+
+# JPEG
+add_package_dependency(
+  PACKAGE OpenCV
+  PACKAGE_DEPENDENCY libjpeg-turbo
+  PACKAGE_DEPENDENCY_ALIAS JPEG
+  OPTIONAL
+  EMBEDDED
+)
+list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_JPEG=ON)
+if (OpenCV_WITH_libjpeg-turbo)
+  if(NOT JPEG_FOUND)
+    get_system_library_name(jpeg jpeg_lib)
+    set(JPEG_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
+    set(JPEG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/${jpeg_lib})
+  endif()
+
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DBUILD_JPEG=OFF
+    -DJPEG_INCLUDE_DIR:PATH=${JPEG_INCLUDE_DIR}
+    -DJPEG_LIBRARY:FILEPATH=${JPEG_LIBRARY}
+    )
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_JPEG=ON)
+endif()
+
 
 ExternalProject_Add(OpenCV
-  DEPENDS ${_OpenCV_DEPENDS}
+  DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
   URL_MD5 ${OpenCV_md5}
   PREFIX ${fletch_BUILD_PREFIX}
