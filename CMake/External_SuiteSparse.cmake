@@ -100,4 +100,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(SuiteSparse_ROOT @SuiteSparse_ROOT@)
 set(SuiteSparse_INCLUDE_DIR @SuiteSparse_INCLUDE_DIR@)
+set(fletch_ENABLED_SuiteSparse TRUE)
 ")
