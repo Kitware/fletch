@@ -184,7 +184,7 @@ if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
-option(ld-version-script "Enable linker version script" ON)
+option(ld-version-script "Enable linker version script" OFF)
 # Check if LD supports linker scripts.
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/conftest.map" "VERS_1 {
         global: sym;
