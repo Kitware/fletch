@@ -24,3 +24,7 @@ file(COPY ${OpenCV_patch}/OpenCVDetectCXXCompiler.cmake
 file(COPY ${OpenCV_patch}/OpenCVConfig.cmake
   DESTINATION ${OpenCV_source}/cmake/
 )
+
+file(COPY ${OpenCV_patch}/graphcuts.cpp
+  DESTINATION ${OpenCV_source}/modules/gpu/src/
+)
