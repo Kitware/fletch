@@ -80,6 +80,28 @@ set(Eigen_md5 "135d8d43aaee5fb54cf5f3e981b1a6db")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
+# GLog
+if(NOT WIN32)
+  set(GLog_version "0.3.3")
+  set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
+  set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
+  list(APPEND fletch_external_sources GLog)
+endif()
+
+# GFlags
+set(GFlags_version "2.1.2")
+set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.gz")
+set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
+list(APPEND fletch_external_sources GFlags)
+
+#OpenBLAS
+if(NOT WIN32)
+  set(OpenBLAS_version "0.2.15")
+  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
+  set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
+  list(APPEND fletch_external_sources OpenBLAS)
+endif()
+
 # OpenCV
 set(OpenCV_version "2.4.11")
 set(OpenCV_url "http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/${OpenCV_version}/opencv-${OpenCV_version}.zip")
@@ -206,28 +228,6 @@ if(NOT WIN32)
   set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
   set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
   list(APPEND fletch_external_sources LevelDB)
-endif()
-
-# GLog
-if(NOT WIN32)
-  set(GLog_version "0.3.3")
-  set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
-  set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
-  list(APPEND fletch_external_sources GLog)
-endif()
-
-# GFlags
-set(GFlags_version "2.1.2")
-set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.gz")
-set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
-list(APPEND fletch_external_sources GFlags)
-
-#OpenBLAS
-if(NOT WIN32)
-  set(OpenBLAS_version "0.2.15")
-  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
-  set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
-  list(APPEND fletch_external_sources OpenBLAS)
 endif()
 
 # Protobuf
