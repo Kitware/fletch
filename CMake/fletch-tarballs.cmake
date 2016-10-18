@@ -189,6 +189,14 @@ set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/Ge
 set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
 list(APPEND fletch_external_sources GeographicLib )
 
+# ITK
+set(ITK_version 4.10)
+set(ITK_minor 1)
+set(ITK_url "http://downloads.sourceforge.net/project/itk/itk/${ITK_version}/InsightToolkit-${ITK_version}.${ITK_minor}.tar.xz")
+set(ITK_md5 "a0a5e993ab3c03d5e686d9e10551f819")
+list(APPEND fletch_external_sources ITK)
+
+
 # VTK
 set(VTK_version 6.2)
 set(VTK_url "http://www.vtk.org/files/release/${VTK_version}/VTK-${VTK_version}.0.zip")
