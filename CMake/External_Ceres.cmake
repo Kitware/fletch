@@ -23,7 +23,7 @@ if (fletch_ENABLE_GLog)
          -DGLOG_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${glog_libname}
       )
 else()
-  list(APPEND Ceres_EXTRA_BUILD_FLAGS MINIGLOG:BOOL=ON)
+  list(APPEND Ceres_EXTRA_BUILD_FLAGS -DMINIGLOG:BOOL=ON)
 endif()
 
 ExternalProject_Add(Ceres
