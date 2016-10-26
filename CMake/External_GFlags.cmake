@@ -14,11 +14,11 @@ ExternalProject_Add(GFlags
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
   )
 
-set(GLog_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
+set(GFlags_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
-# GLog
+# GFlags
 #######################################
-set(GLog_ROOT @GLog_ROOT@)
+set(GFlags_ROOT @GFlags_ROOT@)
 ")
