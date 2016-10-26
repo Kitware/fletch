@@ -4,6 +4,10 @@ ExternalProject_Add(GFlags
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    -DGFlags_patch:PATH=${fletch_SOURCE_DIR}/Patches/GFlags
+    -DGFlags_source:PATH=${fletch_BUILD_PREFIX}/src/GFlags
+    -P ${fletch_SOURCE_DIR}/Patches/GFlags/Patch.cmake
 
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
