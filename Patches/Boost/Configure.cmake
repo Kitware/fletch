@@ -8,13 +8,22 @@ if(NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
 using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" ;
 "
   )
+
+  if (fletch_BUILD_WITH_PYTHON)
+    file(APPEND ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "\n\
+using python : ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}\n\
+             : ${PYTHON_EXECUTABLE}\n\
+             : ${PYTHON_INCLUDE_DIR}\n\
+; "
+  )
+  endif()
 endif()
 
 if(WIN32)
   set(BOOTSTRAP ${Boost_SOURCE_DIR}/bootstrap.bat)
 else()
   set(BOOTSTRAP ${Boost_SOURCE_DIR}/bootstrap.sh)
-  if (FLETCH_BUILD_WITH_PYTHON)
+  if (fletch_BUILD_WITH_PYTHON)
     set(BOOTSTRAP_ARGS "--with-python=${PYTHON_EXECUTABLE}")
   endif()
 endif()
@@ -33,10 +42,6 @@ execute_command_wrapper(
   variant=debug ${B2_ARGS}
 )
 
-if (FLETCH_BUILD_WITH_PYTHON)
-  set(_fletch_bcp_build_python_arg python)
-endif()
-
 execute_command_wrapper(
   "Boost.Configure.BCP.Exec"
   ${Boost_SOURCE_DIR}
@@ -45,6 +50,6 @@ execute_command_wrapper(
   lexical_cast smart_ptr foreach uuid assign asio function_types
   typeof iostreams algorithm accumulators
   context date_time thread filesystem regex chrono system signals2 timer
-  integer property_tree graph spirit fusion ${_fletch_bcp_build_python_arg}
+  integer property_tree graph spirit fusion ${Boost_EXTRA_LIBS}
   ${Boost_BUILD_DIR}
 )
