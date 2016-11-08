@@ -53,16 +53,15 @@ add_custom_target(Download)
 # Do we want to build in Python support where available
 #
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
+if (fletch_BUILD_WITH_PYTHON)
+  find_package(PythonInterp 2.7 REQUIRED)
+  find_package(PythonLibs 2.7 REQUIRED)
+endif()
 
 #
 # Convenience Option for Dashboards to turn on ALL available Packages
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
-
-if (fletch_BUILD_WITH_PYTHON)
-  find_package(PythonInterp)
-  find_package(PythonLibs)
-endif()
 
 #
 # Create a CMake Version file

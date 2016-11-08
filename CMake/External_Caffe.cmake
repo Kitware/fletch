@@ -213,17 +213,7 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   if(Boost_Do_BCP_Name_Mangling)
     message(FATAL_ERROR "Cannot have Boost mangling enabled and use pycaffe.")
   endif()
-
-  find_package(PythonInterp 2.7)
-  find_package(PythonLibs 2.7)
-
-  set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
-
-  if(PYTHONLIBS_FOUND)
-    set(PYTHON_ARGS -DBUILD_python:BOOL=ON -DBUILD_python_layer:BOOL=ON)
-  else()
-    message(FATAL_ERROR "Caffe with Python support requires PythonLibs")
-  endif()
+  set(PYTHON_ARGS -DBUILD_python:BOOL=ON -DBUILD_python_layer:BOOL=ON)
 else()
   set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
 endif()
