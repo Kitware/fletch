@@ -12,6 +12,18 @@ set(_Boost_DIR_ARGS
   -DBoost_INSTALL_DIR=${fletch_BUILD_INSTALL_PREFIX}
 )
 
+if(fletch_BUILD_WITH_PYTHON)
+  set(fletch_EXTRA_BOOST_LIBS ${fletch_EXTRA_BOOST_LIBS} python)
+
+  set(_Boost_PYTHON_ARGS
+    -DPYTHON_VERSION_MAJOR=${PYTHON_VERSION_MAJOR}
+    -DPYTHON_VERSION_MINOR=${PYTHON_VERSION_MINOR}
+    -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+    -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
+    -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+  )
+endif()
+
 ExternalProject_Add(Boost
   URL ${Boost_file}
   URL_MD5 ${Boost_md5}
@@ -25,11 +37,14 @@ ExternalProject_Add(Boost
   CONFIGURE_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
     ${_Boost_DIR_ARGS}
+    ${_Boost_PYTHON_ARGS}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Configure.cmake
   BUILD_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_BUILD_TYPE=$<CONFIGURATION>
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
+    -DBoost_EXTRA_LIBS=${fletch_EXTRA_BOOST_LIBS}
     ${_Boost_DIR_ARGS}
+    ${_Boost_PYTHON_ARGS}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Build.cmake
   INSTALL_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake

@@ -159,7 +159,7 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # PYTHON
-if (FLETCH_BUILD_WITH_PYTHON)
+if (fletch_BUILD_WITH_PYTHON)
     find_package(PythonInterp)
     find_package(PythonLibs)
 
