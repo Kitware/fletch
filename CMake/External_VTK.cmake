@@ -159,7 +159,7 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # PYTHON
-if (fletch_BUILD_WITH_PYTHON)
+if (fletch_BUILD_WITH_PYTHON AND NOT MSVC14 )
     find_package(PythonInterp)
     find_package(PythonLibs)
 
@@ -172,6 +172,8 @@ if (fletch_BUILD_WITH_PYTHON)
     endif()
     else()
     set(VTK_WRAP_PYTHON OFF)
+elseif(fletch_BUILD_WITH_PYTHON AND MSVC14)
+  message(WARN " VTK Python will not build correctly on Visual Studio 2015. VTK 7.0 of higher is required.")
 endif()
 
 #
