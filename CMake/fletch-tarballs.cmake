@@ -32,6 +32,49 @@ set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version
 set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
 list(APPEND fletch_external_sources Boost)
 
+# ZLib
+set(ZLib_version 1.2.8)
+set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
+set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
+set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
+set(zlib_dlname "zlib-${ZLib_version}.zip")
+list(APPEND fletch_external_sources ZLib)
+
+# libjpeg-turbo
+set(libjpeg-turbo_version "1.4.0")
+set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
+set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
+list(APPEND fletch_external_sources libjpeg-turbo)
+
+# libtiff
+set(libtiff_version "4.0.6")
+set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
+set(libtiff_md5 "d1d2e940dea0b5ad435f21f03d96dd72")
+list(APPEND fletch_external_sources libtiff)
+
+# PNG
+set(PNG_version_major 1)
+set(PNG_version_minor 6)
+set(PNG_version_patch 19)
+set(PNG_version "${PNG_version_major}.${PNG_version_minor}.${PNG_version_patch}")
+set(PNG_major_minor_no_dot "${PNG_version_major}${PNG_version_minor}")
+set(PNG_version_no_dot "${PNG_major_minor_no_dot}${PNG_version_patch}")
+if(WIN32)
+  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/lpng${PNG_major_minor_no_dot}${PNG_version_patch}.zip")
+  set(PNG_md5 "ff0e82b4d8516daa7ed6b1bf93acca48")
+else()
+  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/libpng-${PNG_version}.tar.gz")
+  set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
+endif()
+list(APPEND fletch_external_sources PNG)
+
+# EIGEN
+set(Eigen_version 3.2.8)
+set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
+set(Eigen_md5 "135d8d43aaee5fb54cf5f3e981b1a6db")
+set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
+list(APPEND fletch_external_sources Eigen)
+
 # OpenCV
 # Support 2.4.11 and 3.1 optionally
 if (fletch_ENABLE_OpenCV)
@@ -69,53 +112,10 @@ endif()
 set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
 list(APPEND fletch_external_sources OpenCV)
 
-# ZLib
-set(ZLib_version 1.2.8)
-set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
-set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
-set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
-set(zlib_dlname "zlib-${ZLib_version}.zip")
-list(APPEND fletch_external_sources ZLib)
-
-# libjpeg-turbo
-set(libjpeg-turbo_version "1.4.0")
-set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
-set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
-list(APPEND fletch_external_sources libjpeg-turbo)
-
 # YASM for building jpeg-turbo, not third party library
 set(yasm_version "1.3.0")
 set(yasm_url "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz")
 set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
-
-# libtiff
-set(libtiff_version "4.0.6")
-set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
-set(libtiff_md5 "d1d2e940dea0b5ad435f21f03d96dd72")
-list(APPEND fletch_external_sources libtiff)
-
-# PNG
-set(PNG_version_major 1)
-set(PNG_version_minor 6)
-set(PNG_version_patch 19)
-set(PNG_version "${PNG_version_major}.${PNG_version_minor}.${PNG_version_patch}")
-set(PNG_major_minor_no_dot "${PNG_version_major}${PNG_version_minor}")
-set(PNG_version_no_dot "${PNG_major_minor_no_dot}${PNG_version_patch}")
-if(WIN32)
-  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/lpng${PNG_major_minor_no_dot}${PNG_version_patch}.zip")
-  set(PNG_md5 "ff0e82b4d8516daa7ed6b1bf93acca48")
-else()
-  set(PNG_url "http://sourceforge.net/projects/libpng/files/libpng${PNG_major_minor_no_dot}/older-releases/${PNG_version}/libpng-${PNG_version}.tar.gz")
-  set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
-endif()
-list(APPEND fletch_external_sources PNG)
-
-# EIGEN
-set(Eigen_version 3.2.8)
-set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "135d8d43aaee5fb54cf5f3e981b1a6db")
-set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
-list(APPEND fletch_external_sources Eigen)
 
 # GLog
 if(NOT WIN32)
