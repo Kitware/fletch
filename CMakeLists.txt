@@ -67,7 +67,7 @@ option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 # Create a CMake Version file
 #
 configure_file(
-    ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
+  ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
   ${fletch_BINARY_DIR}/fletchConfig-version.cmake
   @ONLY IMMEDIATE)
 

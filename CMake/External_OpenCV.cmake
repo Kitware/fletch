@@ -31,7 +31,9 @@ if (fletch_ENABLE_Eigen)
   message(STATUS "OpenCV depending on fletch Eigen")
   set(_OpenCV_ENABLE_EIGEN_DEFAULT TRUE)
   list(APPEND OpenCV_DEPENDS Eigen)
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=TRUE -DEIGEN_INCLUDE_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}/include/eigen3 ${OpenCV_EXTRA_BUILD_FLAGS})
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=TRUE
+    -DEIGEN_INCLUDE_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}/include/eigen3
+    )
 else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=FALSE)
 endif()
@@ -42,9 +44,17 @@ list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_highgui=${fletch_ENABLE_Open
 
 # Handle GPU disable flag
 if(fletch_DISABLE_GPU_SUPPORT)
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_CUBLAS=OFF -DWITH_CUDA=OFF -DWITH_CUFFT=OFF)
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_OPENCL=OFF -DWITH_OPENCLAMDBLAS=OFF -DWITH_OPENCLAMDFFT=OFF)
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_gpu=OFF -DBUILD_opencv_ocl=OFF)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DWITH_CUBLAS=OFF -DWITH_CUDA=OFF
+    -DWITH_CUFFT=OFF
+    )
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DWITH_OPENCL=OFF -DWITH_OPENCLAMDBLAS=OFF
+    -DWITH_OPENCLAMDFFT=OFF
+    )
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DBUILD_opencv_gpu=OFF -DBUILD_opencv_ocl=OFF
+    )
 endif()
 
 # libtiff
@@ -127,19 +137,31 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_JPEG=ON)
 endif()
 
+if (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
+  set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV
+    -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV
+    -P ${fletch_SOURCE_DIR}/Patches/OpenCV/Patch.cmake)
+else()
+  set(OPENCV_PATCH_COMMAND "")
+endif()
+
+# Include link to contrib repo if enabled
+if (fletch_ENABLE_OpenCV_contrib)
+  set(OpenCV_CONTRIB_ARG "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
+  list(APPEND OpenCV_DEPENDS OpenCV_contrib)
+endif()
 
 ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
   URL_MD5 ${OpenCV_md5}
+  DOWNLOAD_NAME ${OpenCV_dlname}
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
-  PATCH_COMMAND ${CMAKE_COMMAND}
-  -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV
-  -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV
-  -P ${fletch_SOURCE_DIR}/Patches/OpenCV/Patch.cmake
+  PATCH_COMMAND ${OPENCV_PATCH_COMMAND}
 
   ${custom_cmake_command}
   CMAKE_GENERATOR ${gen}
