@@ -115,8 +115,8 @@ Command: ${CMD} ${ARGN_DISPLAY}
   endif()
 
   # Cleanup if the build didn't fail
-#  file(REMOVE ${CMAKE_BINARY_DIR}/${TAG}_cmd.txt)
-#  file(REMOVE ${CMAKE_BINARY_DIR}/${TAG}_out.txt)
-#  file(REMOVE ${CMAKE_BINARY_DIR}/${TAG}_err.txt)
+  file(REMOVE ${CMAKE_BINARY_DIR}/${TAG}_cmd.txt)
+  file(REMOVE ${CMAKE_BINARY_DIR}/${TAG}_out.txt)
+  file(REMOVE ${CMAKE_BINARY_DIR}/${TAG}_err.txt)
   message("${TAG}: Complete")
 endfunction()

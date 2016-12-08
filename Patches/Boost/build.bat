@@ -100,21 +100,17 @@ REM location of the found toolset.
 call :Clear_Error
 call :Test_Empty %ProgramFiles%
 if not errorlevel 1 set ProgramFiles=C:\Program Files
-
 call :Clear_Error
 if NOT "_%VS140COMNTOOLS%_" == "__" (
     set "BOOST_JAM_TOOLSET=vc14"
     set "BOOST_JAM_TOOLSET_ROOT=%VS140COMNTOOLS%..\..\VC\"
     goto :eof)
 call :Clear_Error
-
 if EXIST "%programfiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" (
     set "BOOST_JAM_TOOLSET=vc14"
     set "BOOST_JAM_TOOLSET_ROOT=%programfiles(x86)%\Microsoft Visual Studio 14.0\VC\"
     goto :eof)
-
 call :Clear_Error
-
 if NOT "_%VS120COMNTOOLS%_" == "__" (
     set "BOOST_JAM_TOOLSET=vc12"
     set "BOOST_JAM_TOOLSET_ROOT=%VS120COMNTOOLS%..\..\VC\"
