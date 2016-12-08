@@ -34,3 +34,14 @@ file(COPY ${Boost_patch}/pthread/once_atomic.hpp ${Boost_patch}/pthread/once.hpp
 file(COPY ${Boost_patch}/win32/once.hpp
   DESTINATION ${Boost_source}/boost/thread/win32/
   )
+
+
+file(COPY ${Boost_patch}/build.bat
+  DESTINATION ${Boost_source}/tools/build/v2/engine
+  )
+file(COPY ${Boost_patch}/build.jam
+  DESTINATION ${Boost_source}/tools/build/v2/engine
+  )
+file(COPY ${Boost_patch}/msvc.jam
+  DESTINATION ${Boost_source}/tools/build/v2/tools
+  )
