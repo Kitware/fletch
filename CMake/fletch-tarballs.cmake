@@ -46,11 +46,6 @@ set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-tu
 set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
 
-# YASM for building jpeg-turbo, not third party library
-set(yasm_version "1.3.0")
-set(yasm_url "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz")
-set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
-
 # libtiff
 set(libtiff_version "4.0.6")
 set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
@@ -80,6 +75,48 @@ set(Eigen_md5 "135d8d43aaee5fb54cf5f3e981b1a6db")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
+# OpenCV
+# Support 2.4.11 and 3.1 optionally
+if (fletch_ENABLE_OpenCV)
+  set(OpenCV_SELECT_VERSION 2.4.11 CACHE STRING "Select the  version of OpenCV to build.")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS 2.4.11 3.1.0)
+
+  # Expose optional contrib repo when enabling OpenCV version >= 3.x
+  if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.0.0 OR OpenCV_SELECT_VERSION VERSION_GREATER 3.0.0)
+    list(APPEND fletch_external_sources OpenCV_contrib)
+  endif()
+endif()
+
+# Remove Contrib repo option when OpenCV not enable or incorrect version
+if ( NOT fletch_ENABLE_OpenCV OR OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
+  unset(fletch_ENABLE_OpenCV_contrib CACHE)
+endif()
+
+if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.1.0)
+  set(OpenCV_version "3.1.0")
+  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+  set(OpenCV_md5 "6082ee2124d4066581a7386972bfd52a")
+  # Paired contrib repo information
+  set(OpenCV_contrib_version "${OpenCV_version}")
+  set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
+  set(OpenCV_contrib_md5 "0d0bfeabe539542791b465ec1c7c90e6")
+  set(OpenCV_contrib_dlname "opencv-contrib-${OpenCV_version}.zip")
+elseif (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
+  set(OpenCV_version "2.4.11")
+  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+  set(OpenCV_md5 "b517e83489c709eee1d8be76b16976a7")
+else()
+  message(STATUS "OpenCV Version Not Supported")
+endif()
+
+set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+list(APPEND fletch_external_sources OpenCV)
+
+# YASM for building jpeg-turbo, not third party library
+set(yasm_version "1.3.0")
+set(yasm_url "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz")
+set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
+
 # GLog
 if(NOT WIN32)
   set(GLog_version "0.3.3")
@@ -101,12 +138,6 @@ if(NOT WIN32)
   set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
   list(APPEND fletch_external_sources OpenBLAS)
 endif()
-
-# OpenCV
-set(OpenCV_version "2.4.11")
-set(OpenCV_url "http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/${OpenCV_version}/opencv-${OpenCV_version}.zip")
-set(OpenCV_md5 "32f498451bff1817a60e1aabc2939575")
-list(APPEND fletch_external_sources OpenCV)
 
 #SuiteSparse
 set(SuiteSparse_version 4.4.5)

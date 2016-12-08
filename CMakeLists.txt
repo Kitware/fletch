@@ -49,6 +49,9 @@ include(${fletch_CMAKE_DIR}/Utils.cmake)
 
 add_custom_target(Download)
 
+# Option to control GPU support
+option(fletch_DISABLE_GPU_SUPPORT "" FALSE)
+
 #
 # Do we want to build in Python support where available
 #
@@ -67,7 +70,7 @@ option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 # Create a CMake Version file
 #
 configure_file(
-    ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
+  ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
   ${fletch_BINARY_DIR}/fletchConfig-version.cmake
   @ONLY IMMEDIATE)
 
