@@ -152,6 +152,11 @@ if (fletch_ENABLE_OpenCV_contrib)
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
 endif()
 
+# In newer GCC we need to disable precompiled headers.
+if (CMAKE_COMPILER_IS_GNUCC AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_PRECOMPILED_HEADERS:BOOL=OFF)
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
