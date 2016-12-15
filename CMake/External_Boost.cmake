@@ -23,7 +23,6 @@ if(fletch_BUILD_WITH_PYTHON)
     -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
   )
 endif()
-
 ExternalProject_Add(Boost
   URL ${Boost_file}
   URL_MD5 ${Boost_md5}
@@ -49,6 +48,8 @@ ExternalProject_Add(Boost
   INSTALL_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
     ${_Boost_DIR_ARGS}
+    -DBoost_source=${fletch_BUILD_PREFIX}/src/Boost
+    -Dfletch_BUILD_WITH_PYTHON=${fletch_BUILD_WITH_PYTHON}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Install.cmake
 )
 add_dependencies(Download Boost-download)
