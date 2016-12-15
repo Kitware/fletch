@@ -2,7 +2,14 @@ message("Boost.Install: Installing headers")
 file(COPY ${Boost_BUILD_DIR}/boost
   DESTINATION ${Boost_INSTALL_DIR}/include
   USE_SOURCE_PERMISSIONS
-)
+  )
+
+if (fletch_BUILD_WITH_PYTHON)
+  file(COPY ${Boost_source}/boost/python/raw_function.hpp
+    DESTINATION ${Boost_INSTALL_DIR}/include/boost/python
+    USE_SOURCE_PERMISSIONS
+    )
+endif()
 
 message("Boost.Install: Installing link libraries")
 foreach(SUFFIX lib so a dylib)
