@@ -61,6 +61,14 @@ elseif(WIN32)
     )
 endif()
 
+if(${fletch_ENABLE_libtiff})
+  # When using the TIFF library from Fletch we need to explicitly
+  # disable the GeoTIFF library in VXL, because if a system GeoTiff package
+  # is found it will link against a system TIFF library, causing conflicts.
+  # This may change in the future if GeoTIFF is added to Fletch.
+  list(APPEND VXL_EXTRA_BUILD_FLAGS -DVXL_USE_GEOTIFF:BOOL=OFF)
+endif()
+
 ExternalProject_Add(VXL
   DEPENDS ${VXL_DEPENDS}
   URL ${VXL_url}
@@ -96,6 +104,7 @@ ExternalProject_Add(VXL
     -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
     -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
+    ${VXL_EXTRA_BUILD_FLAGS}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   )
