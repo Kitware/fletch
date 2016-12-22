@@ -26,22 +26,6 @@ add_package_dependency(
   PACKAGE_DEPENDENCY_ALIAS PNG
   )
 
-if (WIN32)
-  set (jpeg_lib_name "jpeg.lib")
-  set (zlib_library_name "zlib.lib")
-elseif (APPLE)
-  set (jpeg_lib_name "libjpeg.dylib")
-  set (zlib_library_name "libzlib.dylib")
-else()
-  set (jpeg_lib_name "libjpeg.so")
-  set (zlib_library_name "libzlib.so")
-endif()
-
-if(NOT JPEG_FOUND)
-  set(JPEG_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
-  set(JPEG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/${jpeg_lib_name})
-endif()
-
 set(VXL_ARGS_CONTRIB
   -DBUILD_BRL:BOOL=OFF
   -DBUILD_MUL_TOOLS:BOOL=OFF
@@ -111,6 +95,7 @@ ExternalProject_Add(VXL
     -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
     -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
+    -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   )
