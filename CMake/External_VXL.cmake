@@ -19,6 +19,13 @@ add_package_dependency(
   PACKAGE_DEPENDENCY_ALIAS TIFF
   )
 
+# libpng
+add_package_dependency(
+  PACKAGE VXL
+  PACKAGE_DEPENDENCY libpng
+  PACKAGE_DEPENDENCY_ALIAS PNG
+  )
+
 if (WIN32)
   set (jpeg_lib_name "jpeg.lib")
   set (zlib_library_name "zlib.lib")
