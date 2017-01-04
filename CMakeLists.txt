@@ -118,8 +118,6 @@ option(BUILD_SHARED_LIBS "Build shared libraries where possible." ON)
 # Since much of KWIVER is plugin based, shared libs are the default
 mark_as_advanced(BUILD_SHARED_LIBS)
 
-
-
 # Enable /MP flag for Visual Studio 2008 and greater
 if(MSVC_VERSION GREATER 1400)
   # Allow the MP flag to get set externally. If not set, default to OFF.
@@ -157,6 +155,17 @@ elseif(NOT "#@$ENV{MAKE}" STREQUAL "#@")
 else()
   find_program(MAKE_EXECUTABLE make)
 endif()
+
+# Collect the set of common CMake args so we can push them to each project
+set (COMMON_CMAKE_ARGS
+  -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+  -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+  -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+  -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
+  -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
+  -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+  )
 
 #
 #  Set up a download target

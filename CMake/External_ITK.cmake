@@ -29,10 +29,8 @@ ExternalProject_Add(ITK
 #    -P ${fletch_SOURCE_DIR}/Patches/ITK/Patch.cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     ${itk_cmake_args}
 )
 

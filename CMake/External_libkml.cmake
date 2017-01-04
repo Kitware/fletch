@@ -37,10 +37,7 @@ ExternalProject_Add(libkml
     -P ${fletch_SOURCE_DIR}/Patches/libkml/Patch.cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     ${libkml_use_external_expat}
     ${libkml_use_external_boost}
