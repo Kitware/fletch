@@ -19,21 +19,12 @@ add_package_dependency(
   PACKAGE_DEPENDENCY_ALIAS TIFF
   )
 
-if (WIN32)
-  set (jpeg_lib_name "jpeg.lib")
-  set (zlib_library_name "zlib.lib")
-elseif (APPLE)
-  set (jpeg_lib_name "libjpeg.dylib")
-  set (zlib_library_name "libzlib.dylib")
-else()
-  set (jpeg_lib_name "libjpeg.so")
-  set (zlib_library_name "libzlib.so")
-endif()
-
-if(NOT JPEG_FOUND)
-  set(JPEG_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
-  set(JPEG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/${jpeg_lib_name})
-endif()
+# libpng
+add_package_dependency(
+  PACKAGE VXL
+  PACKAGE_DEPENDENCY libpng
+  PACKAGE_DEPENDENCY_ALIAS PNG
+  )
 
 set(VXL_ARGS_CONTRIB
   -DBUILD_BRL:BOOL=OFF
@@ -70,6 +61,14 @@ elseif(WIN32)
     )
 endif()
 
+if(${fletch_ENABLE_libtiff})
+  # When using the TIFF library from Fletch we need to explicitly
+  # disable the GeoTIFF library in VXL, because if a system GeoTiff package
+  # is found it will link against a system TIFF library, causing conflicts.
+  # This may change in the future if GeoTIFF is added to Fletch.
+  list(APPEND VXL_EXTRA_BUILD_FLAGS -DVXL_USE_GEOTIFF:BOOL=OFF)
+endif()
+
 ExternalProject_Add(VXL
   DEPENDS ${VXL_DEPENDS}
   URL ${VXL_url}
@@ -83,11 +82,11 @@ ExternalProject_Add(VXL
     ${VXL_ARGS_VIDL}
     ${VXL_ARGS_V3P}
     ${VXL_EXTRA_CMAKE_CXX_FLAGS}
-	-DCMAKE_CXX_STANDARD:STRING=11
+    -DCMAKE_CXX_STANDARD:STRING=11
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
     -DBUILD_DOCUMENTATION:BOOL=OFF
-	-DBUILD_CORE_PROBABILITY:BOOL=ON
+    -DBUILD_CORE_PROBABILITY:BOOL=ON
     -DBUILD_CORE_GEOMETRY:BOOL=ON
     -DBUILD_CORE_NUMERICS:BOOL=ON
     -DBUILD_CORE_IMAGING:BOOL=ON
@@ -104,6 +103,8 @@ ExternalProject_Add(VXL
     -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
     -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
+    -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
+    ${VXL_EXTRA_BUILD_FLAGS}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   )
