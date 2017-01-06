@@ -24,7 +24,6 @@ if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
       include(External_${_var})
     endif()
   endforeach()
-
 endif()
 
 function(addCaffeDendency depend version)
@@ -248,6 +247,11 @@ ExternalProject_Add(Caffe
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    -DCaffe_patch=${fletch_SOURCE_DIR}/Patches/Caffe
+    -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
+    -P ${fletch_SOURCE_DIR}/Patches/Caffe/Patch.cmake
 
   CMAKE_COMMAND
   CMAKE_GENERATOR ${gen}
