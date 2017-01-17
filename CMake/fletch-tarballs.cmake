@@ -235,8 +235,8 @@ set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_url "https://github.com/vxl/vxl/archive/fee98c789fef1d79db902ad23fbdb92c03476456.zip")
-set(VXL_md5 "ca283418dc04fc736068ae18888fa9aa")
+set(VXL_url "https://github.com/vxl/vxl/archive/4ebb65e61077f3653ef154c296fa226f5e7505fe.zip")
+set(VXL_md5 "935f299ab9e86a94437554cdc5b6692f")
 list(APPEND fletch_external_sources VXL)
 
 # LMDB
