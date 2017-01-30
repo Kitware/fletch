@@ -117,6 +117,33 @@ set(yasm_version "1.3.0")
 set(yasm_url "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz")
 set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 
+# FFmpeg
+set(_FFmpeg_supported TRUE)
+set(_FFmpeg_version 2.6.2)
+if(WIN32)
+  if (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 3.1 )
+    message(FATAL_ERROR "CMake ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} is too old to support the 7z extension of FFmpeg")
+  endif()
+  include(CheckTypeSize)
+  if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
+    set(bitness 32)
+    set(FFmpeg_dev_md5 "24e4852a81d75f7cf3fcbf54e68ecf5d")
+    set(FFmpeg_shared_md5 "b3327e00567fd3c2ffa42fbf45e1a494")
+  else() # 64 Bit Windows
+    set(bitness 64)
+    set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
+    set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
+  endif()
+  set(FFmpeg_dev_url "http://ffmpeg.zeranoe.com/builds/win${bitness}/dev/2015/ffmpeg-20150306-git-c089e72-win${bitness}-dev.7z")
+  set(FFmpeg_shared_url "http://ffmpeg.zeranoe.com/builds/win${bitness}/shared/2015/ffmpeg-20150306-git-c089e72-win${bitness}-shared.7z")
+else()
+  set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
+  set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
+endif()
+if(_FFmpeg_supported)
+  list(APPEND fletch_external_sources FFmpeg)
+endif()
+
 # GLog
 if(NOT WIN32)
   set(GLog_version "0.3.3")
