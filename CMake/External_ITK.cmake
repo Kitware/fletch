@@ -2,19 +2,62 @@
 
 include(${fletch_CMAKE_DIR}/Utils.cmake)
 
+
+
+
+# ZLIB
+if (fletch_ENABLE_ZLib)
+  add_package_dependency(
+    PACKAGE ITK
+    PACKAGE_DEPENDENCY ZLib
+    PACKAGE_DEPENDENCY_ALIAS ZLIB
+    )
+  list(APPEND ITK_IMG_ARGS -DITK_USE_SYSTEM_PNG:BOOL=TRUE)
+endif()
+
+# JPEG
+if (fletch_ENABLE_libjpeg-turbo)
+  add_package_dependency(
+    PACKAGE ITK
+    PACKAGE_DEPENDENCY libjpeg-turbo
+    PACKAGE_DEPENDENCY_ALIAS JPEG
+    )
+  list(APPEND ITK_IMG_ARGS -DITK_USE_SYSTEM_JPEG:BOOL=TRUE)
+endif()
+
+# libtiff
+if (fletch_ENABLE_libtiff)
+  add_package_dependency(
+    PACKAGE ITK
+    PACKAGE_DEPENDENCY libtiff
+    PACKAGE_DEPENDENCY_ALIAS TIFF
+    )
+  list(APPEND ITK_IMG_ARGS -DITK_USE_SYSTEM_TIFF:BOOL=TRUE)
+endif()
+
+# libpng
+if (fletch_ENABLE_PNG)
+  add_package_dependency(
+    PACKAGE ITK
+    PACKAGE_DEPENDENCY PNG
+    )
+  list(APPEND ITK_IMG_ARGS -DITK_USE_SYSTEM_PNG:BOOL=TRUE)
+endif()
+
 list (APPEND itk_cmake_args
-  -DITK_WRAP_PYTHON:BOOL=ON
+  -DITK_WRAP_PYTHON:BOOL=${fletch_BUILD_WITH_PYTHON}
   -DITK_LEGACY_SILENT:BOOL=ON
   -DBUILD_TESTING:BOOL=OFF
   )
 
-if (fletch_ENABLED_VXL)
-  list (APPEND itk_cmake_args
-    -DITK_USE_SYSTEM_VXL:BOOL=ON
-    -DVXL_DIR:PATH=${VXL_ROOT}
-    )
-  list(APPEND ITK_DEPENDS VXL)
-endif()
+# TODO: VXL needs to be reenabled once ITK builds against it.
+#if (fletch_ENABLE_VXL)
+#  list (APPEND itk_cmake_args
+#    -DITK_USE_SYSTEM_VXL:BOOL=ON
+#    -DVXL_DIR:PATH=${VXL_ROOT}
+#    )
+#  list(APPEND ITK_DEPENDS VXL)
+#endif()
 
 ExternalProject_Add(ITK
   DEPENDS ${ITK_DEPENDS}
@@ -23,14 +66,13 @@ ExternalProject_Add(ITK
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-#  PATCH_COMMAND ${CMAKE_COMMAND}
-#    -DITK_PATCH_DIR=${fletch_SOURCE_DIR}/Patches/ITK
-#    -DITK_SOURCE_DIR=${fletch_BUILD_PREFIX}/src/ITK
-#    -P ${fletch_SOURCE_DIR}/Patches/ITK/Patch.cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+
+    ${ITK_IMG_ARGS}
+
     ${itk_cmake_args}
 )
 
