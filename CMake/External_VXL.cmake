@@ -22,8 +22,7 @@ add_package_dependency(
 # libpng
 add_package_dependency(
   PACKAGE VXL
-  PACKAGE_DEPENDENCY libpng
-  PACKAGE_DEPENDENCY_ALIAS PNG
+  PACKAGE_DEPENDENCY PNG
   )
 
 set(VXL_ARGS_CONTRIB
