@@ -33,34 +33,10 @@ set(VXL_ARGS_CONTRIB
 
 # Handle FFMPEG disable flag
 if(fletch_ENABLE_FFmpeg)
-  list(APPEND VXL_DEPENDS FFmpeg)
-  set(VXL_FFMPEG_ARGS -DFFMPEG_CONFIG:FILEPATH=
-    -DFFMPEG_INCLUDE1_DIR:PATH=
-    -DFFMPEG_INCLUDE2_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
+  add_package_dependency(
+    PACKAGE VXL
+    PACKAGE_DEPENDENCY FFmpeg
     )
-
-  if(WIN32)
-    set(VXL_FFMPEG_ARGS ${VXL_FFMPEG_ARGS}
-      -DFFMPEG_avcodec_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin/avcodec.lib
-      -DFFMPEG_avformat_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin/avformat.lib
-      -DFFMPEG_avutil_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin/avutil.lib
-      -DFFMPEG_swscale_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin/swscale.lib
-      )
-  elseif(APPLE)
-    set(VXL_FFMPEG_ARGS ${VXL_FFMPEG_ARGS}
-      -DFFMPEG_avcodec_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/libavcodec.dylib
-      -DFFMPEG_avformat_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/libavformat.dylib
-      -DFFMPEG_avutil_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/libavutil.dylib
-      -DFFMPEG_swscale_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/libswscale.dylib
-      )
-  else()
-    set(VXL_FFMPEG_ARGS ${VXL_FFMPEG_ARGS}
-      -DFFMPEG_avcodec_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/libavcodec.so
-      -DFFMPEG_avformat_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/libavformat.so
-      -DFFMPEG_avutil_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/libavutil.so
-      -DFFMPEG_swscale_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/libswscale.so
-      )
-  endif()
 else()
   set(VXL_ARGS_VIDL
     -DFFMPEG_CONFIG:FILEPATH=IGNORE
