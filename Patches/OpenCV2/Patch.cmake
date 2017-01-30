@@ -3,7 +3,7 @@
 # External_OpenCV.cmake to change optimization setting for old gcc
 #-
 
-message("Patching OpenCV in ${OpenVC_source}")
+message("Patching OpenCV in ${OpenCV_source}")
 
 file(COPY ${OpenCV_patch}/CMakeLists.txt
   DESTINATION ${OpenCV_source}/modules/features2d/
