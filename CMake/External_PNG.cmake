@@ -29,9 +29,7 @@ ExternalProject_Add(PNG
     ${fletch_BUILD_PREFIX}/src/PNG/CMakeLists.txt
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    ${COMMON_CMAKE_ARGS}
     ${png_cmake_args}
   )
 

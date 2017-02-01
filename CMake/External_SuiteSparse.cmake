@@ -24,12 +24,9 @@ if (BUILD_CXSPARSE_ONLY)
       -P ${fletch_SOURCE_DIR}/Patches/SuiteSparse/Patch.cmake
 
     CMAKE_ARGS
-      -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+      ${COMMON_CMAKE_ARGS}
       -DBUILD_SHARED_LIBS:BOOL=${_suite_sparese_build_shared}
       -BUILD_TESTING:BOOL=OFF
-      -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-      -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-      -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
       ${SuiteSparse_EXTRA_BUILD_FLAGS}
     )
 
