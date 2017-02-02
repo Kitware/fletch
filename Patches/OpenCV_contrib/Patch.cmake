@@ -6,6 +6,6 @@
 message("Patching OpenCV contrib in ${OpenCV_contrib_source}")
 
 
-file(COPY ${OpenCV_contrib_patch}/sfm_CMakeLists.txt
-  DESTINATION ${OpenCV_contrib_source}/modules/sfm/CMakeLists.txt
+file(COPY ${OpenCV_contrib_patch}/sfm/CMakeLists.txt
+  DESTINATION ${OpenCV_contrib_source}/modules/sfm/
 )
