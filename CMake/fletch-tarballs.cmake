@@ -69,9 +69,9 @@ endif()
 list(APPEND fletch_external_sources PNG)
 
 # EIGEN
-set(Eigen_version 3.3.2)
+set(Eigen_version 3.2.9)
 set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "36b5731ab7d7e0c10843ac93bd9fd270")
+set(Eigen_md5 "6a578dba42d1c578d531ab5b6fa3f741")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
