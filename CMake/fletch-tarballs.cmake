@@ -232,10 +232,10 @@ set(VXL_md5 "935f299ab9e86a94437554cdc5b6692f")
 list(APPEND fletch_external_sources VXL)
 
 # ITK
-set(ITK_version 4.10)
-set(ITK_minor 1)
+set(ITK_version 4.11)
+set(ITK_minor 0)
 set(ITK_url "http://downloads.sourceforge.net/project/itk/itk/${ITK_version}/InsightToolkit-${ITK_version}.${ITK_minor}.tar.xz")
-set(ITK_md5 "a0a5e993ab3c03d5e686d9e10551f819")
+set(ITK_md5 "415b966dd32fd543accf3a1bb689b7e1")
 list(APPEND fletch_external_sources ITK)
 
 # LMDB

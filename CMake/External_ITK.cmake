@@ -50,14 +50,14 @@ list (APPEND itk_cmake_args
   -DBUILD_TESTING:BOOL=OFF
   )
 
-# TODO: VXL needs to be reenabled once ITK builds against it.
-#if (fletch_ENABLE_VXL)
-#  list (APPEND itk_cmake_args
-#    -DITK_USE_SYSTEM_VXL:BOOL=ON
-#    -DVXL_DIR:PATH=${VXL_ROOT}
-#    )
-#  list(APPEND ITK_DEPENDS VXL)
-#endif()
+if (fletch_ENABLE_VXL)
+  list (APPEND itk_cmake_args
+    -DITK_USE_SYSTEM_VXL:BOOL=ON
+    -DVXL_DIR:PATH=${VXL_ROOT}
+    -DCMAKE_CXX_STANDARD:STRING=11
+    )
+  list(APPEND ITK_DEPENDS VXL)
+endif()
 
 ExternalProject_Add(ITK
   DEPENDS ${ITK_DEPENDS}
@@ -70,9 +70,7 @@ ExternalProject_Add(ITK
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-
     ${ITK_IMG_ARGS}
-
     ${itk_cmake_args}
 )
 
