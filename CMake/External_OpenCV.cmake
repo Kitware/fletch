@@ -151,7 +151,7 @@ endif()
 
 # Include link to contrib repo if enabled
 if (fletch_ENABLE_OpenCV_contrib)
-  set(OpenCV_CONTRIB_ARG "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
 endif()
 
