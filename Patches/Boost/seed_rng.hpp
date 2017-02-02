@@ -38,8 +38,8 @@
 # include <boost/iterator/iterator_facade.hpp>
 
 #if defined(_MSC_VER)
-#pragma warning(push) // Save warning settings.
-#pragma warning(disable : 4996) // Disable deprecated std::fopen
+#   pragma warning(push) // Save warning settings.
+#   pragma warning(disable : 4996) // Disable deprecated std::fopen
 #   include <boost/detail/winapi/crypt.hpp> // for CryptAcquireContextA, CryptGenRandom, CryptReleaseContext
 #   include <boost/detail/winapi/timers.hpp>
 #   include <boost/detail/winapi/process.hpp>
@@ -109,9 +109,10 @@ public:
     {
         if (random_) {
 #if defined(BOOST_WINDOWS)
-          boost::detail::winapi::CryptReleaseContext(random_, 0);
+            boost::detail::winapi::CryptReleaseContext(random_, 0);
 #else
-          std::fclose(random_);
+            std::fclose(random_);
+#endif
         }
     }
 
@@ -138,7 +139,6 @@ public:
 
 private:
     BOOST_STATIC_CONSTANT(std::size_t, internal_state_size = 5);
-
     inline void ignore_size(size_t) {}
 
     static unsigned int * sha1_random_digest_state_()
@@ -151,44 +151,45 @@ private:
     {
         boost::uuids::detail::sha1 sha;
 
+
         if (random_)
         {
-          // intentionally left uninitialized
-          unsigned char state[ 20 ];
+            // intentionally left uninitialized
+            unsigned char state[ 20 ];
 #if defined(BOOST_WINDOWS)
-          boost::detail::winapi::CryptGenRandom(random_, sizeof(state), state);
+            boost::detail::winapi::CryptGenRandom(random_, sizeof(state), state);
 #else
-          ignore_size(std::fread( state, 1, sizeof(state), random_ ));
+            ignore_size(std::fread( state, 1, sizeof(state), random_ ));
 #endif
-          sha.process_bytes( state, sizeof( state ) );
+            sha.process_bytes( state, sizeof( state ) );
         }
 
         {
-          // Getting enropy from some system specific sources
+            // Getting enropy from some system specific sources
 #if defined(BOOST_WINDOWS)
-          boost::detail::winapi::DWORD_ procid = boost::detail::winapi::GetCurrentProcessId();
-          sha.process_bytes( (unsigned char const*)&procid, sizeof( procid ) );
+            boost::detail::winapi::DWORD_ procid = boost::detail::winapi::GetCurrentProcessId();
+            sha.process_bytes( (unsigned char const*)&procid, sizeof( procid ) );
 
-          boost::detail::winapi::DWORD_ threadid = boost::detail::winapi::GetCurrentThreadId();
-          sha.process_bytes( (unsigned char const*)&threadid, sizeof( threadid ) );
+            boost::detail::winapi::DWORD_ threadid = boost::detail::winapi::GetCurrentThreadId();
+            sha.process_bytes( (unsigned char const*)&threadid, sizeof( threadid ) );
 
-          boost::detail::winapi::LARGE_INTEGER_ ts;
-          ts.QuadPart = 0;
-          boost::detail::winapi::QueryPerformanceCounter( &ts );
-          sha.process_bytes( (unsigned char const*)&ts, sizeof( ts ) );
+            boost::detail::winapi::LARGE_INTEGER_ ts;
+            ts.QuadPart = 0;
+            boost::detail::winapi::QueryPerformanceCounter( &ts );
+            sha.process_bytes( (unsigned char const*)&ts, sizeof( ts ) );
 
-          std::time_t tm = std::time( 0 );
-          sha.process_bytes( (unsigned char const*)&tm, sizeof( tm ) );
+            std::time_t tm = std::time( 0 );
+            sha.process_bytes( (unsigned char const*)&tm, sizeof( tm ) );
 #else
-          pid_t pid = getpid();
-          sha.process_bytes( (unsigned char const*)&pid, sizeof( pid ) );
+            pid_t pid = getpid();
+            sha.process_bytes( (unsigned char const*)&pid, sizeof( pid ) );
 
-          timeval ts;
-          gettimeofday(&ts, NULL); // We do not use `clock_gettime` to avoid linkage with -lrt
-          sha.process_bytes( (unsigned char const*)&ts, sizeof( ts ) );
-
+            timeval ts;
+            gettimeofday(&ts, NULL); // We do not use `clock_gettime` to avoid linkage with -lrt
+            sha.process_bytes( (unsigned char const*)&ts, sizeof( ts ) );
 #endif
         }
+
 
         unsigned int * ps = sha1_random_digest_state_();
         sha.process_bytes( ps, internal_state_size * sizeof( unsigned int ) );
@@ -210,9 +211,7 @@ private:
 
         {
             unsigned int * p = new unsigned int;
-
             sha.process_bytes( (unsigned char const*)&p, sizeof( p ) );
-
             delete p;
 
             const seed_rng* this_ptr = this;
@@ -236,6 +235,7 @@ private:
 private:
     unsigned int rd_[5];
     int rd_index_;
+
 #if defined(BOOST_WINDOWS)
     boost::detail::winapi::HCRYPTPROV_ random_;
 #else
