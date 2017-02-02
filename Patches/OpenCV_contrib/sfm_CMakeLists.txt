@@ -58,6 +58,7 @@ set(LIBMV_LIGHT_LIBS
 
 if(Ceres_FOUND)
   add_definitions("-DCERES_FOUND=1")
+  include_directories(${CERES_INCLUDE_DIRS})
   list(APPEND LIBMV_LIGHT_LIBS simple_pipeline)
 else()
   add_definitions("-DCERES_FOUND=0")
