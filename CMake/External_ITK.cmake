@@ -54,7 +54,6 @@ if (fletch_ENABLE_VXL)
   list (APPEND itk_cmake_args
     -DITK_USE_SYSTEM_VXL:BOOL=ON
     -DVXL_DIR:PATH=${VXL_ROOT}
-    -DCMAKE_CXX_STANDARD:STRING=11
     )
   list(APPEND ITK_DEPENDS VXL)
 endif()
