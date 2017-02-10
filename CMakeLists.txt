@@ -52,6 +52,13 @@ add_custom_target(Download)
 # Option to control GPU support
 option(fletch_DISABLE_GPU_SUPPORT "" FALSE)
 
+# Include CXX11 support
+set(fletch_CXX_STANDARD_VERSION "98")
+option(fletch_BUILD_CXX11 "" TRUE)
+if (fletch_ENABLE_CXX11)
+  set(fletch_CXX_STANDARD_VERSION "11")
+endif()
+
 #
 # Do we want to build in Python support where available
 #
@@ -165,6 +172,7 @@ set (COMMON_CMAKE_ARGS
   -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
   -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+  -DCMAKE_CXX_STANDARD:STRING=${fletch_CXX_STANDARD_VERSION}
   )
 
 #
