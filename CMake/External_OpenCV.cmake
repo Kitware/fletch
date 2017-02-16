@@ -85,6 +85,22 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_TIFF=ON)
 endif()
 
+# ZLIB
+add_package_dependency(
+  PACKAGE OpenCV
+  PACKAGE_DEPENDENCY ZLib
+  PACKAGE_DEPENDENCY_ALIAS ZLIB
+  OPTIONAL
+  EMBEDDED
+  )
+
+if(OpenCV_WITH_ZLib)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS  -DBUILD_ZLIB:BOOL=FALSE)
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS  -DBUILD_ZLIB:BOOL=TRUE)
+endif()
+
+
 # PNG
 add_package_dependency(
   PACKAGE OpenCV
