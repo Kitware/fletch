@@ -171,6 +171,8 @@ if (fletch_ENABLE_OpenCV_contrib)
   # turn off cnn_3dobj because it introduces cyclic dependency between OpenCV and Caffe
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS "-DBUILD_opencv_cnn_3dobj:BOOL=OFF")
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
+  #Don't build these contrib modules, they fail on VS.
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_bioinspired:BOOL=FALSE)
 endif()
 
 # In newer GCC we need to disable precompiled headers.
