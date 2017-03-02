@@ -159,7 +159,11 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # PYTHON
+<<<<<<< viame/master
 if (fletch_BUILD_WITH_PYTHON AND NOT MSVC14 )
+=======
+if (fletch_BUILD_WITH_PYTHON)
+>>>>>>> viame/update-vxl
     find_package(PythonInterp)
     find_package(PythonLibs)
 

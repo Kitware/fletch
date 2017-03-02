@@ -63,16 +63,27 @@ endif()
 # Do we want to build in Python support where available
 #
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
+<<<<<<< viame/master
 if (fletch_BUILD_WITH_PYTHON)
   find_package(PythonInterp 2.7 REQUIRED)
   find_package(PythonLibs 2.7 REQUIRED)
 endif()
+=======
+>>>>>>> viame/update-vxl
 
 #
 # Convenience Option for Dashboards to turn on ALL available Packages
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 
+<<<<<<< viame/master
+=======
+if (fletch_BUILD_WITH_PYTHON)
+  find_package(PythonInterp)
+  find_package(PythonLibs)
+endif()
+
+>>>>>>> viame/update-vxl
 #
 # Create a CMake Version file
 #

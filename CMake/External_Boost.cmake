@@ -23,6 +23,10 @@ if(fletch_BUILD_WITH_PYTHON)
     -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
   )
 endif()
+<<<<<<< viame/master
+=======
+
+>>>>>>> viame/update-vxl
 ExternalProject_Add(Boost
   URL ${Boost_file}
   URL_MD5 ${Boost_md5}
