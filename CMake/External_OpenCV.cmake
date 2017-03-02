@@ -85,6 +85,22 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_TIFF=ON)
 endif()
 
+# ZLIB
+add_package_dependency(
+  PACKAGE OpenCV
+  PACKAGE_DEPENDENCY ZLib
+  PACKAGE_DEPENDENCY_ALIAS ZLIB
+  OPTIONAL
+  EMBEDDED
+  )
+
+if(OpenCV_WITH_ZLib)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS  -DBUILD_ZLIB:BOOL=FALSE)
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS  -DBUILD_ZLIB:BOOL=TRUE)
+endif()
+
+
 # PNG
 add_package_dependency(
   PACKAGE OpenCV
@@ -155,6 +171,8 @@ if (fletch_ENABLE_OpenCV_contrib)
   # turn off cnn_3dobj because it introduces cyclic dependency between OpenCV and Caffe
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS "-DBUILD_opencv_cnn_3dobj:BOOL=OFF")
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
+  #Don't build these contrib modules, they fail on VS.
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_bioinspired:BOOL=FALSE)
 endif()
 
 # In newer GCC we need to disable precompiled headers.
