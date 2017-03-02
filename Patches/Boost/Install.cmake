@@ -29,4 +29,11 @@ if(WIN32)
   )
 endif()
 
+if(EXISTS ${Boost_INSTALL_DIR}/include/boost/python AND EXISTS ${Boost_SOURCE_DIR}/boost/python/raw_function.hpp)
+
+  file( COPY ${Boost_SOURCE_DIR}/boost/python/raw_function.hpp
+        DESTINATION ${Boost_INSTALL_DIR}/include/boost/python/ )
+
+endif()
+
 message("Done")
