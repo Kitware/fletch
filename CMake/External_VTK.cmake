@@ -100,8 +100,8 @@ endif()
 # VTK doesn't accept PROJ4 that have include files that are called differently
 # than lib_proj.h.
 if(fletch_ENABLE_PROJ4)
-  message(STATUS "VTK will not build against this project PROJ4."
-    "VTK doesn't accept PROJ4 that have include files that are called differently"
+  message(STATUS "VTK will not build against this project PROJ4. "
+    "VTK doesn't accept PROJ4 that have include files that are named differently "
     "than lib_proj.h.")
 endif()
 set(vtk_cmake_args ${vtk_cmake_args}
