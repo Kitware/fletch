@@ -7,15 +7,25 @@ else()
   set(Qt_args_webkit "-no-webkit")
 endif()
 
-if (CMAKE_BUILD_TYPE)
+if(CMAKE_BUILD_TYPE)
   string(TOLOWER "${CMAKE_BUILD_TYPE}" QT_BUILD_TYPE)
   if(QT_BUILD_TYPE STREQUAL "debug")
     set(Qt_args_build_type "-debug")
   else()
     set(Qt_args_build_type "-release")
   endif()
+elseif(CMAKE_CONFIGURATION_TYPES)
+  string(TOLOWER "${CMAKE_CONFIGURATION_TYPES}" QT_CONF_TYPE)
+  if(QT_CONF_TYPE STREQUAL "debug")
+    set(Qt_args_build_type "-debug")
+  elseif(QT_CONF_TYPE STREQUAL "release")
+    set(Qt_args_build_type "-release")
+  else()
+    # Common Visual Studio option, allows user to change selector.
+    set(Qt_args_build_type "-debug-and-release")
+  endif()
 else()
-  # Multi-configuration projects. Build debug AND release to be safe
+  # Unknown-configuration projects. Build debug AND release to be safe.
   set(Qt_args_build_type "-debug-and-release")
 endif()
 
