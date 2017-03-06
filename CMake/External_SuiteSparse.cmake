@@ -33,9 +33,21 @@ if (BUILD_CXSPARSE_ONLY)
 elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
 
   find_package(LAPACK)
+  if (NOT LAPACK_FOUND)
+    list (APPEND MISSING_DEPS "lapack")
+  endif()
+
   find_package(BLAS)
-  if (NOT LAPACK_FOUND OR NOT BLAS_FOUND)
-    message(FATAL "SuiteSparse requires lapack and openblas. Please install and try again")
+  if (NOT BLAS_FOUND)
+    add_package_dependency(
+      PACKAGE SuiteSparse
+      PACKAGE_DEPENDENCY OpenBLAS
+      PACKAGE_DEPENDENCY_ALIAS OpenBLAS
+      )
+  endif()
+
+  if (MISSING_DEPS)
+    message(FATAL " SuiteSparse requires the following packages, ${MISSING_DEPS}. Please install and try again")
   endif()
 
   set(SUITESPARSE_LAPACK ${LAPACK_LIBRARIES})
