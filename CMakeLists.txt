@@ -55,7 +55,7 @@ option(fletch_DISABLE_GPU_SUPPORT "" FALSE)
 # Include CXX11 support
 set(fletch_CXX_STANDARD_VERSION "98")
 option(fletch_BUILD_CXX11 "" TRUE)
-if (fletch_ENABLE_CXX11)
+if (fletch_BUILD_CXX11)
   set(fletch_CXX_STANDARD_VERSION "11")
 endif()
 
