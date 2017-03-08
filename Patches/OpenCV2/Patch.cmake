@@ -32,3 +32,7 @@ file(COPY ${OpenCV_patch}/OpenCVConfig.cmake.in
 file(COPY ${OpenCV_patch}/graphcuts.cpp
   DESTINATION ${OpenCV_source}/modules/gpu/src/
 )
+
+file(COPY ${OpenCV_patch}/cv2.cpp
+  DESTINATION ${OpenCV_source}/modules/python/src2/
+)
