@@ -101,6 +101,16 @@ call :Clear_Error
 call :Test_Empty %ProgramFiles%
 if not errorlevel 1 set ProgramFiles=C:\Program Files
 call :Clear_Error
+if NOT "_%VS150COMNTOOLS%_" == "__" (
+    set "BOOST_JAM_TOOLSET=vc15"
+    set "BOOST_JAM_TOOLSET_ROOT=%VS150COMNTOOLS%..\..\VC\"
+    goto :eof)
+call :Clear_Error
+if EXIST "%programfiles(x86)%\Microsoft Visual Studio 15.0\VC\vcvarsall.bat" (
+    set "BOOST_JAM_TOOLSET=vc15"
+    set "BOOST_JAM_TOOLSET_ROOT=%programfiles(x86)%\Microsoft Visual Studio 15.0\VC\"
+    goto :eof)
+call :Clear_Error
 if NOT "_%VS140COMNTOOLS%_" == "__" (
     set "BOOST_JAM_TOOLSET=vc14"
     set "BOOST_JAM_TOOLSET_ROOT=%VS140COMNTOOLS%..\..\VC\"
@@ -446,6 +456,21 @@ set "BOOST_JAM_OPT_MKJAMBASE=/Febootstrap\mkjambase0"
 set "BOOST_JAM_OPT_YYACC=/Febootstrap\yyacc0"
 set "_known_=1"
 :Skip_VC14
+if NOT "_%BOOST_JAM_TOOLSET%_" == "_vc15_" goto Skip_VC15
+if NOT "_%VS140COMNTOOLS%_" == "__" (
+    set "BOOST_JAM_TOOLSET_ROOT=%VS150COMNTOOLS%..\..\VC\"
+    )
+if "_%VCINSTALLDIR%_" == "__" call :Call_If_Exists "%BOOST_JAM_TOOLSET_ROOT%VCVARSALL.BAT" %BOOST_JAM_ARGS%
+if NOT "_%BOOST_JAM_TOOLSET_ROOT%_" == "__" (
+    if "_%VCINSTALLDIR%_" == "__" (
+        set "PATH=%BOOST_JAM_TOOLSET_ROOT%bin;%PATH%"
+        ) )
+set "BOOST_JAM_CC=cl /nologo /RTC1 /Zi /MTd /Fobootstrap/ /Fdbootstrap/ -DNT -DYYDEBUG -wd4996 kernel32.lib advapi32.lib user32.lib"
+set "BOOST_JAM_OPT_JAM=/Febootstrap\jam0"
+set "BOOST_JAM_OPT_MKJAMBASE=/Febootstrap\mkjambase0"
+set "BOOST_JAM_OPT_YYACC=/Febootstrap\yyacc0"
+set "_known_=1"
+:Skip_VC15
 if NOT "_%BOOST_JAM_TOOLSET%_" == "_borland_" goto Skip_BORLAND
 if "_%BOOST_JAM_TOOLSET_ROOT%_" == "__" (
     call :Test_Path bcc32.exe )
