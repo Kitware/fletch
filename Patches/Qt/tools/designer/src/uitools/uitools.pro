@@ -9,6 +9,9 @@ win32-msvc* {
     equals(MSVC_VER, 14.0){
         QMAKE_CXXFLAGS += -FS
     }
+    equals(MSVC_VER, 15.0){
+        QMAKE_CXXFLAGS += -FS
+    }
 }
 symbian {
     TARGET.UID3 = 0x2001E628
