@@ -79,12 +79,12 @@ file(COPY
 # Workaround to build Qt with c++11
 file(COPY ${Qt_source}/src DESTINATION ${Qt_source})
 
-# Fix the build for VS 2015
+# Fix the build for VS 2015 and 2017
 # this patch is a merge of these two patches:
 #https://fami.codefreak.ru/mirrors/qt/unofficial_builds/qt4.8.7-msvc2015/02-fix_build_with_msvc2015-45e8f4ee.diff
 #https://fami.codefreak.ru/gitlab/peter/qt4/commit/51e706b1899b3e59f7789bf94184643ccfabeebd
 
-set(VS_2015_FILES
+set(MSVC_FILES
   configure.exe
   src/3rdparty/clucene/src/CLucene/StdHeader.h
   src/3rdparty/clucene/src/CLucene/util/VoidMap.h
@@ -96,6 +96,9 @@ set(VS_2015_FILES
   mkspecs/win32-msvc2015/
   mkspecs/win32-msvc2015/qmake.conf
   mkspecs/win32-msvc2015/qplatformdefs.h
+  mkspecs/win32-msvc2017/
+  mkspecs/win32-msvc2017/qmake.conf
+  mkspecs/win32-msvc2017/qplatformdefs.h
   qmake/Makefile.win32
   qmake/generators/win32/msvc_objectmodel.h
   tools/configure/configureapp.cpp
@@ -103,7 +106,7 @@ set(VS_2015_FILES
   tools/configure/environment.h
 )
 
-foreach(f ${VS_2015_FILES})
+foreach(f ${MSVC_FILES})
   get_filename_component(dest ${Qt_source}/${f} DIRECTORY)
   message("COPY  ${Qt_patch}/${f}    DESTINATION ${dest}")
   file(COPY ${Qt_patch}/${f} DESTINATION ${dest})
