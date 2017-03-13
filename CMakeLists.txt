@@ -163,10 +163,14 @@ else()
   find_program(MAKE_EXECUTABLE make)
 endif()
 
+# Passing down configuration types requires special formatting since it is a list
+string( REPLACE ";" "$<SEMICOLON>" CMAKE_SS_CONF_TYPES "${CMAKE_CONFIGURATION_TYPES}" )
+
 # Collect the set of common CMake args so we can push them to each project
 set (COMMON_CMAKE_ARGS
   -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+  "-DCMAKE_CONFIGURATION_TYPES:STRING=${CMAKE_SS_CONF_TYPES}"
   -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
   -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib

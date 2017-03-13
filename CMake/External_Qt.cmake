@@ -90,9 +90,11 @@ if(WIN32)
   # Work around is to turn off multi threaded builds for install:
   set(Qt_install_cmd ${JOM_EXE} -j1 install)
   set(Qt_configure configure.exe)
+  #We have some trouble determining the correct platform for VS2013 and VS2017
   if(MSVC12)
-    #We have some trouble determining the correct platform for VS2013
     list(APPEND Qt_args_arch -platform win32-msvc2013)
+  elseif(MSVC AND MSVC_VERSION EQUAL 1910)
+    list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
   endif()
 else()
   option(BUILD_QT_JAVASCRIPTJIT "Should the Qt Javascript JIT module be built?" FALSE)
