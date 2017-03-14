@@ -14,6 +14,10 @@ add_package_dependency(
   OPTIONAL
   )
 
+if (NOT fletch_ENABLE_libjpeg-turbo )
+  list (APPEND missing_img_fmts libjpeg-turbo)
+endif()
+
 # libtiff
 add_package_dependency(
   PACKAGE VXL
@@ -22,12 +26,31 @@ add_package_dependency(
   OPTIONAL
   )
 
+if (NOT fletch_ENABLE_libtiff )
+  list (APPEND missing_img_fmts libtiff)
+endif()
+
 # libpng
 add_package_dependency(
   PACKAGE VXL
   PACKAGE_DEPENDENCY PNG
   OPTIONAL
   )
+
+if (NOT fletch_ENABLE_PNG )
+  list (APPEND missing_img_fmts PNG)
+endif()
+
+if (missing_img_fmts)
+  message(WARNING "
+     You have chosen not to enable the following image formats:
+     ${missing_img_fmts}
+     It is not recommended since VXL might build its own version,
+     which are very old.
+     If you have runtime issues with image formats,
+     enable these packages.
+")
+endif()
 
 set(VXL_ARGS_CONTRIB
   -DBUILD_BRL:BOOL=OFF
