@@ -1,3 +1,4 @@
+
 # ZLIB
 add_package_dependency(
   PACKAGE VXL
@@ -10,6 +11,7 @@ add_package_dependency(
   PACKAGE VXL
   PACKAGE_DEPENDENCY libjpeg-turbo
   PACKAGE_DEPENDENCY_ALIAS JPEG
+  OPTIONAL
   )
 
 # libtiff
@@ -17,12 +19,14 @@ add_package_dependency(
   PACKAGE VXL
   PACKAGE_DEPENDENCY libtiff
   PACKAGE_DEPENDENCY_ALIAS TIFF
+  OPTIONAL
   )
 
 # libpng
 add_package_dependency(
   PACKAGE VXL
   PACKAGE_DEPENDENCY PNG
+  OPTIONAL
   )
 
 set(VXL_ARGS_CONTRIB
