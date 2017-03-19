@@ -32,6 +32,20 @@ function(get_system_library_name lib_name result)
 endfunction()
 
 #
+# Find all variables starting with some string prefix and format them in
+# a way which is useful to pass down to subprojects
+#
+function(format_passdowns _str _varResult)
+  set( _tmpResult "" )
+  get_cmake_property( _vars VARIABLES )
+  string( REGEX MATCHALL "(^|;)${_str}[A-Za-z0-9_]*" _matchedVars "${_vars}" )
+  foreach( _match ${_matchedVars} )
+    set( _tmpResult ${_tmpResult} "-D${_match}=${${_match}}" )
+  endforeach()
+  set( ${_varResult} ${_tmpResult} PARENT_SCOPE )
+endfunction()
+
+#
 # Check whether fletch builds the given package or we should look for
 # it in the system.
 # Arguments:
