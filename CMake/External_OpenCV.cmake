@@ -1,6 +1,6 @@
 # The OpenCV external project
 
-# Set FFmpeg dependency if we're locally building it.
+# Set FFMPEG dependency if we're locally building it.
 if(FALSE)
   if(fletch_ENABLE_FFmpeg)
     message(STATUS "OpenCV depending on internal FFmpeg")
@@ -43,7 +43,16 @@ option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui? (generally should b
 list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_highgui=${fletch_ENABLE_OpenCV_highgui})
 
 # Handle GPU disable flag
-if(fletch_DISABLE_GPU_SUPPORT)
+if(fletch_BUILD_WITH_CUDA)
+  format_passdowns("CUDA" CUDA_BUILD_FLAGS)
+  format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    ${CUDA_BUILD_FLAGS}
+    ${CUDNN_BUILD_FLAGS}
+    -DWITH_CUBLAS=ON -DWITH_CUDA=ON
+    -DWITH_CUFFT=ON
+    )
+else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS
     -DWITH_CUBLAS=OFF -DWITH_CUDA=OFF
     -DWITH_CUFFT=OFF
