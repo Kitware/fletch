@@ -1,8 +1,3 @@
-#if (WIN32)
-#  # Build option for windows not yet generated
-#  message( FATAL_ERROR "Caffe on windows not yet supported" )
-#endif()
-
 set(allOk True)
 set(errorMessage)
 
@@ -64,6 +59,7 @@ if(NOT WIN32) # Win32 build takes care of most dependencies automatically
 endif()
 addCaffeDendency(Boost 1.46)
 addCaffeDendency(OpenCV "")
+addCaffeDendency(ZLib "")
 
 if(NOT allOk)
   message(FATAL_ERROR "Missing dependency(ies).")
@@ -271,6 +267,7 @@ ExternalProject_Add(Caffe
     -DBOOST_ROOT:PATH=${BOOST_ROOT}
 	-DBoost_USE_STATIC_LIBS:BOOL=OFF
     -DBLAS:STRING=Open
+	-DBUILD_SHARED_LIBS:BOOL=ON
     ${PYTHON_ARGS}
     ${CAFFE_GPU_ARGS}
 
