@@ -71,8 +71,10 @@ if(USE_PREBUILT_DEPENDENCIES)
 		        PATTERN "*opencv*" EXCLUDE
 				PATTERN "*boost*" EXCLUDE
 		)
-		file(RENAME ${CAFFE_DEPENDENCIES_DIR}/libraries/lib/libopenblas.dll.a ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.lib) # Same file type, but needs to be .lib for cmake
-		file (REMOVE_RECURSE ${CAFFE_DEPENDENCIES_DIR}) # Clean up
+		if(EXISTS ${CAFFE_DEPENDENCIES_DIR}/libraries/lib/libopenblas.dll.a AND NOT EXISTS ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.lib)
+          file(RENAME ${CAFFE_DEPENDENCIES_DIR}/libraries/lib/libopenblas.dll.a ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.lib) # Same file type, but needs to be .lib for cmake
+        endif()
+		file (REMOVE_RECURSE ${CAFFE_DEPENDENCIES_DIR}/libraries/) # Clean up
 
 		# BOOST config
 		set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX} CACHE PATH "")
