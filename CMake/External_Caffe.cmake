@@ -5,7 +5,7 @@ option(AUTO_ENABLE_CAFFE_DEPENDENCY "Automatically turn on all caffe dependencie
 if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
   #Snappy is needed by LevelDB and ZLib is needed by HDF5
   if(WIN32)
-    set(dependency Boost ZLib OpenCV)
+    set(dependency Boost ZLib OpenCV HDF5)
   else()
     set(dependency Boost GFlags GLog ZLib HDF5 Snappy LevelDB LMDB OpenCV Protobuf)
   endif()
@@ -49,7 +49,6 @@ endfunction()
 if(NOT WIN32) # Win32 build takes care of most dependencies automatically
   addCaffeDendency(GFlags "")
   addCaffeDendency(GLog "")
-  addCaffeDendency(HDF5 "")
   addCaffeDendency(LevelDB "")
   addCaffeDendency(LMDB "")
   if(NOT APPLE)
@@ -57,6 +56,7 @@ if(NOT WIN32) # Win32 build takes care of most dependencies automatically
   endif()
   addCaffeDendency(Protobuf "")
 endif()
+addCaffeDendency(HDF5 "") # Caffe for windows grabs its own HDF5, but we need a parallel builds so we don't break other code
 addCaffeDendency(Boost 1.46)
 addCaffeDendency(OpenCV "")
 addCaffeDendency(ZLib "")
