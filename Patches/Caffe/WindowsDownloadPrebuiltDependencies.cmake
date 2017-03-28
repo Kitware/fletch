@@ -70,6 +70,8 @@ if(USE_PREBUILT_DEPENDENCIES)
 		file(COPY ${CAFFE_DEPENDENCIES_DIR}/libraries/ DESTINATION ${CMAKE_INSTALL_PREFIX} # We need to move the prereqs to the proper directory, except dependencies handled by fletch
 		        PATTERN "*opencv*" EXCLUDE
 				PATTERN "*boost*" EXCLUDE
+				PATTERN "*hdf5*" EXCLUDE
+				PATTERN "H5*" EXCLUDE
 		)
 		if(EXISTS ${CAFFE_DEPENDENCIES_DIR}/libraries/lib/libopenblas.dll.a AND NOT EXISTS ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.lib)
           file(RENAME ${CAFFE_DEPENDENCIES_DIR}/libraries/lib/libopenblas.dll.a ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.lib) # Same file type, but needs to be .lib for cmake
