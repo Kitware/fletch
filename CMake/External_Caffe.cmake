@@ -1,17 +1,16 @@
-if (WIN32)
-  # Build option for windows not yet generated
-  message( FATAL_ERROR "Caffe on windows not yet supported" )
-endif()
-
 set(allOk True)
 set(errorMessage)
 
 option(AUTO_ENABLE_CAFFE_DEPENDENCY "Automatically turn on all caffe dependencies if caffe is enabled" OFF)
 if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
   #Snappy is needed by LevelDB and ZLib is needed by HDF5
-  set(dependency Boost GFlags GLog ZLib HDF5 Snappy LevelDB LMDB OpenCV Protobuf)
+  if(WIN32)
+    set(dependency Boost ZLib OpenCV HDF5)
+  else()
+    set(dependency Boost GFlags GLog ZLib HDF5 Snappy LevelDB LMDB OpenCV Protobuf)
+  endif()
 
-  if(NOT APPLE)
+  if(NOT APPLE AND NOT WIN32)
     list(APPEND dependency OpenBLAS)
   endif()
 
@@ -47,17 +46,20 @@ function(addCaffeDendency depend version)
 endfunction()
 
 # Check for dependencies.
-addCaffeDendency(Boost 1.46)
-addCaffeDendency(GFlags "")
-addCaffeDendency(GLog "")
-addCaffeDendency(HDF5 "")
-addCaffeDendency(LevelDB "")
-addCaffeDendency(LMDB "")
-if(NOT APPLE)
-  addCaffeDendency(OpenBLAS "")
+if(NOT WIN32) # Win32 build takes care of most dependencies automatically
+  addCaffeDendency(GFlags "")
+  addCaffeDendency(GLog "")
+  addCaffeDendency(LevelDB "")
+  addCaffeDendency(LMDB "")
+  if(NOT APPLE)
+    addCaffeDendency(OpenBLAS "")
+  endif()
+  addCaffeDendency(Protobuf "")
 endif()
+addCaffeDendency(HDF5 "") # Caffe for windows grabs its own HDF5, but we need a parallel builds so we don't break other code
+addCaffeDendency(Boost 1.46)
 addCaffeDendency(OpenCV "")
-addCaffeDendency(Protobuf "")
+addCaffeDendency(ZLib "")
 
 if(NOT allOk)
   message(FATAL_ERROR "Missing dependency(ies).")
@@ -253,6 +255,37 @@ else()
 endif()
 
 # Main build and install command
+if(WIN32)
+#link_libraries(${fletch_BUILD_PREFIX}/src/Caffe-build/libraries/lib)
+
+ExternalProject_Add(Caffe
+  DEPENDS ${Caffe_DEPENDS}
+  URL ${Caffe_url}
+  URL_MD5 ${Caffe_md5}
+  PREFIX ${fletch_BUILD_PREFIX}
+  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    -DCaffe_patch=${fletch_SOURCE_DIR}/Patches/Caffe
+    -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
+    -P ${fletch_SOURCE_DIR}/Patches/Caffe/Patch.cmake
+
+  CMAKE_COMMAND
+  CMAKE_GENERATOR ${gen}
+  CMAKE_ARGS
+    ${COMMON_CMAKE_ARGS}
+    -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
+    -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+    -DBOOST_ROOT:PATH=${BOOST_ROOT}
+	-DBoost_USE_STATIC_LIBS:BOOL=OFF
+    -DBLAS:STRING=Open
+	-DBUILD_SHARED_LIBS:BOOL=ON
+    ${PYTHON_ARGS}
+    ${CAFFE_GPU_ARGS}
+
+)
+else()
 ExternalProject_Add(Caffe
   DEPENDS ${Caffe_DEPENDS}
   URL ${Caffe_url}
@@ -285,6 +318,7 @@ ExternalProject_Add(Caffe
     ${CAFFE_OPENBLAS_ARGS}
     ${CAFFE_GPU_ARGS}
   )
+endif()
 
 set(Caffe_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
