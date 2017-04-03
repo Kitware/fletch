@@ -305,9 +305,9 @@ endif()
 
 # Caffe
 if(NOT WIN32)
-  set(Caffe_version "rc5")
+  set(Caffe_version "rc4")
   set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
-  set(Caffe_md5 "692bd3580b7576485cde6b1e03eb5a6d")
+  set(Caffe_md5 "d86eeb38b1400097d32ffcabdec75b55")
   list(APPEND fletch_external_sources Caffe)
 endif()
 
