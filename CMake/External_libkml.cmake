@@ -28,6 +28,7 @@ if(fletch_ENABLE_Boost)
     )
   set(_KML_DEPENDS ${_KML_DEPENDS} Boost)
 else()
+  # TODO: This else really should do a find_package(Boost) before blindly having kml build it.
   set(libkml_use_external_boost
     -DLIBKML_USE_EXTERNAL_BOOST:BOOL=OFF
     )
