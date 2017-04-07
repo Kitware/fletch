@@ -9,11 +9,15 @@ using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" ;
 "
   )
 
-  if (fletch_BUILD_WITH_PYTHON)
+  if(fletch_BUILD_WITH_PYTHON)
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+      set(PYTHON_ARGUMENTS "<address-model>64")
+    endif()
     file(APPEND ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "\n\
 using python : ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}\n\
              : ${PYTHON_EXECUTABLE}\n\
              : ${PYTHON_INCLUDE_DIR}\n\
+             : ${PYTHON_ARGUMENTS}\n\
 ; "
   )
   endif()
