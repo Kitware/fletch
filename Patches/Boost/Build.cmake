@@ -7,14 +7,19 @@ if(WIN32)
 else()
   set(BOOTSTRAP ${Boost_BUILD_DIR}/bootstrap.sh)
 endif()
+
+if(fletch_BUILD_WITH_PYTHON)
+  set(BOOTSTRAP_ARGS "--with-python=${PYTHON_EXECUTABLE}")
+endif()
+
 execute_command_wrapper(
   "Boost.Build.Bootstrap"
   ${Boost_BUILD_DIR}
-  ${BOOTSTRAP}
+  ${BOOTSTRAP} ${BOOTSTRAP_ARGS}
 )
 
 if(fletch_BUILD_WITH_PYTHON)
-  set( B2_PYTHON_ARGS "include=${PYTHON_INCLUDE_DIR}" )
+  set(B2_PYTHON_ARGS "include=${PYTHON_INCLUDE_DIR}")
 endif()
 
 # Determine debug / release
