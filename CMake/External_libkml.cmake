@@ -6,9 +6,19 @@ if(WIN32)
     -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=OFF
     )
 else()
-  set(libkml_use_external_expat
-    -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=ON
-    )
+  #Using an external EXPAT library requires installation of expat-devel,
+  #which may not be installed on some systems.
+  find_package( EXPAT )
+  if (NOT ${EXPAT_FOUND})
+    set(libkml_use_external_expat
+      -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=OFF
+      )
+    set(_KML_DEPENDS ${_KML_DEPENDS} GDAL)
+  else()
+    set(libkml_use_external_expat
+      -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=ON
+      )
+  endif()
 endif()
 
 # If we're building Boost, use that one.
