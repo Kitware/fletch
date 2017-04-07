@@ -13,7 +13,6 @@ else()
     set(libkml_use_external_expat
       -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=OFF
       )
-    set(_KML_DEPENDS ${_KML_DEPENDS} GDAL)
   else()
     set(libkml_use_external_expat
       -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=ON
@@ -63,6 +62,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 set(LIBKML_ROOT    @LIBKML_ROOT@)
 set(LIBKML_LIBNAME @LIBKML_LIBNAME@)
 
-set(fletch_ENABLED_libml TRUE)
+set(fletch_ENABLED_libkml TRUE)
 ")
 
