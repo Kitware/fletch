@@ -1,25 +1,20 @@
 # The OpenCV external project
 
-# Set FFMPEG dependency if we're locally building it.
-if(FALSE)
-  if(fletch_ENABLE_FFmpeg)
-    message(STATUS "OpenCV depending on internal FFmpeg")
-    list(APPEND OpenCV_DEPENDS FFmpeg)
+# Set FFmpeg dependency if we're locally building it.
+if(fletch_ENABLE_FFmpeg)
+  message(STATUS "OpenCV depending on internal FFmpeg")
+  list(APPEND OpenCV_DEPENDS FFmpeg)
 
-    # OpenCV uses pkg-config to find libraries to link against and use, so placing
-    # our instal target library pkgconfig directory on the path link in order to
-    # take precedence.
-    if(NOT WIN32)
-      option(OpenCV_Enable_FFmpeg "" OFF)
-      if (OpenCV_Enable_FFmpeg)
-        # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
-        set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
-        message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
-      endif()
-    else()
-      message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
-      # TODO: Figure out how OpenCV finds ffmpeg on Windows.
-    endif()
+  # OpenCV uses pkg-config to find libraries to link against and use, so placing
+  # our instal target library pkgconfig directory on the path link in order to
+  # take precedence.
+  if(NOT WIN32)
+      # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
+      set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
+      message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
+  else()
+    message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
+    # TODO: Figure out how OpenCV finds ffmpeg on Windows.
   endif()
 else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_FFMPEG=OFF)
@@ -206,9 +201,10 @@ ExternalProject_Add(OpenCV
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
     -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
-    -DBUILD_opencv_java:BOOL=OFF
-    -DBUILD_PERF_TESTS:BOOL=OFF
+    -DBUILD_opencv_java:BOOL=False
+    -DBUILD_PERF_TESTS:BOOL=False
     -DBUILD_SHARED_LIBS:BOOL=True
+    -DBUILD_TESTS:BOOL=False
     -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
     -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
     -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}

@@ -158,6 +158,22 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DPNG_LIBRARY:FILEPATH=${PNG_LIBRARY}
   )
 
+# PYTHON
+if (fletch_BUILD_WITH_PYTHON AND NOT MSVC14 )
+  find_package(PythonInterp)
+  find_package(PythonLibs)
+
+  if(PythonInterp_FOUND AND PythonLibs_FOUND)
+    set(VTK_WRAP_PYTHON ON)
+    message(STATUS "VTK building with python support")
+  else()
+    set(VTK_WRAP_PYTHON OFF)
+    message(WARNING "VTK building without python support. Python NOT found.")
+  endif()
+elseif(fletch_BUILD_WITH_PYTHON AND MSVC14)
+  message(WARN " VTK Python will not build correctly on Visual Studio 2015. VTK 7.0 of higher is required.")
+endif()
+
 #
 # VTK
 #

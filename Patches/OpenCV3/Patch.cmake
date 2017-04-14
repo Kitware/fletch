@@ -9,3 +9,8 @@ message("Patching OpenCV in ${OpenCV_source}")
 file(COPY ${OpenCV_patch}/graphcuts.cpp
   DESTINATION ${OpenCV_source}/modules/cudalegacy/src/
 )
+
+# fix issues with OpenCV using FFmpeg libraries
+file(COPY ${OpenCV_patch}/OpenCVFindLibsVideo.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
