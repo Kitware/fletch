@@ -8,7 +8,7 @@ else()
   set(BOOTSTRAP ${Boost_BUILD_DIR}/bootstrap.sh)
 endif()
 
-if(fletch_BUILD_WITH_PYTHON)
+if(fletch_BUILD_WITH_PYTHON AND NOT WIN32)
   set(BOOTSTRAP_ARGS "--with-python=${PYTHON_EXECUTABLE}")
 endif()
 
