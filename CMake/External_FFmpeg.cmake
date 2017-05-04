@@ -52,10 +52,10 @@ else ()
     PREFIX ${fletch_BUILD_PREFIX}
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-    PATCH_COMMAND ${CMAKE_COMMAND}
-    -DFFmpeg_patch:PATH=${fletch_SOURCE_DIR}/Patches/FFmpeg
-    -DFFmpeg_source:PATH=${fletch_BUILD_PREFIX}/src/FFmpeg
-    -P ${fletch_SOURCE_DIR}/Patches/FFmpeg/Patch.cmake
+#    PATCH_COMMAND ${CMAKE_COMMAND}
+#    -DFFmpeg_patch:PATH=${fletch_SOURCE_DIR}/Patches/FFmpeg
+#    -DFFmpeg_source:PATH=${fletch_BUILD_PREFIX}/src/FFmpeg
+#    -P ${fletch_SOURCE_DIR}/Patches/FFmpeg/Patch.cmake
 
     CONFIGURE_COMMAND ${fletch_BUILD_PREFIX}/src/FFmpeg/configure
       --prefix=${fletch_BUILD_INSTALL_PREFIX}
