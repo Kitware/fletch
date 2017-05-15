@@ -45,3 +45,9 @@ file(COPY ${Boost_patch}/build.jam
 file(COPY ${Boost_patch}/msvc.jam
   DESTINATION ${Boost_source}/tools/build/v2/tools
   )
+
+# Patch seed_rgn.hpp for valgrind error suppression
+# https://github.com/boostorg/uuid/pull/2/files
+file(COPY ${Boost_patch}/seed_rng.hpp
+  DESTINATION ${Boost_source}/boost/uuid/
+  )
