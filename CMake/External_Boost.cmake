@@ -1,6 +1,13 @@
 
 # The Boost external project for fletch
 
+if(MSVC AND (NOT MSVC_VERSION LESS 1910))
+  # Get the CMAKE version string and make sure it's not a release candidate and >= 3.8.0
+  if( (CMAKE_VERSION MATCHES "^3\\.8\\.0-rc") OR (CMAKE_VERSION VERSION_LESS 3.8.0))
+    message(FATAL_ERROR "CMake 3.8.0 is the minimum version required to use Boost with Visual Studio 2017 or greater")
+  endif()
+endif()
+
 configure_file(
 ${CMAKE_SOURCE_DIR}/Patches/Boost/CMakeVars.cmake.in
 ${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
