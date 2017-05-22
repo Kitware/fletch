@@ -83,15 +83,12 @@ if(WIN32)
   include(CheckTypeSize)
   if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
     set(bitness 32)
-    set(FFmpeg_dev_md5 "24e4852a81d75f7cf3fcbf54e68ecf5d")
-    set(FFmpeg_shared_md5 "b3327e00567fd3c2ffa42fbf45e1a494")
-  else() # 64 Bit Windows
-    set(bitness 64)
-    set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
-    set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
+    message(FATAL_ERROR "Fletch does NOT support FMPEG 32 bit. Please use 64bit.")
   endif()
-  set(FFmpeg_dev_url "http://ffmpeg.zeranoe.com/builds/win${bitness}/dev/2015/ffmpeg-20150306-git-c089e72-win${bitness}-dev.7z")
-  set(FFmpeg_shared_url "http://ffmpeg.zeranoe.com/builds/win${bitness}/shared/2015/ffmpeg-20150306-git-c089e72-win${bitness}-shared.7z")
+  set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
+  set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
+  set(FFmpeg_dev_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
+  set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
 else()
   set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
   set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
@@ -143,6 +140,13 @@ endif()
 
 set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
 list(APPEND fletch_external_sources OpenCV)
+
+# log4cplus
+set(log4cplus_version "1.2.x")
+set(log4cplus_url "https://github.com/Kitware/log4cplus/archive/1.2.x.zip")
+set(log4cplus_md5 "4c0973becab54c8492204258260dcf06")
+set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
+list(APPEND fletch_external_sources log4cplus)
 
 # GLog
 if(NOT WIN32)
