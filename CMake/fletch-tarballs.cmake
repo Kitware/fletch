@@ -141,6 +141,13 @@ endif()
 set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
 list(APPEND fletch_external_sources OpenCV)
 
+# log4cplus
+set(log4cplus_version "1.2.x")
+set(log4cplus_url "https://github.com/Kitware/log4cplus/archive/1.2.x.zip")
+set(log4cplus_md5 "4c0973becab54c8492204258260dcf06")
+set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
+list(APPEND fletch_external_sources log4cplus)
+
 # GLog
 if(NOT WIN32)
   set(GLog_version "0.3.3")
