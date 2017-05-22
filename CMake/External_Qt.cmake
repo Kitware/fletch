@@ -127,6 +127,10 @@ else()
     #For reference, see http://qt-project.org/doc/qt-4.8/debug.html
     set(Qt_args_framework "-no-framework")
     set(Qt_args_arch -arch x86_64 -cocoa)
+    if(NOT (CMAKE_SYSTEM_VERSION VERSION_LESS "16"))
+      # Phonon is broken on macOS 10.12+ (Darwin 16+) due to QTKit.framework being removed.
+      list(APPEND Qt_args_other -no-phonon)
+    endif()
   elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     # Create a spec file for gcc44 on RHEL5
     if(CMAKE_C_COMPILER MATCHES "gcc44" OR CMAKE_CXX_COMPILER MATCHES "g\\+\\+44")
