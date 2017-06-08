@@ -1,7 +1,28 @@
 # The OpenCV external project
 
-# Set FFmpeg dependency if we're locally building it.
+# Allow OpenCV's highgui to be turned off
+option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui? (generally should be left on)" TRUE )
+mark_as_advanced(fletch_ENABLE_OpenCV_highgui)
+list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_highgui=${fletch_ENABLE_OpenCV_highgui})
+
+# Allow OpenCV's GPU option to be explicitly turned off while keeping CUDA for everything else
+if(fletch_ENABLE_CUDA)
+  option(fletch_ENABLE_OpenCV_CUDA "Build OpenCV with CUDA support" TRUE )
+  mark_as_advanced(fletch_ENABLE_OpenCV_CUDA)
+else()
+  set(fletch_ENABLE_OpenCV_CUDA CACHE INTERNAL FALSE)
+endif()
+
+# Allow OpenCV's FFMPEG option to be explicitly turned off
 if(fletch_ENABLE_FFmpeg)
+  option(fletch_ENABLE_OpenCV_FFmpeg "Build OpenCV with FFMPEG support" TRUE )
+  mark_as_advanced(fletch_ENABLE_OpenCV_CUDA)
+else()
+  set(fletch_ENABLE_OpenCV_FFmpeg CACHE INTERNAL FALSE)
+endif()
+
+# Set FFmpeg dependency if we're locally building it.
+if(fletch_ENABLE_OpenCV_FFmpeg)
   message(STATUS "OpenCV depending on internal FFmpeg")
   list(APPEND OpenCV_DEPENDS FFmpeg)
 
@@ -20,9 +41,8 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_FFMPEG=OFF)
 endif()
 
-
 # Set Eigen dependency if we're locally building it
-if (fletch_ENABLE_Eigen)
+if(fletch_ENABLE_Eigen)
   message(STATUS "OpenCV depending on fletch Eigen")
   set(_OpenCV_ENABLE_EIGEN_DEFAULT TRUE)
   list(APPEND OpenCV_DEPENDS Eigen)
@@ -33,12 +53,8 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=FALSE)
 endif()
 
-# Allow OpenCV's highgui to be turned off
-option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui? (generally should be left on)" TRUE )
-list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_highgui=${fletch_ENABLE_OpenCV_highgui})
-
 # Handle GPU disable flag
-if(fletch_BUILD_WITH_CUDA)
+if(fletch_ENABLE_OpenCV_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
   format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS
@@ -206,6 +222,7 @@ ExternalProject_Add(OpenCV
     -DBUILD_SHARED_LIBS:BOOL=True
     -DBUILD_TESTS:BOOL=False
     -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
+    -DWITH_JASPER:BOOL=False
     -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
     -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
     -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
