@@ -258,8 +258,8 @@ set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_url "https://github.com/vxl/vxl/archive/1860006098e9c93c4a43fea2246e07fd1e7c5c03.zip")
-set(VXL_md5 "609d97fb29f2cb32882eb10a20eca84a")
+set(VXL_url "https://github.com/vxl/vxl/archive/fb941bebb5121d8dd03c3b02c8ad90c4728b87ea.zip")
+set(VXL_md5 "642c503af26c8e47f6b82ed60fbec57d")
 list(APPEND fletch_external_sources VXL)
 
 # ITK
