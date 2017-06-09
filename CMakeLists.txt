@@ -73,19 +73,20 @@ endif()
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 
-#
-# Create a CMake Version file
-#
-configure_file(
-  ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
-  ${fletch_BINARY_DIR}/fletchConfig-version.cmake
-  @ONLY IMMEDIATE)
 
 # If fletch is being configured from the outside ( e.g. from a super-build)
 # allow the configuring package to set the install prefix.
 if (NOT fletch_BUILD_INSTALL_PREFIX)
   set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
 endif()
+
+#
+# Create a CMake Version file
+#
+configure_file(
+  ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
+  ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig-version.cmake
+  @ONLY IMMEDIATE)
 
 #+
 # Each External_xxx is responsible for updating this file with their
@@ -95,7 +96,7 @@ endif()
 #-
 
 set(fletch_CONFIG_INPUT ${fletch_BINARY_DIR}/fletchConfig.cmake.in )
-set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
+set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig.cmake )
 set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 
 
@@ -175,7 +176,6 @@ set (COMMON_CMAKE_ARGS
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
   -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
   -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
-  -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_CXX_STANDARD:STRING=${fletch_CXX_STANDARD_VERSION}
   )
 
