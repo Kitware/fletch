@@ -110,7 +110,6 @@ set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
-set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
 ")
 
@@ -229,5 +228,7 @@ if (NOT "#@${fletch_requires_make}" STREQUAL "#@")
   endif()
 endif()
 
-
 configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
+
+# Last step, prepare install of fletch.
+include(${fletch_SOURCE_DIR}/CMake/fletch-install.cmake)
