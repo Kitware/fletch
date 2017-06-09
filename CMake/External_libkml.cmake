@@ -43,6 +43,8 @@ ExternalProject_Add(libkml
     ${libkml_use_external_boost}
 )
 
+fletch_external_project_force_install(PACKAGE libkml)
+
 set(LIBKML_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "" FORCE)
 set(LIBKML_LIBNAME kml)
 

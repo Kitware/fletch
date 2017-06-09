@@ -18,6 +18,8 @@ ExternalProject_Add(Protobuf
   INSTALL_COMMAND ${MAKE_EXECUTABLE} install
 )
 
+fletch_external_project_force_install(PACKAGE Protobuf)
+
 set(Protobuf_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "

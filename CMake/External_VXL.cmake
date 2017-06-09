@@ -116,6 +116,8 @@ ExternalProject_Add_Step(VXL forcebuild
   ALWAYS 1
   )
 
+fletch_external_project_force_install(PACKAGE VXL)
+
 include_directories( SYSTEM ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/vcl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/core )

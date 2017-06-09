@@ -23,6 +23,8 @@ ExternalProject_Add(libjson
     -DBUILD_SHARED_LIBS:BOOL=${json_build_shared}
 )
 
+fletch_external_project_force_install(PACKAGE libjson)
+
 set(LIBJSON_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 set(LIBJSON_LIBNAME json)
 

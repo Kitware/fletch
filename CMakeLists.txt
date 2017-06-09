@@ -196,6 +196,10 @@ foreach(source ${fletch_external_sources})
     # Workaround for a bug in Visual Studio generators
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_ALL True)
+    if (TARGET ${source}-install)
+      set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
+      set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_ALL True)
+    endif()
   endif()
 
 endforeach()
