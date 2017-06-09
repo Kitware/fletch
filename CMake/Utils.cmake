@@ -160,6 +160,10 @@ endfunction()
 # STEP_NAMES: (Optional) List here the name each of the install steps you want to
 #   ensure will be run after the build. If nothings, this default to "install".
 #
+# The global property fletch_INSTALL_STAMP_FILES is appended with the list of
+# stamp files that need to be deleted in order to re-run the install for each project
+# that call this function.
+#
 function(fletch_external_project_force_install)
   set(options)
   set(oneValueArgs PACKAGE)
@@ -181,5 +185,6 @@ function(fletch_external_project_force_install)
     endif()
 
     remove_file_before(TARGET ${MY_PACKAGE}-install FILE ${install_stamp_file})
+    set_property(GLOBAL APPEND PROPERTY fletch_INSTALL_STAMP_FILES ${install_stamp_file})
   endforeach()
 endfunction()
