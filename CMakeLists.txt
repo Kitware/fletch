@@ -184,7 +184,7 @@ set (COMMON_CMAKE_ARGS
 #
 set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
 foreach(source ${fletch_external_sources})
-  if (fletch_ENABLE_ALL_PACKAGES)
+  if (fletch_ENABLE_ALL_PACKAGES  AND NOT ${source}_experimental)
     set(fletch_ENABLE_${source} TRUE CACHE BOOL "" FORCE)
   endif()
 
