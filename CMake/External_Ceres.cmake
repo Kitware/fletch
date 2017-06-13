@@ -51,6 +51,8 @@ ExternalProject_Add(Ceres
     ${Ceres_EXTRA_BUILD_FLAGS}
   )
 
+fletch_external_project_force_install(PACKAGE Ceres)
+
 set(Ceres_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
 

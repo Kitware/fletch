@@ -273,6 +273,8 @@ ExternalProject_Add(Caffe
     ${CAFFE_GPU_ARGS}
   )
 
+fletch_external_project_force_install(PACKAGE Caffe)
+
 set(Caffe_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "

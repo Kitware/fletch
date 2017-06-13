@@ -13,6 +13,8 @@ ExternalProject_Add(log4cplus
       -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
     )
 
+fletch_external_project_force_install(PACKAGE log4cplus)
+
 set(LOG4CPLUS_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "

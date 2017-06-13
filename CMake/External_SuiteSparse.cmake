@@ -99,6 +99,7 @@ elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
 
 endif()
 
+fletch_external_project_force_install(PACKAGE SuiteSparse)
 
 set(SuiteSparse_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 set(SuiteSparse_INCLUDE_DIR ${SuiteSparse_ROOT}/include CACHE PATH "" FORCE)

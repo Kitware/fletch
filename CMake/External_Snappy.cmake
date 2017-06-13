@@ -23,6 +23,8 @@ else()
       )
 endif()
 
+fletch_external_project_force_install(PACKAGE Snappy)
+
 set(SNAPPY_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "

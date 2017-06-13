@@ -18,6 +18,8 @@ ExternalProject_Add(Eigen
     -DEIGEN_BUILD_PKGCONFIG:BOOL=False
 )
 
+fletch_external_project_force_install(PACKAGE Eigen)
+
 set(EIGEN_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 set(EIGEN_INCLUDE_DIR ${EIGEN_ROOT}/include/eigen3 CACHE STRING "")
 

@@ -191,6 +191,8 @@ ExternalProject_Add(Qt
   )
 add_dependencies(Download Qt-download)
 
+fletch_external_project_force_install(PACKAGE Qt)
+
 set(QT_QMAKE_EXECUTABLE ${fletch_BUILD_INSTALL_PREFIX}/bin/qmake
   CACHE FILEPATH "" FORCE )
 

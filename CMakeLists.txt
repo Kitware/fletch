@@ -48,6 +48,7 @@ set(fletch_DOWNLOAD_DIR ${fletch_SOURCE_DIR}/Downloads CACHE PATH
 include(${fletch_CMAKE_DIR}/Utils.cmake)
 
 add_custom_target(Download)
+add_custom_target(fletch-build-install)
 
 # Option to control GPU support
 option(fletch_DISABLE_GPU_SUPPORT "" FALSE)
@@ -110,7 +111,6 @@ set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
-set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
 ")
 
@@ -180,7 +180,7 @@ set (COMMON_CMAKE_ARGS
   )
 
 #
-#  Set up a download target
+#  Set up fletch targets
 #
 set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
 foreach(source ${fletch_external_sources})
@@ -200,8 +200,24 @@ foreach(source ${fletch_external_sources})
     # Workaround for a bug in Visual Studio generators
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_ALL True)
-  endif()
 
+    # Add the ${source}-install as a target to build to fletch-build-install
+    # if it exists
+    if (TARGET ${source}-install)
+      add_dependencies(fletch-build-install ${source}-install)
+      add_custom_command(TARGET fletch-build-install
+        COMMAND ${CMAKE_COMMAND} --build ${fletch_BINARY_DIR} --target ${source}-install
+        )
+      set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
+      set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_ALL True)
+    endif()
+  endif()
+endforeach()
+
+# Setup fletch-build-install target
+get_property(fletch_INSTALL_STAMP_FILES GLOBAL PROPERTY fletch_INSTALL_STAMP_FILES)
+foreach(install_stamp_file ${fletch_INSTALL_STAMP_FILES})
+  remove_file_before(TARGET fletch-build-install FILE ${install_stamp_file})
 endforeach()
 
 #+
@@ -216,5 +232,7 @@ if (NOT "#@${fletch_requires_make}" STREQUAL "#@")
   endif()
 endif()
 
-
 configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
+
+# Last step, prepare install of fletch.
+include(${fletch_SOURCE_DIR}/CMake/fletch-install.cmake)
