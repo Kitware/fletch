@@ -184,7 +184,11 @@ set (COMMON_CMAKE_ARGS
 #
 set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
 foreach(source ${fletch_external_sources})
-  if (fletch_ENABLE_ALL_PACKAGES)
+
+  # fletch_ENABLE_ALL_PACKAGES will automatically enable all commonly used packages
+  # Avoid building unused packages by adding an _experimental flag in CMake/fletch-tarballs.cmake
+  # For example, "set(ITK_experimental TRUE)" to avoid building ITK
+  if (fletch_ENABLE_ALL_PACKAGES  AND NOT ${source}_experimental)
     set(fletch_ENABLE_${source} TRUE CACHE BOOL "" FORCE)
   endif()
 
