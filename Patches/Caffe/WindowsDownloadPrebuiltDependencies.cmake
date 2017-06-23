@@ -4,6 +4,7 @@ set(DEPENDENCIES_URL_1900_27 "https://github.com/willyd/caffe-builder/releases/d
 set(DEPENDENCIES_SHA_1900_27 "17eecb095bd3b0774a87a38624a77ce35e497cd2")
 set(DEPENDENCIES_URL_1900_35 "https://github.com/willyd/caffe-builder/releases/download/v1.1.0/libraries_v140_x64_py35_1.1.0.tar.bz2")
 set(DEPENDENCIES_SHA_1900_35 "f060403fd1a7448d866d27c0e5b7dced39c0a607")
+set(MAX_MSVC_VERSION 1900) # If later versions of visual studio are added in the future, update dependency URL list and this number
 
 caffe_option(USE_PREBUILT_DEPENDENCIES "Download and use the prebuilt dependencies" ON IF MSVC)
 if(MSVC)
@@ -25,6 +26,11 @@ if(USE_PREBUILT_DEPENDENCIES)
         message(STATUS "Building without python. Prebuilt dependencies will default to Python 2.7")
         set(_pyver 27)
     endif()
+    if(${MSVC_VERSION} > ${MAX_MSVC_VERSION}) # Use the latest version we have
+        set(CAPPED_MSVC_VERSION ${MAX_MSVC_VERSION})
+	else()
+        set(CAPPED_MSVC_VERSION ${MSVC_VERSION})
+    endif()	
     if(NOT DEFINED DEPENDENCIES_URL_${MSVC_VERSION}_${_pyver})
         message(FATAL_ERROR "Could not find url for MSVC version = ${MSVC_VERSION} and Python version = ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}.")
     endif()
