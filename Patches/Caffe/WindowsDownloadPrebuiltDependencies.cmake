@@ -26,7 +26,7 @@ if(USE_PREBUILT_DEPENDENCIES)
         message(STATUS "Building without python. Prebuilt dependencies will default to Python 2.7")
         set(_pyver 27)
     endif()
-    if(${MSVC_VERSION} > ${MAX_MSVC_VERSION}) # Use the latest version we have
+    if(${MSVC_VERSION} GREATER ${MAX_MSVC_VERSION}) # Use the latest version we have
         set(CAPPED_MSVC_VERSION ${MAX_MSVC_VERSION})
 	else()
         set(CAPPED_MSVC_VERSION ${MSVC_VERSION})
