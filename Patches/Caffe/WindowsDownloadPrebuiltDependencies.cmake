@@ -153,7 +153,7 @@ if(USE_PREBUILT_DEPENDENCIES)
 
 		# ZLIB config
 		set(ZLIB_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
-		set(ZLIB_LIBRARY_DEBUG  ${CMAKE_INSTALL_PREFIX}/lib/zlibd.lib CACHE FILEPATH "")
+		set(ZLIB_LIBRARY_DEBUG  ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib CACHE FILEPATH "")
 		set(ZLIB_LIBRARY_RELEASE  ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib CACHE FILEPATH "")
 
 		# They use a lot of hard coding and reliance on extracted files that need to be patched over.
