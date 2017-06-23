@@ -14,3 +14,11 @@ file(COPY ${OpenCV_patch}/graphcuts.cpp
 file(COPY ${OpenCV_patch}/OpenCVFindLibsVideo.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
+
+# Support MSVC 2017
+file(COPY ${OpenCV_patch}/OpenCVConfig.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
+file(COPY ${OpenCV_patch}/OpenCVDetectCXXCompiler.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
