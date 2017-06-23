@@ -243,8 +243,6 @@ endif()
 
 # Main build and install command
 if(WIN32)
-#link_libraries(${fletch_BUILD_PREFIX}/src/Caffe-build/libraries/lib)
-
 ExternalProject_Add(Caffe
   DEPENDS ${Caffe_DEPENDS}
   URL ${Caffe_url}
@@ -265,12 +263,11 @@ ExternalProject_Add(Caffe
     -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
     -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
     -DBOOST_ROOT:PATH=${BOOST_ROOT}
-	-DBoost_USE_STATIC_LIBS:BOOL=OFF
+    -DBoost_USE_STATIC_LIBS:BOOL=OFF
     -DBLAS:STRING=Open
-	-DBUILD_SHARED_LIBS:BOOL=ON
+    -DBUILD_SHARED_LIBS:BOOL=ON
     ${PYTHON_ARGS}
     ${CAFFE_GPU_ARGS}
-
 )
 else()
 ExternalProject_Add(Caffe
