@@ -48,6 +48,7 @@ set(fletch_DOWNLOAD_DIR ${fletch_SOURCE_DIR}/Downloads CACHE PATH
 include(${fletch_CMAKE_DIR}/Utils.cmake)
 
 add_custom_target(Download)
+add_custom_target(fletch-build-install)
 
 # Options to control GPU support
 option(fletch_BUILD_WITH_CUDA "Build with CUDA support" FALSE)
@@ -83,19 +84,20 @@ endif()
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 
-#
-# Create a CMake Version file
-#
-configure_file(
-  ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
-  ${fletch_BINARY_DIR}/fletchConfig-version.cmake
-  @ONLY IMMEDIATE)
 
 # If fletch is being configured from the outside ( e.g. from a super-build)
 # allow the configuring package to set the install prefix.
 if (NOT fletch_BUILD_INSTALL_PREFIX)
   set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
 endif()
+
+#
+# Create a CMake Version file
+#
+configure_file(
+  ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
+  ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig-version.cmake
+  @ONLY IMMEDIATE)
 
 #+
 # Each External_xxx is responsible for updating this file with their
@@ -105,7 +107,7 @@ endif()
 #-
 
 set(fletch_CONFIG_INPUT ${fletch_BINARY_DIR}/fletchConfig.cmake.in )
-set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
+set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig.cmake )
 set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 
 
@@ -119,7 +121,6 @@ set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
-set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
 ")
 
@@ -185,16 +186,19 @@ set (COMMON_CMAKE_ARGS
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
   -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
   -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
-  -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_CXX_STANDARD:STRING=${fletch_CXX_STANDARD_VERSION}
   )
 
 #
-#  Set up a download target
+#  Set up fletch targets
 #
 set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
 foreach(source ${fletch_external_sources})
-  if (fletch_ENABLE_ALL_PACKAGES)
+
+  # fletch_ENABLE_ALL_PACKAGES will automatically enable all commonly used packages
+  # Avoid building unused packages by adding an _experimental flag in CMake/fletch-tarballs.cmake
+  # For example, "set(ITK_experimental TRUE)" to avoid building ITK
+  if (fletch_ENABLE_ALL_PACKAGES  AND NOT ${source}_experimental)
     set(fletch_ENABLE_${source} TRUE CACHE BOOL "" FORCE)
   endif()
 
@@ -206,8 +210,24 @@ foreach(source ${fletch_external_sources})
     # Workaround for a bug in Visual Studio generators
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_ALL True)
-  endif()
 
+    # Add the ${source}-install as a target to build to fletch-build-install
+    # if it exists
+    if (TARGET ${source}-install)
+      add_dependencies(fletch-build-install ${source}-install)
+      add_custom_command(TARGET fletch-build-install
+        COMMAND ${CMAKE_COMMAND} --build ${fletch_BINARY_DIR} --target ${source}-install
+        )
+      set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
+      set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_ALL True)
+    endif()
+  endif()
+endforeach()
+
+# Setup fletch-build-install target
+get_property(fletch_INSTALL_STAMP_FILES GLOBAL PROPERTY fletch_INSTALL_STAMP_FILES)
+foreach(install_stamp_file ${fletch_INSTALL_STAMP_FILES})
+  remove_file_before(TARGET fletch-build-install FILE ${install_stamp_file})
 endforeach()
 
 #+
@@ -222,5 +242,7 @@ if (NOT "#@${fletch_requires_make}" STREQUAL "#@")
   endif()
 endif()
 
-
 configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
+
+# Last step, prepare install of fletch.
+include(${fletch_SOURCE_DIR}/CMake/fletch-install.cmake)

@@ -19,6 +19,8 @@ ExternalProject_Add(shapelib
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
 )
 
+fletch_external_project_force_install(PACKAGE shapelib)
+
 set(SHAPELIB_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 set(SHAPELIB_LIBNAME shp)
 

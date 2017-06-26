@@ -19,6 +19,8 @@ ExternalProject_Add(libxml2
   INSTALL_COMMAND ${MAKE_EXECUTABLE} install
 )
 
+fletch_external_project_force_install(PACKAGE libxml2)
+
 set(LIBXML2_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 set(LIBXML2_LIBNAME xml2)
 

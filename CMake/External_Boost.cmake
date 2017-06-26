@@ -61,6 +61,8 @@ ExternalProject_Add(Boost
 )
 add_dependencies(Download Boost-download)
 
+fletch_external_project_force_install(PACKAGE Boost)
+
 set(BOOST_ROOT ${fletch_BUILD_INSTALL_PREFIX})
 
 file(APPEND ${fletch_CONFIG_INPUT} "
