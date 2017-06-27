@@ -322,6 +322,12 @@ if(WIN32)
   list(APPEND fletch_external_sources Caffe)
 endif()
 
+# Tensorflow
+set(Tensorflow_version "r1.2")
+set(Tensorflow_url "https://github.com/tensorflow/tensorflow/archive/${Tensorflow_version}.zip")
+set(Tensorflow_md5 "ef6bb9fea0e7057519d867e921334458")
+list(APPEND fletch_external_sources Tensorflow)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
