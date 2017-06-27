@@ -57,6 +57,6 @@ set(LIBKML_ROOT    @LIBKML_ROOT@)
 set(LIBKML_DIR     @LIBKML_DIR@)
 set(LIBKML_LIBNAME @LIBKML_LIBNAME@)
 
-set(fletch_ENABLED_libml TRUE)
+set(fletch_ENABLED_libkml TRUE)
 ")
 
