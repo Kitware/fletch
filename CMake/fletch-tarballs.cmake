@@ -284,6 +284,12 @@ set(HDF5_url "https://support.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-${HDF5_ve
 set(HDF5_md5 "bdf0fc3d648679eeb5d7b4b78f92a83f")
 list(APPEND fletch_external_sources HDF5)
 
+# SWIG
+set(SWIG_version "cmake")
+set(SWIG_url "https://github.com/swig/swig/archive/${SWIG_version}.zip")
+set(SWIG_md5 "b691d887f8919e6690c2a124f80628bf")
+list(APPEND fletch_external_sources SWIG)
+
 # SNAPPY
 if(NOT WIN32)
   SET(Snappy_version "1.1.3")

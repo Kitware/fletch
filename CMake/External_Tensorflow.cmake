@@ -1,5 +1,20 @@
 # The Tensorflow external project
 
+if(NOT fletch_ENABLE_SWIG)
+  message(FATAL_ERROR "Error: SWIG required for tensorflow")
+else()
+  set(Tensorflow_DEPENDS ${Tensorflow_DEPENDS} SWIG)
+  if(WIN32)
+    set(SWIG_BUILD_FLAGS
+      -DSWIG_DIR=${fletch_BUILD_PREFIX}/src/SWIG-build
+      -DSWIG_EXECUTABLE=${fletch_BUILD_PREFIX}/src/SWIG-build/swig.exe)
+  else()
+    set(SWIG_BUILD_FLAGS
+      -DSWIG_DIR=${fletch_BUILD_PREFIX}/src/SWIG-build
+      -DSWIG_EXECUTABLE=${fletch_BUILD_PREFIX}/src/SWIG-build/swig)
+  endif()
+endif()
+
 ExternalProject_Add(Tensorflow
   DEPENDS ${Tensorflow_DEPENDS}
   URL ${Tensorflow_url}
@@ -15,6 +30,7 @@ ExternalProject_Add(Tensorflow
     -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
     -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
     -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+    ${SWIG_BUILD_FLAGS}
     ${Tensorflow_EXTRA_BUILD_FLAGS}
     ${fletch_BUILD_PREFIX}/src/Tensorflow/tensorflow/contrib/cmake
   BUILD_COMMAND ${MAKE_EXECUTABLE}
