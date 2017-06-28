@@ -24,7 +24,6 @@ else()
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
-    ${PROTOBUF_PATCH_ARG}
     CONFIGURE_COMMAND ./autogen.sh && ./configure
       --prefix=${fletch_BUILD_INSTALL_PREFIX}
     BUILD_COMMAND ${MAKE_EXECUTABLE}
