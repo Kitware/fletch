@@ -68,7 +68,7 @@ else()
       --prefix=${fletch_BUILD_INSTALL_PREFIX}
     BUILD_COMMAND bazel build
       ${TENSORFLOW_BUILD_PARAMS}
-    INSTALL_COMMAND
+    INSTALL_COMMAND ""
     )
 endif()
 
