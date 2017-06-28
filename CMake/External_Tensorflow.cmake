@@ -70,8 +70,11 @@ else()
     CONFIGURE_COMMAND ./configure
       --prefix=${fletch_BUILD_INSTALL_PREFIX}
     BUILD_COMMAND bazel build
-      ${TENSORFLOW_BUILD_PARAMS}
-    INSTALL_COMMAND ""
+      ${TENSORFLOW_BUILD_PARAMS} &&
+      bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+    INSTALL_COMMAND
+      pip install /tmp/tensorflow_pkg/tensorflow-1.2.0-cp27-none-linux_x86_64.whl
+        -t ${fletch_BUILD_INSTALL_PREFIX}/python
     )
 endif()
 
