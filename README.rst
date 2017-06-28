@@ -44,10 +44,10 @@ in the second list above.  If you naively build OpevCV and VXL, for example,
 each may provide its own copy of libjpeg, libtiff, etc.  This is not a problem
 for the individual projects, but when you try to build a project, like KWIVER,
 against both of them you end up with conflicts from linking to multiple
-versions of the same project.
+versions of the same library.
 
-These same problems are address by package managers in Linux distributions and
-projects like MacPorts and Brew on MacOS.  However, each package manager has
+These same problems are addressed by package managers in Linux distributions
+and projects like MacPorts and Brew on MacOS.  However, each package manager has
 its own versions of each of the packages and these are specific to the package
 manager and to the operating system.  If we make KWIVER build against Ubuntu
 16.04 packages it might not build against the packaged versions provided by RHEL
@@ -112,8 +112,6 @@ want the C++ libraries built.
 
 ============================== =================================================
 ``CMAKE_BUILD_TYPE``           The compiler mode, usually ``Debug`` or ``Release``
-``CMAKE_INSTALL_PREFIX``       The path to where you want MAP-Tk to install
-
 ``fletch_ENABLE_ALL_PACKAGES`` Turn all packages on
                                (you can turn some back off later)
 ``fletch_BUILD_WITH_PYTHON``   Build all the packages with Python support
@@ -121,7 +119,7 @@ want the C++ libraries built.
                                This is required for KWIVER.
 ``fletch_DOWNLOAD_DIR``        This is where Fletch will cache downloaded source
                                source code tarballs
-``fletch_ENABLE_`` Package     Enables the named packaged for building
+``fletch_ENABLE_``*package*    Enables the named packaged for building
 ============================== =================================================
 
 Getting Help
