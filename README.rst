@@ -13,6 +13,7 @@ together nicely.  Futhermore it provides this environment in a standard way
 across platforms: Linux, MacOS, and Windows.
 
 Some of the bigger projects that Fletch builds are
+
  - Caffe
  - OpenCV
  - VXL
@@ -23,6 +24,7 @@ Some of the bigger projects that Fletch builds are
  - Eigen
 
 Additionally Fletch builds other projects required by the above like
+
  - libpng
  - libtiff
  - libjpeg
@@ -32,7 +34,7 @@ Additionally Fletch builds other projects required by the above like
  - GFlags
  - SuiteSparse
 
-For a complete and updated list of packages see CMake/fletch-tarballs.cmake.
+For a complete and updated list of packages see `<CMake/fletch-tarballs.cmake>`_.
 
 
 Motivation
@@ -119,7 +121,7 @@ want the C++ libraries built.
                                This is required for KWIVER.
 ``fletch_DOWNLOAD_DIR``        This is where Fletch will cache downloaded source
                                source code tarballs
-``fletch_ENABLE_``*package*    Enables the named packaged for building
+``fletch_ENABLE_`` *package*   Enables the named *package* for building
 ============================== =================================================
 
 Getting Help
