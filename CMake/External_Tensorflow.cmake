@@ -56,6 +56,9 @@ else()
     set( TENSORFLOW_BUILD_PARAMS ${TENSORFLOW_BUILD_PARAMS} --config=cuda )
   endif()
 
+  set( TENSORFLOW_BUILD_PARAMS ${TENSORFLOW_BUILD_PARAMS}
+    //tensorflow/tools/pip_package:build_pip_package )
+
   ExternalProject_Add(Tensorflow
     DEPENDS ${Tensorflow_DEPENDS}
     URL ${Tensorflow_url}
