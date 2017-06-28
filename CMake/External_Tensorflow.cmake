@@ -1,7 +1,11 @@
 # The Tensorflow external project
 
+if(NOT fletch_BUILD_WITH_PYTHON)
+  message(FATAL_ERROR "Error: A build with Python is required for building Tensorflow")
+endif()
+
 if(NOT fletch_ENABLE_SWIG)
-  message(FATAL_ERROR "Error: SWIG required for tensorflow")
+  message(FATAL_ERROR "Error: SWIG is required for building Tensorflow")
 else()
   set(Tensorflow_DEPENDS ${Tensorflow_DEPENDS} SWIG)
   if(WIN32)
@@ -10,8 +14,8 @@ else()
       -DSWIG_EXECUTABLE=${fletch_BUILD_PREFIX}/src/SWIG-build/swig.exe)
   else()
     set(SWIG_BUILD_FLAGS
-      -DSWIG_DIR=${fletch_BUILD_PREFIX}/src/SWIG-build
-      -DSWIG_EXECUTABLE=${fletch_BUILD_PREFIX}/src/SWIG-build/swig)
+      -DSWIG_DIR=${fletch_BUILD_INSTALL_PREFIX}
+      -DSWIG_EXECUTABLE=${fletch_BUILD_INSTALL_PREFIX}/bin/swig)
   endif()
 endif()
 
@@ -30,6 +34,8 @@ ExternalProject_Add(Tensorflow
     -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
     -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
     -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+    -Dtensorflow_BUILD_PYTHON_BINDINGS:BOOL=${fletch_BUILD_WITH_PYTHON}
+    -Dtensorflow_ENABLE_GPU:BOOL=${fletch_BUILD_WITH_CUDA}
     ${SWIG_BUILD_FLAGS}
     ${Tensorflow_EXTRA_BUILD_FLAGS}
     ${fletch_BUILD_PREFIX}/src/Tensorflow/tensorflow/contrib/cmake
