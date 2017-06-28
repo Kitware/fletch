@@ -46,7 +46,7 @@ if(WIN32)
 else()
   find_program( Bazel NAMES bazel )
 
-  if( Bazel-NOTFOUND )
+  if( NOT Bazel )
     message( FATAL_ERROR "Unable to find Bazel, required for building Tensorflow" )
   endif()
 
