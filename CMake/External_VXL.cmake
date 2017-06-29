@@ -123,12 +123,13 @@ include_directories( SYSTEM ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/core )
 
 set(VXL_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
+set(VXL_DIR "${VXL_ROOT}/share/vxl/cmake" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # VXL
 ################################
 set(VXL_ROOT @VXL_ROOT@)
-set(VXL_DIR @VXL_ROOT@/share/vxl/cmake)
+set(VXL_DIR @VXL_DIR@)
 
 set(fletch_ENABLED_VXL TRUE)
 ")
