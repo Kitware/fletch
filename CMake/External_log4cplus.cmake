@@ -11,18 +11,18 @@ ExternalProject_Add(log4cplus
       ${COMMON_CMAKE_ARGS}
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
       -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
+      -DUNICODE:BOOL=OFF
     )
 
 fletch_external_project_force_install(PACKAGE log4cplus)
 
-set(Log4cplus_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
-set(Log4cplus_DIR "${Log4cplus_ROOT}/lib/cmake/log4cplus" CACHE PATH "" FORCE)
+set(log4cplus_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # log4cplus
 ########################################
-set(Log4cplus_ROOT    @Log4cplus_ROOT@)
-set(Log4cplus_DIR     @Log4cplus_DIR@)
-set(fletch_ENABLED_Log4cplus TRUE)
+set(log4cplus_ROOT   @log4cplus_ROOT@)
+set(log4cplus_DIR    @log4cplus_ROOT@/lib/cmake/log4cplus)
+set(fletch_ENABLED_log4cplus TRUE)
 ")
