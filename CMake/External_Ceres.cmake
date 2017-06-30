@@ -60,6 +60,8 @@ else()
   set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
 endif()
 
+
+
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Ceres
