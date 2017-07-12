@@ -111,6 +111,7 @@ set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
+set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
 ")
 
