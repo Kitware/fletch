@@ -124,17 +124,51 @@ want the C++ libraries built.
 ``fletch_ENABLE_`` *package*   Enables the named *package* for building
 ============================== =================================================
 
+CMake Configuration
+-------------------
+
+The recommended CMake configuration is to enable all packages and, if desired, python :
+
+If you are using ccmake or the CMake GUI, simply check the option for fletch_ENABLE_ALL_PACKAGES and, if desired, fletch_ENABLE_PYTHON
+
+If you are running from a shell or cmd window,
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~bash
+mkdir fletch
+cd fletch
+# Pull the source into a subfolder 'src'
+git clone https://github.com/Kitware/fletch.git src
+# Create a folder to build in
+mkdir build
+cd build
+# Feel free to make subfolders here, like debug or release
+# Generate a make file/msvc solution from the desired subfolder 
+# Note you need to provide cmake the source directory at the end (relative or absolute)
+# Run CMake (it will use the system default compiler if you don't provide options or use the CMake GUI)
+# Also, if using visual studio, you do no need to provide the build type
+cmake -DCMAKE_BUILD_TYPE=Release -Dfletch_ENABLE_ALL_PACKAGES=ON -Dfletch_ENABLE_PYTHON=ON ../src
+# Again, python very popular option, but is optional
+
+# Execute make on Linux/OSX/MinGW 
+make 
+
+# For MSVC
+# Open the generated fletch.sln and build the project in the desired configuration.
+# Note you should only build one configuration, if you need multiple configurations
+# you should create multiple subfolders and repeat the above insturctions for each configuration
+# Also If you enable Python, please ensure that python is on your Windows PATH 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
 Getting Help
 ============
 
-MAP-Tk is a component of Kitware_'s collection of open source computer vision
-tools known as KWIVER_. Please join the
-`kwiver-users <http://public.kitware.com/mailman/listinfo/kwiver-users>`_
+Fletch is a component of Kitware_'s collection of open source tools. 
+Please join the `fletch-users <http://public.kitware.com/mailman/listinfo/fletch-users>`_
 mailing list to discuss Fletch or to ask for help with using Fletch.
-For less frequent announcements about Fletch and other KWIVER components,
-please join the
-`kwiver-announce <http://public.kitware.com/mailman/listinfo/kwiver-announce>`_
-mailing list.
+
 
 
 .. Appendix I: References
