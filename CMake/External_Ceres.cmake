@@ -54,7 +54,13 @@ ExternalProject_Add(Ceres
 fletch_external_project_force_install(PACKAGE Ceres)
 
 set(Ceres_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
-set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
+if(WIN32)
+  set(Ceres_DIR "${Ceres_ROOT}/CMake" CACHE PATH "" FORCE)
+else()
+  set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
+endif()
+
+
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
