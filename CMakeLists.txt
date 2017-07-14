@@ -97,7 +97,7 @@ configure_file(
 #-
 
 set(fletch_CONFIG_INPUT ${fletch_BINARY_DIR}/fletchConfig.cmake.in )
-set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig.cmake )
+set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
 set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 
 
