@@ -108,10 +108,13 @@ set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 #  DESTINATION ${fletch_BUILD_INSTALL_SHARE_CMAKE_PREFIX} )
 
 
+# We are using fletch_INSTALL_BUILD_DIR to define where Fletch_ROOT is at configure time
+# If installed, it is set to CMAKE_PREFIX before configure, otherwise, set to fletch_ROOT
+set(fletch_INSTALL_BUILD_DIR ${fletch_BUILD_INSTALL_PREFIX})
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
-set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
+set(fletch_ROOT @fletch_INSTALL_BUILD_DIR@)
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
 ")
 
