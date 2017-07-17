@@ -27,9 +27,9 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # EIGEN
 ########################################
-set(EIGEN_ROOT    @EIGEN_ROOT@)
-set(EIGEN3_ROOT    @EIGEN_ROOT@)
-set(EIGEN_INCLUDE_DIR @EIGEN_INCLUDE_DIR@)
-set(EIGEN3_INCLUDE_DIR @EIGEN_INCLUDE_DIR@)
+set(EIGEN_ROOT    \$\{fletch_ROOT\})
+set(EIGEN3_ROOT   \$\{fletch_ROOT\})
+set(EIGEN_INCLUDE_DIR \$\{fletch_ROOT\}/include/eigen3)
+set(EIGEN3_INCLUDE_DIR \$\{fletch_ROOT\}/include/eigen3)
 set(fletch_ENABLED_Eigen TRUE)
 ")

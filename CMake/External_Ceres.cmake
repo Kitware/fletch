@@ -66,7 +66,12 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Ceres
 ########################################
-set(Ceres_ROOT @Ceres_ROOT@)
-set(Ceres_DIR @Ceres_DIR@)
+set(Ceres_ROOT \$\{fletch_ROOT\})
+if(WIN32)
+  set(Ceres_DIR \$\{fletch_ROOT\}/CMake)
+else()
+  set(Ceres_DIR \$\{fletch_ROOT\}/share/Ceres)
+endif()
+
 set(fletch_ENABLED_Ceres TRUE)
 ")

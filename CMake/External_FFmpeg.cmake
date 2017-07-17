@@ -1,4 +1,3 @@
-
 if (WIN32)
   # On windows, FFMPEG relies on prebuilt binaries. These binaries come in two
   # archives, dev and shared. An external project is added for each of them just
@@ -85,5 +84,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # FFmpeg
 #######################################
-set(FFmpeg_ROOT @FFmpeg_ROOT@)
+set(FFmpeg_ROOT \$\{fletch_ROOT\})
 ")
