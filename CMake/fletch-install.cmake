@@ -26,3 +26,10 @@ install(
   RENAME
   fletchConfig.cmake
   )
+
+install(
+  FILES
+  ${fletch_BUILD_DIR}/fletchConfig-version.cmake
+  DESTINATION
+  ${CMAKE_INSTALL_PREFIX}/lib/cmake/fletch/
+  )

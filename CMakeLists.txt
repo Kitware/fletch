@@ -88,9 +88,10 @@ endif()
 #
 # Create a CMake Version file
 #
+set(fletch_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(
   ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
-  ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig-version.cmake
+  ${fletch_BUILD_DIR}/fletchConfig-version.cmake
   @ONLY IMMEDIATE)
 
 #+
