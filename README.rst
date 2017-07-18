@@ -84,23 +84,6 @@ Currently, a compiler with at C++11 support is expected (e.g. GCC 4.8, Visual
 Studio 2015) is required.  KWIVER requires C++11; however, Fletch may compile
 with older compilers.
 
-
-Running CMake
--------------
-
-We recommend building Fletch out of the source directory to prevent mixing
-source files with compiled products.  Create a build directory in parallel
-with the Fletch source directory.  From the command line, enter the
-empty build directory and run::
-
-    $ ccmake /path/to/fletch/source
-
-where the path above is the location of your Fletch source tree.  The ccmake
-tool allows for interactive selection of CMake options.  Alternatively, using
-the CMake GUI you can set the source and build directories accordingly and
-press the "Configure" button.
-
-
 CMake Options
 -------------
 
@@ -124,18 +107,64 @@ want the C++ libraries built.
 ``fletch_ENABLE_`` *package*   Enables the named *package* for building
 ============================== =================================================
 
+Running CMake
+-------------
+
+You may run cmake directly from a shell or cmd window.
+On unix systems, the ccmake tool allows for interactive selection of CMake options.  
+Available for all platforms, the CMake GUI can set the source and build directories, options,
+"Configure" and "Generate" the build files all with the click of a few button.
+When running the cmake gui, we also recommend to select the 'Grouped' and 'Advanced' options
+to better organize the options available.
+
+We recommend building Fletch out of the source directory to prevent mixing
+source files with compiled products.  Create a build directory in parallel
+with the Fletch source directory for each desired configuration. For example :
+
+========================== ===================================================================
+``\fletch\src``             contains the code from the git repository
+``\fletch\build\rel``       contains the built files for the release configuration
+``\fletch\build\deb``       contains the built files for the debug configuration
+========================== ===================================================================
+
+** NOTE: Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug' **
+
+The recommended CMake configuration is to enable all packages and, if desired, python.
+
+If you are using ccmake or the CMake GUI,
+* Set the source and build locations
+* Check the option for fletch_ENABLE_ALL_PACKAGES and, if desired, fletch_ENABLE_PYTHON
+* Configure
+* Generate the build files
+
+Running from a shell or cmd window::
+
+  mkdir fletch
+  cd fletch
+  # Pull the source into a subfolder 'src'
+  git clone https://github.com/Kitware/fletch.git src
+  # Create a folder to build in
+  mkdir build/rel
+  cd build/rel
+  # Note you need to provide cmake the source directory at the end (relative or absolute)
+  # Run CMake (it will use the system default compiler if you don't provide options or use the CMake GUI)
+  # Also, if using visual studio, you do no need to provide the build type
+  cmake -DCMAKE_BUILD_TYPE=Release -Dfletch_ENABLE_ALL_PACKAGES=ON -Dfletch_ENABLE_PYTHON=ON ../../src
+  # Again, python very popular option, but is optional
+  
+On Linux/OSX/MinGW, execute make
+  
+For MSVC users, open the generated fletch.sln and build the project in the configuration associated with the build folder.
+Even though MSVC supports building multiple configurations, you should only build one configuration per build folder.
+If you need multiple configurations you should create multiple subfolders and repeat the above instructions for each configuration.
+Also If you enable Python, please ensure that python is on your Windows PATH 
+
 Getting Help
 ============
 
-MAP-Tk is a component of Kitware_'s collection of open source computer vision
-tools known as KWIVER_. Please join the
-`kwiver-users <http://public.kitware.com/mailman/listinfo/kwiver-users>`_
+Fletch is a component of Kitware_'s collection of open source tools. 
+Please join the `fletch-users <http://public.kitware.com/mailman/listinfo/fletch-users>`_
 mailing list to discuss Fletch or to ask for help with using Fletch.
-For less frequent announcements about Fletch and other KWIVER components,
-please join the
-`kwiver-announce <http://public.kitware.com/mailman/listinfo/kwiver-announce>`_
-mailing list.
-
 
 .. Appendix I: References
 .. ======================
