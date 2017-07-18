@@ -26,6 +26,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # Google Protobuf
 #######################################
-set(Protobuf_ROOT @Protobuf_ROOT@)
+set(Protobuf_ROOT \$\{fletch_ROOT\})
 ")
 

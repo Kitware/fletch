@@ -29,7 +29,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # TinyXML
 ########################################
-set(TinyXML_ROOT @TinyXML_ROOT@)
+set(TinyXML_ROOT \$\{fletch_ROOT\})
 
 set(fletch_ENABLED_TinyXML TRUE)
 ")

@@ -26,9 +26,9 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # PROJ4
 ########################################
-set(PROJ4_ROOT @PROJ4_ROOT@)
-set(PROJ4_INCLUDE_DIR @PROJ4_INCLUDE_DIR@)
-set(PROJ_INCLUDE_DIR @PROJ4_INCLUDE_DIR@)
+set(PROJ4_ROOT \$\{fletch_ROOT\})
+set(PROJ4_INCLUDE_DIR \$\{fletch_ROOT\}/include)
+set(PROJ_INCLUDE_DIR \$\{fletch_ROOT\}/include)
 
 set(fletch_ENABLED_PROJ4 TRUE)
 ")

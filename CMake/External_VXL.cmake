@@ -128,8 +128,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # VXL
 ################################
-set(VXL_ROOT @VXL_ROOT@)
-set(VXL_DIR @VXL_DIR@)
+set(VXL_ROOT \$\{fletch_ROOT\})
+set(VXL_DIR \$\{fletch_ROOT\}/share/vxl/cmake)
 
 set(fletch_ENABLED_VXL TRUE)
 ")

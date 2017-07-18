@@ -22,7 +22,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # log4cplus
 ########################################
-set(log4cplus_ROOT   @log4cplus_ROOT@)
-set(log4cplus_DIR    @log4cplus_ROOT@/lib/cmake/log4cplus)
+set(log4cplus_ROOT   \$\{fletch_ROOT\})
+set(log4cplus_DIR    \$\{fletch_ROOT\}/lib/cmake/log4cplus)
 set(fletch_ENABLED_log4cplus TRUE)
 ")

@@ -79,14 +79,19 @@ option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 # allow the configuring package to set the install prefix.
 if (NOT fletch_BUILD_INSTALL_PREFIX)
   set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
+  # If building fletch from inside, change config out directory to the build directory
+  set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
+else()
+  set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig.cmake )
 endif()
 
 #
 # Create a CMake Version file
 #
+set(fletch_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(
   ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
-  ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig-version.cmake
+  ${fletch_BUILD_DIR}/fletchConfig-version.cmake
   @ONLY IMMEDIATE)
 
 #+
@@ -97,7 +102,6 @@ configure_file(
 #-
 
 set(fletch_CONFIG_INPUT ${fletch_BINARY_DIR}/fletchConfig.cmake.in )
-set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig.cmake )
 set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 
 
@@ -108,9 +112,13 @@ set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 #  DESTINATION ${fletch_BUILD_INSTALL_SHARE_CMAKE_PREFIX} )
 
 
+# We are using fletch_INSTALL_BUILD_DIR to define where Fletch_ROOT is at configure time
+# If installed, it is set to CMAKE_PREFIX before configure, otherwise, set to fletch_ROOT
+set(fletch_INSTALL_BUILD_DIR ${fletch_BUILD_INSTALL_PREFIX})
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
+set(fletch_ROOT @fletch_INSTALL_BUILD_DIR@)
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
 ")
 
