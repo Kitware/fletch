@@ -1,4 +1,3 @@
-
 if (WIN32)
 
   # Build option for windows not yet generated
@@ -34,5 +33,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # LMDB
 ########################################
-set(LMDB_ROOT    @LMDB_ROOT@)
+set(LMDB_ROOT    \$\{fletch_ROOT\})
 ")
