@@ -5,6 +5,7 @@ set(DEPENDENCIES_SHA_1900_27 "17eecb095bd3b0774a87a38624a77ce35e497cd2")
 set(DEPENDENCIES_URL_1900_35 "https://github.com/willyd/caffe-builder/releases/download/v1.1.0/libraries_v140_x64_py35_1.1.0.tar.bz2")
 set(DEPENDENCIES_SHA_1900_35 "f060403fd1a7448d866d27c0e5b7dced39c0a607")
 set(MAX_MSVC_VERSION 1900) # If later versions of visual studio are added in the future, update dependency URL list and this number
+set(vc_version vc140)
 
 caffe_option(USE_PREBUILT_DEPENDENCIES "Download and use the prebuilt dependencies" ON IF MSVC)
 if(MSVC)
@@ -28,15 +29,16 @@ if(USE_PREBUILT_DEPENDENCIES)
     endif()
     if(${MSVC_VERSION} GREATER ${MAX_MSVC_VERSION}) # Use the latest version we have
         set(CAPPED_MSVC_VERSION ${MAX_MSVC_VERSION})
+        set(vc_version vc150)
 	else()
         set(CAPPED_MSVC_VERSION ${MSVC_VERSION})
     endif()	
-    if(NOT DEFINED DEPENDENCIES_URL_${MSVC_VERSION}_${_pyver})
-        message(FATAL_ERROR "Could not find url for MSVC version = ${MSVC_VERSION} and Python version = ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}.")
+    if(NOT DEFINED DEPENDENCIES_URL_${CAPPED_MSVC_VERSION}_${_pyver})
+        message(FATAL_ERROR "Could not find url for MSVC version = ${CAPPED_MSVC_VERSION} and Python version = ${_pyver}.")
     endif()
     # set the dependencies URL and SHA1
-    set(DEPENDENCIES_URL ${DEPENDENCIES_URL_${MSVC_VERSION}_${_pyver}})
-    set(DEPENDENCIES_SHA ${DEPENDENCIES_SHA_${MSVC_VERSION}_${_pyver}})
+    set(DEPENDENCIES_URL ${DEPENDENCIES_URL_${CAPPED_MSVC_VERSION}_${_pyver}})
+    set(DEPENDENCIES_SHA ${DEPENDENCIES_SHA_${CAPPED_MSVC_VERSION}_${_pyver}})
     # create the download directory if it does not exist
     if(NOT EXISTS ${CAFFE_DEPENDENCIES_DOWNLOAD_DIR})
       file(MAKE_DIRECTORY ${CAFFE_DEPENDENCIES_DOWNLOAD_DIR})
@@ -162,25 +164,44 @@ if(USE_PREBUILT_DEPENDENCIES)
 		set(ZLIB_LIBRARY_DEBUG  ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib CACHE FILEPATH "")
 		set(ZLIB_LIBRARY_RELEASE  ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib CACHE FILEPATH "")
 
-		# They use a lot of hard coding and reliance on extracted files that need to be patched over.
-		file(WRITE ${CMAKE_INSTALL_PREFIX}/cmake/leveldb-targets-release.cmake
-		   "#---------------------------------------------------------------- \n" 
-		   "# Generated CMake target import file for configuration 'Release'. \n"
-		   "#---------------------------------------------------------------- \n"
-		   "# Commands may need to know the format version. \n"
-		   "set(CMAKE_IMPORT_FILE_VERSION 1) \n"
-		   "# Import target 'leveldb' for configuration 'Release' \n"
-		   "set_property(TARGET leveldb APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE) \n"
-		   "set_target_properties(leveldb PROPERTIES \n"
-		   "  IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE \"CXX\" \n"
-		   "  IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE \"${CMAKE_INSTALL_PREFIX}/lib/boost_date_time-vc140-mt-1_55.lib;${CMAKE_INSTALL_PREFIX}/lib/boost_filesystem-vc140-mt-1_55.lib;${CMAKE_INSTALL_PREFIX}/lib/boost_system-vc140-mt-1_55.lib\"\n"
-		   "  IMPORTED_LOCATION_RELEASE \"${CMAKE_INSTALL_PREFIX}/lib/leveldb.lib\" \n"
-		   "  ) \n"
-		   "list(APPEND _IMPORT_CHECK_TARGETS leveldb ) \n"
-		   "list(APPEND _IMPORT_CHECK_FILES_FOR_leveldb \"${CMAKE_INSTALL_PREFIX}/lib/leveldb.lib\" ) \n"
-		   "# Commands beyond this point should not need to know the version. \n"
-		   "set(CMAKE_IMPORT_FILE_VERSION) "
-		)
+        file(WRITE ${CMAKE_INSTALL_PREFIX}/cmake/leveldb-targets-debug.cmake
+           "#----------------------------------------------------------------\n"
+           "# Generated CMake target import file for configuration 'Debug'.  \n"
+           "#----------------------------------------------------------------\n"
+           "# Commands may need to know the format version.\n"
+           "set(CMAKE_IMPORT_FILE_VERSION 1)\n"
+           "# Import target 'leveldb' for configuration 'Debug'\n"
+           "set_property(TARGET leveldb APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)\n"
+           "set_target_properties(leveldb PROPERTIES\n"
+           "  IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG \"CXX\"\n"
+           "  IMPORTED_LINK_INTERFACE_LIBRARIES_DEBUG \"${CMAKE_INSTALL_PREFIX}/lib/boost_date_time-${vc_version}-mt-gd-1_55.lib;${CMAKE_INSTALL_PREFIX}/lib/boost_filesystem-${vc_version}-mt-gd-1_55.lib;${CMAKE_INSTALL_PREFIX}/lib/boost_system-${vc_version}-mt-gd-1_55.lib\"\n"
+           "  IMPORTED_LOCATION_DEBUG \"${CMAKE_INSTALL_PREFIX}/lib/leveldbd.lib\"\n"
+           "  )\n"
+           "list(APPEND _IMPORT_CHECK_TARGETS leveldb )\n"
+           "list(APPEND _IMPORT_CHECK_FILES_FOR_leveldb \"${CMAKE_INSTALL_PREFIX}/lib/leveldbd.lib\" )\n"
+           "# Commands beyond this point should not need to know the version.\n"
+           "set(CMAKE_IMPORT_FILE_VERSION)"
+        )
+
+        # They use a lot of hard coding and reliance on extracted files that need to be patched over.
+        file(WRITE ${CMAKE_INSTALL_PREFIX}/cmake/leveldb-targets-release.cmake
+          "#---------------------------------------------------------------- \n" 
+           "# Generated CMake target import file for configuration 'Release'. \n"
+           "#---------------------------------------------------------------- \n"
+           "# Commands may need to know the format version. \n"
+           "set(CMAKE_IMPORT_FILE_VERSION 1) \n"
+           "# Import target 'leveldb' for configuration 'Release' \n"
+           "set_property(TARGET leveldb APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE) \n"
+           "set_target_properties(leveldb PROPERTIES \n"
+           "  IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE \"CXX\" \n"
+           "  IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE \"${CMAKE_INSTALL_PREFIX}/lib/boost_date_time-${vc_version}-mt-1_55.lib;${CMAKE_INSTALL_PREFIX}/lib/boost_filesystem-${vc_version}-mt-1_55.lib;${CMAKE_INSTALL_PREFIX}/lib/boost_system-${vc_version}-mt-1_55.lib\"\n"
+           "  IMPORTED_LOCATION_RELEASE \"${CMAKE_INSTALL_PREFIX}/lib/leveldb.lib\" \n"
+           "  ) \n"
+           "list(APPEND _IMPORT_CHECK_TARGETS leveldb ) \n"
+           "list(APPEND _IMPORT_CHECK_FILES_FOR_leveldb \"${CMAKE_INSTALL_PREFIX}/lib/leveldb.lib\" ) \n"
+           "# Commands beyond this point should not need to know the version. \n"
+           "set(CMAKE_IMPORT_FILE_VERSION) "
+        )
     else()
         message(FATAL_ERROR "Something went wrong while dowloading dependencies could not open caffe-builder-config.cmake")
     endif()

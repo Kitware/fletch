@@ -5,6 +5,11 @@ if(WIN32)
     ${Caffe_source}/cmake/
     )
   file(COPY
+    ${Caffe_patch}/FindBoost.cmake
+    DESTINATION
+    ${Caffe_source}/cmake/modules/
+    )
+  file(COPY
     ${Caffe_patch}/FindGFlags.cmake
     DESTINATION
     ${Caffe_source}/cmake/modules/

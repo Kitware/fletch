@@ -100,6 +100,7 @@ endif()
 if(fletch_ENABLE_OpenCV)
   set( CAFFE_OPENCV_ARGS
     -DOpenCV_DIR:PATH=${fletch_BUILD_PREFIX}/src/OpenCV-build
+    -DOpenCV_LIB_PATH:PATH=${OpenCV_ROOT}/lib
     )
 else()
   set( CAFFE_OPENCV_ARGS
@@ -266,6 +267,7 @@ ExternalProject_Add(Caffe
     -DBoost_USE_STATIC_LIBS:BOOL=OFF
     -DBLAS:STRING=Open
     -DBUILD_SHARED_LIBS:BOOL=ON
+    ${CAFFE_OPENCV_ARGS}
     ${PYTHON_ARGS}
     ${CAFFE_GPU_ARGS}
 )
