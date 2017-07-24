@@ -316,6 +316,11 @@ if(NOT WIN32)
   set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
   set(Caffe_md5 "d86eeb38b1400097d32ffcabdec75b55")
   list(APPEND fletch_external_sources Caffe)
+else()
+  set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
+  set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.zip")
+  set(Caffe_md5 "751e3cd16050e7ecd3981457e41b29cd")
+  list(APPEND fletch_external_sources Caffe)
 endif()
 
 #+
