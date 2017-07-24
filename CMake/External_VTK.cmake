@@ -184,8 +184,8 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DVTK_Group_Rendering:BOOL=ON
   -DVTK_Group_StandAlone:BOOL=ON
   -DVTK_Group_Views:BOOL=ON
-  -DVTK_WRAP_PYTHON:BOOL=OFF
-  -DVTK_DEBUG_LEAKS:BOOL=ON
+  -DVTK_WRAP_PYTHON:BOOL=${VTK_WRAP_PYTHON}
+  -DVTK_DEBUG_LEAKS:BOOL=OFF
   -DVTK_REQUIRED_OBJCXX_FLAGS:STRING=""
   -DVTK_GROUP_WEB:BOOL=OFF
   -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
@@ -219,8 +219,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # VTK
 ########################################
-set(VTK_ROOT @VTK_ROOT@)
-set(VTK_DIR @VTK_DIR@)
+set(VTK_ROOT \$\{fletch_ROOT\})
+set(VTK_DIR \$\{fletch_ROOT\}/lib/cmake/vtk-${VTK_version})
 
 set(fletch_ENABLED_VTK TRUE)
 ")

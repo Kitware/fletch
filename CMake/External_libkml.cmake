@@ -53,8 +53,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # libkml
 ########################################
-set(LIBKML_ROOT    @LIBKML_ROOT@)
-set(LIBKML_DIR     @LIBKML_DIR@)
+set(LIBKML_ROOT    \$\{fletch_ROOT\})
+set(LIBKML_DIR     \$\{fletch_ROOT\}/lib/cmake)
 set(LIBKML_LIBNAME @LIBKML_LIBNAME@)
 
 set(fletch_ENABLED_libkml TRUE)

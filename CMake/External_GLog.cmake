@@ -36,5 +36,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # GLog
 #######################################
-set(GLog_ROOT @GLog_ROOT@)
+set(GLog_ROOT \$\{fletch_ROOT\})
 ")

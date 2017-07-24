@@ -86,7 +86,7 @@ endif()
 set(Boost_ADDITIONAL_VERSIONS @Boost_version@)
 set(Boost_NO_SYSTEM_PATHS ON)
 set(Boost_NO_BOOST_CMAKE ON)
-set(BOOST_ROOT @BOOST_ROOT@)
+set(BOOST_ROOT \$\{fletch_ROOT\})
 
 set(fletch_ENABLED_Boost TRUE)
 ")
