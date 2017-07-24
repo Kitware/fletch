@@ -258,8 +258,8 @@ set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_url "https://github.com/vxl/vxl/archive/1860006098e9c93c4a43fea2246e07fd1e7c5c03.zip")
-set(VXL_md5 "609d97fb29f2cb32882eb10a20eca84a")
+set(VXL_url "https://github.com/vxl/vxl/archive/cbca86fe5d12b7b0379d72a3aa6bf5cfeebd0302.zip")
+set(VXL_md5 "044cc927012aef07b38492f9df1fd772")
 list(APPEND fletch_external_sources VXL)
 
 # ITK
@@ -267,6 +267,7 @@ set(ITK_version 4.11)
 set(ITK_minor 0)
 set(ITK_url "http://downloads.sourceforge.net/project/itk/itk/${ITK_version}/InsightToolkit-${ITK_version}.${ITK_minor}.tar.xz")
 set(ITK_md5 "415b966dd32fd543accf3a1bb689b7e1")
+set(ITK_experimental TRUE)
 list(APPEND fletch_external_sources ITK)
 
 # LMDB
@@ -278,8 +279,10 @@ if(NOT WIN32)
 endif()
 
 # HDF5
-set(HDF5_version "1.8.17")
-set(HDF5_url "https://support.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-${HDF5_version}/src/hdf5-${HDF5_version}.tar")
+set(HDF5_major "1.8")
+set(HDF5_rev "17")
+set(HDF5_version "${HDF5_major}.${HDF5_rev}")
+set(HDF5_url "https://support.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-${HDF5_major}/hdf5-${HDF5_version}/src/hdf5-${HDF5_version}.tar")
 set(HDF5_md5 "bdf0fc3d648679eeb5d7b4b78f92a83f")
 list(APPEND fletch_external_sources HDF5)
 
@@ -315,6 +318,11 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources Caffe)
 endif()
 if(WIN32)
+  set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
+  set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.zip")
+  set(Caffe_md5 "751e3cd16050e7ecd3981457e41b29cd")
+  list(APPEND fletch_external_sources Caffe)
+else()
   set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
   set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.zip")
   set(Caffe_md5 "751e3cd16050e7ecd3981457e41b29cd")

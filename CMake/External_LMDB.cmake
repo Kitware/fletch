@@ -1,4 +1,3 @@
-
 if (WIN32)
 
   # Build option for windows not yet generated
@@ -26,11 +25,13 @@ else()
       )
 endif()
 
+fletch_external_project_force_install(PACKAGE LMDB)
+
 set(LMDB_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # LMDB
 ########################################
-set(LMDB_ROOT    @LMDB_ROOT@)
+set(LMDB_ROOT    \$\{fletch_ROOT\})
 ")

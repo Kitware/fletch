@@ -17,11 +17,13 @@ ExternalProject_Add(GFlags
     -DBUILD_SHARED_LIBS:BOOL=ON
   )
 
+fletch_external_project_force_install(PACKAGE GFlags)
+
 set(GFlags_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # GFlags
 #######################################
-set(GFlags_ROOT @GFlags_ROOT@)
+set(GFlags_ROOT \$\{fletch_ROOT\})
 ")

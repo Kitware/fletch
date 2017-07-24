@@ -30,11 +30,13 @@ ExternalProject_Add(HDF5
     ${HDF5_ZLIB_ARGS}
     )
 
+fletch_external_project_force_install(PACKAGE HDF5)
+
 set(HDF5_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # HDF5
 #######################################
-set(HDF5_ROOT @HDF5_ROOT@)
+set(HDF5_ROOT \$\{fletch_ROOT\})
 ")

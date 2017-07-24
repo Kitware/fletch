@@ -32,6 +32,8 @@ if(WIN32)
       ${fletch_BUILD_INSTALL_PREFIX}/lib/libjpeg.lib
     DEPENDEES install
     )
+
+  fletch_external_project_force_install(PACKAGE libjpeg-turbo STEP_NAMES install fixup-install)
 else()
   # We need some special Apple treatment
   if(APPLE)
@@ -64,6 +66,7 @@ else()
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
   )
+  fletch_external_project_force_install(PACKAGE libjpeg-turbo)
 endif()
 
 set(libjpeg-turbo_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
@@ -71,7 +74,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # libjpeg-turbo
 ################################
-set(libjpeg-turbo_ROOT @libjpeg-turbo_ROOT@)
+set(libjpeg-turbo_ROOT \$\{fletch_ROOT\})
 
 
 set(fletch_ENABLED_libjpeg-turbo TRUE)

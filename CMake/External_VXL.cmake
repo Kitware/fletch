@@ -116,16 +116,20 @@ ExternalProject_Add_Step(VXL forcebuild
   ALWAYS 1
   )
 
+fletch_external_project_force_install(PACKAGE VXL)
+
 include_directories( SYSTEM ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/vcl
                             ${KWIVER_BUILD_INSTALL_PREFIX}/include/vxl/core )
 
 set(VXL_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
+set(VXL_DIR "${VXL_ROOT}/share/vxl/cmake" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # VXL
 ################################
-set(VXL_ROOT @VXL_ROOT@)
+set(VXL_ROOT \$\{fletch_ROOT\})
+set(VXL_DIR \$\{fletch_ROOT\}/share/vxl/cmake)
 
 set(fletch_ENABLED_VXL TRUE)
 ")

@@ -229,6 +229,8 @@ ExternalProject_Add(OpenCV
   ${OpenCV_EXTRA_BUILD_FLAGS}
   )
 
+fletch_external_project_force_install(PACKAGE OpenCV)
+
 set(OpenCV_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 
 #OpenCV installs its config file in a different location on Windows
@@ -242,8 +244,12 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # OpenCV
 ########################################
-set(OpenCV_ROOT @OpenCV_ROOT@)
-set(OpenCV_DIR @OpenCV_DIR@)
+set(OpenCV_ROOT \$\{fletch_ROOT\})
+if(WIN32)
+  set(OpenCV_DIR \$\{OpenCV_ROOT\})
+else()
+  set(OpenCV_DIR \$\{OpenCV_ROOT\}/share/OpenCV)
+endif()
 
 set(fletch_ENABLED_OpenCV TRUE)
 ")

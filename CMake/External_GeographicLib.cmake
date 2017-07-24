@@ -16,13 +16,15 @@ ExternalProject_Add(GeographicLib
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
 )
 
+fletch_external_project_force_install(PACKAGE GeographicLib)
+
 set(GeographicLib_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # GeographicLib
 ########################################
-set(GeographicLib_ROOT @GeographicLib_ROOT@)
+set(GeographicLib_ROOT \$\{fletch_ROOT\})
 
 set(fletch_ENABLED_GeographicLib TRUE)
 ")

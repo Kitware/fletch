@@ -21,13 +21,15 @@ ExternalProject_Add(TinyXML
     -DBUILD_SHARED_LIBS:BOOL=${tinyxml_build_shared}
 )
 
+fletch_external_project_force_install(PACKAGE TinyXML)
+
 set(TinyXML_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # TinyXML
 ########################################
-set(TinyXML_ROOT @TinyXML_ROOT@)
+set(TinyXML_ROOT \$\{fletch_ROOT\})
 
 set(fletch_ENABLED_TinyXML TRUE)
 ")

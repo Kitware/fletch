@@ -137,3 +137,68 @@ macro(add_package_dependency)
   endif()
 
 endmacro()
+
+#
+# Factorization function to add a custom command before the target to remove
+# a file.
+# Arguments:
+# TARGET: Target for which the file is removed.
+# FILE: Full path to the file to remove.
+#
+function(remove_file_before)
+  set(options)
+  set(oneValueArgs TARGET FILE)
+  set(multiValueArgs)
+  cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+  if(NOT MY_TARGET)
+    message(FATAL_ERROR "Error - Unknown target: ${MY_TARGET}")
+  endif()
+  if(NOT MY_FILE)
+    message(FATAL_ERROR "Error - File is not valid")
+  endif()
+
+  add_custom_command(TARGET ${MY_TARGET}
+    PRE_BUILD
+    #COMMAND ${CMAKE_COMMAND} -E echo "${MY_FILE}"
+    COMMAND ${CMAKE_COMMAND} -E remove "${MY_FILE}"
+    COMMENT "Removing file ${MY_FILE} before target '${MY_TARGET}'"
+    )
+endfunction()
+
+#
+# Add a separte install step for external projects. This will re-run the install
+# step of the external project whenever the target is built.
+# Arguments:
+# PACKAGE: Name of the package you want to install after each build.
+# STEP_NAMES: (Optional) List here the name each of the install steps you want to
+#   ensure will be run after the build. If nothings, this default to "install".
+#
+# The global property fletch_INSTALL_STAMP_FILES is appended with the list of
+# stamp files that need to be deleted in order to re-run the install for each project
+# that call this function.
+#
+function(fletch_external_project_force_install)
+  set(options)
+  set(oneValueArgs PACKAGE)
+  set(multiValueArgs STEP_NAMES)
+  cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+  if(NOT MY_STEP_NAMES)
+    set(MY_STEP_NAMES "install")
+  endif()
+
+  ExternalProject_Add_StepTargets(${MY_PACKAGE} install)
+
+  foreach(step_name ${MY_STEP_NAMES})
+    set(stamp_file_root "${fletch_BINARY_DIR}/build/src/${MY_PACKAGE}-stamp")
+    if(CMAKE_CONFIGURATION_TYPES)
+      set(install_stamp_file "${stamp_file_root}/${CMAKE_CFG_INTDIR}/${MY_PACKAGE}-${step_name}")
+    else()
+      set(install_stamp_file "${stamp_file_root}//${MY_PACKAGE}-${step_name}")
+    endif()
+
+    remove_file_before(TARGET ${MY_PACKAGE}-install FILE ${install_stamp_file})
+    set_property(GLOBAL APPEND PROPERTY fletch_INSTALL_STAMP_FILES ${install_stamp_file})
+  endforeach()
+endfunction()

@@ -73,14 +73,16 @@ ExternalProject_Add(ITK
     ${itk_cmake_args}
 )
 
+fletch_external_project_force_install(PACKAGE ITK)
+
 set(ITK_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 set(ITK_DIR "${ITK_ROOT}/lib/cmake/vtk-${ITK_version}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # ITK
 ########################################
-set(ITK_ROOT @ITK_ROOT@)
-set(ITK_DIR @ITK_DIR@)
+set(ITK_ROOT \$\{fletch_ROOT\})
+set(ITK_DIR \$\{fletch_ROOT\}/lib/cmake/vtk-${ITK_version})
 
 set(fletch_ENABLED_ITK TRUE)
 ")

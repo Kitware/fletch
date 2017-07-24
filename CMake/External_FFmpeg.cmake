@@ -1,4 +1,3 @@
-
 if (WIN32)
   # On windows, FFMPEG relies on prebuilt binaries. These binaries come in two
   # archives, dev and shared. An external project is added for each of them just
@@ -15,6 +14,7 @@ if (WIN32)
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
   )
+  fletch_external_project_force_install(PACKAGE FFmpeg_dev)
 
   ExternalProject_Add(FFmpeg_shared
     URL ${FFmpeg_shared_url}
@@ -25,6 +25,7 @@ if (WIN32)
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
   )
+  fletch_external_project_force_install(PACKAGE FFmpeg_shared)
 
   ExternalProject_Add(FFmpeg
     DEPENDS "FFmpeg_dev;FFmpeg_shared"
@@ -38,6 +39,8 @@ if (WIN32)
       -DFFmpeg_PATCH=${fletch_SOURCE_DIR}/Patches/FFmpeg
       -P ${fletch_SOURCE_DIR}/Patches/FFmpeg/Install.cmake
   )
+  fletch_external_project_force_install(PACKAGE FFmpeg)
+
 else ()
   include(External_yasm)
   set(fletch_YASM ${fletch_BUILD_PREFIX}/src/yasm-build/yasm)
@@ -72,6 +75,7 @@ else ()
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
   )
+  fletch_external_project_force_install(PACKAGE FFmpeg)
 endif ()
 
 set(FFmpeg_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
@@ -80,5 +84,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # FFmpeg
 #######################################
-set(FFmpeg_ROOT @FFmpeg_ROOT@)
+set(FFmpeg_ROOT \$\{fletch_ROOT\})
 ")

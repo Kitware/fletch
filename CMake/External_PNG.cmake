@@ -33,12 +33,14 @@ ExternalProject_Add(PNG
     ${png_cmake_args}
   )
 
+fletch_external_project_force_install(PACKAGE PNG)
+
 set(PNG_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # PNG
 ################################
-set(PNG_ROOT @PNG_ROOT@)
+set(PNG_ROOT \$\{fletch_ROOT\})
 
 set(fletch_ENABLED_PNG TRUE)
 ")

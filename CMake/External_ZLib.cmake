@@ -31,12 +31,14 @@ elseif(NOT APPLE)
     )
 endif()
 
+fletch_external_project_force_install(PACKAGE ZLib STEP_NAMES install fixup-install)
+
 set(ZLIB_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # ZLib
 ########################################
-set(ZLIB_ROOT @ZLIB_ROOT@)
+set(ZLIB_ROOT \$\{fletch_ROOT\})
 
 set(fletch_ENABLED_ZLib TRUE)
 ")

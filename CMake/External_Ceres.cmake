@@ -51,14 +51,27 @@ ExternalProject_Add(Ceres
     ${Ceres_EXTRA_BUILD_FLAGS}
   )
 
+fletch_external_project_force_install(PACKAGE Ceres)
+
 set(Ceres_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
-set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
+if(WIN32)
+  set(Ceres_DIR "${Ceres_ROOT}/CMake" CACHE PATH "" FORCE)
+else()
+  set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
+endif()
+
+
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Ceres
 ########################################
-set(Ceres_ROOT @Ceres_ROOT@)
-set(Ceres_DIR @Ceres_DIR@)
+set(Ceres_ROOT \$\{fletch_ROOT\})
+if(WIN32)
+  set(Ceres_DIR \$\{fletch_ROOT\}/CMake)
+else()
+  set(Ceres_DIR \$\{fletch_ROOT\}/share/Ceres)
+endif()
+
 set(fletch_ENABLED_Ceres TRUE)
 ")
