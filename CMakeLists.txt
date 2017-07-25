@@ -52,16 +52,21 @@ add_custom_target(fletch-build-install)
 
 # Options to control GPU support
 option(fletch_BUILD_WITH_CUDA "Build with CUDA support" FALSE)
-option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
 
 if (fletch_BUILD_WITH_CUDA)
   find_package( CUDA QUIET REQUIRED )
+
+  option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
+
+  if (fletch_BUILD_WITH_CUDNN)
+    set( CUDNN_ROOT "" CACHE PATH "CUDNN root folder" )
+    mark_as_advanced( CUDNN_ROOT )
+  endif()
+else()
+  set(fletch_BUILD_WITH_CUDNN CACHE INTERNAL FALSE)
 endif()
 
-if (fletch_BUILD_WITH_CUDNN)
-  set( CUDNN_ROOT "" CACHE PATH "CUDNN root folder" )
-  mark_as_advanced( CUDNN_ROOT )
-endif()
+
 
 # Include CXX11 support
 set(fletch_CXX_STANDARD_VERSION "98")

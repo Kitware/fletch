@@ -16,7 +16,7 @@ endif()
 # Allow OpenCV's FFMPEG option to be explicitly turned off
 if(fletch_ENABLE_FFmpeg)
   option(fletch_ENABLE_OpenCV_FFmpeg "Build OpenCV with FFMPEG support" TRUE )
-  mark_as_advanced(fletch_ENABLE_OpenCV_CUDA)
+  mark_as_advanced(fletch_ENABLE_OpenCV_FFmpeg)
 else()
   set(fletch_ENABLE_OpenCV_FFmpeg CACHE INTERNAL FALSE)
 endif()
