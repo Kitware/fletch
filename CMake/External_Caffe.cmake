@@ -229,16 +229,29 @@ else()
     "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}")
 endif()
 
-if(fletch_DISABLE_GPU_SUPPORT)
+if(fletch_BUILD_WITH_CUDA)
+  format_passdowns("CUDA" CUDA_BUILD_FLAGS)
   set( CAFFE_GPU_ARGS
-    -DCPU_ONLY:BOOL=ON
+    ${CUDA_BUILD_FLAGS}
+    -DCPU_ONLY:BOOL=OFF
     )
-elseif(fletch_DISABLE_CUDNN_SUPPORT)
-  set( CAFFE_GPU_ARGS
-    -DUSE_CUDNN:BOOL=OFF
+  if(fletch_BUILD_WITH_CUDNN)
+    format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
+    set( CAFFE_GPU_ARGS
+      ${CAFFE_GPU_ARGS}
+      ${CUDNN_BUILD_FLAGS}
+      -DUSE_CUDNN:BOOL=ON
     )
+  else()
+    set( CAFFE_GPU_ARGS
+      ${CAFFE_GPU_ARGS}
+      -DUSE_CUDNN:BOOL=OFF
+    )
+  endif()
 else()
   set( CAFFE_GPU_ARGS
+    -DCPU_ONLY:BOOL=ON
+    -DUSE_CUDNN:BOOL=OFF
     )
 endif()
 
