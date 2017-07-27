@@ -103,7 +103,9 @@ endif()
 #
 # Install rules
 install(TARGETS gtest gtest_main
-  DESTINATION lib)
+  RUNTIME DESTINATION bin
+  ARCHIVE DESTINATION lib${LIB_SUFFIX}
+  LIBRARY DESTINATION lib${LIB_SUFFIX})
 install(DIRECTORY ${gtest_SOURCE_DIR}/include/gtest
   DESTINATION include)
 
