@@ -255,6 +255,13 @@ else()
     )
 endif()
 
+if(fletch_BUILD_CUDA_CSTD98)
+  set( CAFFE_CXXFLAGS_OVERRIDE
+    -DCMAKE_CXX_FLAGS=-std=c++98 )
+else()
+  set( CAFFE_CXXFLAGS_OVERRIDE )
+endif()
+
 # Main build and install command
 if(WIN32)
 ExternalProject_Add(Caffe
@@ -316,6 +323,7 @@ ExternalProject_Add(Caffe
     ${CAFFE_HDF5_ARGS}
     ${CAFFE_OPENBLAS_ARGS}
     ${CAFFE_GPU_ARGS}
+    ${CAFFE_CXXFLAGS_OVERRIDE}
   )
 endif()
 
