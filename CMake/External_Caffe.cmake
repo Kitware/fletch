@@ -255,7 +255,7 @@ else()
     )
 endif()
 
-if(fletch_BUILD_CUDA_CSTD98)
+if(fletch_FORCE_CUDA_CSTD98)
   set( CAFFE_CXXFLAGS_OVERRIDE
     -DCMAKE_CXX_FLAGS=-std=c++98 )
 else()
