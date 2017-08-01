@@ -265,8 +265,8 @@ list(APPEND fletch_external_sources VXL)
 # ITK
 set(ITK_version 4.11)
 set(ITK_minor 0)
-set(ITK_url "http://downloads.sourceforge.net/project/itk/itk/${ITK_version}/InsightToolkit-${ITK_version}.${ITK_minor}.tar.xz")
-set(ITK_md5 "415b966dd32fd543accf3a1bb689b7e1")
+set(ITK_url "http://downloads.sourceforge.net/project/itk/itk/${ITK_version}/InsightToolkit-${ITK_version}.${ITK_minor}.tar.gz")
+set(ITK_md5 "1a71ae9d2f7b3140ac17e8bbb0602c8a")
 set(ITK_experimental TRUE)
 list(APPEND fletch_external_sources ITK)
 
