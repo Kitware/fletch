@@ -127,7 +127,11 @@ with the Fletch source directory for each desired configuration. For example :
 ``\fletch\build\deb``       contains the built files for the debug configuration
 ========================== ===================================================================
 
-** NOTE: Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug' **
+NOTES
+-----
+Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug'.  
+
+Linux users who build FFmpeg and OpenCV together might experience an issue linking to libavcodec. To allow OpenCV to link to FFmpeg, export LD_LIBRARY_PATH to include fletch's install/lib directory, e.g. export LD_LIBRARY_PATH=/home/user1/fletch/bld/install/lib/:$LD_LIBRARY_PATH  
 
 The recommended CMake configuration is to enable all packages and, if desired, python.
 
