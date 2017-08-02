@@ -84,5 +84,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # FFmpeg
 #######################################
-set(FFmpeg_ROOT \$\{fletch_ROOT\})
+set(FFmpeg_ROOT \${fletch_ROOT})
 ")

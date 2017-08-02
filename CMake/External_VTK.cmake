@@ -219,8 +219,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # VTK
 ########################################
-set(VTK_ROOT \$\{fletch_ROOT\})
-set(VTK_DIR \$\{fletch_ROOT\}/lib/cmake/vtk-${VTK_version})
+set(VTK_ROOT \${fletch_ROOT})
+set(VTK_DIR \${fletch_ROOT}/lib/cmake/vtk-${VTK_version})
 
 set(fletch_ENABLED_VTK TRUE)
 ")

@@ -24,7 +24,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # GeographicLib
 ########################################
-set(GeographicLib_ROOT \$\{fletch_ROOT\})
+set(GeographicLib_ROOT \${fletch_ROOT})
 
 set(fletch_ENABLED_GeographicLib TRUE)
 ")

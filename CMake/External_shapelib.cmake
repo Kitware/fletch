@@ -28,7 +28,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # shapelib
 ########################################
-set(SHAPELIB_ROOT    \$\{fletch_ROOT\})
+set(SHAPELIB_ROOT    \${fletch_ROOT})
 set(SHAPELIB_LIBNAME @SHAPELIB_LIBNAME@)
 
 set(fletch_ENABLED_shapelib TRUE)
