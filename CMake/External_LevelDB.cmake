@@ -52,5 +52,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # LevelDB
 ########################################
-set(LevelDB_ROOT    \$\{fletch_ROOT\})
+set(LevelDB_ROOT    \${fletch_ROOT})
 ")
