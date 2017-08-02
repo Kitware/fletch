@@ -323,6 +323,21 @@ else()
   list(APPEND fletch_external_sources Caffe)
 endif()
 
+# Darknet
+if(NOT WIN32)
+  set(Darknet_version "4f35852e93d2758ec73e924e9d1c2265d0e89343")
+  set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/repository/archive.tar.gz?ref=${Darknet_version}")
+  set(Darknet_md5 "d41d8cd98f00b204e9800998ecf8427e")
+  list(APPEND fletch_external_sources Darknet)
+else()
+  set(Darknet_version "8477e52e6b9f02157bf6ac5b205a1799cbad0a2c")
+  set(Darknet_url "https://gitlab.kitware.com/aaron.bray/darknet/repository/archive.zip?ref=${Darknet_version}")
+  set(Darknet_md5 "38886483329ee599f859d3f7b2a0cd25")
+  list(APPEND fletch_external_sources Darknet)
+endif()
+
+
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
