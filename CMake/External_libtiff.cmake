@@ -76,7 +76,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # libtiff
 ################################
-set(libtiff_ROOT \$\{fletch_ROOT\})
+set(libtiff_ROOT \${fletch_ROOT})
 
 set(fletch_ENABLED_libtiff TRUE)
 ")

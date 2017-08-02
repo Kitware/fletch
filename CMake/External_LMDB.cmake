@@ -33,5 +33,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # LMDB
 ########################################
-set(LMDB_ROOT    \$\{fletch_ROOT\})
+set(LMDB_ROOT    \${fletch_ROOT})
 ")

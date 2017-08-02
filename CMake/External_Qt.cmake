@@ -200,7 +200,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Qt
 ########################################
-set(QT_QMAKE_EXECUTABLE \$\{fletch_ROOT\}/bin/qmake)
+set(QT_QMAKE_EXECUTABLE \${fletch_ROOT}/bin/qmake)
 
 set(fletch_ENABLED_Qt TRUE)
 ")

@@ -31,5 +31,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Snappy
 ########################################
-set(SNAPPY_ROOT    \$\{fletch_ROOT\})
+set(SNAPPY_ROOT    \${fletch_ROOT})
 ")
