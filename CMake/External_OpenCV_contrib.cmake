@@ -1,7 +1,14 @@
-set(OPENCV_CONTRIB_PATCH_COMMAND ${CMAKE_COMMAND}
-  -DOpenCV_contrib_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV_contrib
-  -DOpenCV_contrib_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV_contrib
-  -P ${fletch_SOURCE_DIR}/Patches/OpenCV_contrib/Patch.cmake)
+# If a patch file exists for this version, apply it
+set (OpenCV_contrib_patch ${fletch_SOURCE_DIR}/Patches/OpenCV_contrib/${OpenCV_SELECT_VERSION})
+if (EXISTS ${OpenCV_contrib_patch})
+  set(OPENCV_CONTRIB_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DOpenCV_contrib_patch:PATH=${OpenCV_contrib_patch}
+    -DOpenCV_contrib_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV_contrib
+    -P ${OpenCV_contrib_patch}/Patch.cmake)
+else()
+  set(OPENCV_CONTRIB_PATCH_COMMAND "")
+endif()
+ 
 
 # The OpenCV contrib repo external project
 ExternalProject_Add(OpenCV_contrib

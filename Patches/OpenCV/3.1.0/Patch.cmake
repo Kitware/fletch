@@ -22,3 +22,8 @@ file(COPY ${OpenCV_patch}/OpenCVConfig.cmake
 file(COPY ${OpenCV_patch}/OpenCVDetectCXXCompiler.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
+
+# Fixes issue with the string "cuda" in the build path
+file(COPY ${OpenCV_patch}/common.cmake
+  DESTINATION ${OpenCV_source}/modules/python/
+)

@@ -1,5 +1,8 @@
 # The OpenCV external project
 
+
+# --- Allow OpenCV options to be explicitly turned on/off --- 
+
 # Allow OpenCV's highgui to be turned off
 option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui? (generally should be left on)" TRUE )
 mark_as_advanced(fletch_ENABLE_OpenCV_highgui)
@@ -21,6 +24,23 @@ else()
   set(fletch_ENABLE_OpenCV_FFmpeg CACHE INTERNAL FALSE)
 endif()
 
+# Allow OpenCV's VTK option to be explicitly turned off
+if(fletch_ENABLE_VTK)
+  # By default turn opencv-VTK support off, even when building with VTK
+  option(fletch_ENABLE_OpenCV_VTK "Build OpenCV with VTK support" FALSE )
+  mark_as_advanced(fletch_ENABLE_OpenCV_VTK)
+else()
+  set(fletch_ENABLE_OpenCV_VTK CACHE INTERNAL FALSE)
+endif()
+
+
+# Note: 
+# Some other libraries built by fletch could be used by OpenCV
+# these are: Ceres, Qt
+
+
+# --- Configure OpenCV dependencies ---
+
 # Set FFmpeg dependency if we're locally building it.
 if(fletch_ENABLE_OpenCV_FFmpeg)
   message(STATUS "OpenCV depending on internal FFmpeg")
@@ -41,6 +61,20 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_FFMPEG=OFF)
 endif()
 
+# Set VTK dependency if we're locally building it
+if(fletch_ENABLE_OpenCV_VTK)
+  message(STATUS "OpenCV depending on fletch VTK")
+  if (OpenCV_version VERSION_LESS 3.2.0 AND VTK_version VERSION_GREATER_EQUAL 7.0)
+    message(FATAL_ERRROR "OpenCV versions before 3.2 can only handle pre 7.0 VTK versions")
+  endif()
+  list(APPEND OpenCV_DEPENDS VTK)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_VTK:BOOL=TRUE
+    -DVTK_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/vtk-${VTK_version}
+    )
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=FALSE)
+endif()
+
 # Set Eigen dependency if we're locally building it
 if(fletch_ENABLE_Eigen)
   message(STATUS "OpenCV depending on fletch Eigen")
@@ -52,6 +86,7 @@ if(fletch_ENABLE_Eigen)
 else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=FALSE)
 endif()
+
 
 # Handle GPU disable flag
 if(fletch_ENABLE_OpenCV_CUDA)
@@ -173,16 +208,17 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_JPEG=ON)
 endif()
 
-if (OpenCV_SELECT_VERSION VERSION_EQUAL 2.4.11)
+
+# If a patch file exists for this version, apply it
+set (OpenCV_patch ${fletch_SOURCE_DIR}/Patches/OpenCV/${OpenCV_SELECT_VERSION})
+if (EXISTS ${OpenCV_patch})
   set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND}
-    -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV2
+    -DOpenCV_patch:PATH=${OpenCV_patch}
     -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV
-    -P ${fletch_SOURCE_DIR}/Patches/OpenCV2/Patch.cmake)
+    -P ${OpenCV_patch}/Patch.cmake
+    )
 else()
-  set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND}
-    -DOpenCV_patch:PATH=${fletch_SOURCE_DIR}/Patches/OpenCV3
-    -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV
-    -P ${fletch_SOURCE_DIR}/Patches/OpenCV3/Patch.cmake)
+  set(OPENCV_PATCH_COMMAND "")
 endif()
 
 # Include link to contrib repo if enabled
@@ -198,6 +234,11 @@ endif()
 # In newer GCC we need to disable precompiled headers.
 if (CMAKE_COMPILER_IS_GNUCC AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_PRECOMPILED_HEADERS:BOOL=OFF)
+endif()
+
+# OpenCV 3.3.0 has an option to enable C++ 11
+if (fletch_BUILD_CXX11)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_CXX11:BOOL=ON)
 endif()
 
 ExternalProject_Add(OpenCV
