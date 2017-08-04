@@ -335,5 +335,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Caffe
 ########################################
-set(Caffe_ROOT    \$\{fletch_ROOT\})
+set(Caffe_ROOT    \${fletch_ROOT})
 ")

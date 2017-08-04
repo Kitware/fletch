@@ -38,5 +38,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # HDF5
 #######################################
-set(HDF5_ROOT \$\{fletch_ROOT\})
+set(HDF5_ROOT \${fletch_ROOT})
 ")

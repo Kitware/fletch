@@ -81,8 +81,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # ITK
 ########################################
-set(ITK_ROOT \$\{fletch_ROOT\})
-set(ITK_DIR \$\{fletch_ROOT\}/lib/cmake/vtk-${ITK_version})
+set(ITK_ROOT \${fletch_ROOT})
+set(ITK_DIR \${fletch_ROOT}/lib/cmake/vtk-${ITK_version})
 
 set(fletch_ENABLED_ITK TRUE)
 ")

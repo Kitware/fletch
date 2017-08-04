@@ -253,11 +253,11 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # OpenCV
 ########################################
-set(OpenCV_ROOT \$\{fletch_ROOT\})
+set(OpenCV_ROOT \${fletch_ROOT})
 if(WIN32)
-  set(OpenCV_DIR \$\{OpenCV_ROOT\})
+  set(OpenCV_DIR \${OpenCV_ROOT})
 else()
-  set(OpenCV_DIR \$\{OpenCV_ROOT\}/share/OpenCV)
+  set(OpenCV_DIR \${OpenCV_ROOT}/share/OpenCV)
 endif()
 
 set(fletch_ENABLED_OpenCV TRUE)
