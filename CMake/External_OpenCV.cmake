@@ -233,6 +233,17 @@ if (fletch_BUILD_CXX11)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_CXX11:BOOL=ON)
 endif()
 
+# Choose python 2 or python 3
+if (fletch_PYTHON_VERSION MATCHES "^3.*")
+    set(fletch_python2 False)
+    set(fletch_python3 True)
+elseif (fletch_PYTHON_VERSION MATCHES "^2.*")
+    set(fletch_python2 True)
+    set(fletch_python3 False)
+else()
+    message("Unknown Python version")
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
@@ -256,6 +267,9 @@ ExternalProject_Add(OpenCV
     -DBUILD_TESTS:BOOL=False
     -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
     -DWITH_JASPER:BOOL=False
+    -DBUILD_opencv_python2:BOOL=${fletch_python2}
+    -DBUILD_opencv_python3:BOOL=${fletch_python3}
+    -DPYTHON_DEFAULT_EXECUTABLE=${PYTHON_EXECUTABLE}
     -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
     -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
     -DPYTHON_LIBRARY=${PYTHON_LIBRARY}

@@ -61,10 +61,23 @@ endif()
 # Do we want to build in Python support where available
 #
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
+
+set(fletch_PYTHON_VERSION 2 CACHE STRING
+    "Python version to use: 3, 3.x, 2, or empty")
+set_property(CACHE fletch_PYTHON_VERSION PROPERTY STRINGS 3 2)
+#set_property(CACHE fletch_PYTHON_VERSION PROPERTY STRINGS 3.5 3.4 3.6 3.7 2.7)
+
 if (fletch_BUILD_WITH_PYTHON)
 
-  find_package(PythonInterp 2.7 REQUIRED)
-  find_package(PythonLibs 2.7 REQUIRED)
+  if (fletch_PYTHON_VERSION MATCHES "^3.*")
+    # TODO: assert VTK version is >= 7.0
+    # TODO: assert OpenCV version is >= 3.1.0
+    find_package(PythonInterp 3.4 REQUIRED)
+    find_package(PythonLibs 3.4 REQUIRED)
+  else()
+    find_package(PythonInterp 2.7 REQUIRED)
+    find_package(PythonLibs 2.7 REQUIRED)
+  endif()
 
 endif()
 
