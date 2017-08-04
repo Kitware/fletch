@@ -254,9 +254,23 @@ set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
 list(APPEND fletch_external_sources GeographicLib )
 
 # VTK
-set(VTK_version 6.2)
-set(VTK_url "http://www.vtk.org/files/release/${VTK_version}/VTK-${VTK_version}.0.zip")
-set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")
+if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
+  # Support the stable version 6.2, and work on updating to next version 8.0
+  set(VTK_SELECT_VERSION 6.2 CACHE STRING "Select the version of VTK to build.")
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0)
+endif()
+
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
+  set(VTK_version 8.0)
+  set(VTK_url "http://www.vtk.org/files/release/8.0/VTK-8.0.0.zip")
+  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0
+elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
+  set(VTK_version 6.2)
+  set(VTK_url "http://www.vtk.org/files/release/6.2/VTK-6.2.0.zip")
+  set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
+elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
+  message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
+endif()
 list(APPEND fletch_external_sources VTK)
 
 # VXL
