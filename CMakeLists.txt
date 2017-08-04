@@ -82,6 +82,7 @@ option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FA
 if (fletch_BUILD_WITH_PYTHON)
   find_package(PythonInterp 2.7 REQUIRED)
   find_package(PythonLibs 2.7 REQUIRED)
+  find_package(NumPy 1.7)
 endif()
 
 #
