@@ -1,0 +1,17 @@
+Fletch v1.1.0 Release Notes
+===========================
+
+This is a patch release of Fletch that provides bug fixes and documentation
+improvements over the previous v1.0.0 release.
+
+
+Updates since v1.0.0
+--------------------
+
+Package Upgrades
+
+ * Updated Caffe to pull from a Kitware clone of the project and applied
+   various patches to allow it to build on Windows.
+
+Fixes since v1.0.0
+------------------
