@@ -311,17 +311,28 @@ if(NOT WIN32)
 endif()
 
 # Caffe
-if(WIN32)
-  set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-  set(Caffe_url "https://data.kitware.com/api/v1/item/598215638d777f16d01ea137/download/")
-  set(Caffe_md5 "4ec71f28a797eac7fe3ddcb0fbfab60e")
-  list(APPEND fletch_external_sources Caffe)
+set(InternalCaffe True)
+
+if(InternalCaffe)
+  # Use the internal kitware hosted Caffe, which contain additional
+  # functionality that has not been merged into the BVLC version.
+  # This is the recommended option.
+  if(WIN32)
+    set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
+    set(Caffe_url "https://data.kitware.com/api/v1/item/598215638d777f16d01ea137/download/")
+    set(Caffe_md5 "4ec71f28a797eac7fe3ddcb0fbfab60e")
+  else()
+    set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
+    set(Caffe_url "https://data.kitware.com/api/v1/file/598215a28d777f16d01ea13b/download/caffe-linux-7f5cea3.zip")
+    set(Caffe_md5 "da2e5c3920f721d70bc02e152f510215")
+  endif()
 else()
-  set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
-  set(Caffe_url "https://data.kitware.com/api/v1/file/598215a28d777f16d01ea13b/download/caffe-linux-7f5cea3.zip")
-  set(Caffe_md5 "da2e5c3920f721d70bc02e152f510215")
-  list(APPEND fletch_external_sources Caffe)
+  # The original BVLC Caffe does not currently contain required functionality.
+  set(Caffe_version "1.0")
+  set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
+  set(Caffe_md5 "5fbb0e32e7cd8de3de46e6fe6e4cd2b5")
 endif()
+list(APPEND fletch_external_sources Caffe)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"

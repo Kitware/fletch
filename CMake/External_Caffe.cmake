@@ -255,6 +255,20 @@ else()
     )
 endif()
 
+
+set (Caffe_PATCH_DIR "${fletch_SOURCE_DIR}/Patches/Caffe/${Caffe_version}")
+if (EXISTS ${Caffe_PATCH_DIR})
+  set(
+    Caffe_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DCaffe_patch=${Caffe_PATCH_DIR}
+    -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
+    -P ${Caffe_PATCH_DIR}/Patch.cmake
+    )
+else()
+  set(Caffe_PATCH_COMMAND "")
+endif()
+
+
 # Main build and install command
 if(WIN32)
 ExternalProject_Add(Caffe
@@ -265,10 +279,7 @@ ExternalProject_Add(Caffe
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DCaffe_patch=${fletch_SOURCE_DIR}/Patches/Caffe
-    -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
-    -P ${fletch_SOURCE_DIR}/Patches/Caffe/Patch.cmake
+  PATCH_COMMAND ${Caffe_PATCH_COMMAND}
 
   CMAKE_COMMAND
   CMAKE_GENERATOR ${gen}
@@ -293,10 +304,7 @@ ExternalProject_Add(Caffe
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DCaffe_patch=${fletch_SOURCE_DIR}/Patches/Caffe
-    -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
-    -P ${fletch_SOURCE_DIR}/Patches/Caffe/Patch.cmake
+  PATCH_COMMAND ${Caffe_PATCH_COMMAND}
 
   CMAKE_COMMAND
   CMAKE_GENERATOR ${gen}
