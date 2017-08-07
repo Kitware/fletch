@@ -324,9 +324,9 @@ else()
 endif()
 
 # Darknet
-if(NOT WIN32)
-  set(Darknet_url "https://data.kitware.com/api/v1/file/59886fb88d777f7d33e9c0f6/download/darknet-db4bcf6a.tar.gz")
-  set(Darknet_md5 "161b3628af0d4ab93b4dcec0d14a577f")
+if(WIN32)
+  set(Darknet_url "https://data.kitware.com/api/v1/file/59888ea28d777f7d33e9c0fc/download/darknet-dd73fba4.tar.gz")
+  set(Darknet_md5 "b7e993378d13e9386f1bb0cda2a7bce9")
   list(APPEND fletch_external_sources Darknet)
 else()
   set(Darknet_url "https://data.kitware.com/api/v1/file/598866018d777f7d33e9c0f3/download/darknet-win32-70dfcb43.zip")
