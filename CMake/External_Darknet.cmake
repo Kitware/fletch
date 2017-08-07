@@ -1,43 +1,4 @@
-set(allOk True)
-set(errorMessage)
-
-option(AUTO_ENABLE_DARKNET_DEPENDENCY "Automatically turn on all darknet dependencies if darknet is enabled" OFF)
-if(fletch_ENABLE_Darknet AND AUTO_ENABLE_DARKNET_DEPENDENCY)
-  set(dependency OpenCV)
-  set(OneWasOff FALSE)
-
-  foreach (_var IN LISTS dependency)
-    get_property(currentHelpString CACHE "fletch_ENABLE_${_var}" PROPERTY HELPSTRING)
-    set(fletch_ENABLE_${_var} ON CACHE BOOL ${currentHelpString} FORCE)
-    if(NOT TARGET ${_var})
-      include(External_${_var})
-    endif()
-  endforeach()
-endif()
-
-function(addDarknetDendency depend version)
-  if(NOT fletch_ENABLE_${depend} )
-    find_package(${depend} ${version} QUIET)
-    string(TOUPPER "${depend}" dependency_name_upper)
-    if(NOT ${depend}_FOUND AND NOT ${dependency_name_upper}_FOUND)
-      message("${depend} is needed")
-      set(allOk False PARENT_SCOPE)
-      return()
-    endif()
-    message("Warning: Using system library for ${depend}")
-  else() #need to make sure library is built before darknet
-    set(Darknet_DEPENDS ${Darknet_DEPENDS} ${depend} PARENT_SCOPE)
-  endif()
-  add_package_dependency(
-    PACKAGE Darknet
-    PACKAGE_DEPENDENCY ${depend}
-    PACKAGE_DEPENDENCY_ALIAS ${depend}
-    )
-endfunction()
-
-if(NOT allOk)
-  message(FATAL_ERROR "Missing dependency(ies).")
-endif()
+set(Darknet_DEPENDS)
 
 if(fletch_ENABLE_OpenCV)
   option(fletch_ENABLE_Darknet_OpenCV "Build Darknet with OpenCV support" TRUE )
@@ -47,7 +8,12 @@ else()
 endif()
 if(fletch_ENABLE_Darknet_OpenCV)
   set(DARKNET_OPENCV_ARGS -DUSE_OPENCV:BOOL=ON)
-  addDarknetDendency(OpenCV "")
+  add_package_dependency(
+    PACKAGE Darknet
+    PACKAGE_DEPENDENCY OpenCV
+    PACKAGE_DEPENDENCY_ALIAS OpenCV
+    )
+  set(Darknet_DEPENDS ${Darknet_DEPENDS} OpenCV)
   list(APPEND DARKNET_EXTRA_BUILD_FLAGS -DOpenCV_DIR:PATH=${OpenCV_DIR})
 else()
   set(DARKNET_OPENCV_ARGS -DUSE_OPENCV:BOOL=OFF)
