@@ -325,11 +325,11 @@ endif()
 
 # Darknet
 if(NOT WIN32)
-  set(Darknet_url "https://data.kitware.com/api/v1/item/59886fb88d777f7d33e9c0f5/download/")
+  set(Darknet_url "https://data.kitware.com/api/v1/file/59886fb88d777f7d33e9c0f6/download/darknet-db4bcf6a.tar.gz")
   set(Darknet_md5 "161b3628af0d4ab93b4dcec0d14a577f")
   list(APPEND fletch_external_sources Darknet)
 else()
-  set(Darknet_url "https://data.kitware.com/api/v1/item/598866018d777f7d33e9c0f2/download/")
+  set(Darknet_url "https://data.kitware.com/api/v1/file/598866018d777f7d33e9c0f3/download/darknet-win32-70dfcb43.zip")
   set(Darknet_md5 "eea312b07685eef9c6f26cf63346fe41")
   list(APPEND fletch_external_sources Darknet)
 endif()
