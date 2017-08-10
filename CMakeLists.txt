@@ -1,3 +1,5 @@
+if (FALSE)
+
 cmake_minimum_required(VERSION 2.8.12)
 project(fletch)
 
@@ -143,8 +145,6 @@ if(NOT CMAKE_BUILD_TYPE AND UNIX)
   message(STATUS "Setting build type is set to 'Debug' as none was specified.")
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
 endif()
-
-if (FALSE)
 
 option(BUILD_SHARED_LIBS "Build shared libraries where possible." ON)
 
