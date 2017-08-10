@@ -1,7 +1,7 @@
-if (FALSE)
-
 cmake_minimum_required(VERSION 2.8.12)
 project(fletch)
+
+if (FALSE)
 
 # Policy to address @foo@ variable expansion
 if(POLICY CMP0053)
