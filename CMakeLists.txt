@@ -144,6 +144,8 @@ if(NOT CMAKE_BUILD_TYPE AND UNIX)
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
 endif()
 
+if (FALSE)
+
 option(BUILD_SHARED_LIBS "Build shared libraries where possible." ON)
 
 # Since much of KWIVER is plugin based, shared libs are the default
@@ -259,3 +261,4 @@ configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
 
 # Last step, prepare install of fletch.
 include(${fletch_SOURCE_DIR}/CMake/fletch-install.cmake)
+endif()
