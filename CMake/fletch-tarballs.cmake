@@ -313,7 +313,7 @@ endif()
 # Caffe
 if(WIN32)
   set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-  set(Caffe_url "https://data.kitware.com/api/v1/item/598215638d777f16d01ea137/download/caffe-win32-527f97c0.zip")
+  set(Caffe_url "https://data.kitware.com/api/v1/item/598215638d777f16d01ea137/download/")
   set(Caffe_md5 "4ec71f28a797eac7fe3ddcb0fbfab60e")
   list(APPEND fletch_external_sources Caffe)
 else()
