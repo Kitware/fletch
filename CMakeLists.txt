@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(fletch)
 
+if (WIN32)
+  message(FATAL_ERROR "Make the windows build fail")
+endif()
+
+if (FALSE)
+
 # Policy to address @foo@ variable expansion
 if(POLICY CMP0053)
   cmake_policy(SET CMP0053 NEW)
@@ -259,3 +265,4 @@ configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
 
 # Last step, prepare install of fletch.
 include(${fletch_SOURCE_DIR}/CMake/fletch-install.cmake)
+endif()
