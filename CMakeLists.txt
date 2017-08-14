@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(fletch)
 
-if (WIN32)
-  message(FATAL_ERROR "Make the windows build fail")
-endif()
-
 if (FALSE)
 
 # Policy to address @foo@ variable expansion
