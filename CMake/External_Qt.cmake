@@ -148,7 +148,7 @@ endif()
 # If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
 # until the build is fixed.
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
-  message("disabling script for GNU 6.0")
+  message(STATUS "disabling script for GNU 6.0")
   list( APPEND Qt_configure
     -no-script
     )
