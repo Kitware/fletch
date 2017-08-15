@@ -12,6 +12,9 @@ Package Upgrades
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
+ * Associated the patches of OpenBLAS with specific versions       
+ * Updated OpenBLAS to version 0.2.20
+
 
 Fixes since v1.0.0
 ------------------
