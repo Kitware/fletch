@@ -145,7 +145,15 @@ else()
   endif()
 endif()
 
-set(Qt_configure ${Qt_configure}
+# If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
+# until the build is fixed.
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
+  message("disabling script for GNU 6.0")
+  list( APPEND Qt_configure
+    -no-script
+    )
+endif()
+list( APPEND Qt_configure
   -prefix ${fletch_BUILD_INSTALL_PREFIX}
   -docdir ${fletch_BUILD_INSTALL_PREFIX}/share/doc/qt4-${Qt_version}
   -datadir ${fletch_BUILD_INSTALL_PREFIX}/lib/qt4
