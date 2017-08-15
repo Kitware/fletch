@@ -1,0 +1,26 @@
+Fletch v1.0.1 Release Notes
+===========================
+
+This is a patch release of Fletch that provides bug fixes and documentation
+improvements over the previous v1.0.0 release.
+
+
+Updates since v1.0.0
+--------------------
+
+Documentation
+
+ * Updated the Fletch README with known issues
+
+Project Configuration
+
+ * Updated VTK to build with the VTK_DEBUG_LEAKS option turned off
+
+
+Fixes since v1.0.0
+------------------
+
+CMake
+
+ * Fixed support for CMake 2.8.12 by removing unsupported character escape
+   sequences and replacing a .tar.xz download with a .tar.gz.
