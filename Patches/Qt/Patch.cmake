@@ -8,7 +8,17 @@ message("Patching Qt in ${Qt_source}")
 # Add a special gcc44 mkspec for RHEL5
 file(COPY ${Qt_patch}/linux-g++44
   DESTINATION ${Qt_source}/mkspecs
-)
+  )
+
+# Patch the following 2 files to fix gcc 6 build issues.
+file(COPY ${Qt_patch}/itemviews.cpp
+  DESTINATION ${Qt_source}/src/plugins/accessible/widgets/
+  )
+
+file(COPY ${Qt_patch}/previewmanager.cpp
+  DESTINATION ${Qt_source}/tools/designer/src/lib/shared/
+  )
+
 
 # Currently disabled as it seems to generate illegal opcodes with gcc44 on
 # SandyBridge CPUs and RHEL5
