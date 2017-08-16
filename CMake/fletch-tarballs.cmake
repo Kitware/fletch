@@ -177,9 +177,9 @@ set(SuiteSparse_md5 "a2926c27f8a5285e4a10265cc68bbc18")
 list(APPEND fletch_external_sources SuiteSparse)
 
 # Ceres Solver
-set(Ceres_version 1.10.0)
+set(Ceres_version 1.13.0)
 set(Ceres_url "http://ceres-solver.org/ceres-solver-${Ceres_version}.tar.gz")
-set(Ceres_md5 "dbf9f452bd46e052925b835efea9ab16")
+set(Ceres_md5 "cd568707571c92af3d69c1eb28d63d72")
 set(Ceres_dlname "ceres-${Ceres_version}.tar.gz")
 list(APPEND fletch_external_sources Ceres)
 

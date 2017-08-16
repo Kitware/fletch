@@ -18,6 +18,9 @@ Package Upgrades
    files (which our patches did not). This enables use of the EPSG database
    by consumers.
 
+ * Updated Ceres Solver from v1.10.0 to v1.13.0
+
+
 Fixes since v1.0.0
 ------------------
 
