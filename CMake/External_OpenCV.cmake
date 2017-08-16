@@ -204,16 +204,13 @@ endif()
 
 
 # If a patch file exists for this version, apply it
-set (OpenCV_patch ${fletch_SOURCE_DIR}/Patches/OpenCV/${OpenCV_SELECT_VERSION})
+set (OpenCV_patch ${fletch_SOURCE_DIR}/Patches/OpenCV/${OpenCV_version})
 if (EXISTS ${OpenCV_patch})
   set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND}
     -DOpenCV_patch:PATH=${OpenCV_patch}
     -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV
     -P ${OpenCV_patch}/Patch.cmake
     )
-else()
-  # clobber the patch command if the user changes versions
-  set(OPENCV_PATCH_COMMAND "")
 endif()
 
 # Include link to contrib repo if enabled
