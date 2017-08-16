@@ -26,11 +26,20 @@ foreach(m ${OPENCV_PYTHON_MODULES})
 endforeach(m)
 
 # header blacklist
-ocv_list_filterout(opencv_hdrs ".h$")
-ocv_list_filterout(opencv_hdrs "cuda")
-ocv_list_filterout(opencv_hdrs "cudev")
-ocv_list_filterout(opencv_hdrs "/hal/")
-ocv_list_filterout(opencv_hdrs "detection_based_tracker.hpp") # Conditional compilation
+# -------- PATCH FOR 3.1.0 ---------------
+# This fix was been applied to OpenCV 3.2.0
+ocv_list_filterout(opencv_hdrs "modules/.*\\\\.h$")
+ocv_list_filterout(opencv_hdrs "modules/core/.*/cuda")
+ocv_list_filterout(opencv_hdrs "modules/cuda.*")
+ocv_list_filterout(opencv_hdrs "modules/cudev")
+ocv_list_filterout(opencv_hdrs "modules/core/.*/hal/")
+ocv_list_filterout(opencv_hdrs "modules/.+/utils/.*")
+ocv_list_filterout(opencv_hdrs "modules/.*\\\\.inl\\\\.h*")
+ocv_list_filterout(opencv_hdrs "modules/.*_inl\\\\.h*")
+ocv_list_filterout(opencv_hdrs "modules/.*\\\\.details\\\\.h*")
+ocv_list_filterout(opencv_hdrs "modules/.*/detection_based_tracker\\\\.hpp") # Conditional compilation
+# -----------------------
+
 
 
 set(cv2_generated_hdrs
