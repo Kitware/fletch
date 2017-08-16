@@ -107,7 +107,7 @@ list(APPEND fletch_external_sources Eigen)
 # OpenCV
 # Support 2.4.13 and 3.1, and 3.3 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES)
-  set(OpenCV_SELECT_VERSION 3.3.0 CACHE STRING "Select the  version of OpenCV to build.")
+  set(OpenCV_SELECT_VERSION 3.1.0 CACHE STRING "Select the  version of OpenCV to build.")
   set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS 2.4.13 3.1.0 3.3.0)
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
