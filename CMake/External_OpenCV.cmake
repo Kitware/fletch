@@ -1,7 +1,7 @@
 # The OpenCV external project
 
 
-# --- Allow OpenCV options to be explicitly turned on/off --- 
+# --- Allow OpenCV options to be explicitly turned on/off ---
 
 # Allow OpenCV's highgui to be turned off
 option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui? (generally should be left on)" TRUE )
@@ -24,26 +24,17 @@ else()
   set(fletch_ENABLE_OpenCV_FFmpeg CACHE INTERNAL FALSE)
 endif()
 
-# Allow OpenCV's VTK option to be explicitly turned off
-if(fletch_ENABLE_VTK)
-  # By default turn opencv-VTK support off, even when building with VTK
-  option(fletch_ENABLE_OpenCV_VTK "Build OpenCV with VTK support" FALSE )
-  mark_as_advanced(fletch_ENABLE_OpenCV_VTK)
-else()
-  set(fletch_ENABLE_OpenCV_VTK CACHE INTERNAL FALSE)
-endif()
 
-
-# Note: 
+# Note:
 # Some other libraries built by fletch could be used by OpenCV
-# these are: Ceres, Qt
+# these are: Ceres, Qt. Should these dependencies be added?
 
 
 # --- Configure OpenCV dependencies ---
 
 # Set FFmpeg dependency if we're locally building it.
 if(fletch_ENABLE_OpenCV_FFmpeg)
-  message(STATUS "OpenCV depending on internal FFmpeg")
+  message(STATUS "OpenCV depending on fletch FFmpeg")
   list(APPEND OpenCV_DEPENDS FFmpeg)
 
   # OpenCV uses pkg-config to find libraries to link against and use, so placing
@@ -61,18 +52,21 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_FFMPEG=OFF)
 endif()
 
+# For now, we are simply disabling OpenCV_VTK
+set(fletch_ENABLE_OpenCV_VTK FALSE)
 # Set VTK dependency if we're locally building it
 if(fletch_ENABLE_OpenCV_VTK)
   message(STATUS "OpenCV depending on fletch VTK")
-  if (OpenCV_version VERSION_LESS 3.2.0 AND VTK_version VERSION_GREATER_EQUAL 7.0)
+
+  if (OpenCV_version VERSION_LESS 3.2.0 AND NOT VTK_version VERSION_LESS 7.0)
     message(FATAL_ERRROR "OpenCV versions before 3.2 can only handle pre 7.0 VTK versions")
   endif()
   list(APPEND OpenCV_DEPENDS VTK)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_VTK:BOOL=TRUE
-    -DVTK_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/vtk-${VTK_version}
+    -DVTK_DIR:PATH=${VTK_DIR}
     )
 else()
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_EIGEN:BOOL=FALSE)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_VTK:BOOL=FALSE)
 endif()
 
 # Set Eigen dependency if we're locally building it
@@ -218,6 +212,7 @@ if (EXISTS ${OpenCV_patch})
     -P ${OpenCV_patch}/Patch.cmake
     )
 else()
+  # clobber the patch command if the user changes versions
   set(OPENCV_PATCH_COMMAND "")
 endif()
 
