@@ -13,6 +13,8 @@ Package Upgrades
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
 
+ * Updated Ceres Solver from v1.10.0 to v1.13.0
+
 Fixes since v1.0.0
 ------------------
 
