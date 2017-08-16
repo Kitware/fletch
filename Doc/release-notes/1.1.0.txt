@@ -13,6 +13,11 @@ Package Upgrades
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
 
+ * Updated PROJ.4 to 4.9.3. Installation is now implemented upstream, which
+   allows dropping our local patches, and upstream also installes the data
+   files (which our patches did not). This enables use of the EPSG database
+   by consumers.
+
 Fixes since v1.0.0
 ------------------
 

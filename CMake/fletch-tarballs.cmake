@@ -240,9 +240,9 @@ set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
 list(APPEND fletch_external_sources Qt)
 
 # PROJ.4
-set(PROJ4_version "4.8.0" )
+set(PROJ4_version "4.9.3" )
 set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
-set(PROJ4_md5 "d815838c92a29179298c126effbb1537" )
+set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
 list(APPEND fletch_external_sources PROJ4 )
 
 # GeographicLib
