@@ -18,3 +18,4 @@ Fixes since v1.0.0
 
  * Added Visual Studio support for Caffe.
  * Clean up CUDA, CUDNN supoort.
+ * Added numpy requirment when building with Caffe and python
