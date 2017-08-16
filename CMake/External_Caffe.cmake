@@ -215,7 +215,16 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   if(Boost_Do_BCP_Name_Mangling)
     message(FATAL_ERROR "Cannot have Boost mangling enabled and use pycaffe.")
   endif()
-  set(PYTHON_ARGS -DBUILD_python:BOOL=ON -DBUILD_python_layer:BOOL=ON)
+  find_package(NumPy 1.7 REQUIRED)
+  set(PYTHON_ARGS
+      -DBUILD_python:BOOL=ON
+      -DBUILD_python_layer:BOOL=ON
+      -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+      -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+      -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
+      -DNUMPY_INCLUDE_DIR=${NUMPY_INCLUDE_DIR}
+      -DNUMPY_VERSION=${NUMPY_VERSION}
+      )
 else()
   set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
 endif()

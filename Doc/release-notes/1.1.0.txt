@@ -12,12 +12,23 @@ Package Upgrades
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
+   
  * Associated the patches of OpenCV with specific versions       
+ 
  * Added experimental support for OpenCV version 3.3.0
+ 
  * OpenCV no longer links to VTK by default
+
+ * Updated Ceres Solver from v1.10.0 to v1.13.0
 
 Fixes since v1.0.0
 ------------------
+
+ * Added Visual Studio support for Caffe.
+
+ * Clean up CUDA, CUDNN support.
+ 
+ * Added numpy requirment when building with Caffe and python
 
  * Patched OpenCV version 3.1.0 for the case the absolute build path contains
    the pattern "cuda"
