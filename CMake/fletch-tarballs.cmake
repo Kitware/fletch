@@ -115,7 +115,7 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES)
   set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
 
   # Expose optional contrib repo when enabling OpenCV version >= 3.x
-  if (OpenCV_SELECT_VERSION VERSION_EQUAL 3.0.0 OR OpenCV_SELECT_VERSION VERSION_GREATER 3.0.0)
+  if (NOT OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
     list(APPEND fletch_external_sources OpenCV_contrib)
     set(OpenCV_contrib_version "${OpenCV_version}")
     set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
