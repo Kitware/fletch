@@ -5,10 +5,6 @@ ExternalProject_Add(PROJ4
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-  -DPROJ4_patch:PATH=${fletch_SOURCE_DIR}/Patches/PROJ4
-  -DPROJ4_source:PATH=${fletch_BUILD_PREFIX}/src/PROJ4
-  -P ${fletch_SOURCE_DIR}/Patches/PROJ4/Patch.cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
