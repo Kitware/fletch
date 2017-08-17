@@ -12,6 +12,12 @@ Package Upgrades
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
+   
+ * Associated the patches of OpenCV with specific versions       
+ 
+ * Added experimental support for OpenCV version 3.3.0
+ 
+ * OpenCV no longer links to VTK by default
 
  * Updated PROJ.4 to 4.9.3. Installation is now implemented upstream, which
    allows dropping our local patches, and upstream also installes the data
@@ -25,5 +31,10 @@ Fixes since v1.0.0
 ------------------
 
  * Added Visual Studio support for Caffe.
- * Clean up CUDA, CUDNN supoort.
+
+ * Clean up CUDA, CUDNN support.
+ 
  * Added numpy requirment when building with Caffe and python
+
+ * Patched OpenCV version 3.1.0 for the case the absolute build path contains
+   the pattern "cuda"
