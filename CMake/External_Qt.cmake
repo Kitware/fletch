@@ -1,10 +1,11 @@
 # The Qt external project for fletch
 
-option(BUILD_QT_WEBKIT "Should the Qt Webkit module be built?" FALSE)
-if(BUILD_QT_WEBKIT)
-  set(Qt_args_webkit "-webkit")
+option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
+
+if(BUILD_Qt_MINIMAL)
+  set(Qt_args_package -no-webkit -no-javascript-jit -no-script -no-scripttools)
 else()
-  set(Qt_args_webkit "-no-webkit")
+  set(Qt_args_package -webkit -javascript-jit -script -scripttools)
 endif()
 
 if(CMAKE_BUILD_TYPE)
@@ -107,11 +108,11 @@ if(WIN32)
     list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
   endif()
 else()
-  option(BUILD_QT_JAVASCRIPTJIT "Should the Qt Javascript JIT module be built?" FALSE)
-  if(BUILD_QT_JAVASCRIPTJIT)
-    set(Qt_args_javascriptjit "-javascript-jit")
-  else()
-    set(Qt_args_javascriptjit "-no-javascript-jit")
+  # If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
+  # until the build is fixed.
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
+    set(BUILD_Qt_MINIMAL TRUE CACHE BOOL "" FORCE)
+    message(STATUS "disabling script for GNU 6.0")
   endif()
 
   Fletch_Require_Make()
@@ -145,14 +146,6 @@ else()
   endif()
 endif()
 
-# If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
-# until the build is fixed.
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
-  message(STATUS "disabling script for GNU 6.0")
-  list( APPEND Qt_configure
-    -no-script
-    )
-endif()
 list( APPEND Qt_configure
   -prefix ${fletch_BUILD_INSTALL_PREFIX}
   -docdir ${fletch_BUILD_INSTALL_PREFIX}/share/doc/qt4-${Qt_version}
@@ -162,8 +155,7 @@ list( APPEND Qt_configure
   -opensource -confirm-license -fast
   -nomake examples -nomake demos -nomake translations -nomake linguist
   ${Qt_args_build_type}
-  ${Qt_args_webkit}
-  ${Qt_args_javascriptjit}
+  ${Qt_args_package}
   ${Qt_args_arch}
   ${Qt_args_jpeg}
   ${Qt_args_zlib}
