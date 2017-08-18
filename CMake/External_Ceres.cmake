@@ -64,7 +64,7 @@ set(Ceres_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 if(WIN32)
   set(Ceres_DIR "${Ceres_ROOT}/CMake" CACHE PATH "" FORCE)
 else()
-  set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
+  set(Ceres_DIR "${Ceres_ROOT}/lib/cmake/Ceres" CACHE PATH "" FORCE)
 endif()
 
 
@@ -77,7 +77,7 @@ set(Ceres_ROOT \${fletch_ROOT})
 if(WIN32)
   set(Ceres_DIR \${fletch_ROOT}/CMake)
 else()
-  set(Ceres_DIR \${fletch_ROOT}/share/Ceres)
+  set(Ceres_DIR \${fletch_ROOT}/lib/cmake/Ceres)
 endif()
 
 set(fletch_ENABLED_Ceres TRUE)
