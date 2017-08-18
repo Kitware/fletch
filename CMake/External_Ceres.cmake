@@ -26,6 +26,16 @@ else()
   list(APPEND Ceres_EXTRA_BUILD_FLAGS -DMINIGLOG:BOOL=ON)
 endif()
 
+set (Ceres_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Ceres/${Ceres_version})
+if (EXISTS ${Ceres_PATCH_DIR})
+  set (Ceres_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DCeres_patch=${Ceres_PATCH_DIR}
+    -DCeres_source=${fletch_BUILD_PREFIX}/src/Ceres
+    -P ${Ceres_PATCH_DIR}/Patch.cmake)
+else()
+  set (Ceres_PATCH_COMMAND "")
+endif()
+
 ExternalProject_Add(Ceres
   DEPENDS ${Ceres_DEPENDS}
   URL ${Ceres_file}
@@ -34,10 +44,7 @@ ExternalProject_Add(Ceres
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   CMAKE_GENERATOR ${gen}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DCeres_patch=${fletch_SOURCE_DIR}/Patches/Ceres
-    -DCeres_source=${fletch_BUILD_PREFIX}/src/Ceres
-    -P ${fletch_SOURCE_DIR}/Patches/Ceres/Patch.cmake
+  PATCH_COMMAND ${Ceres_PATCH_COMMAND}
 
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
