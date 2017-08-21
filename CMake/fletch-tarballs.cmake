@@ -166,9 +166,18 @@ list(APPEND fletch_external_sources GFlags)
 
 #OpenBLAS
 if(NOT WIN32)
-  set(OpenBLAS_version "0.2.15")
+  #set(OpenBLAS_version "0.2.15")
+  set(OpenBLAS_version "0.2.20")
   set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
-  set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
+
+  if (OpenBLAS_version VERSION_EQUAL 0.2.20)
+    set(OpenBLAS_md5 "48637eb29f5b492b91459175dcc574b1")
+  elseif (OpenBLAS_version VERSION_EQUAL 0.2.15)
+    set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
+  else()
+    message("Unknown OpenBLAS version = ${OpenBLAS_version}")
+  endif()
+
   list(APPEND fletch_external_sources OpenBLAS)
 endif()
 
