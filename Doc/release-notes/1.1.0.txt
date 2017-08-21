@@ -12,6 +12,9 @@ Package Upgrades
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
+ 
+ * Added experimental support for ffmpeg 3.3.3
+
  * Associated the patches of Caffe with specific versions
 
  * Associated the patches of OpenBLAS with specific versions
@@ -37,9 +40,10 @@ Package Upgrades
 
  * Associated the patches of Ceres Solver with specific versions
 
-
 Fixes since v1.0.0
 ------------------
+
+ * Associated the patches of ffmpeg with specific versions
 
  * Added Visual Studio support for Caffe.
 
