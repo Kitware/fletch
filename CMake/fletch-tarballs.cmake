@@ -311,6 +311,19 @@ set(HDF5_url "https://support.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-${HDF5_ma
 set(HDF5_md5 "bdf0fc3d648679eeb5d7b4b78f92a83f")
 list(APPEND fletch_external_sources HDF5)
 
+# SWIG
+if(WIN32)
+  set(SWIG_version "cmake")
+  set(SWIG_url "https://github.com/swig/swig/archive/${SWIG_version}.zip")
+  set(SWIG_md5 "b691d887f8919e6690c2a124f80628bf")
+  list(APPEND fletch_external_sources SWIG)
+else()
+  set(SWIG_version "rel-3.0.12")
+  set(SWIG_url "https://github.com/swig/swig/archive/${SWIG_version}.zip")
+  set(SWIG_md5 "ac18a25272ae9cd380843ba568f10106")
+  list(APPEND fletch_external_sources SWIG)
+endif()
+
 # SNAPPY
 if(NOT WIN32)
   SET(Snappy_version "1.1.3")
@@ -347,6 +360,12 @@ else()
   set(Caffe_md5 "da2e5c3920f721d70bc02e152f510215")
   list(APPEND fletch_external_sources Caffe)
 endif()
+
+# Tensorflow
+set(Tensorflow_version "r1.2")
+set(Tensorflow_url "https://github.com/tensorflow/tensorflow/archive/${Tensorflow_version}.zip")
+set(Tensorflow_md5 "ef6bb9fea0e7057519d867e921334458")
+list(APPEND fletch_external_sources Tensorflow)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
