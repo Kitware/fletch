@@ -30,6 +30,10 @@ Package Upgrades
 
  * Updated Ceres Solver from v1.10.0 to v1.13.0
 
+ * Associated the patches of VTK with specific versions       
+
+ * Added experimental support for VTK version 8.0
+
  * Associated the patches of Ceres Solver with specific versions
 
 
