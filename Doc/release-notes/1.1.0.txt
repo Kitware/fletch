@@ -12,6 +12,7 @@ Package Upgrades
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
+ * Associated the patches of Caffe with specific versions
 
  * Associated the patches of OpenBLAS with specific versions
 
