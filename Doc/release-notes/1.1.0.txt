@@ -30,6 +30,8 @@ Package Upgrades
 
  * Updated Ceres Solver from v1.10.0 to v1.13.0
 
+ * Associated the patches of Ceres Solver with specific versions
+
 
 Fixes since v1.0.0
 ------------------
