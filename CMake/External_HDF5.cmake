@@ -19,6 +19,10 @@ ExternalProject_Add(HDF5
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    -DHDF5_patch:PATH=${fletch_SOURCE_DIR}/Patches/HDF5
+    -DHDF5_source:PATH=${fletch_BUILD_PREFIX}/src/HDF5
+    -P ${fletch_SOURCE_DIR}/Patches/HDF5/Patch.cmake
 
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS

@@ -3,9 +3,9 @@
 option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
 
 if(BUILD_Qt_MINIMAL)
-  set(Qt_args_package -no-webkit -no-javascript-jit -no-script -no-scripttools)
+  set(Qt_args_package -no-webkit)
 else()
-  set(Qt_args_package -webkit -javascript-jit -script -scripttools)
+  set(Qt_args_package -webkit)
 endif()
 
 if(CMAKE_BUILD_TYPE)
@@ -108,6 +108,12 @@ if(WIN32)
     list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
   endif()
 else()
+
+  if(BUILD_Qt_MINIMAL)
+    list(APPEND Qt_args_package -no-javascript-jit -no-script -no-scripttools)
+  else()
+    set(Qt_args_package -javascript-jit -script -scripttools)
+  endif()
   # If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
   # until the build is fixed.
   if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
