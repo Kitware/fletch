@@ -108,7 +108,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # SuiteSparse
 ########################################
-set(SuiteSparse_ROOT \$\{fletch_ROOT\})
-set(SuiteSparse_INCLUDE_DIR \$\{fletch_ROOT\}/include)
+set(SuiteSparse_ROOT \${fletch_ROOT})
+set(SuiteSparse_INCLUDE_DIR \${fletch_ROOT}/include)
 set(fletch_ENABLED_SuiteSparse TRUE)
 ")

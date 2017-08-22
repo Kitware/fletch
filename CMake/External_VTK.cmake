@@ -193,6 +193,17 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
   )
 
+
+set (VTK_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/VTK/${VTK_SELECT_VERSION})
+if (EXISTS ${VTK_PATCH_DIR})
+  set(VTK_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DVTK_PATCH_DIR=${VTK_PATCH_DIR}
+    -DVTK_SOURCE_DIR=${fletch_BUILD_PREFIX}/src/VTK
+    -P ${VTK_PATCH_DIR}/Patch.cmake)
+else()
+  set(VTK_PATCH_COMMAND "")
+endif()
+
 ExternalProject_Add(VTK
   DEPENDS ${VTK_DEPENDS}
   URL ${VTK_file}
@@ -200,10 +211,7 @@ ExternalProject_Add(VTK
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DVTK_PATCH_DIR=${fletch_SOURCE_DIR}/Patches/VTK
-    -DVTK_SOURCE_DIR=${fletch_BUILD_PREFIX}/src/VTK
-    -P ${fletch_SOURCE_DIR}/Patches/VTK/Patch.cmake
+  PATCH_COMMAND ${VTK_PATCH_COMMAND}
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
@@ -219,8 +227,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # VTK
 ########################################
-set(VTK_ROOT \$\{fletch_ROOT\})
-set(VTK_DIR \$\{fletch_ROOT\}/lib/cmake/vtk-${VTK_version})
+set(VTK_ROOT \${fletch_ROOT})
+set(VTK_DIR \${fletch_ROOT}/lib/cmake/vtk-${VTK_version})
 
 set(fletch_ENABLED_VTK TRUE)
 ")

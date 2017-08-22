@@ -1,3 +1,5 @@
+# If a patch file exists for this version, apply it
+
 if (WIN32)
   # On windows, FFMPEG relies on prebuilt binaries. These binaries come in two
   # archives, dev and shared. An external project is added for each of them just
@@ -27,6 +29,8 @@ if (WIN32)
   )
   fletch_external_project_force_install(PACKAGE FFmpeg_shared)
 
+  # directly install prebuilt-binaries and shared libraries on windows
+  set (FFmpeg_patch "${fletch_SOURCE_DIR}/Patches/FFmpeg/win32")
   ExternalProject_Add(FFmpeg
     DEPENDS "FFmpeg_dev;FFmpeg_shared"
     DOWNLOAD_COMMAND ""
@@ -36,8 +40,9 @@ if (WIN32)
       -DFFmpeg_dev_SOURCE=${fletch_BUILD_PREFIX}/src/FFmpeg_dev
       -DFFmpeg_shared_SOURCE=${fletch_BUILD_PREFIX}/src/FFmpeg_shared
       -DFFmpeg_INSTALL=${fletch_BUILD_INSTALL_PREFIX}
-      -DFFmpeg_PATCH=${fletch_SOURCE_DIR}/Patches/FFmpeg
-      -P ${fletch_SOURCE_DIR}/Patches/FFmpeg/Install.cmake
+      -DFFmpeg_PATCH=${FFmpeg_patch}
+      -P "${FFmpeg_patch}/Install.cmake"
+    # no patch command on windows
   )
   fletch_external_project_force_install(PACKAGE FFmpeg)
 
@@ -47,6 +52,46 @@ else ()
   set(_FFmpeg_yasm --yasmexe=${fletch_YASM})
   list(APPEND ffmpeg_DEPENDS yasm)
 
+  # Should we try to point ffmpeg at zlib if we are building it?
+  # Currently it uses the system version.
+  #if (fletch_ENABLE_Zlib)
+  #  list(APPEND ffmpeg_DEPENDS ZLib)
+  #endif()
+
+  set (FFmpeg_patch ${fletch_SOURCE_DIR}/Patches/FFmpeg/${_FFmpeg_version})
+  if (EXISTS ${FFmpeg_patch})
+    set(FFMPEG_PATCH_COMMAND ${CMAKE_COMMAND}
+      -DFFmpeg_patch:PATH=${FFmpeg_patch}
+      -DFFmpeg_source:PATH=${fletch_BUILD_PREFIX}/src/FFmpeg
+      -P ${FFmpeg_patch}/Patch.cmake
+      )
+  else()
+    set(FFMPEG_PATCH_COMMAND "")
+  endif()
+
+  set(FFMPEG_CONFIGURE_COMMAND
+    ${fletch_BUILD_PREFIX}/src/FFmpeg/configure
+        --prefix=${fletch_BUILD_INSTALL_PREFIX}
+        --enable-shared
+        --disable-static
+        --enable-runtime-cpudetect
+        --enable-zlib
+        ${_FFmpeg_yasm}
+        --cc=${CMAKE_C_COMPILER}
+        --cxx=${CMAKE_CXX_COMPILER}
+        # enable-rpath allows libavcodec to find libswresample
+        --enable-rpath
+  )
+
+  if (_FFmpeg_version VERSION_LESS 3.3.0)
+    # memalign-hack is only needed for windows and older versions of ffmpeg
+    list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-memalign-hack)
+    # bzlib errors if not found in newer versions (previously it did not)
+    list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-bzlib)
+    list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-outdev=sdl)
+  endif()
+
+
   Fletch_Require_Make()
   ExternalProject_Add(FFmpeg
     URL ${FFmpeg_file}
@@ -55,23 +100,8 @@ else ()
     PREFIX ${fletch_BUILD_PREFIX}
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-    PATCH_COMMAND ${CMAKE_COMMAND}
-    -DFFmpeg_patch:PATH=${fletch_SOURCE_DIR}/Patches/FFmpeg
-    -DFFmpeg_source:PATH=${fletch_BUILD_PREFIX}/src/FFmpeg
-    -P ${fletch_SOURCE_DIR}/Patches/FFmpeg/Patch.cmake
-
-    CONFIGURE_COMMAND ${fletch_BUILD_PREFIX}/src/FFmpeg/configure
-      --prefix=${fletch_BUILD_INSTALL_PREFIX}
-      --enable-shared
-      --disable-static
-      --enable-memalign-hack
-      --enable-runtime-cpudetect
-      --enable-bzlib
-      --enable-zlib
-      --enable-outdev=sdl
-      ${_FFmpeg_yasm}
-      --cc=${CMAKE_C_COMPILER}
-      --cxx=${CMAKE_CXX_COMPILER}
+    PATCH_COMMAND ${FFMPEG_PATCH_COMMAND}
+    CONFIGURE_COMMAND ${FFMPEG_CONFIGURE_COMMAND}
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
   )
@@ -84,5 +114,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # FFmpeg
 #######################################
-set(FFmpeg_ROOT \$\{fletch_ROOT\})
+set(FFmpeg_ROOT \${fletch_ROOT})
 ")

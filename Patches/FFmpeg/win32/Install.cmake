@@ -23,6 +23,13 @@ file(COPY
 )
 
 file(COPY
+  # NOTE: inttypes.h is part of the C standard library and not part of FFmpeg
+  # This patch provides FFmpeg with a windows port of the the inttypes header
+  # References:
+  #   https://en.wikipedia.org/wiki/C_data_types#inttypes.h
+  #   http://www.nongnu.org/avr-libc/user-manual/group__avr__inttypes.html
+  #   https://code.google.com/archive/p/msinttypes/
+  #   https://github.com/chemeris/msinttypes
   ${FFmpeg_PATCH}/inttypes.h
   DESTINATION ${FFmpeg_INSTALL}/include
 )
