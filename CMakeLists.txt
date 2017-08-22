@@ -61,20 +61,7 @@ if (fletch_ENABLE_CUDA)
     set( CUDNN_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
     mark_as_advanced( CUDNN_ROOT_DIR )
     
-    find_library( CUDNN_LIBRARIES
-      NAMES cudnn libcudnn
-      HINTS ${CUDA_TOOLKIT_ROOT_DIR}
-            ${CUDNN_ROOT_DIR}
-      PATH_SUFFIXES lib lib64 lib/x64 lib/x86 targets/aarch64-linux
-    )
-    if( NOT CUDNN_LIBRARIES )
-      message(FATAL_ERROR "Unable to find cudnn libraries, please ensure CUDA_TOOLKIT_ROOT_DIR has cudnn or the CUDNN_ROOT_DIR variable is properly set or set CUDNN_LIBRARIES")
-    else()
-      # We found cudnn with out CUDNN_ROOT_DIR, CUDA and CUDNN must be co-located
-      if(NOT CUDNN_ROOT_DIR)
-        set(CUDNN_ROOT_DIR ${CUDA_TOOLKIT_ROOT_DIR})
-      endif()
-    endif()
+    find_package( CUDNN QUIET REQUIRED)
   endif()
 elseif(fletch_ENABLE_CUDNN)
   unset(fletch_ENABLE_CUDNN CACHE)
