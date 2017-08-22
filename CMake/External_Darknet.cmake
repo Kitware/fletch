@@ -13,7 +13,6 @@ if(fletch_ENABLE_Darknet_OpenCV)
     PACKAGE_DEPENDENCY OpenCV
     PACKAGE_DEPENDENCY_ALIAS OpenCV
     )
-  set(Darknet_DEPENDS ${Darknet_DEPENDS} OpenCV)
   list(APPEND DARKNET_EXTRA_BUILD_FLAGS -DOpenCV_DIR:PATH=${OpenCV_DIR})
 else()
   set(DARKNET_OPENCV_ARGS -DUSE_OPENCV:BOOL=OFF)
@@ -32,9 +31,9 @@ else()
   unset(fletch_ENABLE_Darknet_CUDNN CACHE)
 endif()
 if(fletch_ENABLE_Darknet_CUDA)
-  set( DARKNET_GPU_ARGS -DUSE_GPU:BOOL=ON)
+  set( DARKNET_GPU_ARGS -DUSE_GPU:BOOL=ON -DCUDA_TOOLKIT_ROOT_DIR:PATH=${CUDA_TOOLKIT_ROOT_DIR})
   if (fletch_ENABLE_Darknet_CUDNN)
-    set(DARKNET_CUDNN_ARGS -DUSE_CUDNN:BOOL=ON)
+    set(DARKNET_CUDNN_ARGS -DUSE_CUDNN:BOOL=ON -DCUDNN_ROOT_DIR:PATH=${CUDNN_ROOT_DIR})
   else()
     set( DARKNET_CUDNN_ARGS -DUSE_CUDNN:BOOL=OFF)
   endif()
@@ -66,8 +65,6 @@ ExternalProject_Add(Darknet
     -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}    
     -DBUILD_SHARED_LIBS:BOOL=${DARKNET_BUILD_SHARED}
     -DINSTALL_HEADER_FILES:BOOL=ON
-    -DCUDA_TOOLKIT_ROOT_DIR:PATH=${CUDA_TOOLKIT_ROOT_DIR}
-    -DCUDNN_ROOT:PATH=${CUDNN_ROOT}
     ${DARKNET_OPENCV_ARGS}
     ${DARKNET_CUDNN_ARGS}
     ${DARKNET_GPU_ARGS}
@@ -83,7 +80,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Darknet
 ########################################
-set(Darknet_ROOT    \$\{fletch_ROOT\})
-set(Darknet_DIR     \$\{fletch_ROOT\}/CMake)
+set(Darknet_ROOT    \${fletch_ROOT})
+set(Darknet_DIR     \${fletch_ROOT}/CMake)
 set(fletch_ENABLED_Darknet TRUE)
 ")
