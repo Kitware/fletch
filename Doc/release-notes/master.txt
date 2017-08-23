@@ -8,6 +8,10 @@ improvements over the previous v1.0.0 release.
 Updates since v1.0.0
 --------------------
 
+New Packages
+
+ * Added Darknet 
+
 Package Upgrades
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
