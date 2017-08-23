@@ -26,6 +26,13 @@ else()
   list(APPEND Ceres_EXTRA_BUILD_FLAGS -DMINIGLOG:BOOL=ON)
 endif()
 
+if (fletch_ENABLE_GFlags)
+  list(APPEND Ceres_DEPENDS GFlags)
+  list(APPEND Ceres_EXTRA_BUILD_FLAGS
+         -Dgflags_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/gflags
+      )
+endif()
+
 set (Ceres_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Ceres/${Ceres_version})
 if (EXISTS ${Ceres_PATCH_DIR})
   set (Ceres_PATCH_COMMAND ${CMAKE_COMMAND}
