@@ -77,8 +77,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # PostgreSQL
 ########################################
-set(PostgreSQL_ROOT \{PostgreSQL_ROOT})
-set(PostgreSQL_MAJOR_VERSION \{PostgreSQL_MAJOR_VERSION})
+set(PostgreSQL_ROOT \${fletch_ROOT})
+set(PostgreSQL_MAJOR_VERSION @PostgreSQL_MAJOR_VERSION@)
 set(fletch_ENABLED_PostgreSQL TRUE)
 ")
 
