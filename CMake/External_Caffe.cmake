@@ -215,7 +215,16 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   if(Boost_Do_BCP_Name_Mangling)
     message(FATAL_ERROR "Cannot have Boost mangling enabled and use pycaffe.")
   endif()
-  set(PYTHON_ARGS -DBUILD_python:BOOL=ON -DBUILD_python_layer:BOOL=ON)
+  find_package(NumPy 1.7 REQUIRED)
+  set(PYTHON_ARGS
+      -DBUILD_python:BOOL=ON
+      -DBUILD_python_layer:BOOL=ON
+      -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+      -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+      -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
+      -DNUMPY_INCLUDE_DIR=${NUMPY_INCLUDE_DIR}
+      -DNUMPY_VERSION=${NUMPY_VERSION}
+      )
 else()
   set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
 endif()
@@ -262,6 +271,18 @@ else()
   set( CAFFE_CXXFLAGS_OVERRIDE )
 endif()
 
+set (Caffe_PATCH_DIR "${fletch_SOURCE_DIR}/Patches/Caffe/${Caffe_version}")
+if (EXISTS ${Caffe_PATCH_DIR})
+  set(
+    Caffe_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DCaffe_patch=${Caffe_PATCH_DIR}
+    -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
+    -P ${Caffe_PATCH_DIR}/Patch.cmake
+    )
+else()
+  set(Caffe_PATCH_COMMAND "")
+endif()
+
 # Main build and install command
 if(WIN32)
 ExternalProject_Add(Caffe
@@ -272,10 +293,7 @@ ExternalProject_Add(Caffe
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DCaffe_patch=${fletch_SOURCE_DIR}/Patches/Caffe
-    -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
-    -P ${fletch_SOURCE_DIR}/Patches/Caffe/Patch.cmake
+  PATCH_COMMAND ${Caffe_PATCH_COMMAND}
 
   CMAKE_COMMAND
   CMAKE_GENERATOR ${gen}
@@ -300,10 +318,7 @@ ExternalProject_Add(Caffe
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DCaffe_patch=${fletch_SOURCE_DIR}/Patches/Caffe
-    -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
-    -P ${fletch_SOURCE_DIR}/Patches/Caffe/Patch.cmake
+  PATCH_COMMAND ${Caffe_PATCH_COMMAND}
 
   CMAKE_COMMAND
   CMAKE_GENERATOR ${gen}

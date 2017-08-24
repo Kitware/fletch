@@ -26,6 +26,23 @@ else()
   list(APPEND Ceres_EXTRA_BUILD_FLAGS -DMINIGLOG:BOOL=ON)
 endif()
 
+if (fletch_ENABLE_GFlags)
+  list(APPEND Ceres_DEPENDS GFlags)
+  list(APPEND Ceres_EXTRA_BUILD_FLAGS
+         -Dgflags_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/gflags
+      )
+endif()
+
+set (Ceres_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Ceres/${Ceres_version})
+if (EXISTS ${Ceres_PATCH_DIR})
+  set (Ceres_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DCeres_patch=${Ceres_PATCH_DIR}
+    -DCeres_source=${fletch_BUILD_PREFIX}/src/Ceres
+    -P ${Ceres_PATCH_DIR}/Patch.cmake)
+else()
+  set (Ceres_PATCH_COMMAND "")
+endif()
+
 ExternalProject_Add(Ceres
   DEPENDS ${Ceres_DEPENDS}
   URL ${Ceres_file}
@@ -34,10 +51,7 @@ ExternalProject_Add(Ceres
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   CMAKE_GENERATOR ${gen}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DCeres_patch=${fletch_SOURCE_DIR}/Patches/Ceres
-    -DCeres_source=${fletch_BUILD_PREFIX}/src/Ceres
-    -P ${fletch_SOURCE_DIR}/Patches/Ceres/Patch.cmake
+  PATCH_COMMAND ${Ceres_PATCH_COMMAND}
 
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
@@ -57,7 +71,7 @@ set(Ceres_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 if(WIN32)
   set(Ceres_DIR "${Ceres_ROOT}/CMake" CACHE PATH "" FORCE)
 else()
-  set(Ceres_DIR "${Ceres_ROOT}/share/Ceres" CACHE PATH "" FORCE)
+  set(Ceres_DIR "${Ceres_ROOT}/lib/cmake/Ceres" CACHE PATH "" FORCE)
 endif()
 
 
@@ -70,7 +84,7 @@ set(Ceres_ROOT \${fletch_ROOT})
 if(WIN32)
   set(Ceres_DIR \${fletch_ROOT}/CMake)
 else()
-  set(Ceres_DIR \${fletch_ROOT}/share/Ceres)
+  set(Ceres_DIR \${fletch_ROOT}/lib/cmake/Ceres)
 endif()
 
 set(fletch_ENABLED_Ceres TRUE)
