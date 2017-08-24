@@ -4,11 +4,12 @@ if(WIN32)
   set(ARG
     CMAKE_GENERATOR ${gen}
     CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX=${fletch_BUILD_INSTALL_PREFIX}
-    -DBUILD_SHARED_LIBS:BOOL=ON
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+      ${COMMON_CMAKE_ARGS}
+      -DCMAKE_INSTALL_PREFIX=${fletch_BUILD_INSTALL_PREFIX}
+      -DBUILD_SHARED_LIBS:BOOL=ON
+      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+      -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+      -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     )
   set(_PostgreSQL_BUILD_INSTALL_ARG)
 else()
@@ -32,18 +33,18 @@ else()
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
     )
 
-  option(fletch_BUILD_POSTGRESQL_CONTRIB "Build and install the PostgreSQL contrib modules" off)
+  option(fletch_BUILD_POSTGRESQL_CONTRIB "Build and install the PostgreSQL contrib modules" OFF)
 endif()
 
 #Always try the patch, it contains the WIN32 logic
 set(_PostgreSQL_PATCH_ARG PATCH_COMMAND
   ${CMAKE_COMMAND}
-  -DPostgreSQL_patch:PATH=${fletch_SOURCE_DIR}/Patches/PostgreSQL
-  -DPostgreSQL_source:PATH=${fletch_BUILD_PREFIX}/src/PostgreSQL
-  -DPostgreSQL_MAJOR_VERSION:STRING=${PostgreSQL_MAJOR_VERSION}
-  -DBUILD_POSTGRESQL_CONTRIB:BOOL=${BUILD_POSTGRESQL_CONTRIB}
-  -P ${fletch_SOURCE_DIR}/Patches/PostgreSQL/Patch.cmake
-  )
+    -DPostgreSQL_patch:PATH=${fletch_SOURCE_DIR}/Patches/PostgreSQL
+    -DPostgreSQL_source:PATH=${fletch_BUILD_PREFIX}/src/PostgreSQL
+    -DPostgreSQL_MAJOR_VERSION:STRING=${PostgreSQL_MAJOR_VERSION}
+    -DBUILD_POSTGRESQL_CONTRIB:BOOL=${BUILD_POSTGRESQL_CONTRIB}
+    -P ${fletch_SOURCE_DIR}/Patches/PostgreSQL/Patch.cmake
+)
 
 ExternalProject_Add(PostgreSQL
   URL ${PostgreSQL_url}
@@ -59,8 +60,8 @@ ExternalProject_Add(PostgreSQL
 )
 
 if (NOT WIN32)
-  if (BUILD_POSTGRESQL_CONTRIB)
-    VisionTPL_Require_Make()
+  if (fletch_BUILD_POSTGRESQL_CONTRIB)
+    Fletch_Require_Make()
     ExternalProject_Add_Step(PostgreSQL build_contrib
       COMMENT "Build the PostgreSQL contrib modules"
       DEPENDEES build
@@ -76,7 +77,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # PostgreSQL
 ########################################
-set(PostgreSQL_ROOT @PostgreSQL_ROOT@)
-set(PostgreSQL_MAJOR_VERSION @PostgreSQL_MAJOR_VERSION@)
+set(PostgreSQL_ROOT \{PostgreSQL_ROOT})
+set(PostgreSQL_MAJOR_VERSION \{PostgreSQL_MAJOR_VERSION})
+set(fletch_ENABLED_PostgreSQL TRUE)
 ")
 
