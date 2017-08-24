@@ -290,6 +290,32 @@ set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/Ge
 set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
 list(APPEND fletch_external_sources GeographicLib )
 
+# PostgreSQL
+if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
+  set(PostgreSQL_MAJOR_VERSION 9.5.1 CACHE STRING "Select the major version of PostgreSQL to build.")
+  set_property(CACHE PostgreSQL_MAJOR_VERSION PROPERTY STRINGS "9.5.1" "9.4.6" "9.3.11")
+  message(STATUS "PostgreSQL Major version: ${PostgreSQL_MAJOR_VERSION}")
+  if (PostgreSQL_MAJOR_VERSION VERSION_GREATER 9.4)
+    # PostgreSQL 9.5
+    set(PostgreSQL_version 9.5.1 )
+    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
+    set(PostgreSQL_md5 "11e037afaa4bd0c90bb3c3d955e2b401")
+  elseif(PostgreSQL_MAJOR_VERSION VERSION_GREATER 9.3)
+    # PostgreSQL 9.4
+    set(PostgreSQL_version 9.4.6 )
+    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
+    set(PostgreSQL_md5 "0371b9d4fb995062c040ea5c3c1c971e")
+  elseif (PostgreSQL_MAJOR_VERSION VERSION_GREATER 9.2)
+    # PostgreSQL 9.3
+    set(PostgreSQL_version 9.3.11 )
+    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
+    set(PostgreSQL_md5 "73a46c24eda0e19be16c86e4f46c4717")
+  else()
+    message(STATUS "PostgreSQL_MAJOR_VERSION: Not supported")
+  endif()
+endif()
+list(APPEND fletch_external_sources PostgreSQL)
+
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   # Support the stable version 6.2, and work on updating to next version 8.0
@@ -392,29 +418,6 @@ list(APPEND fletch_external_sources Caffe)
 set(Darknet_url "https://data.kitware.com/api/v1/file/598866018d777f7d33e9c0f3/download/darknet-win32-70dfcb43.zip")
 set(Darknet_md5 "eea312b07685eef9c6f26cf63346fe41")
 list(APPEND fletch_external_sources Darknet)
-
-# PostgreSQL
-set(PostgreSQL_MAJOR_VERSION "9.4" CACHE STRING "Select the major version of PostgreSQL to build.")
-message(STATUS "PostgreSQL Major version: ${PostgreSQL_MAJOR_VERSION}")
-if (PostgreSQL_MAJOR_VERSION VERSION_GREATER 9.4)
-  # PostgreSQL 9.5
-  set(PostgreSQL_version 9.5.1 )
-  set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
-  set(PostgreSQL_md5 "11e037afaa4bd0c90bb3c3d955e2b401")
-elseif(PostgreSQL_MAJOR_VERSION VERSION_GREATER 9.3)
-  # PostgreSQL 9.4
-  set(PostgreSQL_version 9.4.6 )
-  set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
-  set(PostgreSQL_md5 "0371b9d4fb995062c040ea5c3c1c971e")
-elseif (PostgreSQL_MAJOR_VERSION VERSION_GREATER 9.2)
-  # PostgreSQL 9.3
-  set(PostgreSQL_version 9.3.11 )
-  set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
-  set(PostgreSQL_md5 "73a46c24eda0e19be16c86e4f46c4717")
-else()
-  message(STATUS "PostgreSQL_MAJOR_VERSION: Not supported")
-endif()
-list(APPEND fletch_external_sources PostgreSQL)
 
 if (fletch_ENABLE_PostgreSQL)
   set_property(CACHE PostgreSQL_MAJOR_VERSION PROPERTY STRINGS 9.5 9.4 9.3)
