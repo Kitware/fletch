@@ -355,6 +355,12 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources LevelDB)
 endif()
 
+# FLANN
+set(FLANN_version "1.9.1")
+set(FLANN_url "https://github.com/mariusmuja/flann/archive/${FLANN_version}.tar.gz")
+set(FLANN_md5 "73adef1c7bf8e8b978987e7860926ea6")
+list(APPEND fletch_external_sources FLANN)
+
 # Protobuf
 if(NOT WIN32)
   set(Protobuf_version "2.5.0" )
