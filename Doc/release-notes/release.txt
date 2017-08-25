@@ -31,3 +31,7 @@ OpenCV 3.1
    causes packaging issues on MacOS.  This same patch was applied to OpenCV 2.4
    in Fletch and was accepted upstream in OpenCV 3.2.  Details here:
    https://github.com/opencv/opencv/pull/6006
+
+PNG
+
+ * Prevented excessive symlinking of libraries. The process was causing issues for the Ninja generator. It is a redundant operation since the soversion property will suffice.
