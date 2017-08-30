@@ -57,6 +57,8 @@
 #include "libmv/simple_pipeline/reconstruction_scale.h"
 #include "libmv/simple_pipeline/tracks.h"
 
+#include <gflags/gflags.h>
+
 using namespace cv;
 using namespace cv::sfm;
 using namespace libmv;
