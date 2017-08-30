@@ -146,7 +146,7 @@ if(fletch_ENABLE_GLog)
 else()
   set( CAFFE_GLog_ARGS
     -DGLOG_INCLUDE_DIR:PATH=${GLog_INCLUDE_DIR}
-    -DGLOG_LIBRARY:PATH=${GLog_INCLUDE_DIR}
+    -DGLOG_LIBRARY:FILEPATH=${GLog_LIBRARY}
     )
 endif()
 
