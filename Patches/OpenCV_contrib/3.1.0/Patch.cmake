@@ -10,6 +10,10 @@ file(COPY ${OpenCV_contrib_patch}/sfm/CMakeLists.txt
   DESTINATION ${OpenCV_contrib_source}/modules/sfm/
 )
 
+file(COPY ${OpenCV_contrib_patch}/sfm/src/libmv_capi.h
+  DESTINATION ${OpenCV_contrib_source}/modules/sfm/src/
+)
+
 file(COPY ${OpenCV_contrib_patch}/hdf/hdf5.hpp
   DESTINATION ${OpenCV_contrib_source}/modules/hdf/include/opencv2/hdf/
 )
