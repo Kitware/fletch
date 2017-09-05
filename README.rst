@@ -76,6 +76,17 @@ Overview of Directories
 Building Fletch
 ===============
 
+Dependencies
+------------
+
+On Linux systems, Install the following packages before building Fletch:
+
+  # The following example uses the Ubuntu apt-get package manager
+  # These command may differ depending on your Linux flavor and package manager
+  sudo apt-get install build-essential libgl1-mesa-dev
+  sudo apt-get install libexpat1-dev
+  sudo apt-get install libgtk2.0-dev
+
 Fletch uses CMake (www.cmake.org) for easy cross-platform compilation. The
 minimum required version of CMake is 2.8.12, but newer versions are strongly
 recommended.
