@@ -79,7 +79,7 @@ Building Fletch
 Dependencies
 ------------
 
-On Linux systems, Install the following packages before building Fletch:
+On Linux systems, Install the following packages before building Fletch::
 
   # The following example uses the Ubuntu apt-get package manager
   # These command may differ depending on your Linux flavor and package manager
