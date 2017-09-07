@@ -192,6 +192,11 @@ set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.
 set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
 list(APPEND fletch_external_sources GFlags)
 
+set(GTest_version "1.8.0")
+set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_version}.tar.gz")
+set(GTest_md5 "16877098823401d1bf2ed7891d7dce36")
+list(APPEND fletch_external_sources GTest)
+
 #OpenBLAS
 if(NOT WIN32)
   #set(OpenBLAS_version "0.2.15")
