@@ -394,8 +394,8 @@ list(APPEND fletch_external_sources Caffe)
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://data.kitware.com/api/v1/file/598866018d777f7d33e9c0f3/download/darknet-win32-70dfcb43.zip")
-set(Darknet_md5 "eea312b07685eef9c6f26cf63346fe41")
+set(Darknet_url "https://data.kitware.com/api/v1/file/59a58d818d777f7d33e9cdad/download/darknet-70dfcb43.zip")
+set(Darknet_md5 "d75c1f1611a7d029c8a77ec5d239c8ca")
 list(APPEND fletch_external_sources Darknet)
 
 
