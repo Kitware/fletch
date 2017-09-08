@@ -21,3 +21,7 @@ file(COPY ${OpenCV_contrib_patch}/hdf/hdf5.hpp
 file(COPY ${OpenCV_contrib_patch}/hdf/hdf5.cpp
   DESTINATION ${OpenCV_contrib_source}/modules/hdf/src/
 )
+
+file(COPY ${OpenCV_contrib_patch}/sfm/src/libmv_light/libmv/multiview/CMakeLists.txt
+  DESTINATION ${OpenCV_contrib_source}/modules/sfm/src/libmv_light/libmv/multiview/
+)
