@@ -19,7 +19,7 @@ fletch_external_project_force_install(PACKAGE PyBind11)
 set(PyBind11_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
-# PNG
+# PyBind11
 ################################
 set(PyBind11_ROOT @PyBind11_ROOT@)
 
