@@ -18,13 +18,13 @@ else()
   set(DARKNET_OPENCV_ARGS -DUSE_OPENCV:BOOL=OFF)
 endif()
 
-if(fletch_ENABLE_CUDA)
+if(fletch_BUILD_WITH_CUDA)
   option(fletch_ENABLE_Darknet_CUDA "Build Darknet with CUDA support" TRUE )
   mark_as_advanced(fletch_ENABLE_Darknet_CUDA)
 else()
   unset(fletch_ENABLE_Darknet_CUDA CACHE)
 endif()
-if(fletch_ENABLE_CUDNN)
+if(fletch_BUILD_WITH_CUDNN)
   option(fletch_ENABLE_Darknet_CUDNN "Build Darknet with CUDNN support" TRUE )
   mark_as_advanced(fletch_ENABLE_Darknet_CUDNN)
 else()
@@ -62,7 +62,7 @@ ExternalProject_Add(Darknet
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
-    -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}    
+    -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
     -DBUILD_SHARED_LIBS:BOOL=${DARKNET_BUILD_SHARED}
     -DINSTALL_HEADER_FILES:BOOL=ON
     ${DARKNET_OPENCV_ARGS}

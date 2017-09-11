@@ -51,21 +51,21 @@ add_custom_target(Download)
 add_custom_target(fletch-build-install)
 
 # Options to control GPU support
-option(fletch_ENABLE_CUDA "Build with CUDA support" FALSE)
+option(fletch_BUILD_WITH_CUDA "Build with CUDA support" FALSE)
 
-if (fletch_ENABLE_CUDA)
+if (fletch_BUILD_WITH_CUDA)
   find_package( CUDA QUIET REQUIRED )
 
-  option(fletch_ENABLE_CUDNN "Build with CUDNN support" FALSE)
-  if (fletch_ENABLE_CUDNN)
+  option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
+  if (fletch_BUILD_WITH_CUDNN)
     set( CUDNN_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
     mark_as_advanced( CUDNN_ROOT_DIR )
-    
+
     find_package( CUDNN QUIET REQUIRED)
   endif()
-elseif(fletch_ENABLE_CUDNN)
-  unset(fletch_ENABLE_CUDNN CACHE)
-  message(WARNING "Disabling fletch_ENABLE_CUDNN, You must have fletch_ENABLE_CUDA enabled for this to be enabled")
+elseif(fletch_BUILD_WITH_CUDNN)
+  unset(fletch_BUILD_WITH_CUDNN CACHE)
+  message(WARNING "Disabling fletch_BUILD_WITH_CUDNN, You must have fletch_BUILD_WITH_CUDA enabled for this to be enabled")
 endif()
 
 

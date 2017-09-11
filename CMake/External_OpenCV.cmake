@@ -9,7 +9,7 @@ mark_as_advanced(fletch_ENABLE_OpenCV_highgui)
 list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_highgui=${fletch_ENABLE_OpenCV_highgui})
 
 # Allow OpenCV's GPU option to be explicitly turned off while keeping CUDA for everything else
-if(fletch_ENABLE_CUDA)
+if(fletch_BUILD_WITH_CUDA)
   option(fletch_ENABLE_OpenCV_CUDA "Build OpenCV with CUDA support" TRUE )
   mark_as_advanced(fletch_ENABLE_OpenCV_CUDA)
 else()
