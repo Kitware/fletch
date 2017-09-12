@@ -38,7 +38,6 @@ ExternalProject_Add(libkml
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     ${libkml_use_external_expat}
     ${libkml_use_external_boost}
 )

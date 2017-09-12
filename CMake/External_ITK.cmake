@@ -68,7 +68,6 @@ ExternalProject_Add(ITK
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     ${ITK_IMG_ARGS}
     ${itk_cmake_args}
 )
