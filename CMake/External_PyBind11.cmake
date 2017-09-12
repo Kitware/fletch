@@ -21,7 +21,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # PyBind11
 ################################
-set(PyBind11_ROOT @PyBind11_ROOT@)
+set(PyBind11_ROOT \${fletch_ROOT})
 
 set(fletch_ENABLED_PyBind11 TRUE)
 ")
