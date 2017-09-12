@@ -401,6 +401,12 @@ list(APPEND fletch_external_sources Darknet)
 
 
 
+# PyBind11
+set(PyBind11_version "2.2.0")
+set(PyBind11_url "https://github.com/pybind/pybind11/archive/v${PyBind11_version}.tar.gz")
+set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
+list(APPEND fletch_external_sources PyBind11)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
