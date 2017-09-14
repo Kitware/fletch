@@ -62,16 +62,26 @@ endif()
 #
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
 
-set(fletch_PYTHON_VERSION 2 CACHE STRING
-    "Python version to use: 3, 3.x, 2, or empty")
-set_property(CACHE fletch_PYTHON_VERSION PROPERTY STRINGS 3 2)
-#set_property(CACHE fletch_PYTHON_VERSION PROPERTY STRINGS 3.5 3.4 3.6 3.7 2.7)
+set(fletch_PYTHON_VERSION "2" CACHE STRING
+    "Python version to use: 3, 2, or empty")
+set_property(CACHE fletch_PYTHON_VERSION PROPERTY STRINGS "3" "2")
 
 if (fletch_BUILD_WITH_PYTHON)
 
+  # If we change python versions re-find the bin, include, and libs
+  if (NOT _prev_fletch_python_version STREQUAL fletch_PYTHON_VERSION)
+    # but dont clobber initial settings in the instance they are specified via
+    # commandline (e.g  cmake -DPYTHON_EXECUTABLE=/my/special/python)
+    if (_prev_fletch_python_version)
+      message(STATUS "The Python version changed; refinding the interpreter")
+      unset(PYTHON_EXECUTABLE CACHE)
+      unset(PYTHON_INCLUDE_DIR CACHE)
+      unset(PYTHON_LIBRARY CACHE)
+      unset(PYTHON_LIBRARY_DEBUG CACHE)
+    endif()
+  endif()
+
   if (fletch_PYTHON_VERSION MATCHES "^3.*")
-    # TODO: assert VTK version is >= 7.0
-    # TODO: assert OpenCV version is >= 3.1.0
     find_package(PythonInterp 3.4 REQUIRED)
     find_package(PythonLibs 3.4 REQUIRED)
   else()
@@ -79,6 +89,9 @@ if (fletch_BUILD_WITH_PYTHON)
     find_package(PythonLibs 2.7 REQUIRED)
   endif()
 
+  # Make a copy so we can determine if the user changes python versions
+  set(_prev_fletch_python_version "${fletch_PYTHON_VERSION}" CACHE INTERNAL
+    "allows us to determine if the user changes python version")
 endif()
 
 #
