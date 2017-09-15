@@ -3,7 +3,13 @@
 #define HAVE_ROUND 1
 #endif
 
+#if defined (_MSC_VER) && defined(_DEBUG)
+#undef _DEBUG
 #include <Python.h>
+#define _DEBUG
+#else
+#include <Python.h>
+#endif
 
 #define MODULESTR "cv2"
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
