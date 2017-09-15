@@ -219,7 +219,7 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   set(PYTHON_ARGS
       -DBUILD_python:BOOL=ON
       -DBUILD_python_layer:BOOL=ON
-      -Dpython_version=${fletch_PYTHON_VERSION}
+      -Dpython_version=${fletch_PYTHON_MAJOR_VERSION}
       -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
       -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
       -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}

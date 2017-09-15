@@ -234,10 +234,10 @@ if (fletch_BUILD_CXX11)
 endif()
 
 # Choose python 2 or python 3
-if (fletch_PYTHON_VERSION MATCHES "^3.*")
+if (fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
     set(fletch_python2 False)
     set(fletch_python3 True)
-elseif (fletch_PYTHON_VERSION MATCHES "^2.*")
+elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
     set(fletch_python2 True)
     set(fletch_python3 False)
 else()
