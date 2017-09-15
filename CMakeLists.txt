@@ -89,6 +89,21 @@ if (fletch_BUILD_WITH_PYTHON)
     find_package(PythonLibs 2.7 REQUIRED)
   endif()
 
+  # Check to ensure that the python executable agrees with the major version
+  execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}" -c "import sys; print(sys.version[0:3])"
+    RESULT_VARIABLE _exitcode
+    OUTPUT_VARIABLE _python_version)
+  if(NOT ${_exitcode} EQUAL 0)
+    message(FATAL_ERROR "Python command to get version failed with error code: ${_exitcode}")
+  endif()
+  # Remove supurflous newlines (artifacts of print)
+  string(STRIP "${_python_version}" _python_version)
+
+  if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
+    message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
+  endif()
+
   # Make a copy so we can determine if the user changes python versions
   set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
     "allows us to determine if the user changes python version")
