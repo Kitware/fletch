@@ -57,3 +57,5 @@ Fixes since v1.0.0
 
  * Patched OpenCV version 3.1.0 for the case the absolute build path contains
    the pattern "cuda"
+
+ * Patched OpenCV version 3.1.0 to work with MSCV 1911 and darknet
