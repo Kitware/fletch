@@ -39,3 +39,8 @@ OpenCV 3.1
 PNG
 
  * Prevented excessive symlinking of libraries. The process was causing issues for the Ninja generator. It is a redundant operation since the soversion property will suffice.
+
+Qt
+
+ * Fixed an issue with building Qt with the latest patched update to Visual
+   Studio 2017 due to an improper CMake check on the version of Visual Studio.
