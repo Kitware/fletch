@@ -56,6 +56,7 @@ Package Upgrades
 
  * Added experimental support for Protobuf 3.4.1
 
+ * Added experimental support for Python 3
 
 Fixes since v1.0.0
 ------------------
