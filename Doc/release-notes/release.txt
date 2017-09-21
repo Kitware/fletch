@@ -32,6 +32,10 @@ OpenCV 3.1
    in Fletch and was accepted upstream in OpenCV 3.2.  Details here:
    https://github.com/opencv/opencv/pull/6006
 
+ * Patched OpenCV 3.1 to fix Debug builds on Windows when Python is enabled.
+   The issue was failure to link to python27_d.lib, which is not distributed
+   with Python installers.
+
 PNG
 
  * Prevented excessive symlinking of libraries. The process was causing issues for the Ninja generator. It is a redundant operation since the soversion property will suffice.
