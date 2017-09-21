@@ -12,6 +12,10 @@ New Packages
 
  * Added Darknet 
 
+ * Added PyBind11 version 2.2.0
+
+ * Added GTest version 1.8.0
+
 Package Upgrades
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
