@@ -1,4 +1,7 @@
 
+
+list(APPEND GLog_pkg_ARGS -DWITH_GFLAGS:BOOL=OFF)
+
 ExternalProject_Add(GLog
   URL ${GLog_file}
   URL_MD5 ${GLog_md5}
@@ -13,6 +16,7 @@ ExternalProject_Add(GLog
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
+    ${GLog_pkg_ARGS}
   )
 
 fletch_external_project_force_install(PACKAGE GLog)
