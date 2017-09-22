@@ -11,6 +11,7 @@ else ()
   ExternalProject_Add(GLog
     URL ${GLog_file}
     URL_MD5 ${GLog_md5}
+    DOWNLOAD_NAME ${GLog_dlname}
     PREFIX ${fletch_BUILD_PREFIX}
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}

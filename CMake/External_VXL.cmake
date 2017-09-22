@@ -76,6 +76,7 @@ ExternalProject_Add(VXL
   DEPENDS ${VXL_DEPENDS}
   URL ${VXL_url}
   URL_MD5 ${VXL_md5}
+  DOWNLOAD_NAME ${VXL_dlname}
   PREFIX ${fletch_BUILD_PREFIX}
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS

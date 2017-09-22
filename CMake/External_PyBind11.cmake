@@ -5,6 +5,7 @@ endif()
 ExternalProject_Add(PyBind11
   URL ${PyBind11_url}
   URL_MD5 ${PyBind11_md5}
+  DOWNLOAD_NAME ${PyBind11_dlname}
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
