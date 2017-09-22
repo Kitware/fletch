@@ -179,13 +179,10 @@ set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
 list(APPEND fletch_external_sources log4cplus)
 
 # GLog
-if(NOT WIN32)
-  set(GLog_version "0.3.3")
-  set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
-  set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
-  set(GLog_dlname "glog-${GLog_version}.zip")
-  list(APPEND fletch_external_sources GLog)
-endif()
+set(GLog_version "0.3.3")
+set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
+set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
+list(APPEND fletch_external_sources GLog)
 
 # GFlags
 set(GFlags_version "2.1.2")
