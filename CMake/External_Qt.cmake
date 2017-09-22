@@ -103,7 +103,7 @@ if(WIN32)
   #We have some trouble determining the correct platform for VS2013 and VS2017
   if(MSVC12)
     list(APPEND Qt_args_arch -platform win32-msvc2013)
-  elseif(MSVC AND MSVC_VERSION EQUAL 1910)
+  elseif(MSVC AND NOT MSVC_VERSION LESS 1910)
     list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
   endif()
 else()
