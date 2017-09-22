@@ -1,8 +1,13 @@
 
-
-list(APPEND GLog_pkg_ARGS -DWITH_GFLAGS:BOOL=OFF)
+if (fletch_ENABLE_GFlags)
+  list(APPEND GLog_pkg_ARGS -DWITH_GFLAGS:BOOL=ON)
+  list(APPEND GLog_DEPENDS GFlags)
+else()
+  list(APPEND GLog_pkg_ARGS -DWITH_GFLAGS:BOOL=OFF)
+endif()
 
 ExternalProject_Add(GLog
+  DEPENDS ${GLog_DEPENDS}
   URL ${GLog_file}
   URL_MD5 ${GLog_md5}
   DOWNLOAD_NAME ${GLog_dlname}

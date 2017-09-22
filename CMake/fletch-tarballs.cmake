@@ -179,10 +179,10 @@ set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
 list(APPEND fletch_external_sources log4cplus)
 
 # GFlags
-set(GFlags_version "2.1.2")
+set(GFlags_version "2.2.1")
 set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.gz")
 set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
-set(GFlags_dlname "gflags-${GGFlags_version}.zip")
+set(GFlags_dlname "gflags-${GGFlags_version}.tar.gz")
 list(APPEND fletch_external_sources GFlags)
 
 # GLog
