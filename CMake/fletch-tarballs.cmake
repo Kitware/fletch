@@ -363,9 +363,9 @@ endif()
 # Protobuf
 
 set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
-set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
 
 if(NOT WIN32)
+  set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
   set(Protobuf_version ${Protobuf_SELECT_VERSION})
   if (Protobuf_version VERSION_EQUAL 2.5.0)
     set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
