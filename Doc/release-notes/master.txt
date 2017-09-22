@@ -18,6 +18,10 @@ New Packages
 
 Package Upgrades
 
+ * Upgrade GLog to version 0.3.5
+
+ * Upgrade GFlags to version 2.2.1
+
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
 
