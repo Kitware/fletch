@@ -36,6 +36,11 @@ OpenCV 3.1
    The issue was failure to link to python27_d.lib, which is not distributed
    with Python installers.
 
+ * Patched OpenCV 3.1 to work with MSCV 1911 and darknet.
+   The issue was that OpenCV was not installed to the directory expected by darknet
+   because the MSVC version was not recognized in a recent version of
+   VisualStudio 2017.
+
 PNG
 
  * Prevented excessive symlinking of libraries. The process was causing issues for the Ninja generator. It is a redundant operation since the soversion property will suffice.
