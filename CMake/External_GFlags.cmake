@@ -1,6 +1,7 @@
 ExternalProject_Add(GFlags
   URL ${GFlags_url}
   URL_MD5 ${GFlags_md5}
+  DOWNLOAD_NAME ${GFlags_dlname}
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}

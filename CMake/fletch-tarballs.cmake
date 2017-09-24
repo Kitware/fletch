@@ -183,6 +183,7 @@ if(NOT WIN32)
   set(GLog_version "0.3.3")
   set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
   set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
+  set(GLog_dlname "glog-${GLog_version}.zip")
   list(APPEND fletch_external_sources GLog)
 endif()
 
@@ -190,11 +191,13 @@ endif()
 set(GFlags_version "2.1.2")
 set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.gz")
 set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
+set(GFlags_dlname "gflags-${GGFlags_version}.zip")
 list(APPEND fletch_external_sources GFlags)
 
 set(GTest_version "1.8.0")
 set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_version}.tar.gz")
 set(GTest_md5 "16877098823401d1bf2ed7891d7dce36")
+set(GTest_dlname "gtest-${GTest_version}.tar.gz")
 list(APPEND fletch_external_sources GTest)
 
 #OpenBLAS
@@ -210,7 +213,7 @@ if(NOT WIN32)
   else()
     message("Unknown OpenBLAS version = ${OpenBLAS_version}")
   endif()
-
+  set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.zip")
   list(APPEND fletch_external_sources OpenBLAS)
 endif()
 
@@ -271,6 +274,7 @@ set(libkml_version "20150911git79b3eb0")
 set(libkml_tag "79b3eb066eacd8fb117b10dc990b53b4cd11f33d")
 set(libkml_url "https://github.com/kitware/libkml/archive/${libkml_tag}.zip")
 set(libkml_md5 "a232dfd4eb07489768b207d88b983267")
+set(libkml_dlname "libkml-${libkml_version}.zip")
 list(APPEND fletch_external_sources libkml)
 
 # Qt
@@ -316,8 +320,10 @@ endif()
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_url "https://github.com/vxl/vxl/archive/cbca86fe5d12b7b0379d72a3aa6bf5cfeebd0302.zip")
+set(VXL_version "cbca86fe5d12b7b0379d72a3aa6bf5cfeebd0302")
+set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
 set(VXL_md5 "044cc927012aef07b38492f9df1fd772")
+set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
 # ITK
@@ -357,6 +363,7 @@ if(NOT WIN32)
   set(LevelDB_version "1.18")
   set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
   set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
+  set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
   list(APPEND fletch_external_sources LevelDB)
 endif()
 
@@ -399,12 +406,11 @@ set(Darknet_md5 "d75c1f1611a7d029c8a77ec5d239c8ca")
 list(APPEND fletch_external_sources Darknet)
 
 
-
-
 # PyBind11
 set(PyBind11_version "2.2.0")
 set(PyBind11_url "https://github.com/pybind/pybind11/archive/v${PyBind11_version}.tar.gz")
 set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
+set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
 list(APPEND fletch_external_sources PyBind11)
 
 #+

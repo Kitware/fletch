@@ -28,6 +28,7 @@ else()
   ExternalProject_Add(LevelDB
     URL ${LevelDB_url}
     URL_MD5 ${LevelDB_md5}
+    DOWNLOAD_NAME ${LevelDB_dlname}
     DEPENDS ${LevelDB_DEPENDS}
     PREFIX  ${fletch_BUILD_PREFIX}
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}

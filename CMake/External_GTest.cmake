@@ -1,6 +1,7 @@
 ExternalProject_Add(GTest
   URL ${GTest_url}
   URL_MD5 ${GTest_md5}
+  DOWNLOAD_NAME ${GTest_dlname}
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
