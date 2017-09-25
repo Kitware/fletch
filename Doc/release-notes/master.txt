@@ -10,17 +10,19 @@ Updates since v1.0.0
 
 New Packages
 
- * Added Darknet 
+ * Added Darknet
 
  * Added PyBind11 version 2.2.0
 
  * Added GTest version 1.8.0
 
+ * Added libgeotiff version 1.4.1
+
 Package Upgrades
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
- 
+
  * Added experimental support for ffmpeg 3.3.3
 
  * Associated the patches of Caffe with specific versions
@@ -28,11 +30,11 @@ Package Upgrades
  * Associated the patches of OpenBLAS with specific versions
 
  * Updated OpenBLAS to version 0.2.20
-   
+
  * Associated the patches of OpenCV with specific versions
- 
+
  * Added experimental support for OpenCV version 3.3.0
- 
+
  * OpenCV no longer links to VTK by default
 
  * Updated PROJ.4 to 4.9.3. Installation is now implemented upstream, which
