@@ -16,6 +16,8 @@ New Packages
 
  * Added GTest version 1.8.0
 
+ * Added libgeotiff version 1.4.1
+
 Package Upgrades
 
  * Upgrade GLog to version 0.3.5
