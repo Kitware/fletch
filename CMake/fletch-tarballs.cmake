@@ -424,6 +424,12 @@ set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
 set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
 list(APPEND fletch_external_sources PyBind11)
 
+# GDAL
+set(GDAL_version "1.11.0")
+set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
+set(GDAL_md5 "9fdf0f2371a3e9863d83e69951c71ec4")
+list(APPEND fletch_external_sources GDAL)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
