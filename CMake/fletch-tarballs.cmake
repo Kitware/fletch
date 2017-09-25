@@ -178,21 +178,19 @@ set(log4cplus_md5 "4c0973becab54c8492204258260dcf06")
 set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
 list(APPEND fletch_external_sources log4cplus)
 
-# GLog
-if(NOT WIN32)
-  set(GLog_version "0.3.3")
-  set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
-  set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
-  set(GLog_dlname "glog-${GLog_version}.zip")
-  list(APPEND fletch_external_sources GLog)
-endif()
-
 # GFlags
-set(GFlags_version "2.1.2")
+set(GFlags_version "2.2.1")
 set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.gz")
-set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
-set(GFlags_dlname "gflags-${GGFlags_version}.zip")
+set(GFlags_md5 "b98e772b4490c84fc5a87681973f75d1")
+set(GFlags_dlname "gflags-${GFlags_version}.tar.gz")
 list(APPEND fletch_external_sources GFlags)
+
+# GLog
+set(GLog_version "0.3.5")
+set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
+set(GLog_md5 "5df6d78b81e51b90ac0ecd7ed932b0d4")
+set(GLog_dlname "glog-${GLog_version}.tar.gz")
+list(APPEND fletch_external_sources GLog)
 
 set(GTest_version "1.8.0")
 set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_version}.tar.gz")
