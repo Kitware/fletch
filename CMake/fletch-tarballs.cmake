@@ -368,10 +368,21 @@ if(NOT WIN32)
 endif()
 
 # Protobuf
+
+set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+
 if(NOT WIN32)
-  set(Protobuf_version "2.5.0" )
-  set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
-  set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
+  set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
+  set(Protobuf_version ${Protobuf_SELECT_VERSION})
+  if (Protobuf_version VERSION_EQUAL 2.5.0)
+    set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
+    set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
+  elseif (Protobuf_version VERSION_EQUAL 3.4.1)
+    set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-cpp-${Protobuf_version}.tar.gz" )
+    set(Protobuf_md5 "74446d310ce79cf20bab3ffd0e8f8f8f" )
+  else()
+    message(ERROR "Protobuf Version ${Protobuf_SELECT_VERSION} Not Supported")
+  endif()
   list(APPEND fletch_external_sources Protobuf )
 endif()
 

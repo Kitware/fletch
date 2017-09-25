@@ -48,6 +48,9 @@ Package Upgrades
 
  * Associated the patches of Ceres Solver with specific versions
 
+ * Added experimental support for Protobuf 3.4.1
+
+
 Fixes since v1.0.0
 ------------------
 
