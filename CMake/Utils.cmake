@@ -108,11 +108,12 @@ macro(add_package_dependency)
       set(dependency_name ${MY_PACKAGE_DEPENDENCY_ALIAS})
     endif()
 
-    find_package(${dependency_name})
+    find_package(${dependency_name} QUIET)
 
     # Handle both casing (For package foo, we can have either
     # foo_FOUND or FOO_FOUND defined)
     string(TOUPPER ${dependency_name}_FOUND uppercase_found)
+
     if(DEFINED ${dependency_name}_FOUND)
       set(dependency_found ${${dependency_name}_FOUND})
     elseif(DEFINED uppercase_found)
