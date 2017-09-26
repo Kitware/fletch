@@ -77,9 +77,11 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 set(_FFmpeg_supported TRUE)
 if(WIN32)
 
-  set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
-  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
-  mark_as_advanced(FFmpeg_SELECT_VERSION)
+  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+    set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
+    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
+    mark_as_advanced(FFmpeg_SELECT_VERSION)
+  endif()
   # The windows version is git-c089e72 (2015-03-05)
   # follows: n2.6-dev (2014-12-03)
   # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
@@ -102,10 +104,12 @@ if(WIN32)
   set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
 else()
 
-  # allow different versions to be selected for testing purposes
-  set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
-  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
-  mark_as_advanced(FFmpeg_SELECT_VERSION)
+  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+    # allow different versions to be selected for testing purposes
+    set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
+    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
+    mark_as_advanced(FFmpeg_SELECT_VERSION)
+  endif()
 
   #set(_FFmpeg_version 3.3.3) # (2017-07-29)
   #set(_FFmpeg_version 2.6.2) # (2015-04-10)
@@ -116,7 +120,7 @@ else()
     set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
   elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
     set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
-  elseif (_FFmpeg_supported)
+  elseif (_FFmpeg_supported AND _FFmpeg_version)
     message("Unsupported FFmpeg version ${_FFmpeg_version}")
   endif()
 
@@ -124,6 +128,7 @@ endif()
 if(_FFmpeg_supported)
   list(APPEND fletch_external_sources FFmpeg)
 endif()
+
 
 # EIGEN
 set(Eigen_version 3.2.9)
@@ -367,19 +372,22 @@ endif()
 
 # Protobuf
 
-set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
-
 if(NOT WIN32)
-  set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
+  if (fletch_ENABLE_Protobuf OR fletch_ENABLE_ALL_PACKAGES)
+    set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+    set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
+  endif()
+
   set(Protobuf_version ${Protobuf_SELECT_VERSION})
+
   if (Protobuf_version VERSION_EQUAL 2.5.0)
     set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
     set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
   elseif (Protobuf_version VERSION_EQUAL 3.4.1)
     set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-cpp-${Protobuf_version}.tar.gz" )
     set(Protobuf_md5 "74446d310ce79cf20bab3ffd0e8f8f8f" )
-  else()
-    message(ERROR "Protobuf Version ${Protobuf_SELECT_VERSION} Not Supported")
+  elseif(Protobuf_version)
+    message(ERROR "Protobuf Version ${Protobuf_version} Not Supported")
   endif()
   list(APPEND fletch_external_sources Protobuf )
 endif()
