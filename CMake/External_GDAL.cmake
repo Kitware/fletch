@@ -40,11 +40,11 @@ if (WIN32)
   if(fletch_ENABLE_PNG)
     set(_GDAL_ARGS_PNG)
     set(_GDAL_ARGS_PNG PNGDIR=${fletch_BUILD_INSTALL_PREFIX}/include PNG_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.lib)
-    list(APPEND _GDAL_DEPENDS fletch)
+    list(APPEND _GDAL_DEPENDS PNG)
   endif()
 
   if(fletch_ENABLE_libtiff)
-    list(APPEND _GDAL_DEPENDS fletch)
+    list(APPEND _GDAL_DEPENDS libtiff)
     set( _GDAL_TIFF_ARGS TIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include TIFF_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/tiff.lib)
   endif()
 
@@ -100,7 +100,7 @@ else()
 
   if(fletch_ENABLE_ZLib)
     #If we're building libz, then use it.
-    list(APPEND _GDAL_DEPENDS fletch)
+    list(APPEND _GDAL_DEPENDS ZLib)
     set(_GDAL_ARGS_ZLIB "--with-libz=${ZLIB_ROOT}")
   endif()
 
@@ -109,12 +109,12 @@ else()
   set(_GDAL_ARGS_PG "--without-pg")
 
   if(fletch_ENABLE_PNG)
-    list(APPEND _GDAL_DEPENDS fletch)
+    list(APPEND _GDAL_DEPENDS PNG)
     set( _GDAL_PNG_ARGS --with-png=${fletch_BUILD_INSTALL_PREFIX})
   endif()
 
   if(fletch_ENABLE_libtiff)
-    list(APPEND _GDAL_DEPENDS fletch)
+    list(APPEND _GDAL_DEPENDS libtiff)
     set( _GDAL_TIFF_ARGS --with-libtiff=${libtiff_ROOT})
   endif()
 

@@ -10,17 +10,23 @@ Updates since v1.0.0
 
 New Packages
 
- * Added Darknet 
+ * Added Darknet
 
  * Added PyBind11 version 2.2.0
 
  * Added GTest version 1.8.0
 
+ * Added libgeotiff version 1.4.1
+
 Package Upgrades
+
+ * Upgrade GLog to version 0.3.5
+
+ * Upgrade GFlags to version 2.2.1
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
- 
+
  * Added experimental support for ffmpeg 3.3.3
 
  * Associated the patches of Caffe with specific versions
@@ -28,11 +34,11 @@ Package Upgrades
  * Associated the patches of OpenBLAS with specific versions
 
  * Updated OpenBLAS to version 0.2.20
-   
+
  * Associated the patches of OpenCV with specific versions
- 
+
  * Added experimental support for OpenCV version 3.3.0
- 
+
  * OpenCV no longer links to VTK by default
 
  * Updated PROJ.4 to 4.9.3. Installation is now implemented upstream, which
@@ -42,7 +48,7 @@ Package Upgrades
 
  * Updated Ceres Solver from v1.10.0 to v1.13.0
 
- * Associated the patches of VTK with specific versions       
+ * Associated the patches of VTK with specific versions
 
  * Added experimental support for VTK version 8.0
 
@@ -54,12 +60,14 @@ Package Upgrades
 Fixes since v1.0.0
 ------------------
 
+ * Allow GLog build on MSVC
+
  * Associated the patches of ffmpeg with specific versions
 
  * Added Visual Studio support for Caffe.
 
  * Clean up CUDA, CUDNN support.
- 
+
  * Added numpy requirment when building with Caffe and python
 
  * Patched OpenCV version 3.1.0 for the case the absolute build path contains

@@ -178,21 +178,19 @@ set(log4cplus_md5 "4c0973becab54c8492204258260dcf06")
 set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
 list(APPEND fletch_external_sources log4cplus)
 
-# GLog
-if(NOT WIN32)
-  set(GLog_version "0.3.3")
-  set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
-  set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
-  set(GLog_dlname "glog-${GLog_version}.zip")
-  list(APPEND fletch_external_sources GLog)
-endif()
-
 # GFlags
-set(GFlags_version "2.1.2")
+set(GFlags_version "2.2.1")
 set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.gz")
-set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
-set(GFlags_dlname "gflags-${GGFlags_version}.zip")
+set(GFlags_md5 "b98e772b4490c84fc5a87681973f75d1")
+set(GFlags_dlname "gflags-${GFlags_version}.tar.gz")
 list(APPEND fletch_external_sources GFlags)
+
+# GLog
+set(GLog_version "0.3.5")
+set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
+set(GLog_md5 "5df6d78b81e51b90ac0ecd7ed932b0d4")
+set(GLog_dlname "glog-${GLog_version}.tar.gz")
+list(APPEND fletch_external_sources GLog)
 
 set(GTest_version "1.8.0")
 set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_version}.tar.gz")
@@ -292,6 +290,18 @@ set(PROJ4_version "4.9.3" )
 set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
 set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
 list(APPEND fletch_external_sources PROJ4 )
+
+# libgeotiff
+set(libgeotiff_version "1.4.1")
+set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
+set(libgeotiff_md5 "5ce69bd89fdc3be245bd118cf0bc71f1")
+list(APPEND fletch_external_sources libgeotiff)
+
+# GDAL
+set(GDAL_version "1.11.0")
+set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
+set(GDAL_md5 "9fdf0f2371a3e9863d83e69951c71ec4")
+list(APPEND fletch_external_sources GDAL)
 
 # GeographicLib
 set(GeographicLib_version "1.30" )
@@ -422,13 +432,8 @@ set(PyBind11_version "2.2.0")
 set(PyBind11_url "https://github.com/pybind/pybind11/archive/v${PyBind11_version}.tar.gz")
 set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
 set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
-list(APPEND fletch_external_sources PyBind11)
-
-# GDAL
-set(GDAL_version "1.11.0")
-set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
-set(GDAL_md5 "9fdf0f2371a3e9863d83e69951c71ec4")
-list(APPEND fletch_external_sources GDAL)
+list(APPEND fletch_external_sources PyBind11
+)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
