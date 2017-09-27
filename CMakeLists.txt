@@ -50,26 +50,6 @@ include(${fletch_CMAKE_DIR}/Utils.cmake)
 add_custom_target(Download)
 add_custom_target(fletch-build-install)
 
-# Options to control GPU support
-option(fletch_BUILD_WITH_CUDA "Build with CUDA support" FALSE)
-
-if (fletch_BUILD_WITH_CUDA)
-  find_package( CUDA QUIET REQUIRED )
-
-  option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
-  if (fletch_BUILD_WITH_CUDNN)
-    set( CUDNN_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
-    mark_as_advanced( CUDNN_ROOT_DIR )
-
-    find_package( CUDNN QUIET REQUIRED)
-  endif()
-elseif(fletch_BUILD_WITH_CUDNN)
-  unset(fletch_BUILD_WITH_CUDNN CACHE)
-  message(WARNING "Disabling fletch_BUILD_WITH_CUDNN, You must have fletch_BUILD_WITH_CUDA enabled for this to be enabled")
-endif()
-
-
-
 # Include CXX11 support
 set(fletch_CXX_STANDARD_VERSION "98")
 option(fletch_BUILD_CXX11 "" TRUE)
@@ -166,6 +146,42 @@ if(MSVC_VERSION GREATER 1400)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${CMAKE_CXX_MP_NUM_PROCESSORS}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP${CMAKE_CXX_MP_NUM_PROCESSORS}")
   endif ()
+endif()
+
+# Options to control GPU support
+option(fletch_BUILD_WITH_CUDA "Build with CUDA support" FALSE)
+
+if (fletch_BUILD_WITH_CUDA)
+  set(CUDA_TOOLKIT_ROOT_DIR "" CACHE PATH "CUDA root folder")
+  mark_as_advanced( CUDA_TOOLKIT_ROOT_DIR )
+  find_package( CUDA QUIET REQUIRED )
+
+  file(APPEND ${fletch_CONFIG_INPUT} "
+########################################
+# CUDA
+########################################
+set(CUDA_TOOLKIT_ROOT_DIR    ${CUDA_TOOLKIT_ROOT_DIR})
+set(fletch_BUILT_WITH_CUDA TRUE)
+  ")
+
+  option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
+  if (fletch_BUILD_WITH_CUDNN)
+    set( CUDNN_TOOLKIT_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
+    mark_as_advanced( CUDNN_TOOLKIT_ROOT_DIR )
+    find_package( CUDNN QUIET REQUIRED)
+    
+    file(APPEND ${fletch_CONFIG_INPUT} "
+########################################
+# CUDNN
+########################################
+set(CUDNN_TOOLKIT_ROOT_DIR    ${CUDNN_TOOLKIT_ROOT_DIR})
+set(fletch_BUILT_WITH_CUDNN TRUE)
+")
+      
+  endif()
+elseif(fletch_BUILD_WITH_CUDNN)
+  unset(fletch_BUILD_WITH_CUDNN CACHE)
+  message(WARNING "Disabling fletch_BUILD_WITH_CUDNN, You must have fletch_BUILD_WITH_CUDA enabled for this to be enabled")
 endif()
 
 include(fletch-tarballs)
