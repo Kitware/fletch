@@ -162,6 +162,7 @@ file(WRITE ${fletch_CONFIG_INPUT} "
 set(fletch_VERSION ${fletch_VERSION})
 set(fletch_ROOT @fletch_INSTALL_BUILD_DIR@)
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
+set(fletch_PYTHON_MAJOR_VERSION ${fletch_PYTHON_MAJOR_VERSION})
 ")
 
 
@@ -212,7 +213,7 @@ set(fletch_BUILT_WITH_CUDA TRUE)
     set( CUDNN_TOOLKIT_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
     mark_as_advanced( CUDNN_TOOLKIT_ROOT_DIR )
     find_package( CUDNN QUIET REQUIRED)
-    
+
     file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # CUDNN
@@ -220,7 +221,7 @@ set(fletch_BUILT_WITH_CUDA TRUE)
 set(CUDNN_TOOLKIT_ROOT_DIR    ${CUDNN_TOOLKIT_ROOT_DIR})
 set(fletch_BUILT_WITH_CUDNN TRUE)
 ")
-      
+
   endif()
 elseif(fletch_BUILD_WITH_CUDNN)
   unset(fletch_BUILD_WITH_CUDNN CACHE)
