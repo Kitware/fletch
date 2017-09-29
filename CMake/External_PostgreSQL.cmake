@@ -15,7 +15,7 @@ if(WIN32)
 else()
   set(_PostgreSQL_ARGS_LIBXML2 --without-libxml)
 
-  find_package(Readline)
+  find_package(Readline QUIET)
   if(NOT Readline_FOUND)
     message(WARNING "Can't find readline headers, building PostgreSQL without readline support.\n")
     set(_PostgreSQL_ARGS_READLINE --without-readline)
