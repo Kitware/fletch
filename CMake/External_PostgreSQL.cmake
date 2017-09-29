@@ -41,7 +41,7 @@ set(_PostgreSQL_PATCH_ARG PATCH_COMMAND
   ${CMAKE_COMMAND}
     -DPostgreSQL_patch:PATH=${fletch_SOURCE_DIR}/Patches/PostgreSQL
     -DPostgreSQL_source:PATH=${fletch_BUILD_PREFIX}/src/PostgreSQL
-    -DPostgreSQL_MAJOR_VERSION:STRING=${PostgreSQL_MAJOR_VERSION}
+    -DPostgreSQL_SELECT_VERSION:STRING=${PostgreSQL_SELECT_VERSION}
     -DBUILD_POSTGRESQL_CONTRIB:BOOL=${BUILD_POSTGRESQL_CONTRIB}
     -P ${fletch_SOURCE_DIR}/Patches/PostgreSQL/Patch.cmake
 )
@@ -78,7 +78,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # PostgreSQL
 ########################################
 set(PostgreSQL_ROOT \${fletch_ROOT})
-set(PostgreSQL_MAJOR_VERSION @PostgreSQL_MAJOR_VERSION@)
 set(fletch_ENABLED_PostgreSQL TRUE)
 ")
 
