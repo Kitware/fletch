@@ -14,7 +14,18 @@ New Packages
 
  * Added PostgreSQL
 
+ * Added PyBind11 version 2.2.0
+
+ * Added GTest version 1.8.0
+
+ * Added libgeotiff version 1.4.1
+
+
 Package Upgrades
+
+ * Upgrade GLog to version 0.3.5
+
+ * Upgrade GFlags to version 2.2.1
 
  * Updated Caffe to pull from a Kitware clone of the project and applied
    various patches to allow it to build on Windows.
@@ -46,8 +57,13 @@ Package Upgrades
 
  * Associated the patches of Ceres Solver with specific versions
 
+ * Added experimental support for Protobuf 3.4.1
+
+
 Fixes since v1.0.0
 ------------------
+
+ * Allow GLog build on MSVC
 
  * Associated the patches of ffmpeg with specific versions
 

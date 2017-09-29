@@ -32,3 +32,8 @@ file(COPY ${OpenCV_patch}/common.cmake
 file(COPY ${OpenCV_patch}/OpenCVModule.cmake
   DESTINATION ${OpenCV_source}/cmake/
 )
+
+# Fix issue with Debug MSVC linking to undistributed python27_d.lib
+file(COPY ${OpenCV_patch}/cv2.cpp
+  DESTINATION ${OpenCV_source}/modules/python/src2
+)

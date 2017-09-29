@@ -77,9 +77,11 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 set(_FFmpeg_supported TRUE)
 if(WIN32)
 
-  set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
-  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
-  mark_as_advanced(FFmpeg_SELECT_VERSION)
+  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+    set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
+    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
+    mark_as_advanced(FFmpeg_SELECT_VERSION)
+  endif()
   # The windows version is git-c089e72 (2015-03-05)
   # follows: n2.6-dev (2014-12-03)
   # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
@@ -102,10 +104,12 @@ if(WIN32)
   set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
 else()
 
-  # allow different versions to be selected for testing purposes
-  set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
-  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
-  mark_as_advanced(FFmpeg_SELECT_VERSION)
+  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+    # allow different versions to be selected for testing purposes
+    set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
+    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
+    mark_as_advanced(FFmpeg_SELECT_VERSION)
+  endif()
 
   #set(_FFmpeg_version 3.3.3) # (2017-07-29)
   #set(_FFmpeg_version 2.6.2) # (2015-04-10)
@@ -116,7 +120,7 @@ else()
     set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
   elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
     set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
-  elseif (_FFmpeg_supported)
+  elseif (_FFmpeg_supported AND _FFmpeg_version)
     message("Unsupported FFmpeg version ${_FFmpeg_version}")
   endif()
 
@@ -124,6 +128,7 @@ endif()
 if(_FFmpeg_supported)
   list(APPEND fletch_external_sources FFmpeg)
 endif()
+
 
 # EIGEN
 set(Eigen_version 3.2.9)
@@ -178,19 +183,25 @@ set(log4cplus_md5 "4c0973becab54c8492204258260dcf06")
 set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
 list(APPEND fletch_external_sources log4cplus)
 
-# GLog
-if(NOT WIN32)
-  set(GLog_version "0.3.3")
-  set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
-  set(GLog_md5 "c1f86af27bd9c73186730aa957607ed0")
-  list(APPEND fletch_external_sources GLog)
-endif()
-
 # GFlags
-set(GFlags_version "2.1.2")
+set(GFlags_version "2.2.1")
 set(GFlags_url "https://github.com/gflags/gflags/archive/v${GFlags_version}.tar.gz")
-set(GFlags_md5 "ac432de923f9de1e9780b5254884599f")
+set(GFlags_md5 "b98e772b4490c84fc5a87681973f75d1")
+set(GFlags_dlname "gflags-${GFlags_version}.tar.gz")
 list(APPEND fletch_external_sources GFlags)
+
+# GLog
+set(GLog_version "0.3.5")
+set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
+set(GLog_md5 "5df6d78b81e51b90ac0ecd7ed932b0d4")
+set(GLog_dlname "glog-${GLog_version}.tar.gz")
+list(APPEND fletch_external_sources GLog)
+
+set(GTest_version "1.8.0")
+set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_version}.tar.gz")
+set(GTest_md5 "16877098823401d1bf2ed7891d7dce36")
+set(GTest_dlname "gtest-${GTest_version}.tar.gz")
+list(APPEND fletch_external_sources GTest)
 
 #OpenBLAS
 if(NOT WIN32)
@@ -205,7 +216,7 @@ if(NOT WIN32)
   else()
     message("Unknown OpenBLAS version = ${OpenBLAS_version}")
   endif()
-
+  set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.zip")
   list(APPEND fletch_external_sources OpenBLAS)
 endif()
 
@@ -266,6 +277,7 @@ set(libkml_version "20150911git79b3eb0")
 set(libkml_tag "79b3eb066eacd8fb117b10dc990b53b4cd11f33d")
 set(libkml_url "https://github.com/kitware/libkml/archive/${libkml_tag}.zip")
 set(libkml_md5 "a232dfd4eb07489768b207d88b983267")
+set(libkml_dlname "libkml-${libkml_version}.zip")
 list(APPEND fletch_external_sources libkml)
 
 # Qt
@@ -333,8 +345,10 @@ endif()
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_url "https://github.com/vxl/vxl/archive/cbca86fe5d12b7b0379d72a3aa6bf5cfeebd0302.zip")
+set(VXL_version "cbca86fe5d12b7b0379d72a3aa6bf5cfeebd0302")
+set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
 set(VXL_md5 "044cc927012aef07b38492f9df1fd772")
+set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
 # ITK
@@ -374,14 +388,29 @@ if(NOT WIN32)
   set(LevelDB_version "1.18")
   set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
   set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
+  set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
   list(APPEND fletch_external_sources LevelDB)
 endif()
 
 # Protobuf
+
 if(NOT WIN32)
-  set(Protobuf_version "2.5.0" )
-  set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
-  set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
+  if (fletch_ENABLE_Protobuf OR fletch_ENABLE_ALL_PACKAGES)
+    set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+    set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
+  endif()
+
+  set(Protobuf_version ${Protobuf_SELECT_VERSION})
+
+  if (Protobuf_version VERSION_EQUAL 2.5.0)
+    set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
+    set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
+  elseif (Protobuf_version VERSION_EQUAL 3.4.1)
+    set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-cpp-${Protobuf_version}.tar.gz" )
+    set(Protobuf_md5 "74446d310ce79cf20bab3ffd0e8f8f8f" )
+  elseif(Protobuf_version)
+    message(ERROR "Protobuf Version ${Protobuf_version} Not Supported")
+  endif()
   list(APPEND fletch_external_sources Protobuf )
 endif()
 
@@ -394,7 +423,7 @@ if(InternalCaffe)
   # This is the recommended option.
   if(WIN32)
     set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://data.kitware.com/api/v1/item/598215638d777f16d01ea137/download/")
+    set(Caffe_url "https://data.kitware.com/api/v1/file/598215638d777f16d01ea138/download/caffe-win32-527f97c0.zip")
     set(Caffe_md5 "4ec71f28a797eac7fe3ddcb0fbfab60e")
   else()
     set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
@@ -411,9 +440,22 @@ list(APPEND fletch_external_sources Caffe)
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://data.kitware.com/api/v1/file/598866018d777f7d33e9c0f3/download/darknet-win32-70dfcb43.zip")
-set(Darknet_md5 "eea312b07685eef9c6f26cf63346fe41")
+set(Darknet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/download/darknet-1e3a9ceb.zip")
+set(Darknet_md5 "89fef1913972ec855c7b31a598c9c52f")
 list(APPEND fletch_external_sources Darknet)
+
+# PyBind11
+set(PyBind11_version "2.2.0")
+set(PyBind11_url "https://github.com/pybind/pybind11/archive/v${PyBind11_version}.tar.gz")
+set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
+set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
+list(APPEND fletch_external_sources PyBind11)
+
+# libgeotiff
+set(libgeotiff_version "1.4.1")
+set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
+set(libgeotiff_md5 "5ce69bd89fdc3be245bd118cf0bc71f1")
+list(APPEND fletch_external_sources libgeotiff)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
