@@ -308,6 +308,28 @@ set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
 set(GEOS_md5 "fc5df2d926eb7e67f988a43a92683bae" )
 list(APPEND fletch_external_sources GEOS )
 
+# PostgreSQL
+if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
+  set(PostgreSQL_SELECT_VERSION 9.5.1 CACHE STRING "Select the major version of PostgreSQL to build.")
+  set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "9.4.6")
+  message(STATUS "PostgreSQL Select version: ${PostgreSQL_SELECT_VERSION}")
+
+  if (PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.5.1)
+    # PostgreSQL 9.5
+    set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
+    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
+    set(PostgreSQL_md5 "11e037afaa4bd0c90bb3c3d955e2b401")
+  elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.4.6)
+    # PostgreSQL 9.4
+    set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
+    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
+    set(PostgreSQL_md5 "0371b9d4fb995062c040ea5c3c1c971e")
+  else()
+    message(STATUS "PostgreSQL_SELECT_VERSION: Not supported")
+  endif()
+endif()
+list(APPEND fletch_external_sources PostgreSQL)
+
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   # Support the stable version 6.2, and work on updating to next version 8.0
@@ -428,7 +450,6 @@ set(Darknet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/d
 set(Darknet_md5 "89fef1913972ec855c7b31a598c9c52f")
 list(APPEND fletch_external_sources Darknet)
 
-
 # PyBind11
 set(PyBind11_version "2.2.0")
 set(PyBind11_url "https://github.com/pybind/pybind11/archive/v${PyBind11_version}.tar.gz")
@@ -441,7 +462,6 @@ set(libgeotiff_version "1.4.1")
 set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
 set(libgeotiff_md5 "5ce69bd89fdc3be245bd118cf0bc71f1")
 list(APPEND fletch_external_sources libgeotiff)
-
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
