@@ -77,9 +77,11 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 set(_FFmpeg_supported TRUE)
 if(WIN32)
 
-  set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
-  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
-  mark_as_advanced(FFmpeg_SELECT_VERSION)
+  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+    set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
+    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
+    mark_as_advanced(FFmpeg_SELECT_VERSION)
+  endif()
   # The windows version is git-c089e72 (2015-03-05)
   # follows: n2.6-dev (2014-12-03)
   # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
@@ -102,10 +104,12 @@ if(WIN32)
   set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
 else()
 
-  # allow different versions to be selected for testing purposes
-  set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
-  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
-  mark_as_advanced(FFmpeg_SELECT_VERSION)
+  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+    # allow different versions to be selected for testing purposes
+    set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
+    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
+    mark_as_advanced(FFmpeg_SELECT_VERSION)
+  endif()
 
   #set(_FFmpeg_version 3.3.3) # (2017-07-29)
   #set(_FFmpeg_version 2.6.2) # (2015-04-10)
@@ -116,7 +120,7 @@ else()
     set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
   elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
     set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
-  elseif (_FFmpeg_supported)
+  elseif (_FFmpeg_supported AND _FFmpeg_version)
     message("Unsupported FFmpeg version ${_FFmpeg_version}")
   endif()
 
@@ -124,6 +128,7 @@ endif()
 if(_FFmpeg_supported)
   list(APPEND fletch_external_sources FFmpeg)
 endif()
+
 
 # EIGEN
 set(Eigen_version 3.2.9)
@@ -309,6 +314,28 @@ set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/Ge
 set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
 list(APPEND fletch_external_sources GeographicLib )
 
+# PostgreSQL
+if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
+  set(PostgreSQL_SELECT_VERSION 9.5.1 CACHE STRING "Select the major version of PostgreSQL to build.")
+  set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "9.4.6")
+  message(STATUS "PostgreSQL Select version: ${PostgreSQL_SELECT_VERSION}")
+
+  if (PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.5.1)
+    # PostgreSQL 9.5
+    set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
+    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
+    set(PostgreSQL_md5 "11e037afaa4bd0c90bb3c3d955e2b401")
+  elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.4.6)
+    # PostgreSQL 9.4
+    set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
+    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
+    set(PostgreSQL_md5 "0371b9d4fb995062c040ea5c3c1c971e")
+  else()
+    message(STATUS "PostgreSQL_SELECT_VERSION: Not supported")
+  endif()
+endif()
+list(APPEND fletch_external_sources PostgreSQL)
+
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   # Support the stable version 6.2, and work on updating to next version 8.0
@@ -379,19 +406,22 @@ endif()
 
 # Protobuf
 
-set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
-
 if(NOT WIN32)
-  set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
+  if (fletch_ENABLE_Protobuf OR fletch_ENABLE_ALL_PACKAGES)
+    set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+    set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
+  endif()
+
   set(Protobuf_version ${Protobuf_SELECT_VERSION})
+
   if (Protobuf_version VERSION_EQUAL 2.5.0)
     set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
     set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
   elseif (Protobuf_version VERSION_EQUAL 3.4.1)
     set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-cpp-${Protobuf_version}.tar.gz" )
     set(Protobuf_md5 "74446d310ce79cf20bab3ffd0e8f8f8f" )
-  else()
-    message(ERROR "Protobuf Version ${Protobuf_SELECT_VERSION} Not Supported")
+  elseif(Protobuf_version)
+    message(ERROR "Protobuf Version ${Protobuf_version} Not Supported")
   endif()
   list(APPEND fletch_external_sources Protobuf )
 endif()
@@ -422,18 +452,22 @@ list(APPEND fletch_external_sources Caffe)
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://data.kitware.com/api/v1/file/59a58d818d777f7d33e9cdad/download/darknet-70dfcb43.zip")
-set(Darknet_md5 "d75c1f1611a7d029c8a77ec5d239c8ca")
+set(Darknet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/download/darknet-1e3a9ceb.zip")
+set(Darknet_md5 "89fef1913972ec855c7b31a598c9c52f")
 list(APPEND fletch_external_sources Darknet)
-
 
 # PyBind11
 set(PyBind11_version "2.2.0")
 set(PyBind11_url "https://github.com/pybind/pybind11/archive/v${PyBind11_version}.tar.gz")
 set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
 set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
-list(APPEND fletch_external_sources PyBind11
-)
+list(APPEND fletch_external_sources PyBind11)
+
+# libgeotiff
+set(libgeotiff_version "1.4.1")
+set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
+set(libgeotiff_md5 "5ce69bd89fdc3be245bd118cf0bc71f1")
+list(APPEND fletch_external_sources libgeotiff)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"

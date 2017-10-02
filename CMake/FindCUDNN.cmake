@@ -7,7 +7,7 @@
 #
 # The following variables will guide the build:
 #
-# CUDNN_ROOT_DIR  - Set to the install prefix of the CUDNN library
+# CUDNN_TOOLKIT_ROOT_DIR  - Set to the install prefix of the CUDNN library
 #
 # The following variables will be set:
 #
@@ -20,18 +20,18 @@ find_package( CUDA QUIET REQUIRED )
 find_library( CUDNN_LIBRARIES
       NAMES cudnn libcudnn
       HINTS ${CUDA_TOOLKIT_ROOT_DIR}
-            ${CUDNN_ROOT_DIR}
+            ${CUDNN_TOOLKIT_ROOT_DIR}
       PATH_SUFFIXES lib lib64 lib/x64 lib/x86 targets/aarch64-linux
     )
 if( NOT CUDNN_LIBRARIES )
   set(CUDNN_FOUND FALSE)
-  message(FATAL_ERROR "Unable to find cudnn libraries, please ensure CUDA_TOOLKIT_ROOT_DIR has cudnn or the CUDNN_ROOT_DIR variable is properly set or set CUDNN_LIBRARIES")
+  message(FATAL_ERROR "Unable to find cudnn libraries, please ensure CUDA_TOOLKIT_ROOT_DIR has cudnn or the CUDNN_TOOLKIT_ROOT_DIR variable is properly set or set CUDNN_LIBRARIES")
 else()
   set(CUDNN_FOUND TRUE)
-  # We found cudnn with out CUDNN_ROOT_DIR, CUDA and CUDNN must be co-located
-  if(NOT CUDNN_ROOT_DIR)
-    set(CUDNN_ROOT_DIR ${CUDA_TOOLKIT_ROOT_DIR})
+  # We found cudnn with out CUDNN_TOOLKIT_ROOT_DIR, CUDA and CUDNN must be co-located
+  if(NOT CUDNN_TOOLKIT_ROOT_DIR)
+    set(CUDNN_TOOLKIT_ROOT_DIR ${CUDA_TOOLKIT_ROOT_DIR})
   endif()
-  set(CUDNN_INCLUDE_DIR ${CUDNN_ROOT_DIR}/include)
+  set(CUDNN_INCLUDE_DIR ${CUDNN_TOOLKIT_ROOT_DIR}/include)
 endif()
 

@@ -12,11 +12,14 @@ New Packages
 
  * Added Darknet
 
+ * Added PostgreSQL
+
  * Added PyBind11 version 2.2.0
 
  * Added GTest version 1.8.0
 
  * Added libgeotiff version 1.4.1
+
 
 Package Upgrades
 
