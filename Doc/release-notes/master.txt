@@ -20,6 +20,8 @@ New Packages
 
  * Added libgeotiff version 1.4.1
 
+ * Added GEOS version 3.4.2
+
 
 Package Upgrades
 

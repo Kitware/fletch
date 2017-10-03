@@ -302,6 +302,12 @@ set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/Ge
 set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
 list(APPEND fletch_external_sources GeographicLib )
 
+# GEOS
+set(GEOS_version "3.4.2" )
+set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
+set(GEOS_md5 "fc5df2d926eb7e67f988a43a92683bae" )
+list(APPEND fletch_external_sources GEOS )
+
 # PostgreSQL
 if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
   set(PostgreSQL_SELECT_VERSION 9.5.1 CACHE STRING "Select the major version of PostgreSQL to build.")
