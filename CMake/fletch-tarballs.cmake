@@ -463,12 +463,6 @@ set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
 set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
 list(APPEND fletch_external_sources PyBind11)
 
-# libgeotiff
-set(libgeotiff_version "1.4.1")
-set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
-set(libgeotiff_md5 "5ce69bd89fdc3be245bd118cf0bc71f1")
-list(APPEND fletch_external_sources libgeotiff)
-
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
