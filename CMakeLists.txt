@@ -256,6 +256,13 @@ foreach(source ${fletch_external_sources})
       set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
       set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_ALL True)
     endif()
+
+    # append the value of any existing variable suffixed with _SELECT_VERSION
+    set(select_version_key ${source}_SELECT_VERSION)
+    set(select_version_val ${${select_version_key}})
+    if(select_version_val)
+      file(APPEND ${fletch_CONFIG_INPUT} "set(${select_version_key} ${select_version_val})")
+    endif()
   endif()
 endforeach()
 
