@@ -152,8 +152,6 @@ endif()
 option(fletch_BUILD_WITH_CUDA "Build with CUDA support" FALSE)
 
 if (fletch_BUILD_WITH_CUDA)
-  set(CUDA_TOOLKIT_ROOT_DIR "" CACHE PATH "CUDA root folder")
-  mark_as_advanced( CUDA_TOOLKIT_ROOT_DIR )
   find_package( CUDA QUIET REQUIRED )
 
   file(APPEND ${fletch_CONFIG_INPUT} "
