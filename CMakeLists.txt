@@ -160,6 +160,10 @@ if (fletch_BUILD_WITH_CUDA)
 ########################################
 set(CUDA_TOOLKIT_ROOT_DIR    ${CUDA_TOOLKIT_ROOT_DIR})
 set(fletch_BUILT_WITH_CUDA TRUE)
+set(fletch_CUDA_VERSION_MAJOR ${CUDA_VERSION_MAJOR})
+set(fletch_CUDA_VERSION_MINOR ${CUDA_VERSION_MINOR})
+set(fletch_CUDA_VERSION ${CUDA_VERSION})
+set(fletch_CUDA_VERSION_STRING ${CUDA_VERSION_STRING})
   ")
 
   option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
