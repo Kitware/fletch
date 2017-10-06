@@ -3,6 +3,7 @@
 if (fletch_ENABLE_Eigen)
   message(STATUS "Ceres depending on internal Eigen")
   list(APPEND Ceres_DEPENDS Eigen)
+  list(APPEND Ceres_EXTRA_BUILD_FLAGS -DEIGEN_INCLUDE_DIR_HINTS:PATH=${EIGEN_ROOT})
 else()
   message(FATAL_ERROR "Eigen is required for Ceres Solver, please enable")
 endif()
