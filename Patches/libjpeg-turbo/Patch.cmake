@@ -15,4 +15,4 @@ file(COPY
 file(COPY
   ${libjpeg-turbo_patch}/config.guess
   DESTINATION ${libjpeg-turbo_source}/
-  }
+  )
