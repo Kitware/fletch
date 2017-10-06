@@ -20,16 +20,22 @@ configure_file(
   ${GDAL_patch}/frmts/nitf/nitfwritejpeg.cpp
   ${GDAL_source}/frmts/nitf/nitfwritejpeg.cpp
   COPYONLY
-)
+  )
 
 configure_file(
   ${GDAL_patch}/apps/gdalserver.c
   ${GDAL_source}/apps/gdalserver.c
   COPYONLY
-)
+  )
 
 configure_file(
   ${GDAL_patch}/port/cpl_config.h.vc
   ${GDAL_source}/port/cpl_config.h.vc
   COPYONLY
-)
+  )
+
+configure_file(
+  ${GDAL_patch}/config.guess
+  ${GDAL_source}/
+  COPYONLY
+  )
