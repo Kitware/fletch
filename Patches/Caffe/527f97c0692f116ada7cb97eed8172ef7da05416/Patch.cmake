@@ -14,6 +14,13 @@ if(WIN32)
     DESTINATION
     ${Caffe_source}/cmake/modules/
     )
+    
+  file(COPY
+    ${Caffe_patch}/FindGLog.cmake
+    DESTINATION
+    ${Caffe_source}/cmake/modules/
+    )
+    
   file(COPY
     ${Caffe_patch}/CMakeLists.txt
     DESTINATION
