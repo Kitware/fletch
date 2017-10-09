@@ -28,9 +28,9 @@ if(USE_PREBUILT_DEPENDENCIES)
     endif()
     if(${MSVC_VERSION} GREATER ${MAX_MSVC_VERSION}) # Use the latest version we have
         set(CAPPED_MSVC_VERSION ${MAX_MSVC_VERSION})
-	else()
+  else()
         set(CAPPED_MSVC_VERSION ${MSVC_VERSION})
-    endif()	
+    endif()  
     if(NOT DEFINED DEPENDENCIES_URL_${CAPPED_MSVC_VERSION}_${_pyver})
         message(FATAL_ERROR "Could not find url for MSVC version = ${CAPPED_MSVC_VERSION} and Python version = ${_pyver}.")
     endif()
@@ -73,94 +73,96 @@ if(USE_PREBUILT_DEPENDENCIES)
         )
     endif()
     if(EXISTS ${CAFFE_DEPENDENCIES_DIR}/libraries/caffe-builder-config.cmake) # Sanity check
-		file(COPY ${CAFFE_DEPENDENCIES_DIR}/libraries/ DESTINATION ${CMAKE_INSTALL_PREFIX} # We need to move the prereqs to the proper directory, except dependencies handled by fletch
-		        PATTERN "*opencv*" EXCLUDE
-				PATTERN "*boost*" EXCLUDE
-				PATTERN "*hdf5*" EXCLUDE
-				PATTERN "H5*" EXCLUDE
-		)
-		if(EXISTS ${CAFFE_DEPENDENCIES_DIR}/libraries/lib/libopenblas.dll.a AND NOT EXISTS ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.lib)
+    file(COPY ${CAFFE_DEPENDENCIES_DIR}/libraries/ DESTINATION ${CMAKE_INSTALL_PREFIX} # We need to move the prereqs to the proper directory, except dependencies handled by fletch
+            PATTERN "*opencv*" EXCLUDE
+        PATTERN "*boost*" EXCLUDE
+        PATTERN "*hdf5*" EXCLUDE
+        PATTERN "H5*" EXCLUDE
+        PATTERN "glog*" EXCLUDE
+        PATTERN "gflags*" EXCLUDE
+    )
+    if(EXISTS ${CAFFE_DEPENDENCIES_DIR}/libraries/lib/libopenblas.dll.a AND NOT EXISTS ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.lib)
           file(RENAME ${CAFFE_DEPENDENCIES_DIR}/libraries/lib/libopenblas.dll.a ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.lib) # Same file type, but needs to be .lib for cmake
         endif()
-		file (REMOVE_RECURSE ${CAFFE_DEPENDENCIES_DIR}/libraries/) # Clean up
+    file (REMOVE_RECURSE ${CAFFE_DEPENDENCIES_DIR}/libraries/) # Clean up
 
-		# BOOST config
-		set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX} CACHE PATH "")
-		set(BOOST_INCLUDEDIR ${BOOST_ROOT}/include CACHE PATH "")
-		set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib CACHE PATH "")
-		set(Boost_LIBRARY_DIR_RELEASE ${BOOST_ROOT}/lib CACHE PATH "")
-		set(Boost_LIBRARY_DIR_DEBUG ${BOOST_ROOT}/lib CACHE PATH "")
-		set(Boost_USE_MULTITHREADED ON CACHE BOOL "")
-		set(Boost_USE_STATIC_LIBS ON CACHE BOOL "")
-		set(Boost_USE_STATIC_RUNTIME OFF CACHE BOOL "")
-
-
-		# GFLAGS config
-		set(GFLAGS_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
-		set(gflags_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
-		set(GFlags_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
-		set(Gflags_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
-		get_filename_component(GFLAGS_ROOT_DIR ${GFlags_DIR} DIRECTORY)
-		
+    # BOOST config
+    set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX} CACHE PATH "")
+    set(BOOST_INCLUDEDIR ${BOOST_ROOT}/include CACHE PATH "")
+    set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib CACHE PATH "")
+    set(Boost_LIBRARY_DIR_RELEASE ${BOOST_ROOT}/lib CACHE PATH "")
+    set(Boost_LIBRARY_DIR_DEBUG ${BOOST_ROOT}/lib CACHE PATH "")
+    set(Boost_USE_MULTITHREADED ON CACHE BOOL "")
+    set(Boost_USE_STATIC_LIBS ON CACHE BOOL "")
+    set(Boost_USE_STATIC_RUNTIME OFF CACHE BOOL "")
 
 
-		# GLOG config
-		set(GLOG_DIR ${CMAKE_INSTALL_PREFIX}/lib/cmake/glog CACHE PATH "")
-		set(glog_DIR ${CMAKE_INSTALL_PREFIX}/lib/cmake/glog CACHE PATH "")
-		set(Glog_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
+    # GFLAGS config
+    set(GFLAGS_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    set(gflags_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
+    set(GFlags_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
+    set(Gflags_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
+    get_filename_component(GFLAGS_ROOT_DIR ${GFlags_DIR} DIRECTORY)
+    
 
 
-		# HDF5 config
-		set(HDF5_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
-		set(hdf5_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
-		set(HDF5_ROOT_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    # GLOG config
+    set(GLOG_DIR ${CMAKE_INSTALL_PREFIX}/lib/cmake/glog CACHE PATH "")
+    set(glog_DIR ${CMAKE_INSTALL_PREFIX}/lib/cmake/glog CACHE PATH "")
+    set(Glog_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
+
+
+    # HDF5 config
+    set(HDF5_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    set(hdf5_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    set(HDF5_ROOT_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
         find_package(HDF5 COMPONENTS C HL REQUIRED)
 
 
-		# LEVELDB config
-		set(LEVELDB_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
-		set(leveldb_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
-		set(LevelDB_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
+    # LEVELDB config
+    set(LEVELDB_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    set(leveldb_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
+    set(LevelDB_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
 
 
-		# LMDB config
-		set(LMDB_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
-		set(lmdb_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
+    # LMDB config
+    set(LMDB_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    set(lmdb_DIR ${CMAKE_INSTALL_PREFIX}/cmake  CACHE PATH "")
 
 
-		# OPENBLAS config
-		set(OPENBLAS_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
-		set(openblas_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
-		set(OpenBLAS_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
-		set(OPENBLAS_LIB ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.dll.a CACHE FILEPATH "")
-		set(openblas_LIB ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.dll.a CACHE FILEPATH "")
-		set(OpenBLAS_LIB ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.dll.a CACHE FILEPATH "")
+    # OPENBLAS config
+    set(OPENBLAS_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
+    set(openblas_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
+    set(OpenBLAS_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
+    set(OPENBLAS_LIB ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.dll.a CACHE FILEPATH "")
+    set(openblas_LIB ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.dll.a CACHE FILEPATH "")
+    set(OpenBLAS_LIB ${CMAKE_INSTALL_PREFIX}/lib/libopenblas.dll.a CACHE FILEPATH "")
 
 
-		# OPENCV config
-		set(OPENCV_DIR ${CMAKE_INSTALL_PREFIX}  CACHE PATH "")
-		set(opencv_DIR ${CMAKE_INSTALL_PREFIX}  CACHE PATH "")
-		set(OpenCV_DIR ${CMAKE_INSTALL_PREFIX}  CACHE PATH "")
-		set(OpenCV_STATIC OFF CACHE BOOL "")
+    # OPENCV config
+    set(OPENCV_DIR ${CMAKE_INSTALL_PREFIX}  CACHE PATH "")
+    set(opencv_DIR ${CMAKE_INSTALL_PREFIX}  CACHE PATH "")
+    set(OpenCV_DIR ${CMAKE_INSTALL_PREFIX}  CACHE PATH "")
+    set(OpenCV_STATIC OFF CACHE BOOL "")
 
 
-		# PROTOBUF config
-		set(PROTOBUF_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
-		set(protobuf_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
-		set(Protobuf_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
-		set(protobuf_MODULE_COMPATIBLE ON CACHE BOOL "")
+    # PROTOBUF config
+    set(PROTOBUF_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    set(protobuf_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    set(Protobuf_DIR ${CMAKE_INSTALL_PREFIX}/cmake CACHE PATH "")
+    set(protobuf_MODULE_COMPATIBLE ON CACHE BOOL "")
 
 
-		# SNAPPY config
-		set(SNAPPY_DIR ${CMAKE_INSTALL_PREFIX}/cmake)
-		set(snappy_DIR ${CMAKE_INSTALL_PREFIX}/cmake)
-		set(Snappy_DIR ${CAFFE_DEPENDENCIES_DIR}/libraries/cmake)
+    # SNAPPY config
+    set(SNAPPY_DIR ${CMAKE_INSTALL_PREFIX}/cmake)
+    set(snappy_DIR ${CMAKE_INSTALL_PREFIX}/cmake)
+    set(Snappy_DIR ${CAFFE_DEPENDENCIES_DIR}/libraries/cmake)
 
 
-		# ZLIB config
-		set(ZLIB_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
-		set(ZLIB_LIBRARY_DEBUG  ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib CACHE FILEPATH "")
-		set(ZLIB_LIBRARY_RELEASE  ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib CACHE FILEPATH "")
+    # ZLIB config
+    set(ZLIB_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "")
+    set(ZLIB_LIBRARY_DEBUG  ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib CACHE FILEPATH "")
+    set(ZLIB_LIBRARY_RELEASE  ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib CACHE FILEPATH "")
 
         # Generate leveldb files so we can get rid of some hard coding
         find_package(Boost 1.46 REQUIRED date_time filesystem system)

@@ -8,6 +8,6 @@ message("Patching libxml2 ${libxml2_patch} AND ${libxml2_source}")
 
 # Path config.guess for arm board support, e.g. TX2
 file(COPY
-  ${libxml2_patch}/simd/CMakeLists.txt
-  DESTINATION ${libxml2_source}/simd/
+  ${libxml2_patch}/config.guess
+  DESTINATION ${libxml2_source}/
 )
