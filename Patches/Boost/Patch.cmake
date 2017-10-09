@@ -9,11 +9,6 @@
 # boost/archive/iterators/transform_width.hpp
 # This file failed to compile with VS12 (VS2013)
 
-file(COPY ${Boost_patch}/add_path.cpp
-  DESTINATION ${Boost_source}/tools/bcp/
-)
-
-
 #file(COPY ${Boost_patch}/cas128strong.hpp ${Boost_patch}/gcc-atomic.hpp
 #  DESTINATION ${Boost_source}/boost/atomic/detail
 #  )
