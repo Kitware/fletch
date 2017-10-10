@@ -10,3 +10,9 @@ file(COPY
   ${libjpeg-turbo_patch}/simd/CMakeLists.txt
   DESTINATION ${libjpeg-turbo_source}/simd/
 )
+
+# Patch config.guess for arm boards.
+file(COPY
+  ${libjpeg-turbo_patch}/config.guess
+  DESTINATION ${libjpeg-turbo_source}/
+  )

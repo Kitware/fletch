@@ -28,6 +28,7 @@ else()
   ExternalProject_Add(OpenBLAS
     URL ${OpenBLAS_url}
     URL_MD5 ${OpenBLAS_md5}
+    DOWNLOAD_NAME ${OpenBLAS_dlname}
     DEPENDS ${OpenBLAS_DEPENDS}
     PREFIX  ${fletch_BUILD_PREFIX}
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}

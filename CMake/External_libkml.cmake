@@ -28,6 +28,7 @@ ExternalProject_Add(libkml
   DEPENDS ${_KML_DEPENDS}
   URL ${libkml_url}
   URL_MD5 ${libkml_md5}
+  DOWNLOAD_NAME ${libkml_dlname}
   PREFIX  ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
@@ -38,7 +39,6 @@ ExternalProject_Add(libkml
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     ${libkml_use_external_expat}
     ${libkml_use_external_boost}
 )

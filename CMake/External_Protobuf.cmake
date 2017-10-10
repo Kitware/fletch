@@ -3,6 +3,15 @@ if (WIN32)
   message( FATAL_ERROR "Protobuf on windows not yet supported" )
 endif()
 
+# Check that python and protobuf versions are compatible
+if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Protobuf)
+  # Note the python protobuf wrapper is not installed here.
+  # Instead it must be installed via `pip install protobuf`
+  if (${Protobuf_version} LESS 3.0 AND fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
+    message(ERROR "Must use Protobuf >= 3.x with Python 3.x")
+  endif()
+endif()
+
 Fletch_Require_Make()
 ExternalProject_Add(Protobuf
   URL ${Protobuf_url}

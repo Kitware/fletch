@@ -50,30 +50,6 @@ include(${fletch_CMAKE_DIR}/Utils.cmake)
 add_custom_target(Download)
 add_custom_target(fletch-build-install)
 
-# Options to control GPU support
-option(fletch_ENABLE_CUDA "Build with CUDA support" FALSE)
-
-if (fletch_ENABLE_CUDA)
-  find_package( CUDA QUIET REQUIRED )
-
-  option(fletch_ENABLE_CUDNN "Build with CUDNN support" FALSE)
-  if (fletch_ENABLE_CUDNN)
-    set( CUDNN_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
-    mark_as_advanced( CUDNN_ROOT_DIR )
-    
-    find_package( CUDNN QUIET REQUIRED)
-  endif()
-
-  option(fletch_FORCE_CUDA_CSTD98 "Build all cuda code with C++ standard 98" FALSE)
-  mark_as_advanced(fletch_FORCE_CUDA_CSTD98)
-
-elseif(fletch_ENABLE_CUDNN)
-  unset(fletch_ENABLE_CUDNN CACHE)
-  message(WARNING "Disabling fletch_ENABLE_CUDNN, You must have fletch_ENABLE_CUDA enabled for this to be enabled")
-endif()
-
-
-
 # Include CXX11 support
 set(fletch_CXX_STANDARD_VERSION "98")
 option(fletch_BUILD_CXX11 "" TRUE)
@@ -85,11 +61,54 @@ endif()
 # Do we want to build in Python support where available
 #
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
+
+set(fletch_PYTHON_MAJOR_VERSION "2" CACHE STRING
+    "Python version to use: 3, 2, or empty")
+set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
+
 if (fletch_BUILD_WITH_PYTHON)
 
-  find_package(PythonInterp 2.7 REQUIRED)
-  find_package(PythonLibs 2.7 REQUIRED)
+  # If we change python versions re-find the bin, include, and libs
+  if (NOT _prev_fletch_pymajor_version STREQUAL fletch_PYTHON_MAJOR_VERSION)
+    # but dont clobber initial settings in the instance they are specified via
+    # commandline (e.g  cmake -DPYTHON_EXECUTABLE=/my/special/python)
+    if (_prev_fletch_pymajor_version)
+      message(STATUS "The Python version changed; refinding the interpreter")
+      message(STATUS "Previous python version was ${_prev_fletch_pymajor_version}")
+      unset(_prev_fletch_pymajor_version CACHE)
+      unset(PYTHON_EXECUTABLE CACHE)
+      unset(PYTHON_INCLUDE_DIR CACHE)
+      unset(PYTHON_LIBRARY CACHE)
+      unset(PYTHON_LIBRARY_DEBUG CACHE)
+    endif()
+  endif()
 
+  if (fletch_PYTHON_MAJOR_VERSION STREQUAL "3")
+    find_package(PythonInterp 3.4 REQUIRED)
+    find_package(PythonLibs 3.4 REQUIRED)
+  else()
+    find_package(PythonInterp 2.7 REQUIRED)
+    find_package(PythonLibs 2.7 REQUIRED)
+  endif()
+
+  # Check to ensure that the python executable agrees with the major version
+  execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}" -c "import sys; print(sys.version[0:3])"
+    RESULT_VARIABLE _exitcode
+    OUTPUT_VARIABLE _python_version)
+  if(NOT ${_exitcode} EQUAL 0)
+    message(FATAL_ERROR "Python command to get version failed with error code: ${_exitcode}")
+  endif()
+  # Remove supurflous newlines (artifacts of print)
+  string(STRIP "${_python_version}" _python_version)
+
+  if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
+    message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
+  endif()
+
+  # Make a copy so we can determine if the user changes python versions
+  set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
+    "allows us to determine if the user changes python version")
 endif()
 
 #
@@ -143,6 +162,7 @@ file(WRITE ${fletch_CONFIG_INPUT} "
 set(fletch_VERSION ${fletch_VERSION})
 set(fletch_ROOT @fletch_INSTALL_BUILD_DIR@)
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
+set(fletch_PYTHON_MAJOR_VERSION ${fletch_PYTHON_MAJOR_VERSION})
 ")
 
 
@@ -170,6 +190,47 @@ if(MSVC_VERSION GREATER 1400)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${CMAKE_CXX_MP_NUM_PROCESSORS}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP${CMAKE_CXX_MP_NUM_PROCESSORS}")
   endif ()
+endif()
+
+# Options to control GPU support
+option(fletch_BUILD_WITH_CUDA "Build with CUDA support" FALSE)
+
+if (fletch_BUILD_WITH_CUDA)
+  find_package( CUDA QUIET REQUIRED )
+
+  file(APPEND ${fletch_CONFIG_INPUT} "
+########################################
+# CUDA
+########################################
+set(CUDA_TOOLKIT_ROOT_DIR    ${CUDA_TOOLKIT_ROOT_DIR})
+set(fletch_BUILT_WITH_CUDA TRUE)
+set(fletch_CUDA_VERSION_MAJOR ${CUDA_VERSION_MAJOR})
+set(fletch_CUDA_VERSION_MINOR ${CUDA_VERSION_MINOR})
+set(fletch_CUDA_VERSION ${CUDA_VERSION})
+set(fletch_CUDA_VERSION_STRING ${CUDA_VERSION_STRING})
+  ")
+
+  option(fletch_FORCE_CUDA_CSTD98 "Build all cuda code with C++ standard 98" FALSE)
+  mark_as_advanced(fletch_FORCE_CUDA_CSTD98)
+
+  option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
+  if (fletch_BUILD_WITH_CUDNN)
+    set( CUDNN_TOOLKIT_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
+    mark_as_advanced( CUDNN_TOOLKIT_ROOT_DIR )
+    find_package( CUDNN QUIET REQUIRED)
+
+    file(APPEND ${fletch_CONFIG_INPUT} "
+########################################
+# CUDNN
+########################################
+set(CUDNN_TOOLKIT_ROOT_DIR    ${CUDNN_TOOLKIT_ROOT_DIR})
+set(fletch_BUILT_WITH_CUDNN TRUE)
+")
+
+  endif()
+elseif(fletch_BUILD_WITH_CUDNN)
+  unset(fletch_BUILD_WITH_CUDNN CACHE)
+  message(WARNING "Disabling fletch_BUILD_WITH_CUDNN, You must have fletch_BUILD_WITH_CUDA enabled for this to be enabled")
 endif()
 
 include(fletch-tarballs)
@@ -203,6 +264,8 @@ set (COMMON_CMAKE_ARGS
   -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   "-DCMAKE_CONFIGURATION_TYPES:STRING=${CMAKE_SS_CONF_TYPES}"
+  -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+  -DCMAKE_POLICY_DEFAULT_CMP0042=NEW
   -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
   -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
@@ -241,6 +304,13 @@ foreach(source ${fletch_external_sources})
         )
       set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
       set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_ALL True)
+    endif()
+
+    # append the value of any existing variable suffixed with _SELECT_VERSION
+    set(select_version_key ${source}_SELECT_VERSION)
+    set(select_version_val ${${select_version_key}})
+    if(select_version_val)
+      file(APPEND ${fletch_CONFIG_INPUT} "set(${select_version_key} ${select_version_val})")
     endif()
   endif()
 endforeach()

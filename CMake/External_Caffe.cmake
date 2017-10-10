@@ -47,8 +47,6 @@ endfunction()
 
 # Check for dependencies.
 if(NOT WIN32) # Win32 build takes care of most dependencies automatically
-  addCaffeDendency(GFlags "")
-  addCaffeDendency(GLog "")
   addCaffeDendency(LevelDB "")
   addCaffeDendency(LMDB "")
   if(NOT APPLE)
@@ -58,6 +56,8 @@ if(NOT WIN32) # Win32 build takes care of most dependencies automatically
 endif()
 addCaffeDendency(HDF5 "") # Caffe for windows grabs its own HDF5, but we need a parallel builds so we don't break other code
 addCaffeDendency(Boost 1.46)
+addCaffeDendency(GFlags "")
+addCaffeDendency(GLog "")
 addCaffeDendency(OpenCV "")
 addCaffeDendency(ZLib "")
 
@@ -146,7 +146,7 @@ if(fletch_ENABLE_GLog)
 else()
   set( CAFFE_GLog_ARGS
     -DGLOG_INCLUDE_DIR:PATH=${GLog_INCLUDE_DIR}
-    -DGLOG_LIBRARY:PATH=${GLog_INCLUDE_DIR}
+    -DGLOG_LIBRARY:FILEPATH=${GLog_LIBRARY}
     )
 endif()
 
@@ -219,6 +219,7 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   set(PYTHON_ARGS
       -DBUILD_python:BOOL=ON
       -DBUILD_python_layer:BOOL=ON
+      -Dpython_version=${fletch_PYTHON_MAJOR_VERSION}
       -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
       -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
       -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
