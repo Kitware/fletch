@@ -26,10 +26,10 @@
 # Boost
 set(Boost_major_version 1)
 set(Boost_minor_version 65)
-set(Boost_patch_version 0)
+set(Boost_patch_version 1)
 set(Boost_version ${Boost_major_version}.${Boost_minor_version}.${Boost_patch_version})
 set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
-set(Boost_md5 "5512d3809801b0a1b9dd58447b70915d")
+set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
 list(APPEND fletch_external_sources Boost)
 
 # ZLib
