@@ -21,16 +21,35 @@
 #   External_foo.cmake files for examples)
 #-
 
-
-
 # Boost
-set(Boost_major_version 1)
-set(Boost_minor_version 65)
-set(Boost_patch_version 1)
-set(Boost_version ${Boost_major_version}.${Boost_minor_version}.${Boost_patch_version})
-set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
-set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
+# Support 1.55 (Default) and 1.65.1 optionally
+if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
+  set(Boost_SELECT_VERSION 1.55 CACHE STRING "Select the major version of Boost to build.")
+  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55" "1.65.1")
+  message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
+
+  if (Boost_SELECT_VERSION VERSION_EQUAL 1.55)
+    # Boost 1.55
+    set(Boost_major_version 1)
+    set(Boost_minor_version 55)
+    set(Boost_patch_version 0)
+    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
+    set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
+  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
+    # Boost 1.65.1
+    set(Boost_major_version 1)
+    set(Boost_minor_version 65)
+    set(Boost_patch_version 1)
+    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
+    set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
+  else()
+    message(STATUS "Boost_SELECT_VERSION: Not supported")
+  endif()
+endif()
 list(APPEND fletch_external_sources Boost)
+
+
+
 
 # ZLib
 set(ZLib_version 1.2.8)
