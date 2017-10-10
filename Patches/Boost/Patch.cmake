@@ -36,9 +36,11 @@
 #  )
 
 
-#file(COPY ${Boost_patch}/build.bat
-#  DESTINATION ${Boost_source}/tools/build/v2/engine
-#  )
+file(COPY ${Boost_patch}/build.bat
+  DESTINATION ${Boost_source}/tools/build/src/engine
+  )
+
+
 #file(COPY ${Boost_patch}/build.jam
 #  DESTINATION ${Boost_source}/tools/build/v2/engine
 #  )
