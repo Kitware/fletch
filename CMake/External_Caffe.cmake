@@ -94,7 +94,7 @@ else()
     -DPROTOBUF_PROTOC_EXECUTABLE:PATH=${PROTOBUF_PROTOC_EXECUTABLE}
     -DPROTOBUF_PROTOC_LIBRARY:PATH=${PROTOBUF_PROTOC_LIBRARY}
     -DPROTOBUF_PROTOC_LIBRARY_DEBUG:PATH=${PROTOBUF_PROTOC_LIBRARY_DEBUG}
-  )
+    )
 endif()
 
 if(fletch_ENABLE_OpenCV)
@@ -105,7 +105,7 @@ if(fletch_ENABLE_OpenCV)
 else()
   set( CAFFE_OPENCV_ARGS
     -DOpenCV_DIR:PATH=${OpenCV_DIR}
-  )
+    )
 endif()
 
 if(fletch_ENABLE_LMDB)
@@ -208,7 +208,7 @@ else()
     -DHDF5_hdf5_hl_LIBRARY_DEBUG:PATH=${HDF5_hdf5_hl_LIBRARY_DEBUG}
     -DHDF5_hdf5_hl_LIBRARY_RELEASE:PATH=${HDF5_hdf5_hl_LIBRARY_RELEASE}
     -DHDF5_HL_LIBRARIES:PATH=${HDF5_HL_LIBRARIES}
-  )
+    )
 endif()
 
 if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
@@ -217,15 +217,15 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   endif()
   find_package(NumPy 1.7 REQUIRED)
   set(PYTHON_ARGS
-      -DBUILD_python:BOOL=ON
-      -DBUILD_python_layer:BOOL=ON
-      -Dpython_version=${fletch_PYTHON_MAJOR_VERSION}
-      -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
-      -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
-      -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
-      -DNUMPY_INCLUDE_DIR=${NUMPY_INCLUDE_DIR}
-      -DNUMPY_VERSION=${NUMPY_VERSION}
-      )
+    -DBUILD_python:BOOL=ON
+    -DBUILD_python_layer:BOOL=ON
+    -Dpython_version=${fletch_PYTHON_MAJOR_VERSION}
+    -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+    -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+    -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
+    -DNUMPY_INCLUDE_DIR=${NUMPY_INCLUDE_DIR}
+    -DNUMPY_VERSION=${NUMPY_VERSION}
+    )
 else()
   set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
 endif()
@@ -251,12 +251,12 @@ if(fletch_BUILD_WITH_CUDA)
       ${CAFFE_GPU_ARGS}
       ${CUDNN_BUILD_FLAGS}
       -DUSE_CUDNN:BOOL=ON
-    )
+      )
   else()
     set( CAFFE_GPU_ARGS
       ${CAFFE_GPU_ARGS}
       -DUSE_CUDNN:BOOL=OFF
-    )
+      )
   endif()
 else()
   set( CAFFE_GPU_ARGS
@@ -281,19 +281,19 @@ endif()
 
 # Main build and install command
 if(WIN32)
-ExternalProject_Add(Caffe
-  DEPENDS ${Caffe_DEPENDS}
-  URL ${Caffe_url}
-  URL_MD5 ${Caffe_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ExternalProject_Add(Caffe
+    DEPENDS ${Caffe_DEPENDS}
+    URL ${Caffe_url}
+    URL_MD5 ${Caffe_md5}
+    PREFIX ${fletch_BUILD_PREFIX}
+    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
-  PATCH_COMMAND ${Caffe_PATCH_COMMAND}
+    PATCH_COMMAND ${Caffe_PATCH_COMMAND}
 
-  CMAKE_COMMAND
-  CMAKE_GENERATOR ${gen}
-  CMAKE_ARGS
+    CMAKE_COMMAND
+    CMAKE_GENERATOR ${gen}
+    CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
     -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
@@ -304,21 +304,21 @@ ExternalProject_Add(Caffe
     ${CAFFE_OPENCV_ARGS}
     ${PYTHON_ARGS}
     ${CAFFE_GPU_ARGS}
-)
+    )
 else()
-ExternalProject_Add(Caffe
-  DEPENDS ${Caffe_DEPENDS}
-  URL ${Caffe_url}
-  URL_MD5 ${Caffe_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ExternalProject_Add(Caffe
+    DEPENDS ${Caffe_DEPENDS}
+    URL ${Caffe_url}
+    URL_MD5 ${Caffe_md5}
+    PREFIX ${fletch_BUILD_PREFIX}
+    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
-  PATCH_COMMAND ${Caffe_PATCH_COMMAND}
+    PATCH_COMMAND ${Caffe_PATCH_COMMAND}
 
-  CMAKE_COMMAND
-  CMAKE_GENERATOR ${gen}
-  CMAKE_ARGS
+    CMAKE_COMMAND
+    CMAKE_GENERATOR ${gen}
+    CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
     -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
@@ -334,7 +334,7 @@ ExternalProject_Add(Caffe
     ${CAFFE_HDF5_ARGS}
     ${CAFFE_OPENBLAS_ARGS}
     ${CAFFE_GPU_ARGS}
-  )
+    )
 endif()
 
 fletch_external_project_force_install(PACKAGE Caffe)
