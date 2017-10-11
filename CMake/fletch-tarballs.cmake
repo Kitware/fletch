@@ -23,7 +23,7 @@
 
 # Boost
 # Support 1.55 (Default) and 1.65.1 optionally
-if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
+if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(Boost_SELECT_VERSION 1.55.0 CACHE STRING "Select the major version of Boost to build.")
   set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
