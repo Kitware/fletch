@@ -67,14 +67,14 @@ endif()
 
 # Set paths which Caffe requires for protobuf and opencv
 
-set( CAFFE_PROTOBUF_ARGS )
+set( CAFFE_PKG_DEP_ARGS )
 
 if(fletch_ENABLE_Protobuf)
   get_system_library_name( protobuf protobuf_libname )
   get_system_library_name( protobuf-lite protobuf-lite_libname )
   get_system_library_name( protoc protoc_libname )
 
-  set( CAFFE_PROTOBUF_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DPROTOBUF_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DPROTOBUF_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protobuf_libname}
     -DPROTOBUF_LIBRARY_DEBUG:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protobuf_libname}
@@ -85,7 +85,7 @@ if(fletch_ENABLE_Protobuf)
     -DPROTOBUF_PROTOC_LIBRARY_DEBUG:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protoc_libname}
     )
 else()
-  set( CAFFE_PROTOBUF_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DPROTOBUF_INCLUDE_DIR:PATH=${PROTOBUF_INCLUDE_DIR}
     -DPROTOBUF_LIBRARY:PATH=${PROTOBUF_LIBRARY}
     -DPROTOBUF_LIBRARY_DEBUG:PATH=${PROTOBUF_LIBRARY_DEBUG}
@@ -98,12 +98,12 @@ else()
 endif()
 
 if(fletch_ENABLE_OpenCV)
-  set( CAFFE_OPENCV_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DOpenCV_DIR:PATH=${fletch_BUILD_PREFIX}/src/OpenCV-build
     -DOpenCV_LIB_PATH:PATH=${OpenCV_ROOT}/lib
     )
 else()
-  set( CAFFE_OPENCV_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DOpenCV_DIR:PATH=${OpenCV_DIR}
     )
 endif()
@@ -111,12 +111,12 @@ endif()
 if(fletch_ENABLE_LMDB)
   get_system_library_name( lmdb lmdb_libname )
 
-  set( CAFFE_LMDB_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DLMDB_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DLMDB_LIBRARIES:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${lmdb_libname}
     )
 else()
-  set( CAFFE_LMDB_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DLMDB_INCLUDE_DIR:PATH=${LMDB_INCLUDE_DIR}
     -DLMDB_LIBRARIES:PATH=${LMDB_LIBRARY}
     )
@@ -125,12 +125,12 @@ endif()
 if(fletch_ENABLE_LevelDB)
   get_system_library_name( leveldb leveldb_libname )
   # NOTE: Caffe currently has LevelDB_INCLUDE instead of the normal LevelDB_INCLUDE_DIR
-  set( CAFFE_LevelDB_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DLevelDB_INCLUDE:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DLevelDB_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${leveldb_libname}
     )
 else()
-  set( CAFFE_LevelDB_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DLevelDB_INCLUDE:PATH=${LevelDB_INCLUDE_DIR}
     -DLevelDB_LIBRARY:PATH=${LevelDB_LIBRARY}
     )
@@ -139,12 +139,12 @@ endif()
 if(fletch_ENABLE_GLog)
   get_system_library_name( glog glog_libname )
 
-  set( CAFFE_GLog_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DGLOG_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DGLOG_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${glog_libname}
     )
 else()
-  set( CAFFE_GLog_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DGLOG_INCLUDE_DIR:PATH=${GLog_INCLUDE_DIR}
     -DGLOG_LIBRARY:FILEPATH=${GLog_LIBRARY}
     )
@@ -153,12 +153,14 @@ endif()
 if(fletch_ENABLE_GFlags)
   get_system_library_name( gflags gflags_libname )
 
-  set( CAFFE_GFlags_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DGFLAGS_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DGFLAGS_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${gflags_libname}
     )
 else()
-  set( CAFFE_GFlags_ARGS -DGFLAGS_ROOT_DIR:PATH=${GFlags_DIR})
+  list(APPEND CAFFE_PKG_DEP_ARGS
+    -DGFLAGS_ROOT_DIR:PATH=${GFlags_DIR}
+    )
 endif()
 
 if(fletch_ENABLE_HDF5)
@@ -179,7 +181,7 @@ if(fletch_ENABLE_HDF5)
     get_system_library_name( hdf5_hl_cpp hdf5_hl_cpp_libname )
 
   endif()
-  set( CAFFE_HDF5_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DHDF5_INCLUDE_DIRS:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DHDF5_HL_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DHDF5_LIBRARIES:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_libname}
@@ -199,7 +201,7 @@ if(fletch_ENABLE_HDF5)
 
     )
 else()
-  set( CAFFE_HDF5_ARGS
+  list(APPEND CAFFE_PKG_DEP_ARGS
     -DHDF5_INCLUDE_DIRS:PATH=${HDF5_INCLUDE_DIRS}
     -DHDF5_HL_INCLUDE_DIR:PATH=${HDF5_HL_INCLUDE_DIR}
     -DHDF5_LIBRARIES:PATH=${HDF5_LIBRARIES}
@@ -232,29 +234,31 @@ endif()
 
 if(fletch_ENABLE_OpenBLAS)
   get_system_library_name(openblas openblas_libname)
-  set(CAFFE_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_ROOT}/include"
-    "-DOpenBLAS_LIB=${OpenBLAS_ROOT}/lib/${openblas_libname}")
+  list(APPEND CAFFE_PKG_DEP_ARGS
+    "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_ROOT}/include"
+    "-DOpenBLAS_LIB=${OpenBLAS_ROOT}/lib/${openblas_libname}"
+    )
 else()
-  set(CAFFE_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_INCLUDE_DIR}"
-    "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}")
+  list(APPEND CAFFE_PKG_DEP_ARGS
+    "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_INCLUDE_DIR}"
+    "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}"
+    )
 endif()
 
 if(fletch_BUILD_WITH_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
-  set( CAFFE_GPU_ARGS
+  list(APPEND CAFFE_GPU_ARGS
     ${CUDA_BUILD_FLAGS}
     -DCPU_ONLY:BOOL=OFF
     )
   if(fletch_BUILD_WITH_CUDNN)
     format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
-    set( CAFFE_GPU_ARGS
-      ${CAFFE_GPU_ARGS}
+    list(APPEND CAFFE_GPU_ARGS
       ${CUDNN_BUILD_FLAGS}
       -DUSE_CUDNN:BOOL=ON
       )
   else()
-    set( CAFFE_GPU_ARGS
-      ${CAFFE_GPU_ARGS}
+    list(APPEND CAFFE_GPU_ARGS
       -DUSE_CUDNN:BOOL=OFF
       )
   endif()
@@ -301,7 +305,7 @@ if(WIN32)
     -DBoost_USE_STATIC_LIBS:BOOL=OFF
     -DBLAS:STRING=Open
     -DBUILD_SHARED_LIBS:BOOL=ON
-    ${CAFFE_OPENCV_ARGS}
+    ${CAFFE_PKG_DEP_ARGS}
     ${PYTHON_ARGS}
     ${CAFFE_GPU_ARGS}
     )
@@ -324,15 +328,8 @@ else()
     -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
     -DBOOST_ROOT:PATH=${BOOST_ROOT}
     -DBLAS:STRING=Open
+    ${CAFFE_PKG_DEP_ARGS}
     ${PYTHON_ARGS}
-    ${CAFFE_PROTOBUF_ARGS}
-    ${CAFFE_OPENCV_ARGS}
-    ${CAFFE_LMDB_ARGS}
-    ${CAFFE_LevelDB_ARGS}
-    ${CAFFE_GLog_ARGS}
-    ${CAFFE_GFlags_ARGS}
-    ${CAFFE_HDF5_ARGS}
-    ${CAFFE_OPENBLAS_ARGS}
     ${CAFFE_GPU_ARGS}
     )
 endif()
