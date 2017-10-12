@@ -63,6 +63,8 @@ Package Upgrades
 
  * Added experimental support for Python 3
 
+ * Added option for Boost 1.64.1. The default is 1.55.0
+
 Fixes since v1.0.0
 ------------------
 
