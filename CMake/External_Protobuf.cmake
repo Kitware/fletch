@@ -12,6 +12,20 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Protobuf)
   endif()
 endif()
 
+
+
+set (Protobuf_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Protobuf/${Protobuf_SELECT_VERSION})
+message("Protobuf_PATCH_DIR: ${Protobuf_PATCH_DIR}")
+if (EXISTS ${Protobuf_PATCH_DIR})
+  set(Protobuf_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DProtobuf_PATCH_DIR=${Protobuf_PATCH_DIR}
+    -DProtobuf_SOURCE_DIR=${fletch_BUILD_PREFIX}/src/Protobuf
+    -P ${Protobuf_PATCH_DIR}/Patch.cmake)
+else()
+  set(Protobuf_PATCH_COMMAND "")
+endif()
+
+
 Fletch_Require_Make()
 ExternalProject_Add(Protobuf
   URL ${Protobuf_url}
@@ -19,6 +33,9 @@ ExternalProject_Add(Protobuf
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    ${Protobuf_PATCH_COMMAND}
+
   BUILD_IN_SOURCE 1
   ${PROTOBUF_PATCH_ARG}
   CONFIGURE_COMMAND ./configure
