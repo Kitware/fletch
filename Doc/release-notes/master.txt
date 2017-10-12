@@ -78,3 +78,9 @@ Fixes since v1.0.0
 
  * Patched OpenCV version 3.1.0 for the case the absolute build path contains
    the pattern "cuda"
+
+ * Patch libjpeg-turbo's config.guess to support arm boards like TX2
+
+ * Patch libxml2's config.guess to support arm boards like TX2
+
+ * Patch GDAL's config.guess to support arm boards like TX2
