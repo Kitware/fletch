@@ -19,3 +19,7 @@ file(COPY ${Protobuf_PATCH_DIR}/atomicops_internals_arm_gcc.h
 file(COPY ${Protobuf_PATCH_DIR}/atomicops_internals_arm64_gcc.h
   DESTINATION ${Protobuf_SOURCE_DIR}/src/google/protobuf/stubs/
   )
+
+file(COPY ${Protobuf_PATCH_DIR}/Makefile.in
+  DESTINATION ${Protobuf_SOURCE_DIR}/src/
+  )
