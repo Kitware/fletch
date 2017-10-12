@@ -15,7 +15,6 @@ endif()
 
 
 set (Protobuf_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Protobuf/${Protobuf_SELECT_VERSION})
-message("Protobuf_PATCH_DIR: ${Protobuf_PATCH_DIR}")
 if (EXISTS ${Protobuf_PATCH_DIR})
   set(Protobuf_PATCH_COMMAND ${CMAKE_COMMAND}
     -DProtobuf_PATCH_DIR=${Protobuf_PATCH_DIR}
