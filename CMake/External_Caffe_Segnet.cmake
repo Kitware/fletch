@@ -1,3 +1,9 @@
+if (WIN32)
+  message( FATAL_ERROR "Caffe-Segnet is not yet supported on windows" )
+  return()
+endif()
+
+
 set(allOk True)
 set(errorMessage)
 

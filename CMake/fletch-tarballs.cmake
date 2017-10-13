@@ -484,8 +484,10 @@ else()
   set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
   set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
   set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
+  
+  #Move this out when windows is supported
+  list(APPEND fletch_external_sources Caffe_Segnet)
 endif()
-list(APPEND fletch_external_sources Caffe_Segnet)
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
