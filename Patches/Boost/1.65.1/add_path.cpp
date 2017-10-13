@@ -138,6 +138,7 @@ void bcp_implementation::add_file(const fs::path& p)
    //
    // if this is a html file, scan for dependencies:
    //
+   /*
    if(is_html_file(p))
    {
       static const boost::regex e(
@@ -187,6 +188,7 @@ void bcp_implementation::add_file(const fs::path& p)
          ++i;
       }
    }
+   */
    //
    // now scan for "special" dependencies:
    // anything that we can't automatically detect...

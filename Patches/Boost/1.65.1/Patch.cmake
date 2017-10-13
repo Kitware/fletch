@@ -6,7 +6,6 @@ file(COPY ${Boost_patch}/build.bat
   DESTINATION ${Boost_source}/tools/build/src/engine
   )
 
-
-file(COPY ${Boost_patch}/add_path.cpp
+file(COPY ${Boost_patch}/copy_path.cpp
   DESTINATION ${Boost_source}/tools/bcp/
   )
