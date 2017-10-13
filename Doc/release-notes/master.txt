@@ -88,3 +88,5 @@ Fixes since v1.0.0
  * Patch libxml2's config.guess to support arm boards like TX2
 
  * Patch GDAL's config.guess to support arm boards like TX2
+
+ * Patch Protobuf 2 to support arm boards like TX2
