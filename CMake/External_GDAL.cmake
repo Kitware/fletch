@@ -31,8 +31,8 @@ endif()
 
 # We will allow a user to pass in the unpacked MrSID files in fletch_LTIDSDK_ROOT
 if(fletch_LTIDSDK_ROOT)
-  set(_GDAL_ARGS_LTIDSDK --with-mrsid=${LTIDSDK_ROOT} --with-jp2mrsid=yes)
-  set(_GDAL_MSVC_ARGS_LTISDK MRSID_DIR=${LTIDSDK_ROOT} MRSID_JP2=YES)
+  set(_GDAL_ARGS_LTIDSDK --with-mrsid=${fletch_LTIDSDK_ROOT} --with-jp2mrsid=yes)
+  set(_GDAL_MSVC_ARGS_LTISDK MRSID_DIR=${fletch_LTIDSDK_ROOT} MRSID_JP2=YES)
 endif()
 
 if (WIN32)
