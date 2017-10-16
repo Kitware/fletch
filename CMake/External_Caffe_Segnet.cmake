@@ -53,8 +53,6 @@ endfunction()
 
 # Check for dependencies.
 if(NOT WIN32) # Win32 build takes care of most dependencies automatically
-  addCaffeSegnetDendency(GFlags "")
-  addCaffeSegnetDendency(GLog "")
   addCaffeSegnetDendency(LevelDB "")
   addCaffeSegnetDendency(LMDB "")
   if(NOT APPLE)
@@ -64,6 +62,8 @@ if(NOT WIN32) # Win32 build takes care of most dependencies automatically
 endif()
 addCaffeSegnetDendency(HDF5 "") # CaffeSegnet for windows grabs its own HDF5, but we need a parallel builds so we don't break other code
 addCaffeSegnetDendency(Boost 1.46)
+addCaffeSegnetDendency(GFlags "")
+addCaffeSegnetDendency(GLog "")
 addCaffeSegnetDendency(OpenCV "")
 addCaffeSegnetDendency(ZLib "")
 
