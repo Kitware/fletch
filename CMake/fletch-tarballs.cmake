@@ -361,6 +361,15 @@ if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources PostgreSQL)
 
+# PostGIS
+# Currently it seems the this version of PostGIS will work with all provided PostgreSQL versions
+if(NOT WIN32)
+  set(PostGIS_version "2.1.8" )
+  set(PostGIS_url "http://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
+  set(PostGIS_md5 "c33923e37424978a1306ce461c1d14ed" )
+  list(APPEND fletch_external_sources PostGIS )
+endif()
+
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   # Support the stable version 6.2, and work on updating to next version 8.0
