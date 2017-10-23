@@ -11,7 +11,7 @@ Updates since v1.0.0
 New Packages
 
  * Added Caffe Segnet
- 
+
  * Added Darknet
 
  * Added PostgreSQL
@@ -24,6 +24,7 @@ New Packages
 
  * Added GEOS version 3.4.2
 
+ * Added PostGIS version 2.1.8
 
 Package Upgrades
 
