@@ -388,6 +388,15 @@ set(VXL_md5 "044cc927012aef07b38492f9df1fd772")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
+
+# Burnout
+set(Burnout_version "dev/enable_gdal_option")
+set(Burnout_url "https://github.com/Erotemic/burn-out/archive/${Burnout_version}.zip")
+set(Burnout_md5 "caac108185ef0d63175627592cd8842e")
+set(Burnout_dlname "Burnout-${Burnout_version}.zip")
+list(APPEND fletch_external_sources Burnout)
+message(STATUS "Burnout_url = ${Burnout_url}")
+
 # ITK
 set(ITK_version 4.11)
 set(ITK_minor 0)
@@ -484,7 +493,7 @@ else()
   set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
   set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
   set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
-  
+
   #Move this out when windows is supported
   list(APPEND fletch_external_sources Caffe_Segnet)
 endif()

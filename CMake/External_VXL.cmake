@@ -106,6 +106,7 @@ ExternalProject_Add(VXL
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   )
+message(STATUS "VXL_EXTRA_BUILD_FLAGS = ${VXL_EXTRA_BUILD_FLAGS}")
 
 ExternalProject_Add_Step(VXL forcebuild
   COMMAND ${CMAKE_COMMAND}
