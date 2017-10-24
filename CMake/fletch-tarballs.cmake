@@ -390,9 +390,9 @@ list(APPEND fletch_external_sources VXL)
 
 
 # Burnout
-set(Burnout_version "dev/enable_gdal_option")
+set(Burnout_version "6b16f9f3772acebb5c33368946b5e1ff683b68fb")
 set(Burnout_url "https://github.com/Erotemic/burn-out/archive/${Burnout_version}.zip")
-set(Burnout_md5 "caac108185ef0d63175627592cd8842e")
+set(Burnout_md5 "1e254ad88fd7e559e5bef8dde4175986")
 set(Burnout_dlname "Burnout-${Burnout_version}.zip")
 list(APPEND fletch_external_sources Burnout)
 message(STATUS "Burnout_url = ${Burnout_url}")

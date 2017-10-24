@@ -16,6 +16,7 @@ ExternalProject_Add(Burnout
   DEPENDS ${Burnout_DEPENDS}
   URL ${Burnout_url}
   URL_MD5 ${Burnout_md5}
+  PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
@@ -23,6 +24,9 @@ ExternalProject_Add(Burnout
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
+    -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
+    -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+    -DBOOST_ROOT:PATH=${BOOST_ROOT}
 
     -DBUILD_TESTING:BOOL=OFF
     -DVIDTK_BUILD_TESTS:BOOL=OFF
@@ -43,18 +47,16 @@ fletch_external_project_force_install(PACKAGE Burnout)
 set(Burnout_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 message(STATUS "Burnout_ROOT = ${Burnout_ROOT}")
 
-#set(VIAME_ARGS_burnout
-#  -Dburnout_DIR:PATH=${VIAME_BUILD_PREFIX}/src/burnout-build
-#  -Dvidtk_DIR:PATH=${VIAME_BUILD_PREFIX}/src/burnout-build
+#set(VIAME_ARGS_Burnout
+#  -DBurnout_DIR:PATH=${VIAME_BUILD_PREFIX}/src/Burnout-build
+#  -Dvidtk_DIR:PATH=${VIAME_BUILD_PREFIX}/src/Burnout-build
 #  )
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Burnout
 ########################################
-#set(Dvidtk_DIR     \${fletch_ROOT}/share/vxl/burnout)
 set(Burnout_ROOT    \${fletch_ROOT})
-set(Burnout_DIR     \${fletch_ROOT}/CMake)
 set(fletch_ENABLED_Burnout TRUE)
 ")
 
