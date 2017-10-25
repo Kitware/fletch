@@ -13,6 +13,10 @@ ExternalProject_Add(PyBind11
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DPYBIND11_TEST:BOOL=OFF # To remove dependencies; build can still be tested manually
+    -DPYBIND11_PYTHON_VERSION=${fletch_PYTHON_MAJOR_VERSION}
+    -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+    -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+    -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
   )
 
 fletch_external_project_force_install(PACKAGE PyBind11)
