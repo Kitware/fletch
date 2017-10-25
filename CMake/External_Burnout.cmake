@@ -44,12 +44,13 @@ ExternalProject_Add(Burnout
 
 fletch_external_project_force_install(PACKAGE Burnout)
 
-set(Burnout_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
+# The vidtkConfig.cmake lives in the burnout build directory and this will be
+# needed by kwiver.
+ExternalProject_Get_Property(Burnout BINARY_DIR)
+set(vidtk_DIR "${BINARY_DIR}")
+file(RELATIVE_PATH vidtk_rel_DIR "${fletch_BUILD_INSTALL_PREFIX}" "${vidtk_DIR}")
 
-#set(VIAME_ARGS_Burnout
-#  -DBurnout_DIR:PATH=${VIAME_BUILD_PREFIX}/src/Burnout-build
-#  -Dvidtk_DIR:PATH=${VIAME_BUILD_PREFIX}/src/Burnout-build
-#  )
+set(Burnout_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
@@ -57,9 +58,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(Burnout_ROOT    \${fletch_ROOT})
 set(fletch_ENABLED_Burnout TRUE)
-set(burnout_DIR \${fletch_ROOT})
-set(vidtk_DIR \${fletch_ROOT})
-#set(burnout_DIR \${fletch_ROOT}/src/burnout-build)
-#set(vidtk_DIR \${fletch_ROOT}/src/burnout-build)
+set(vidtk_DIR \"\${fletch_ROOT}/${vidtk_rel_DIR}\")
 ")
 
