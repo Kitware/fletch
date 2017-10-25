@@ -395,7 +395,6 @@ set(Burnout_url "https://github.com/Erotemic/burn-out/archive/${Burnout_version}
 set(Burnout_md5 "1e254ad88fd7e559e5bef8dde4175986")
 set(Burnout_dlname "Burnout-${Burnout_version}.zip")
 list(APPEND fletch_external_sources Burnout)
-message(STATUS "Burnout_url = ${Burnout_url}")
 
 # ITK
 set(ITK_version 4.11)

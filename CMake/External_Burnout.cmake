@@ -45,7 +45,6 @@ ExternalProject_Add(Burnout
 fletch_external_project_force_install(PACKAGE Burnout)
 
 set(Burnout_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
-message(STATUS "Burnout_ROOT = ${Burnout_ROOT}")
 
 #set(VIAME_ARGS_Burnout
 #  -DBurnout_DIR:PATH=${VIAME_BUILD_PREFIX}/src/Burnout-build
@@ -58,5 +57,9 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(Burnout_ROOT    \${fletch_ROOT})
 set(fletch_ENABLED_Burnout TRUE)
+set(burnout_DIR \${fletch_ROOT})
+set(vidtk_DIR \${fletch_ROOT})
+#set(burnout_DIR \${fletch_ROOT}/src/burnout-build)
+#set(vidtk_DIR \${fletch_ROOT}/src/burnout-build)
 ")
 
