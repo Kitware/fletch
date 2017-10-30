@@ -40,7 +40,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # YAMLcpp
 ########################################
-set(YAMPCPP__ROOT    \${fletch_ROOT})
+set(YAMPCPP_ROOT    \${fletch_ROOT})
 set(YAMLCPP_DIR     \${fletch_ROOT}/lib/cmake)
 set(YAMLCPP_LIBNAME @LIBYAMLCPP_LIBNAME@)
 
