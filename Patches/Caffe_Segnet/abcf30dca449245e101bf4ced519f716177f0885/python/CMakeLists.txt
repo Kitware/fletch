@@ -10,14 +10,15 @@ add_library(py${tgtName} SHARED ${python_srcs})
 target_link_libraries(py${tgtName} ${Caffe_LINK} ${PYTHON_LIBRARIES} ${Boost_LIBRARIES})
 set_target_properties(py${tgtName} PROPERTIES PREFIX "" OUTPUT_NAME "_${tgtName}")
 caffe_default_properties(py${tgtName})
-
+message(STATUS "Hello, I am python src dir : ${PROJECT_SOURCE_DIR}")
+message(STATUS "Hello, I am python proto_gen_folder : ${proto_gen_folder}")
 if(UNIX OR APPLE)
-    set(__linkname "${PROJECT_SOURCE_DIR}/python/${tgtName}/_${tgtName}.so")
+    set(__linkname "${PROJECT_SOURCE_DIR}/python/caffe/_${tgtName}.so")
     add_custom_command(TARGET py${tgtName} POST_BUILD
                        COMMAND ln -sf $<TARGET_LINKER_FILE:py${tgtName}> "${__linkname}"
-                       COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_SOURCE_DIR}/python/${tgtName}/proto
-                       COMMAND touch ${PROJECT_SOURCE_DIR}/python/${tgtName}/proto/__init__.py
-                       COMMAND cp ${proto_gen_folder}/*.py ${PROJECT_SOURCE_DIR}/python/${tgtName}/proto/
+                       COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_SOURCE_DIR}/python/caffe/proto
+                       COMMAND touch ${PROJECT_SOURCE_DIR}/python/caffe/proto/__init__.py
+                       COMMAND cp ${proto_gen_folder}/*.py ${PROJECT_SOURCE_DIR}/python/caffe/proto/
                        COMMENT "Creating symlink ${__linkname} -> ${PROJECT_BINARY_DIR}/lib/_${tgtName}${Caffe_POSTFIX}.so")
 endif()
 
@@ -35,6 +36,6 @@ install(DIRECTORY ${tgtName}
     PATTERN "test" EXCLUDE
     )
 
-# _caffe.so
+# _${tgtName}.so
 install(TARGETS py${tgtName}  DESTINATION python/${tgtName})
 
