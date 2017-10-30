@@ -48,36 +48,93 @@ set(fletch_DOWNLOAD_DIR ${fletch_SOURCE_DIR}/Downloads CACHE PATH
 include(${fletch_CMAKE_DIR}/Utils.cmake)
 
 add_custom_target(Download)
+add_custom_target(fletch-build-install)
 
-# 
+# Include CXX11 support
+set(fletch_CXX_STANDARD_VERSION "98")
+option(fletch_BUILD_CXX11 "" TRUE)
+if (fletch_BUILD_CXX11)
+  set(fletch_CXX_STANDARD_VERSION "11")
+endif()
+
+#
 # Do we want to build in Python support where available
 #
-option(FLETCH_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
-mark_as_advanced(FLETCH_BUILD_WITH_PYTHON)
+option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
+
+set(fletch_PYTHON_MAJOR_VERSION "2" CACHE STRING
+    "Python version to use: 3, 2, or empty")
+set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
+
+if (fletch_BUILD_WITH_PYTHON)
+
+  # If we change python versions re-find the bin, include, and libs
+  if (NOT _prev_fletch_pymajor_version STREQUAL fletch_PYTHON_MAJOR_VERSION)
+    # but dont clobber initial settings in the instance they are specified via
+    # commandline (e.g  cmake -DPYTHON_EXECUTABLE=/my/special/python)
+    if (_prev_fletch_pymajor_version)
+      message(STATUS "The Python version changed; refinding the interpreter")
+      message(STATUS "Previous python version was ${_prev_fletch_pymajor_version}")
+      unset(_prev_fletch_pymajor_version CACHE)
+      unset(PYTHON_EXECUTABLE CACHE)
+      unset(PYTHON_INCLUDE_DIR CACHE)
+      unset(PYTHON_LIBRARY CACHE)
+      unset(PYTHON_LIBRARY_DEBUG CACHE)
+    endif()
+  endif()
+
+  if (fletch_PYTHON_MAJOR_VERSION STREQUAL "3")
+    find_package(PythonInterp 3.4 REQUIRED)
+    find_package(PythonLibs 3.4 REQUIRED)
+  else()
+    find_package(PythonInterp 2.7 REQUIRED)
+    find_package(PythonLibs 2.7 REQUIRED)
+  endif()
+
+  # Check to ensure that the python executable agrees with the major version
+  execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}" -c "import sys; print(sys.version[0:3])"
+    RESULT_VARIABLE _exitcode
+    OUTPUT_VARIABLE _python_version)
+  if(NOT ${_exitcode} EQUAL 0)
+    message(FATAL_ERROR "Python command to get version failed with error code: ${_exitcode}")
+  endif()
+  # Remove supurflous newlines (artifacts of print)
+  string(STRIP "${_python_version}" _python_version)
+
+  if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
+    message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
+  endif()
+
+  # Make a copy so we can determine if the user changes python versions
+  set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
+    "allows us to determine if the user changes python version")
+endif()
 
 #
 # Convenience Option for Dashboards to turn on ALL available Packages
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 
-if (FLETCH_BUILD_WITH_PYTHON) 
-    find_package(PythonInterp)
-    find_package(PythonLibs)
-endif()
-
-#
-# Create a CMake Version file
-#
-configure_file(
-    ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
-  ${fletch_BINARY_DIR}/fletchConfig-version.cmake
-  @ONLY IMMEDIATE)
 
 # If fletch is being configured from the outside ( e.g. from a super-build)
 # allow the configuring package to set the install prefix.
 if (NOT fletch_BUILD_INSTALL_PREFIX)
   set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
+  # If building fletch from inside, change config out directory to the build directory
+  set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
+else()
+  set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig.cmake )
 endif()
+
+#
+# Create a CMake Version file
+#
+set(fletch_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
+configure_file(
+  ${fletch_SOURCE_DIR}/fletchConfig-version.cmake.in
+  ${fletch_BUILD_DIR}/fletchConfig-version.cmake
+  @ONLY IMMEDIATE)
 
 #+
 # Each External_xxx is responsible for updating this file with their
@@ -87,7 +144,6 @@ endif()
 #-
 
 set(fletch_CONFIG_INPUT ${fletch_BINARY_DIR}/fletchConfig.cmake.in )
-set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
 set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 
 
@@ -98,11 +154,15 @@ set(fletch_BUILD_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/build)
 #  DESTINATION ${fletch_BUILD_INSTALL_SHARE_CMAKE_PREFIX} )
 
 
+# We are using fletch_INSTALL_BUILD_DIR to define where Fletch_ROOT is at configure time
+# If installed, it is set to CMAKE_PREFIX before configure, otherwise, set to fletch_ROOT
+set(fletch_INSTALL_BUILD_DIR ${fletch_BUILD_INSTALL_PREFIX})
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
-set(fletch_ROOT ${fletch_BUILD_INSTALL_PREFIX})
-set(fletch_WITH_PYTHON ${FLETCH_BUILD_WITH_PYTHON})
+set(fletch_ROOT @fletch_INSTALL_BUILD_DIR@)
+set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
+set(fletch_PYTHON_MAJOR_VERSION ${fletch_PYTHON_MAJOR_VERSION})
 ")
 
 
@@ -116,8 +176,6 @@ option(BUILD_SHARED_LIBS "Build shared libraries where possible." ON)
 
 # Since much of KWIVER is plugin based, shared libs are the default
 mark_as_advanced(BUILD_SHARED_LIBS)
-
-
 
 # Enable /MP flag for Visual Studio 2008 and greater
 if(MSVC_VERSION GREATER 1400)
@@ -134,36 +192,95 @@ if(MSVC_VERSION GREATER 1400)
   endif ()
 endif()
 
+# Options to control GPU support
+option(fletch_BUILD_WITH_CUDA "Build with CUDA support" FALSE)
+
+if (fletch_BUILD_WITH_CUDA)
+  find_package( CUDA QUIET REQUIRED )
+
+  file(APPEND ${fletch_CONFIG_INPUT} "
+########################################
+# CUDA
+########################################
+set(CUDA_TOOLKIT_ROOT_DIR    ${CUDA_TOOLKIT_ROOT_DIR})
+set(fletch_BUILT_WITH_CUDA TRUE)
+set(fletch_CUDA_VERSION_MAJOR ${CUDA_VERSION_MAJOR})
+set(fletch_CUDA_VERSION_MINOR ${CUDA_VERSION_MINOR})
+set(fletch_CUDA_VERSION ${CUDA_VERSION})
+set(fletch_CUDA_VERSION_STRING ${CUDA_VERSION_STRING})
+  ")
+
+  option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
+  if (fletch_BUILD_WITH_CUDNN)
+    set( CUDNN_TOOLKIT_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
+    mark_as_advanced( CUDNN_TOOLKIT_ROOT_DIR )
+    find_package( CUDNN QUIET REQUIRED)
+
+    file(APPEND ${fletch_CONFIG_INPUT} "
+########################################
+# CUDNN
+########################################
+set(CUDNN_TOOLKIT_ROOT_DIR    ${CUDNN_TOOLKIT_ROOT_DIR})
+set(fletch_BUILT_WITH_CUDNN TRUE)
+")
+
+  endif()
+elseif(fletch_BUILD_WITH_CUDNN)
+  unset(fletch_BUILD_WITH_CUDNN CACHE)
+  message(WARNING "Disabling fletch_BUILD_WITH_CUDNN, You must have fletch_BUILD_WITH_CUDA enabled for this to be enabled")
+endif()
+
 include(fletch-tarballs)
 include(ExternalProject)
 
-#+                                                                                                                                                                                                                     
-# Various packages that are not CMake-based need to use Make for their build                                                                                                                                           
-# steps. When we ourselves are using Make, we want to invoke it in the proper                                                                                                                                          
-# recursive manner via '$(MAKE)'; otherwise we need to use the actual                                                                                                                                                  
-# executable. Decide which, here, rather than replicating this logic all over                                                                                                                                          
-# the place.                                                                                                                                                                                                           
-#-                                      
-set(fletch_requires_make)                                                                                                                                                                                          
-macro(Fletch_Require_Make)                                                                                                                                                                                          
-    list(APPEND fletch_requires_make ${fletch_current_package})                                                                                                                                                  
-endmacro()                                                                                                                                                                                                             
+#+
+# Various packages that are not CMake-based need to use Make for their build
+# steps. When we ourselves are using Make, we want to invoke it in the proper
+# recursive manner via '$(MAKE)'; otherwise we need to use the actual
+# executable. Decide which, here, rather than replicating this logic all over
+# the place.
+#-
+set(fletch_requires_make)
+macro(Fletch_Require_Make)
+  list(APPEND fletch_requires_make ${fletch_current_package})
+endmacro()
 
-if (CMAKE_GENERATOR MATCHES ".*Makefiles")                                                                                                                                                                              
-    set(MAKE_EXECUTABLE "$(MAKE)")                                                                                                                                                                                       
-elseif(NOT "#@$ENV{MAKE}" STREQUAL "#@")                                                                                                                                                                               
-    set(MAKE_EXECUTABLE $ENV{MAKE})                                                                                                                                                                                      
-else()                                                                                                                                                                                                                 
-    find_program(MAKE_EXECUTABLE make)                                                                                                                                                                                   
-endif()                            
+if (CMAKE_GENERATOR MATCHES ".*Makefiles")
+  set(MAKE_EXECUTABLE "$(MAKE)")
+elseif(NOT "#@$ENV{MAKE}" STREQUAL "#@")
+  set(MAKE_EXECUTABLE $ENV{MAKE})
+else()
+  find_program(MAKE_EXECUTABLE make)
+endif()
+
+# Passing down configuration types requires special formatting since it is a list
+string( REPLACE ";" "$<SEMICOLON>" CMAKE_SS_CONF_TYPES "${CMAKE_CONFIGURATION_TYPES}" )
+
+# Collect the set of common CMake args so we can push them to each project
+set (COMMON_CMAKE_ARGS
+  -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+  "-DCMAKE_CONFIGURATION_TYPES:STRING=${CMAKE_SS_CONF_TYPES}"
+  -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+  -DCMAKE_POLICY_DEFAULT_CMP0042=NEW
+  -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+  -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+  -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
+  -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
+  -DCMAKE_CXX_STANDARD:STRING=${fletch_CXX_STANDARD_VERSION}
+  )
 
 #
-#  Set up a download target
+#  Set up fletch targets
 #
 set_property(DIRECTORY PROPERTY EP_STEP_TARGETS download)
 foreach(source ${fletch_external_sources})
-  if (fletch_ENABLE_ALL_PACKAGES)
-	  set(fletch_ENABLE_${source} TRUE CACHE BOOL "" FORCE)
+
+  # fletch_ENABLE_ALL_PACKAGES will automatically enable all commonly used packages
+  # Avoid building unused packages by adding an _experimental flag in CMake/fletch-tarballs.cmake
+  # For example, "set(ITK_experimental TRUE)" to avoid building ITK
+  if (fletch_ENABLE_ALL_PACKAGES  AND NOT ${source}_experimental)
+    set(fletch_ENABLE_${source} TRUE CACHE BOOL "" FORCE)
   endif()
 
   if(fletch_ENABLE_${source})
@@ -174,8 +291,31 @@ foreach(source ${fletch_external_sources})
     # Workaround for a bug in Visual Studio generators
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
     set_target_properties(${source}-download PROPERTIES EXCLUDE_FROM_ALL True)
-  endif()
 
+    # Add the ${source}-install as a target to build to fletch-build-install
+    # if it exists
+    if (TARGET ${source}-install)
+      add_dependencies(fletch-build-install ${source}-install)
+      add_custom_command(TARGET fletch-build-install
+        COMMAND ${CMAKE_COMMAND} --build ${fletch_BINARY_DIR} --target ${source}-install
+        )
+      set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
+      set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_ALL True)
+    endif()
+
+    # append the value of any existing variable suffixed with _SELECT_VERSION
+    set(select_version_key ${source}_SELECT_VERSION)
+    set(select_version_val ${${select_version_key}})
+    if(select_version_val)
+      file(APPEND ${fletch_CONFIG_INPUT} "set(${select_version_key} ${select_version_val})")
+    endif()
+  endif()
+endforeach()
+
+# Setup fletch-build-install target
+get_property(fletch_INSTALL_STAMP_FILES GLOBAL PROPERTY fletch_INSTALL_STAMP_FILES)
+foreach(install_stamp_file ${fletch_INSTALL_STAMP_FILES})
+  remove_file_before(TARGET fletch-build-install FILE ${install_stamp_file})
 endforeach()
 
 #+
@@ -184,12 +324,13 @@ endforeach()
 #-
 set(fletch_ENABLE_ALL_PACKAGES FALSE CACHE BOOL "" FORCE)
 
-if (NOT "#@${fletch_requires_make}" STREQUAL "#@")                                                                                                                                                                  
-    if (NOT MAKE_EXECUTABLE)                                                                                                                                                                                              
-        message(FATAL_ERROR "Could not find 'make', required to build ${fletch_requires_make}.")                                                                                                                       
-    endif()                                                                                                                                                                                                              
-endif()                                                                                                                                                                                                                
-                                      
+if (NOT "#@${fletch_requires_make}" STREQUAL "#@")
+  if (NOT MAKE_EXECUTABLE)
+    message(FATAL_ERROR "Could not find 'make', required to build ${fletch_requires_make}.")
+  endif()
+endif()
 
 configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
 
+# Last step, prepare install of fletch.
+include(${fletch_SOURCE_DIR}/CMake/fletch-install.cmake)

@@ -9,10 +9,8 @@ ExternalProject_Add(ZLib
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=ON
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
 )
 
 if(WIN32)
@@ -33,12 +31,14 @@ elseif(NOT APPLE)
     )
 endif()
 
+fletch_external_project_force_install(PACKAGE ZLib STEP_NAMES install fixup-install)
+
 set(ZLIB_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # ZLib
 ########################################
-set(ZLIB_ROOT @ZLIB_ROOT@)
+set(ZLIB_ROOT \${fletch_ROOT})
 
 set(fletch_ENABLED_ZLib TRUE)
 ")

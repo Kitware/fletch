@@ -1,21 +1,32 @@
 # The Qt external project for fletch
 
-option(BUILD_QT_WEBKIT "Should the Qt Webkit module be built?" FALSE)
-if(BUILD_QT_WEBKIT)
-  set(Qt_args_webkit "-webkit")
+option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
+
+if(BUILD_Qt_MINIMAL)
+  set(Qt_args_package -no-webkit)
 else()
-  set(Qt_args_webkit "-no-webkit")
+  set(Qt_args_package -webkit)
 endif()
 
-if (CMAKE_BUILD_TYPE)
+if(CMAKE_BUILD_TYPE)
   string(TOLOWER "${CMAKE_BUILD_TYPE}" QT_BUILD_TYPE)
   if(QT_BUILD_TYPE STREQUAL "debug")
     set(Qt_args_build_type "-debug")
   else()
     set(Qt_args_build_type "-release")
   endif()
+elseif(CMAKE_CONFIGURATION_TYPES)
+  string(TOLOWER "${CMAKE_CONFIGURATION_TYPES}" QT_CONF_TYPE)
+  if(QT_CONF_TYPE STREQUAL "debug")
+    set(Qt_args_build_type "-debug")
+  elseif(QT_CONF_TYPE STREQUAL "release")
+    set(Qt_args_build_type "-release")
+  else()
+    # Common Visual Studio option, allows user to change selector.
+    set(Qt_args_build_type "-debug-and-release")
+  endif()
 else()
-  # Multi-configuration projects. Build debug AND release to be safe
+  # Unknown-configuration projects. Build debug AND release to be safe.
   set(Qt_args_build_type "-debug-and-release")
 endif()
 
@@ -86,20 +97,27 @@ if(WIN32)
   # multi-thread builds can intermittantly fail.  Essentially during the install
   # step different targets will check if a directory exists and call MD when it doesn't.
   # On windows if the race is a tie and two threads see that the directory doesn't exist,
-  # the second thread will error out because MD fails if the directory exists.  A 
+  # the second thread will error out because MD fails if the directory exists.  A
   # Work around is to turn off multi threaded builds for install:
   set(Qt_install_cmd ${JOM_EXE} -j1 install)
   set(Qt_configure configure.exe)
+  #We have some trouble determining the correct platform for VS2013 and VS2017
   if(MSVC12)
-    #We have some trouble determining the correct platform for VS2013
     list(APPEND Qt_args_arch -platform win32-msvc2013)
+  elseif(MSVC AND NOT MSVC_VERSION LESS 1910)
+    list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
   endif()
 else()
-  option(BUILD_QT_JAVASCRIPTJIT "Should the Qt Javascript JIT module be built?" FALSE)
-  if(BUILD_QT_JAVASCRIPTJIT)
-    set(Qt_args_javascriptjit "-javascript-jit")
+  if(BUILD_Qt_MINIMAL)
+    list(APPEND Qt_args_package -no-javascript-jit -no-script -no-scripttools)
   else()
-    set(Qt_args_javascriptjit "-no-javascript-jit")
+    set(Qt_args_package -javascript-jit -script -scripttools)
+  endif()
+  # If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
+  # until the build is fixed.
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
+    set(BUILD_Qt_MINIMAL TRUE CACHE BOOL "" FORCE)
+    message(STATUS "disabling script for GNU 6.0")
   endif()
 
   Fletch_Require_Make()
@@ -115,6 +133,10 @@ else()
     #For reference, see http://qt-project.org/doc/qt-4.8/debug.html
     set(Qt_args_framework "-no-framework")
     set(Qt_args_arch -arch x86_64 -cocoa)
+    if(NOT (CMAKE_SYSTEM_VERSION VERSION_LESS "16"))
+      # Phonon is broken on macOS 10.12+ (Darwin 16+) due to QTKit.framework being removed.
+      list(APPEND Qt_args_other -no-phonon)
+    endif()
   elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     # Create a spec file for gcc44 on RHEL5
     if(CMAKE_C_COMPILER MATCHES "gcc44" OR CMAKE_CXX_COMPILER MATCHES "g\\+\\+44")
@@ -129,7 +151,7 @@ else()
   endif()
 endif()
 
-set(Qt_configure ${Qt_configure}
+list( APPEND Qt_configure
   -prefix ${fletch_BUILD_INSTALL_PREFIX}
   -docdir ${fletch_BUILD_INSTALL_PREFIX}/share/doc/qt4-${Qt_version}
   -datadir ${fletch_BUILD_INSTALL_PREFIX}/lib/qt4
@@ -138,8 +160,7 @@ set(Qt_configure ${Qt_configure}
   -opensource -confirm-license -fast
   -nomake examples -nomake demos -nomake translations -nomake linguist
   ${Qt_args_build_type}
-  ${Qt_args_webkit}
-  ${Qt_args_javascriptjit}
+  ${Qt_args_package}
   ${Qt_args_arch}
   ${Qt_args_jpeg}
   ${Qt_args_zlib}
@@ -175,6 +196,8 @@ ExternalProject_Add(Qt
   )
 add_dependencies(Download Qt-download)
 
+fletch_external_project_force_install(PACKAGE Qt)
+
 set(QT_QMAKE_EXECUTABLE ${fletch_BUILD_INSTALL_PREFIX}/bin/qmake
   CACHE FILEPATH "" FORCE )
 
@@ -182,7 +205,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Qt
 ########################################
-set(QT_QMAKE_EXECUTABLE @QT_QMAKE_EXECUTABLE@)
+set(QT_QMAKE_EXECUTABLE \${fletch_ROOT}/bin/qmake)
 
 set(fletch_ENABLED_Qt TRUE)
 ")

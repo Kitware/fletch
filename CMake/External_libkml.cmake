@@ -28,6 +28,7 @@ ExternalProject_Add(libkml
   DEPENDS ${_KML_DEPENDS}
   URL ${libkml_url}
   URL_MD5 ${libkml_md5}
+  DOWNLOAD_NAME ${libkml_dlname}
   PREFIX  ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
@@ -37,25 +38,25 @@ ExternalProject_Add(libkml
     -P ${fletch_SOURCE_DIR}/Patches/libkml/Patch.cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    ${COMMON_CMAKE_ARGS}
     ${libkml_use_external_expat}
     ${libkml_use_external_boost}
 )
 
+fletch_external_project_force_install(PACKAGE libkml)
+
 set(LIBKML_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "" FORCE)
+set(LIBKML_DIR "${LIBKML_ROOT}/lib/cmake" CACHE PATH "" FORCE)
 set(LIBKML_LIBNAME kml)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # libkml
 ########################################
-set(LIBKML_ROOT    @LIBKML_ROOT@)
+set(LIBKML_ROOT    \${fletch_ROOT})
+set(LIBKML_DIR     \${fletch_ROOT}/lib/cmake)
 set(LIBKML_LIBNAME @LIBKML_LIBNAME@)
 
-set(fletch_ENABLED_libml TRUE)
+set(fletch_ENABLED_libkml TRUE)
 ")
 

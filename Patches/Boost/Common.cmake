@@ -27,8 +27,10 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES PGI)
   set(BOOST_TOOLSET pgi)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 19)
-    set(BOOST_TOOLSET msvc)
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 19.10)
+    set(BOOST_TOOLSET msvc-14.1)
+  elseif(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 19)
+    set(BOOST_TOOLSET msvc-14.0)
   elseif(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 18)
     set(BOOST_TOOLSET msvc-12.0)
   elseif(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 17)
@@ -50,12 +52,7 @@ else()
   message(FATAL_ERROR "Unsupported compiler ${CMAKE_CXX_COMPILER_ID} on ${CMAKE_SYSTEM_NAME}")
 endif()
 
-# Windows needs to be static only right now
-if(WIN32)
-  list(APPEND B2_FLAVOR_ARGS link=static)
-else()
-  list(APPEND B2_FLAVOR_ARGS link=shared)
-endif()
+list(APPEND B2_FLAVOR_ARGS link=shared)
 
 # 32 or 64 bit
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
@@ -70,7 +67,7 @@ list(APPEND B2_FLAVOR_ARGS runtime-link=shared)
 # Always build with multi-threading support
 list(APPEND B2_FLAVOR_ARGS threading=multi)
 
-if (NOT FLETCH_BUILD_WITH_PYTHON)
+if (NOT fletch_BUILD_WITH_PYTHON)
   # Keeps BCP from trying to build Python anyway
   set(_fletch_boost_python_arg "--without-python")
 endif()

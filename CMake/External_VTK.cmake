@@ -100,8 +100,8 @@ endif()
 # VTK doesn't accept PROJ4 that have include files that are called differently
 # than lib_proj.h.
 if(fletch_ENABLE_PROJ4)
-  message(STATUS "VTK will not build against this project PROJ4."
-    "VTK doesn't accept PROJ4 that have include files that are called differently"
+  message(STATUS "VTK will not build against this project PROJ4. "
+    "VTK doesn't accept PROJ4 that have include files that are named differently "
     "than lib_proj.h.")
 endif()
 set(vtk_cmake_args ${vtk_cmake_args}
@@ -132,10 +132,9 @@ add_package_dependency(
   PACKAGE_DEPENDENCY_ALIAS TIFF
 )
 if(NOT TIFF_FOUND)
-  # Libtiff is always libtiff, even on windows !
   get_system_libary_vars(prefix extension)
   set(TIFF_INCLUDE_DIR ${install_include_dir})
-  set(TIFF_LIBRARY ${install_library_dir}/libtiff.${extension})
+  set(TIFF_LIBRARY ${install_library_dir}/${prefix}tiff.${extension})
 endif()
 set(vtk_cmake_args ${vtk_cmake_args}
   -DVTK_USE_SYSTEM_TIFF:BOOL=ON
@@ -160,19 +159,29 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # PYTHON
-if (FLETCH_BUILD_WITH_PYTHON)
-    find_package(PythonInterp)
-    find_package(PythonLibs)
+if (fletch_BUILD_WITH_PYTHON AND NOT MSVC14 )
+  find_package(PythonInterp)
+  find_package(PythonLibs)
 
-    if(PythonInterp_FOUND AND PythonLibs_FOUND)
-      set(VTK_WRAP_PYTHON ON)
-      message(STATUS "VTK building with python support")
-    else()
-      set(VTK_WRAP_PYTHON OFF)
-      message(WARNING "VTK building without python support. Python NOT found.")
-    endif()
-    else()
+  if(PythonInterp_FOUND AND PythonLibs_FOUND)
+    set(VTK_WRAP_PYTHON ON)
+    message(STATUS "VTK building with python support")
+  else()
     set(VTK_WRAP_PYTHON OFF)
+    message(WARNING "VTK building without python support. Python NOT found.")
+  endif()
+elseif(fletch_BUILD_WITH_PYTHON AND MSVC14)
+  message(WARNING "VTK Python will not build correctly on Visual Studio 2015. VTK 7.0 of higher is required.")
+endif()
+
+if (fletch_ENABLE_VTK AND VTK_WRAP_PYTHON AND VTK_SELECT_VERSION VERSION_LESS 7.0.0)
+  if (NOT fletch_PYTHON_MAJOR_VERSION VERSION_LESS 3)
+    if (fletch_BUILD_WITH_PYTHON)
+      message(WARNING "Enabling Python 3 in VTK requires VTK 7.0 or greater")
+    endif()
+    # Enabling Python 3 in VTK requires VTK 7.0 or greater
+    set(VTK_WRAP_PYTHON OFF)
+  endif()
 endif()
 
 #
@@ -186,13 +195,25 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DVTK_Group_StandAlone:BOOL=ON
   -DVTK_Group_Views:BOOL=ON
   -DVTK_WRAP_PYTHON:BOOL=${VTK_WRAP_PYTHON}
-  -DVTK_DEBUG_LEAKS:BOOL=ON
+  -DVTK_DEBUG_LEAKS:BOOL=OFF
   -DVTK_REQUIRED_OBJCXX_FLAGS:STRING=""
   -DVTK_GROUP_WEB:BOOL=OFF
+  -DVTK_PYTHON_VERSION=${fletch_PYTHON_MAJOR_VERSION}
   -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
   -DPYTHON_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
   -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
   )
+
+
+set (VTK_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/VTK/${VTK_SELECT_VERSION})
+if (EXISTS ${VTK_PATCH_DIR})
+  set(VTK_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DVTK_PATCH_DIR=${VTK_PATCH_DIR}
+    -DVTK_SOURCE_DIR=${fletch_BUILD_PREFIX}/src/VTK
+    -P ${VTK_PATCH_DIR}/Patch.cmake)
+else()
+  set(VTK_PATCH_COMMAND "")
+endif()
 
 ExternalProject_Add(VTK
   DEPENDS ${VTK_DEPENDS}
@@ -201,25 +222,23 @@ ExternalProject_Add(VTK
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DVTK_PATCH_DIR=${fletch_SOURCE_DIR}/Patches/VTK
-    -DVTK_SOURCE_DIR=${fletch_BUILD_PREFIX}/src/VTK
-    -P ${fletch_SOURCE_DIR}/Patches/VTK/Patch.cmake
+  PATCH_COMMAND ${VTK_PATCH_COMMAND}
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    ${COMMON_CMAKE_ARGS}
     ${vtk_cmake_args}
 )
 
+fletch_external_project_force_install(PACKAGE VTK)
+
 set(VTK_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
+set(VTK_DIR "${VTK_ROOT}/lib/cmake/vtk-${VTK_version}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # VTK
 ########################################
-set(VTK_ROOT @VTK_ROOT@)
+set(VTK_ROOT \${fletch_ROOT})
+set(VTK_DIR \${fletch_ROOT}/lib/cmake/vtk-${VTK_version})
 
 set(fletch_ENABLED_VTK TRUE)
 ")

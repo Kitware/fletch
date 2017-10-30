@@ -10,6 +10,10 @@ ExternalProject_Add(libxml2
   URL_MD5 ${libxml2_md5}
   PREFIX  ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+    PATCH_COMMAND ${CMAKE_COMMAND}
+        -Dlibxml2_patch:PATH=${fletch_SOURCE_DIR}/Patches/libxml2
+        -Dlibxml2_source:PATH=${fletch_BUILD_PREFIX}/src/libxml2
+        -P ${fletch_SOURCE_DIR}/Patches/libxml2/Patch.cmake
   INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ./configure
@@ -19,6 +23,8 @@ ExternalProject_Add(libxml2
   INSTALL_COMMAND ${MAKE_EXECUTABLE} install
 )
 
+fletch_external_project_force_install(PACKAGE libxml2)
+
 set(LIBXML2_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 set(LIBXML2_LIBNAME xml2)
 
@@ -26,7 +32,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # libxml2
 ########################################
-set(LIBXML2_ROOT    @LIBXML2_ROOT@)
+set(LIBXML2_ROOT    \${fletch_ROOT})
 set(LIBXML2_LIBNAME @LIBXML2_LIBNAME@)
 
 set(fletch_ENABLED_libxml2 TRUE)

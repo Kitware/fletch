@@ -19,12 +19,11 @@ ExternalProject_Add(libjson
     -P ${fletch_SOURCE_DIR}/Patches/libjson/Patch.cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+    ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=${json_build_shared}
-    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
 )
+
+fletch_external_project_force_install(PACKAGE libjson)
 
 set(LIBJSON_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 set(LIBJSON_LIBNAME json)
@@ -33,7 +32,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # libjson
 ########################################
-set(LIBJSON_ROOT    @LIBJSON_ROOT@)
+set(LIBJSON_ROOT    \${fletch_ROOT})
 set(LIBJSON_LIBNAME @LIBJSON_LIBNAME@)
 
 set(fletch_ENABLED_libjson TRUE)

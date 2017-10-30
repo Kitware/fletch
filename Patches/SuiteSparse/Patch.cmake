@@ -3,6 +3,14 @@
 # External_SuiteSparse.cmake.  It fixes the CMakeLists.txt to use find modules
 #-
 
-file(COPY ${SuiteSparse_patch}/CMakeLists.txt
-  DESTINATION ${SuiteSparse_source}
-)
+if (BUILD_CXSPARSE_ONLY)
+  file(COPY ${SuiteSparse_patch}/CMakeLists.txt
+    DESTINATION ${SuiteSparse_source}
+    )
+else()
+  configure_file(
+    ${SuiteSparse_patch}/SuiteSparse_config.mk
+    ${SuiteSparse_source}/SuiteSparse_config
+    @ONLY
+    )
+endif()

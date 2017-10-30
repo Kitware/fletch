@@ -64,23 +64,19 @@ ExternalProject_Add(libtiff
   # Build with cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+    ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=TRUE
-    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-    -DCMAKE_INSTALL_LIBDIR:PATH=${vision-tpl_BUILD_INSTALL_PREFIX}/lib
     ${libtiff_args}
   )
 
+fletch_external_project_force_install(PACKAGE libtiff)
 
 set(libtiff_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # libtiff
 ################################
-set(libtiff_ROOT @libtiff_ROOT@)
+set(libtiff_ROOT \${fletch_ROOT})
 
 set(fletch_ENABLED_libtiff TRUE)
 ")
