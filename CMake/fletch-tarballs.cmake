@@ -502,6 +502,13 @@ set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
 set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
 list(APPEND fletch_external_sources PyBind11)
 
+# YAMLcpp
+set(YAMLcpp_version "0.5.3")
+set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/release-${YAMLcpp_version}.tar.gz")
+set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
+set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
+list(APPEND fletch_external_sources YAMLcpp)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
