@@ -22,6 +22,10 @@ ExternalProject_Add(YAMLcpp
   PREFIX  ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    -DYAMLcpp_patch:PATH=${fletch_SOURCE_DIR}/Patches/YAMLcpp
+    -DYAMLcpp_source:PATH=${fletch_BUILD_PREFIX}/src/YAMLcpp
+    -P ${fletch_SOURCE_DIR}/Patches/YAMLcpp/Patch.cmake
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
@@ -33,7 +37,7 @@ ExternalProject_Add(YAMLcpp
 fletch_external_project_force_install(PACKAGE YAMLcpp)
 
 set(YAMLCPP_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "" FORCE)
-set(YAMLCPP_DIR "${LIBKML_ROOT}/lib/cmake" CACHE PATH "" FORCE)
+set(YAMLCPP_DIR "${YAMLCPP_ROOT}/lib/cmake" CACHE PATH "" FORCE)
 set(YAMLCPP_LIBNAME yaml-cpp)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
