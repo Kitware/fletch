@@ -311,11 +311,17 @@ export(
 export(PACKAGE yaml-cpp)
 set(EXPORT_TARGETS yaml-cpp CACHE INTERNAL "export targets")
 
-set(CONFIG_INCLUDE_DIRS "${YAML_CPP_SOURCE_DIR}/include")
+set(CONFIG_INCLUDE_DIRS "${INCLUDE_INSTALL_DIR}")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/yaml-cpp-config.cmake.in
 	"${PROJECT_BINARY_DIR}/yaml-cpp-config.cmake" @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/yaml-cpp-config-version.cmake.in
 	"${PROJECT_BINARY_DIR}/yaml-cpp-config-version.cmake" @ONLY)
+
+set(CMAKE_CONFIG_FILES
+       ${PROJECT_BINARY_DIR}/yaml-cpp-config.cmake
+       ${PROJECT_BINARY_DIR}/yaml-cpp-config-version.cmake
+       ${PROJECT_BINARY_DIR}/yaml-cpp-targets.cmake)
+install(FILES ${CMAKE_CONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/cmake)
 
 if(UNIX)
 	set(PC_FILE ${CMAKE_BINARY_DIR}/yaml-cpp.pc)
