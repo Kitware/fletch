@@ -34,6 +34,7 @@ endif()
 add_package_dependency(
   PACKAGE libgeotiff
   PACKAGE_DEPENDENCY PROJ4
+  OPTIONAL
 )
 
 # libgeotiff_WITH_* means it was either enabled or found. Dsicover which below.
