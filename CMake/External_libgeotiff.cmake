@@ -26,6 +26,10 @@ else()
   list(APPEND libgeotiff_pkg_args -DWITH_JPEG:BOOL=OFF)
 endif()
 
+if (NOT fletch_ENABLE_PROJ4)
+  message(FATAL " You must enable PROJ4 from fletch to build libgeotiff. There are issues with the system version")
+endif()
+
 # Proj4
 add_package_dependency(
   PACKAGE libgeotiff
