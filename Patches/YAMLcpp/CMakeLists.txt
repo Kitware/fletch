@@ -321,7 +321,7 @@ set(CMAKE_CONFIG_FILES
        ${PROJECT_BINARY_DIR}/yaml-cpp-config.cmake
        ${PROJECT_BINARY_DIR}/yaml-cpp-config-version.cmake
        ${PROJECT_BINARY_DIR}/yaml-cpp-targets.cmake)
-install(FILES ${CMAKE_CONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/cmake)
+install(FILES ${CMAKE_CONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/CMake)
 
 if(UNIX)
 	set(PC_FILE ${CMAKE_BINARY_DIR}/yaml-cpp.pc)

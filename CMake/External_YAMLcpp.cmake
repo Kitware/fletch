@@ -31,13 +31,14 @@ ExternalProject_Add(YAMLcpp
 fletch_external_project_force_install(PACKAGE YAMLcpp)
 
 set(YAMLCPP_ROOT ${fletch_BUILD_INSTALL_PREFIX})
+set(YAMLCPP_DIR ${fletch_BUILD_INSTALL_PREFIX}/CMake  CACHE STRING "" FORCE)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # YAMLcpp
 ########################################
-set(YAMPCPP_ROOT    \${YAMLCPP_ROOT})
-set(YAMLCPP_DIR     \${YAMLCPP_ROOT}/CMake)
+set(YAMLCPP_ROOT    \${YAMLCPP_ROOT})
+set(YAMLCPP_DIR     \${YAMLCPP_DIR}))
 
 set(fletch_ENABLED_YAMLCPP TRUE)
 ")
