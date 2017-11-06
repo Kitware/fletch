@@ -65,6 +65,10 @@ option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FA
 set(fletch_PYTHON_MAJOR_VERSION "2" CACHE STRING
     "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
+if(NOT _prev_fletch_pymajor_version)
+  set( _prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
+    "allows us to determine if the user changes python version")
+endif()
 
 if (fletch_BUILD_WITH_PYTHON)
 
