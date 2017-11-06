@@ -65,10 +65,6 @@ option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FA
 set(fletch_PYTHON_MAJOR_VERSION "2" CACHE STRING
     "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
-if(NOT _prev_fletch_pymajor_version)
-  set( _prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
-    "allows us to determine if the user changes python version")
-endif()
 
 if (fletch_BUILD_WITH_PYTHON)
 
@@ -87,6 +83,9 @@ if (fletch_BUILD_WITH_PYTHON)
     endif()
   endif()
 
+  # Make a copy so we can determine if the user changes python versions
+  set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
+    "allows us to determine if the user changes python version")
   if (fletch_PYTHON_MAJOR_VERSION STREQUAL "3")
     find_package(PythonInterp 3.4 REQUIRED)
     find_package(PythonLibs 3.4 REQUIRED)
@@ -109,10 +108,6 @@ if (fletch_BUILD_WITH_PYTHON)
   if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
     message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
   endif()
-
-  # Make a copy so we can determine if the user changes python versions
-  set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
-    "allows us to determine if the user changes python version")
 endif()
 
 #
