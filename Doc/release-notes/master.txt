@@ -11,7 +11,7 @@ Updates since v1.0.0
 New Packages
 
  * Added Caffe Segnet
- 
+
  * Added Darknet
 
  * Added PostgreSQL
@@ -69,6 +69,8 @@ Package Upgrades
 
 Fixes since v1.0.0
 ------------------
+
+ * Fix python version selection.
 
  * Allow GLog build on MSVC
 
