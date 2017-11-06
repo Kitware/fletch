@@ -316,9 +316,9 @@ set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
 list(APPEND fletch_external_sources PROJ4 )
 
 # libgeotiff
-set(libgeotiff_version "1.4.1")
+set(libgeotiff_version "1.4.2")
 set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
-set(libgeotiff_md5 "5ce69bd89fdc3be245bd118cf0bc71f1")
+set(libgeotiff_md5 "a7c7e11e301b7c17e44ea3107cd86e4e")
 list(APPEND fletch_external_sources libgeotiff)
 
 # GDAL
