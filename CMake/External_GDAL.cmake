@@ -156,6 +156,7 @@ else()
    set (GDAL_PKG_ARGS
      ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
      ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE} ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK}
+     --without-jasper
      )
 
    Fletch_Require_Make()
