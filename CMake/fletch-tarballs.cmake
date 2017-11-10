@@ -316,9 +316,9 @@ set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
 list(APPEND fletch_external_sources PROJ4 )
 
 # libgeotiff
-set(libgeotiff_version "1.4.1")
+set(libgeotiff_version "1.4.2")
 set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
-set(libgeotiff_md5 "5ce69bd89fdc3be245bd118cf0bc71f1")
+set(libgeotiff_md5 "a7c7e11e301b7c17e44ea3107cd86e4e")
 list(APPEND fletch_external_sources libgeotiff)
 
 # GDAL
@@ -500,8 +500,8 @@ endif()
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/download/darknet-1e3a9ceb.zip")
-set(Darknet_md5 "89fef1913972ec855c7b31a598c9c52f")
+set(Darknet_url "https://data.kitware.com/api/v1/file/59fb6e718d777f31ac6480fa/download/darknet-678f60dd.zip")
+set(Darknet_md5 "ee8e66b65914ee375a258b338b1a786a")
 list(APPEND fletch_external_sources Darknet)
 
 # PyBind11
@@ -510,6 +510,13 @@ set(PyBind11_url "https://github.com/pybind/pybind11/archive/v${PyBind11_version
 set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
 set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
 list(APPEND fletch_external_sources PyBind11)
+
+# YAMLcpp
+set(YAMLcpp_version "0.5.3")
+set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/release-${YAMLcpp_version}.tar.gz")
+set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
+set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
+list(APPEND fletch_external_sources YAMLcpp)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
