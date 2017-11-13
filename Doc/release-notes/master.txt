@@ -24,6 +24,7 @@ New Packages
 
  * Added GEOS version 3.4.2
 
+ * Added PostGIS version 2.1.8
 
 Package Upgrades
 
