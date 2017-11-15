@@ -72,6 +72,8 @@ Package Upgrades
 
  * Added option for Boost 1.64.1. The default is 1.55.0
 
+ * Added option to build GDAL 2.2.2
+
 Fixes since v1.0.0
 ------------------
 
