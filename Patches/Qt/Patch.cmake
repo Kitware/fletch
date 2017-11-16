@@ -19,6 +19,9 @@ file(COPY ${Qt_patch}/previewmanager.cpp
   DESTINATION ${Qt_source}/tools/designer/src/lib/shared/
   )
 
+file(COPY ${Qt_patch}/messagemodel.cpp
+  DESTINATION ${Qt_source}/tools/linguist/linguist/
+  )
 
 # Currently disabled as it seems to generate illegal opcodes with gcc44 on
 # SandyBridge CPUs and RHEL5
