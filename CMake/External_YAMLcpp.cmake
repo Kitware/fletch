@@ -37,8 +37,8 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # YAMLcpp
 ########################################
-set(YAMLCPP_ROOT    \${YAMLCPP_ROOT})
-set(YAMLCPP_DIR     \${YAMLCPP_DIR})
+set(YAMLCPP_ROOT    \${fletch_ROOT})
+set(YAMLCPP_DIR     \${fletch_DIR})
 
 set(fletch_ENABLED_YAMLCPP TRUE)
 ")
