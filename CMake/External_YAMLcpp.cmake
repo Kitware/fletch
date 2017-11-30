@@ -30,15 +30,23 @@ ExternalProject_Add(YAMLcpp
 
 fletch_external_project_force_install(PACKAGE YAMLcpp)
 
-set(YAMLCPP_ROOT ${fletch_BUILD_INSTALL_PREFIX})
-set(YAMLCPP_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/cmake  CACHE STRING "" FORCE)
+set(yaml-cpp_ROOT ${fletch_BUILD_INSTALL_PREFIX})
+if(WIN32 AND NOT CYGWIN)
+  set(yaml-cpp_DIR ${fletch_BUILD_INSTALL_PREFIX}/CMake  CACHE STRING "" FORCE)
+else()
+  set(yaml-cpp_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/yaml-cpp  CACHE STRING "" FORCE)
+endif()
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # YAMLcpp
 ########################################
-set(YAMLCPP_ROOT    \${fletch_ROOT})
-set(YAMLCPP_DIR     \${fletch_DIR}/lib/cmake)
+set(yaml-cpp_ROOT    \${fletch_ROOT})
+if(WIN32 AND NOT CYGWIN)
+  set(yaml-cpp_DIR     \${fletch_ROOT}/CMake)
+else()
+  set(yaml-cpp_DIR     \${fletch_ROOT}/lib/cmake/yaml-cpp)
+endif()
 
 set(fletch_ENABLED_YAMLCPP TRUE)
 ")
