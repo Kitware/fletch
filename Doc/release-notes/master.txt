@@ -77,6 +77,8 @@ Package Upgrades
 Fixes since v1.0.0
 ------------------
 
+ * Fix python version selection.
+
  * Allow GLog build on MSVC
 
  * Associated the patches of ffmpeg with specific versions
