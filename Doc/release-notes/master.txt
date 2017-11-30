@@ -26,6 +26,8 @@ New Packages
 
  * Added PostGIS version 2.1.8
 
+ * Added GDAL 1.11.5
+
 Package Upgrades
 
  * Upgrade libgeotiff to version 1.4.2
@@ -69,6 +71,8 @@ Package Upgrades
  * Added experimental support for Python 3
 
  * Added option for Boost 1.64.1. The default is 1.55.0
+
+ * Added option to build GDAL 2.2.2
 
 Fixes since v1.0.0
 ------------------

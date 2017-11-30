@@ -1,3 +1,14 @@
+
+# If a patch file exists for this version, apply it
+set (GDAL_patch ${fletch_SOURCE_DIR}/Patches/GDAL/${GDAL_SELECT_VERSION})
+if (EXISTS ${GDAL_patch})
+  set(GDAL_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DGDAL_patch:PATH=${GDAL_patch}
+    -DGDAL_source:PATH=${fletch_BUILD_PREFIX}/src/GDAL
+    -P ${GDAL_patch}/Patch.cmake
+    )
+endif()
+
 if (WIN32)
   set (_gdal_msvc_version )
   if (MSVC60)
@@ -65,13 +76,8 @@ if (WIN32)
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
-    PATCH_COMMAND ${CMAKE_COMMAND}
-      -DGDAL_patch:PATH=${fletch_SOURCE_DIR}/Patches/GDAL
-      -DGDAL_source:PATH=${fletch_BUILD_PREFIX}/src/GDAL
-      -P ${fletch_SOURCE_DIR}/Patches/GDAL/Patch.cmake
-
+    PATCH_COMMAND ${GDAL_PATCH_COMMAND}
     CONFIGURE_COMMAND ""
-
     BUILD_COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS}
     INSTALL_COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} install
     COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} devinstall
@@ -168,10 +174,7 @@ else()
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
-    PATCH_COMMAND ${CMAKE_COMMAND}
-      -DGDAL_patch:PATH=${fletch_SOURCE_DIR}/Patches/GDAL
-      -DGDAL_source:PATH=${fletch_BUILD_PREFIX}/src/GDAL
-      -P ${fletch_SOURCE_DIR}/Patches/GDAL/Patch.cmake
+    PATCH_COMMAND ${GDAL_PATCH_COMMAND}
     CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
     BUILD_COMMAND ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ${MAKE_EXECUTABLE} ${_GDAL_PY_HAVE_SETUPTOOLS_ARG}
     INSTALL_COMMAND ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ${MAKE_EXECUTABLE} ${_GDAL_PY_HAVE_SETUPTOOLS_ARG} install
