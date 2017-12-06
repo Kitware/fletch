@@ -1,5 +1,4 @@
 # libjpeg-turbo External project
-
 include(External_yasm)
 list(APPEND libjpeg-turbo_DEPENDS yasm)
 
@@ -79,7 +78,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # libjpeg-turbo
 ################################
 set(libjpeg-turbo_ROOT \${fletch_ROOT})
-
-
 set(fletch_ENABLED_libjpeg-turbo TRUE)
 ")
