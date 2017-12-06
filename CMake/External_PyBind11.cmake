@@ -12,6 +12,8 @@ ExternalProject_Add(PyBind11
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
+    # PYTHON_EXECUTABLE addded to cover when it's installed in nonstandard loc.
+    -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
     -DPYBIND11_TEST:BOOL=OFF # To remove dependencies; build can still be tested manually
   )
 
