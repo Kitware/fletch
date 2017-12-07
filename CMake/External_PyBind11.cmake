@@ -2,6 +2,10 @@ if (NOT fletch_BUILD_CXX11)
   message(FATAL_ERROR "CXX11 must be enabled to use PyBind11")
 endif()
 
+if (PYTHON_EXECUTABLE)
+  set(PyBind_PYTHON_ARGS -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE})
+endif()
+
 ExternalProject_Add(PyBind11
   URL ${PyBind11_url}
   URL_MD5 ${PyBind11_md5}
@@ -13,7 +17,8 @@ ExternalProject_Add(PyBind11
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     # PYTHON_EXECUTABLE addded to cover when it's installed in nonstandard loc.
-    -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
+    # But don't pass if python isn't enabled. It will prevent PyBind from finding it.
+    ${PyBind_PYTHON_ARGS}
     -DPYBIND11_TEST:BOOL=OFF # To remove dependencies; build can still be tested manually
   )
 
