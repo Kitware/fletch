@@ -42,3 +42,7 @@ file(COPY ${OpenCV_patch}/cv2.cpp
 file(COPY ${OpenCV_patch}/FindCUDA.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
+
+file(COPY ${OpenCV_patch}/saturate_cast.hpp
+  DESTINATION ${OpenCV_source}/modules/cudev/include/opencv2/cudev/util
+)
