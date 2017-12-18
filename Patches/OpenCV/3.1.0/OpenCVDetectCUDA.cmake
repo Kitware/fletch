@@ -121,21 +121,16 @@ if(CUDA_FOUND)
   # Tell NVCC to add binaries for the specified GPUs
   string(REGEX MATCHALL "[0-9()]+" ARCH_LIST "${ARCH_BIN_NO_POINTS}")
   foreach(ARCH IN LISTS ARCH_LIST)
-
-    if (CUDA_VERSION VERSION_GREATER "9")
-      if (${ARCH} STRGREATER "20" AND NOT ${ARCH} STREQUAL "21(20)")
-        if(ARCH MATCHES "([0-9]+)\\(([0-9]+)\\)")
-          # User explicitly specified PTX for the concrete BIN
-          set(NVCC_FLAGS_EXTRA ${NVCC_FLAGS_EXTRA} -gencode arch=compute_${CMAKE_MATCH_2},code=sm_${CMAKE_MATCH_1})
-          set(OPENCV_CUDA_ARCH_BIN "${OPENCV_CUDA_ARCH_BIN} ${CMAKE_MATCH_1}")
-          set(OPENCV_CUDA_ARCH_FEATURES "${OPENCV_CUDA_ARCH_FEATURES} ${CMAKE_MATCH_2}")
-        else()
-          # User didn't explicitly specify PTX for the concrete BIN, we assume PTX=BIN
-          set(NVCC_FLAGS_EXTRA ${NVCC_FLAGS_EXTRA} -gencode arch=compute_${ARCH},code=sm_${ARCH})
-          set(OPENCV_CUDA_ARCH_BIN "${OPENCV_CUDA_ARCH_BIN} ${ARCH}")
-          set(OPENCV_CUDA_ARCH_FEATURES "${OPENCV_CUDA_ARCH_FEATURES} ${ARCH}")
-        endif()
-      endif()
+    if(ARCH MATCHES "([0-9]+)\\(([0-9]+)\\)")
+      # User explicitly specified PTX for the concrete BIN
+      set(NVCC_FLAGS_EXTRA ${NVCC_FLAGS_EXTRA} -gencode arch=compute_${CMAKE_MATCH_2},code=sm_${CMAKE_MATCH_1})
+      set(OPENCV_CUDA_ARCH_BIN "${OPENCV_CUDA_ARCH_BIN} ${CMAKE_MATCH_1}")
+      set(OPENCV_CUDA_ARCH_FEATURES "${OPENCV_CUDA_ARCH_FEATURES} ${CMAKE_MATCH_2}")
+    else()
+      # User didn't explicitly specify PTX for the concrete BIN, we assume PTX=BIN
+      set(NVCC_FLAGS_EXTRA ${NVCC_FLAGS_EXTRA} -gencode arch=compute_${ARCH},code=sm_${ARCH})
+      set(OPENCV_CUDA_ARCH_BIN "${OPENCV_CUDA_ARCH_BIN} ${ARCH}")
+      set(OPENCV_CUDA_ARCH_FEATURES "${OPENCV_CUDA_ARCH_FEATURES} ${ARCH}")
     endif()
   endforeach()
 
