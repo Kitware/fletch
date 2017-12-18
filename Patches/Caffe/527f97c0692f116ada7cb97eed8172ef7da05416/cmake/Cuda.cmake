@@ -4,7 +4,10 @@ endif()
 
 # Known NVIDIA GPU achitectures Caffe can be compiled for.
 # This list will be used for CUDA_ARCH_NAME = All option
-set(Caffe_known_gpu_archs "20 21(20) 30 35 50")
+if (CUDA_VERSION VERSION_LESS 9.0)
+  list(APPEND Caffe_known_gpu_archs "20 21(20)")
+endif()
+list(APPEND Caffe_known_gpu_archs "30 35 50 60 61")
 
 ################################################################################################
 # A function for automatic detection of GPUs installed  (if autodetection is enabled)
