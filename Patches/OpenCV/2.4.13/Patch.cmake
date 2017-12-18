@@ -36,3 +36,8 @@ file(COPY ${OpenCV_patch}/graphcuts.cpp
 file(COPY ${OpenCV_patch}/cv2.cpp
   DESTINATION ${OpenCV_source}/modules/python/src2/
 )
+
+# Patch FindCUDA to split out nppi libraries
+file(COPY ${OpenCV_patch}/FindCUDA.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)

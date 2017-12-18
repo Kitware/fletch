@@ -522,6 +522,18 @@ macro(cuda_unset_include_and_libraries)
   unset(CUDA_npp_LIBRARY CACHE)
   unset(CUDA_nppc_LIBRARY CACHE)
   unset(CUDA_nppi_LIBRARY CACHE)
+
+  unset(CUDA_nppial_LIBRARY CACHE)
+  unset(CUDA_nppicc_LIBRARY CACHE)
+  unset(CUDA_nppicom_LIBRARY CACHE)
+  unset(CUDA_nppidei_LIBRARY CACHE)
+  unset(CUDA_nppif_LIBRARY CACHE)
+  unset(CUDA_nppig_LIBRARY CACHE)
+  unset(CUDA_nppim_LIBRARY CACHE)
+  unset(CUDA_nppist_LIBRARY CACHE)
+  unset(CUDA_nppisu_LIBRARY CACHE)
+  unset(CUDA_nppitc_LIBRARY CACHE)
+
   unset(CUDA_npps_LIBRARY CACHE)
   unset(CUDA_nvcuvenc_LIBRARY CACHE)
   unset(CUDA_nvcuvid_LIBRARY CACHE)
@@ -685,6 +697,9 @@ macro(cuda_find_library_local_first_with_path_ext _var _names _doc _path_ext )
     # and old paths.
     set(_cuda_64bit_lib_dir "${_path_ext}lib/x64" "${_path_ext}lib64" "${_path_ext}libx64" )
   endif()
+  if(CMAKE_CROSSCOMPILING AND (ARM OR AARCH64))
+    set(_cuda_cross_arm_lib_dir "${_path_ext}lib/stubs")
+  endif()
   if(CUDA_VERSION VERSION_GREATER "6.0")
     set(_cuda_static_lib_names "")
     foreach(name ${_names})
@@ -698,7 +713,7 @@ macro(cuda_find_library_local_first_with_path_ext _var _names _doc _path_ext )
     PATHS "${CUDA_TOOLKIT_TARGET_DIR}" "${CUDA_TOOLKIT_ROOT_DIR}"
     ENV CUDA_PATH
     ENV CUDA_LIB_PATH
-    PATH_SUFFIXES ${_cuda_64bit_lib_dir} "${_path_ext}lib/Win32" "${_path_ext}lib" "${_path_ext}libWin32"
+    PATH_SUFFIXES ${_cuda_64bit_lib_dir} ${_cuda_cross_arm_lib_dir} "${_path_ext}lib/Win32" "${_path_ext}lib" "${_path_ext}libWin32"
     DOC ${_doc}
     NO_DEFAULT_PATH
     )
@@ -784,7 +799,22 @@ if(NOT CUDA_VERSION VERSION_LESS "3.2")
     find_cuda_helper_libs(nvcuvid)
   endif()
 endif()
-if(CUDA_VERSION VERSION_GREATER "5.0")
+if(CUDA_VERSION VERSION_GREATER "7.5")
+  # In CUDA 8.0 NPP was splitted onto 12 separate libraries.
+  find_cuda_helper_libs(nppc)
+  find_cuda_helper_libs(nppial)
+  find_cuda_helper_libs(nppic)
+  find_cuda_helper_libs(nppicom)
+  find_cuda_helper_libs(nppidei)
+  find_cuda_helper_libs(nppif)
+  find_cuda_helper_libs(nppig)
+  find_cuda_helper_libs(nppim)
+  find_cuda_helper_libs(nppist)
+  find_cuda_helper_libs(nppisu)
+  find_cuda_helper_libs(nppitc)
+  find_cuda_helper_libs(npps)
+  set(CUDA_npp_LIBRARY "${CUDA_nppc_LIBRARY};${CUDA_nppial_LIBRARY};${CUDA_nppicc_LIBRARY};${CUDA_nppicom_LIBRARY};${CUDA_nppidei_LIBRARY};${CUDA_nppif_LIBRARY};${CUDA_nppig_LIBRARY};${CUDA_nppim_LIBRARY};${CUDA_nppist_LIBRARY};${CUDA_nppisu_LIBRARY};${CUDA_nppitc_LIBRARY};${CUDA_npps_LIBRARY}")
+elseif(CUDA_VERSION VERSION_GREATER "5.0")
   # In CUDA 5.5 NPP was splitted onto 3 separate libraries.
   find_cuda_helper_libs(nppc)
   find_cuda_helper_libs(nppi)
