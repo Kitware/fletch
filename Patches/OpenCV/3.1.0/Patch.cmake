@@ -43,6 +43,7 @@ file(COPY ${OpenCV_patch}/FindCUDA.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
 
-file(COPY ${OpenCV_patch}/saturate_cast.hpp
-  DESTINATION ${OpenCV_source}/modules/cudev/include/opencv2/cudev/util
+# Patch OpenCVDetectCUDA to stop compute_20 in CUDA 9
+file(COPY ${OpenCV_patch}/OpenCVDetectCUDA.cmake
+  DESTINATION ${OpenCV_source}/cmake
 )
