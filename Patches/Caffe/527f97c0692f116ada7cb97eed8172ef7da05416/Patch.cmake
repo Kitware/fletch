@@ -27,7 +27,7 @@ if(WIN32)
     ${Caffe_source}/
     )
   file(COPY
-    ${Caffe_patch}/Dependencies.cmake
+    ${Caffe_patch}/cmake/Cuda.cmake
     DESTINATION
     ${Caffe_source}/cmake/
     )
