@@ -25,3 +25,7 @@ file(COPY ${OpenCV_contrib_patch}/hdf/hdf5.cpp
 file(COPY ${OpenCV_contrib_patch}/sfm/src/libmv_light/libmv/multiview/CMakeLists.txt
   DESTINATION ${OpenCV_contrib_source}/modules/sfm/src/libmv_light/libmv/multiview/
 )
+
+file(COPY ${OpenCV_contrib_patch}/modules/xobjdetect/tools/waldboost_detector/CMakeLists.txt
+  DESTINATION ${OpenCV_contrib_source}/modules/xobjdetect/tools/waldboost_detector/
+)

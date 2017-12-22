@@ -37,3 +37,14 @@ file(COPY ${OpenCV_patch}/OpenCVModule.cmake
 file(COPY ${OpenCV_patch}/cv2.cpp
   DESTINATION ${OpenCV_source}/modules/python/src2
 )
+
+# Set link-directories fo 3 executables that have trouble finding FFmpeg
+file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/annotation
+)
+file(COPY ${OpenCV_patch}/apps/createsamples/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/createsamples
+)
+file(COPY ${OpenCV_patch}/apps/traincascade/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/traincascade
+)
