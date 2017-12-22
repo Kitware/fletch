@@ -804,7 +804,7 @@ if(CUDA_VERSION VERSION_GREATER "7.5")
   # In CUDA 8.0 NPP was splitted onto 12 separate libraries.
   find_cuda_helper_libs(nppc)
   find_cuda_helper_libs(nppial)
-  find_cuda_helper_libs(nppic)
+  find_cuda_helper_libs(nppicc)
   find_cuda_helper_libs(nppicom)
   find_cuda_helper_libs(nppidei)
   find_cuda_helper_libs(nppif)
