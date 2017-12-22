@@ -7,6 +7,8 @@ endif()
 
 project(annotation)
 
+link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
+
 ocv_include_directories("${CMAKE_CURRENT_SOURCE_DIR}" "${OpenCV_SOURCE_DIR}/include/opencv")
 ocv_include_modules(${OPENCV_ANNOTATION_DEPS})
 
