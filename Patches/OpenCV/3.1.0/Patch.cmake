@@ -37,3 +37,13 @@ file(COPY ${OpenCV_patch}/OpenCVModule.cmake
 file(COPY ${OpenCV_patch}/cv2.cpp
   DESTINATION ${OpenCV_source}/modules/python/src2
 )
+
+# Patch FindCUDA to split out nppi libraries
+file(COPY ${OpenCV_patch}/FindCUDA.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
+
+# Patch OpenCVDetectCUDA to stop compute_20 in CUDA 9
+file(COPY ${OpenCV_patch}/OpenCVDetectCUDA.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
