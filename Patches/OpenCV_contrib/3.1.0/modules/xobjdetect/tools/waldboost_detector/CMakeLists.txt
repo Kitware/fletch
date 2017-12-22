@@ -21,6 +21,8 @@ add_executable(${the_target} ${${the_target}_SOURCES})
 
 target_link_libraries(${the_target} ${OPENCV_${the_target}_DEPS})
 
+link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
+
 set_target_properties(${the_target} PROPERTIES
                       DEBUG_POSTFIX "${OPENCV_DEBUG_POSTFIX}"
                       ARCHIVE_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH}
