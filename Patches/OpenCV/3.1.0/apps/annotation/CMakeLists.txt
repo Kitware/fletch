@@ -8,6 +8,8 @@ endif()
 project(annotation)
 set(the_target opencv_annotation)
 
+link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
+
 ocv_target_include_directories(${the_target} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}" "${OpenCV_SOURCE_DIR}/include/opencv")
 ocv_target_include_modules_recurse(${the_target} ${OPENCV_ANNOTATION_DEPS})
 
@@ -16,8 +18,6 @@ file(GLOB SRCS *.cpp)
 set(annotation_files ${SRCS})
 ocv_add_executable(${the_target} ${annotation_files})
 ocv_target_link_libraries(${the_target} ${OPENCV_ANNOTATION_DEPS})
-
-link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
 
 set_target_properties(${the_target} PROPERTIES
                       DEBUG_POSTFIX "${OPENCV_DEBUG_POSTFIX}"

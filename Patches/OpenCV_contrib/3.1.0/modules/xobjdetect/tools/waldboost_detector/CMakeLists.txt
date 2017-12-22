@@ -12,6 +12,8 @@ endif()
 
 project(${the_target})
 
+link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
+
 ocv_include_directories("${OpenCV_SOURCE_DIR}/include/opencv")
 ocv_include_modules_recurse(${OPENCV_${the_target}_DEPS})
 
@@ -20,8 +22,6 @@ file(GLOB ${the_target}_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 add_executable(${the_target} ${${the_target}_SOURCES})
 
 target_link_libraries(${the_target} ${OPENCV_${the_target}_DEPS})
-
-link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
 
 set_target_properties(${the_target} PROPERTIES
                       DEBUG_POSTFIX "${OPENCV_DEBUG_POSTFIX}"
