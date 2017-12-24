@@ -11,8 +11,3 @@ file(COPY ${OpenCV_patch}/FindCUDA.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
 
-
-# Patch detection of msvc compiler version
-file(COPY ${OpenCV_patch}/OpenCVDetectCXXCompiler.cmake
-  DESTINATION ${OpenCV_source}/cmake
-)
