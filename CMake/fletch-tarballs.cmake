@@ -160,7 +160,7 @@ list(APPEND fletch_external_sources Eigen)
 # Support 2.4.13 and 3.1, and 3.3 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(OpenCV_SELECT_VERSION 3.1.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.1.0" "3.3.1")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.1.0" "3.3.1" "3.4.0")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
   set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
@@ -178,7 +178,10 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   endif()
 
   # Paired contrib repo information
-  if (OpenCV_version VERSION_EQUAL 3.3.1)
+  if (OpenCV_version VERSION_EQUAL 3.4.0)
+    set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
+    set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
+  elseif (OpenCV_version VERSION_EQUAL 3.3.1)
     set(OpenCV_md5 "2e4f061a91766c591e94f91bfa259346")
     set(OpenCV_contrib_md5 "0d71ff7826075c514a6506b87739576a")
   elseif (OpenCV_version VERSION_EQUAL 3.1.0)
