@@ -1,11 +1,13 @@
 # The Qt external project for fletch
 
-option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
+if (Qt_version VERSION_LESS 5.0.0)
+  option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
 
-if(BUILD_Qt_MINIMAL)
-  set(Qt_args_package -no-webkit)
-else()
-  set(Qt_args_package -webkit)
+  if(BUILD_Qt_MINIMAL)
+    set(Qt_args_package -no-webkit)
+  else()
+    set(Qt_args_package -webkit)
+  endif()
 endif()
 
 if(CMAKE_BUILD_TYPE)
@@ -108,16 +110,18 @@ if(WIN32)
     list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
   endif()
 else()
-  if(BUILD_Qt_MINIMAL)
-    list(APPEND Qt_args_package -no-javascript-jit -no-script -no-scripttools)
-  else()
-    set(Qt_args_package -javascript-jit -script -scripttools)
-  endif()
-  # If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
-  # until the build is fixed.
-  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
-    set(BUILD_Qt_MINIMAL TRUE CACHE BOOL "" FORCE)
-    message(STATUS "disabling script for GNU 6.0")
+  if (Qt_version VERSION_LESS 5.0.0)
+    if(BUILD_Qt_MINIMAL)
+      list(APPEND Qt_args_package -no-javascript-jit -no-script -no-scripttools)
+    else()
+      set(Qt_args_package -javascript-jit -script -scripttools)
+    endif()
+    # If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
+    # until the build is fixed.
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
+      set(BUILD_Qt_MINIMAL TRUE CACHE BOOL "" FORCE)
+      message(STATUS "disabling script for GNU 6.0")
+    endif()
   endif()
 
   Fletch_Require_Make()
@@ -127,15 +131,17 @@ else()
   set(Qt_args_other -no-cups -optimized-qmake)
 
   if(APPLE)
-    #Qt does not allow pure debug builds with frameworks.
-    #So far it only appears to cause an issue with APPLE,
-    #Until we decide framework is important, disable it.
-    #For reference, see http://qt-project.org/doc/qt-4.8/debug.html
-    set(Qt_args_framework "-no-framework")
-    set(Qt_args_arch -arch x86_64 -cocoa)
-    if(NOT (CMAKE_SYSTEM_VERSION VERSION_LESS "16"))
-      # Phonon is broken on macOS 10.12+ (Darwin 16+) due to QTKit.framework being removed.
-      list(APPEND Qt_args_other -no-phonon)
+    if (Qt_version VERSION_LESS 5.0.0)
+      #Qt does not allow pure debug builds with frameworks.
+      #So far it only appears to cause an issue with APPLE,
+      #Until we decide framework is important, disable it.
+      #For reference, see http://qt-project.org/doc/qt-4.8/debug.html
+      set(Qt_args_framework "-no-framework")
+      set(Qt_args_arch -arch x86_64 -cocoa)
+      if(NOT (CMAKE_SYSTEM_VERSION VERSION_LESS "16"))
+        # Phonon is broken on macOS 10.12+ (Darwin 16+) due to QTKit.framework being removed.
+        list(APPEND Qt_args_other -no-phonon)
+      endif()
     endif()
   elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     # Create a spec file for gcc44 on RHEL5
@@ -151,15 +157,23 @@ else()
   endif()
 endif()
 
+
+# Set version specific output directory
+if (Qt_version VERSION_LESS 5.0.0)
+  set( Qt_DIR_NAME "qt4" )
+else()
+  set( Qt_DIR_NAME "qt5" )
+endif()
+
+
 list( APPEND Qt_configure
   -prefix ${fletch_BUILD_INSTALL_PREFIX}
-  -docdir ${fletch_BUILD_INSTALL_PREFIX}/share/doc/qt4-${Qt_version}
-  -datadir ${fletch_BUILD_INSTALL_PREFIX}/lib/qt4
-  -plugindir ${fletch_BUILD_INSTALL_PREFIX}/lib/qt4/plugins
-  -importdir ${fletch_BUILD_INSTALL_PREFIX}/lib/qt4/imports
-  -opensource -confirm-license -fast
-  -nomake examples -nomake demos -nomake translations -nomake linguist
-  ${Qt_args_build_type}
+  -docdir ${fletch_BUILD_INSTALL_PREFIX}/share/doc/${Qt_DIR_NAME}-${Qt_version}
+  -datadir ${fletch_BUILD_INSTALL_PREFIX}/lib/${Qt_DIR_NAME}
+  -plugindir ${fletch_BUILD_INSTALL_PREFIX}/lib/${Qt_DIR_NAME}/plugins
+  -importdir ${fletch_BUILD_INSTALL_PREFIX}/lib/${Qt_DIR_NAME}/imports
+  -opensource -confirm-license
+  -nomake examples  ${Qt_args_build_type}
   ${Qt_args_package}
   ${Qt_args_arch}
   ${Qt_args_jpeg}
@@ -169,9 +183,21 @@ list( APPEND Qt_configure
   ${Qt_args_framework}
   )
 
+# Additional options for Qt4
+if (Qt_version VERSION_LESS 5.0.0)
+  list( APPEND Qt_configure
+    -nomake demos -nomake translations -nomake linguist
+    -fast )
+endif()
+
 if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  list (APPEND Qt_configure
-    -platform unsupported/macx-clang )
+  if (Qt_version VERSION_LESS 5.0.0)
+    list (APPEND Qt_configure
+      -platform unsupported/macx-clang )
+  else()
+    list (APPEND Qt_configure
+      -platform macx-clang )
+  endif()
 endif()
 
 # If a patch file exists for this version, apply it
