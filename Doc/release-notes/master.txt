@@ -103,3 +103,5 @@ Fixes since v1.0.0
  * Patch GDAL's config.guess to support arm boards like TX2
 
  * Patch Protobuf 2 to support arm boards like TX2
+
+ * Patch OpenCV so the FFmpeg libraries it uses can find each other
