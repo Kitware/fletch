@@ -37,6 +37,16 @@ file(COPY ${OpenCV_patch}/cv2.cpp
   DESTINATION ${OpenCV_source}/modules/python/src2/
 )
 
+# Patch FindCUDA to split out nppi libraries
+file(COPY ${OpenCV_patch}/FindCUDA.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
+
+# Patch the generating file to use the correct location when using MSVC 2017 and later
+file(COPY ${OpenCV_patch}/run_nvcc.cmake
+  DESTINATION ${OpenCV_source}/cmake/FindCUDA
+)
+
 #
 file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/annotation/
@@ -53,4 +63,3 @@ file(COPY ${OpenCV_patch}/apps/traincascade/CMakeLists.txt
 file(COPY ${OpenCV_patch}/apps/visualisation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/visualisation/
 )
-
