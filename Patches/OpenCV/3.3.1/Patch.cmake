@@ -20,7 +20,7 @@ file(COPY ${OpenCV_patch}/OpenCVDetectCXXCompiler.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
 
-# Set link-directories for 5 executables that have trouble finding FFmpeg
+# Set link-directories for 6 executables that have trouble finding FFmpeg
 file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/annotation
 )
