@@ -174,6 +174,19 @@ if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     -platform unsupported/macx-clang )
 endif()
 
+# If a patch file exists for this version, apply it
+set (Qt_patch ${fletch_SOURCE_DIR}/Patches/Qt/${Qt_version})
+if (EXISTS ${Qt_patch})
+  set(QT_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DQt_CFLAGS:STRING=${CMAKE_C_FLAGS}
+    -DQt_CXXFLAGS:STRING=${CMAKE_CXX_FLAGS}
+    -DQt_patch:PATH=${Qt_patch}
+    -DQt_source:PATH=${fletch_BUILD_PREFIX}/src/Qt
+    -DQt_install:PATH=${fletch_BUILD_INSTALL_PREFIX}
+    -P ${Qt_patch}/Patch.cmake
+    )
+endif()
+
 ExternalProject_Add(Qt
   DEPENDS ${Qt_DEPENDS}
   URL ${Qt_file}
@@ -182,13 +195,7 @@ ExternalProject_Add(Qt
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   BUILD_IN_SOURCE 1
-  PATCH_COMMAND ${CMAKE_COMMAND}
-  -DQt_CFLAGS:STRING=${CMAKE_C_FLAGS}
-  -DQt_CXXFLAGS:STRING=${CMAKE_CXX_FLAGS}
-  -DQt_patch:PATH=${fletch_SOURCE_DIR}/Patches/Qt
-  -DQt_source:PATH=${fletch_BUILD_PREFIX}/src/Qt
-  -DQt_install:PATH=${fletch_BUILD_INSTALL_PREFIX}
-  -P ${fletch_SOURCE_DIR}/Patches/Qt/Patch.cmake
+  PATCH_COMMAND ${QT_PATCH_COMMAND}
   CONFIGURE_COMMAND ${Qt_configure}
   BUILD_COMMAND ${Qt_build}
   INSTALL_COMMAND ${Qt_install_cmd}
