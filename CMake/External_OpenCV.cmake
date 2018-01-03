@@ -91,6 +91,7 @@ if(fletch_ENABLE_OpenCV_CUDA)
     ${CUDNN_BUILD_FLAGS}
     -DWITH_CUBLAS=ON -DWITH_CUDA=ON
     -DWITH_CUFFT=ON
+    -DCUDA_NVCC_FLAGS=--expt-relaxed-constexpr
     )
 else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS

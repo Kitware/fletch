@@ -66,6 +66,7 @@ file(COPY
   ${Qt_patch}/gui/kernel/qcocoasharedwindowmethods_mac_p.h
   ${Qt_patch}/gui/kernel/qeventdispatcher_mac.mm
   ${Qt_patch}/gui/kernel/qt_cocoa_helpers_mac.mm
+  ${Qt_patch}/gui/kernel/qt_cocoa_helpers_mac_p.h
   ${Qt_patch}/gui/kernel/qwidget_mac.mm
   DESTINATION ${Qt_source}/src/gui/kernel
   )

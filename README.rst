@@ -180,8 +180,17 @@ Getting Help
 ============
 
 Fletch is a component of Kitware_'s collection of open source tools. 
-Please join the `fletch-users <http://public.kitware.com/mailman/listinfo/fletch-users>`_
+Please join the `fletch-users <http://public.kitware.com/mailman/listinfo/kwiver-users>`_
 mailing list to discuss Fletch or to ask for help with using Fletch.
+
+If you experience a build failure, please create an issue on `GitHub <https://github.com/Kitware/fletch/issues>`_ and include the following information
+
+1. Your operating system with exact version.
+2. Your compiler's exact version.
+3. The CMake version you are using.
+3. The complete build log, preferably run with a single core after the build has failed.
+4. Details of exactly which CMake options were changed from the default.
+
 
 .. Appendix I: References
 .. ======================

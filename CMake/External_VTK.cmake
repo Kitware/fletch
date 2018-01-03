@@ -188,6 +188,9 @@ endif()
 # VTK
 #
 
+option(VTK_ENABLE_DEBUG_LEAKS "Enable DEBUG LEAKS in VTK" OFF)
+mark_as_advanced(VTK_ENABLE_DEBUG_LEAKS)
+
 # General VTK flags
 set(vtk_cmake_args ${vtk_cmake_args}
   -DVTK_Group_Imaging:BOOL=ON
@@ -195,7 +198,7 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DVTK_Group_StandAlone:BOOL=ON
   -DVTK_Group_Views:BOOL=ON
   -DVTK_WRAP_PYTHON:BOOL=${VTK_WRAP_PYTHON}
-  -DVTK_DEBUG_LEAKS:BOOL=OFF
+  -DVTK_DEBUG_LEAKS:BOOL=${VTK_ENABLE_DEBUG_LEAKS}
   -DVTK_REQUIRED_OBJCXX_FLAGS:STRING=""
   -DVTK_GROUP_WEB:BOOL=OFF
   -DVTK_PYTHON_VERSION=${fletch_PYTHON_MAJOR_VERSION}
