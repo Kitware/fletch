@@ -8,6 +8,8 @@ endif()
 project(opencv_version)
 set(the_target opencv_version)
 
+link_directories(${OPENCV_LIB_INSTALL_PATH})
+
 ocv_target_include_directories(${the_target} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}" "${OpenCV_SOURCE_DIR}/include/opencv")
 ocv_target_include_modules_recurse(${the_target} ${OPENCV_APPLICATION_DEPS})
 
