@@ -41,3 +41,20 @@ file(COPY ${OpenCV_patch}/cv2.cpp
 file(COPY ${OpenCV_patch}/FindCUDA.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
+
+#
+file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/annotation/
+)
+
+file(COPY ${OpenCV_patch}/apps/haartraining/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/haartraining
+)
+
+file(COPY ${OpenCV_patch}/apps/traincascade/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/traincascade/
+)
+
+file(COPY ${OpenCV_patch}/apps/visualisation/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/visualisation/
+)

@@ -46,4 +46,14 @@ file(COPY ${OpenCV_patch}/FindCUDA.cmake
 # Patch OpenCVDetectCUDA to stop compute_20 in CUDA 9
 file(COPY ${OpenCV_patch}/OpenCVDetectCUDA.cmake
   DESTINATION ${OpenCV_source}/cmake
+  
+# Set link-directories fo 3 executables that have trouble finding FFmpeg
+file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/annotation
+)
+file(COPY ${OpenCV_patch}/apps/createsamples/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/createsamples
+)
+file(COPY ${OpenCV_patch}/apps/traincascade/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/traincascade
 )
