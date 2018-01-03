@@ -309,6 +309,10 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_ALL_PACKAGES)
   set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.10.0")
 
   set(Qt_version ${Qt_SELECT_VERSION})
+  string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
+  list(GET Qt_VERSION_LIST 0 Qt_version_major)
+  list(GET Qt_VERSION_LIST 1 Qt_version_minor)
+  list(GET Qt_VERSION_LIST 2 Qt_version_patch)
   set(Qt_release_location official_releases) # official_releases or archive
 
   if (Qt_version VERSION_EQUAL 5.10.0)
