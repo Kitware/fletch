@@ -106,11 +106,13 @@ if(WIN32)
   # the second thread will error out because MD fails if the directory exists.  A
   # Work around is to turn off multi threaded builds for install:
   set(Qt_install_cmd ${JOM_EXE} -j1 install)
-  #We have some trouble determining the correct platform for VS2013 and VS2017
-  if(MSVC12)
-    list(APPEND Qt_args_arch -platform win32-msvc2013)
-  elseif(MSVC AND NOT MSVC_VERSION LESS 1910)
-    list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
+  if (Qt_version VERSION_LESS 5.0.0)
+    #We have some trouble determining the correct platform for VS2013 and VS2017
+    if(MSVC12)
+      list(APPEND Qt_args_arch -platform win32-msvc2013)
+    elseif(MSVC AND NOT MSVC_VERSION LESS 1910)
+      list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
+    endif()
   endif()
 else()
   if (Qt_version VERSION_LESS 5.0.0)
