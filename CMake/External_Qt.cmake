@@ -79,6 +79,10 @@ if(Qt_WITH_PNG)
     )
 endif()
 
+# This configure step should work across platforms because the Qt source
+# contains either configure.exe or configure.bat for Windows
+set(Qt_configure ./configure)
+
 if(WIN32)
   include(External_jom) # since this is only used by Qt on windows include here
   list(APPEND Qt_DEPENDS jom)
@@ -102,7 +106,6 @@ if(WIN32)
   # the second thread will error out because MD fails if the directory exists.  A
   # Work around is to turn off multi threaded builds for install:
   set(Qt_install_cmd ${JOM_EXE} -j1 install)
-  set(Qt_configure configure.exe)
   #We have some trouble determining the correct platform for VS2013 and VS2017
   if(MSVC12)
     list(APPEND Qt_args_arch -platform win32-msvc2013)
@@ -127,7 +130,6 @@ else()
   Fletch_Require_Make()
   set(Qt_build ${MAKE_EXECUTABLE})
   set(Qt_install_cmd ${MAKE_EXECUTABLE} install)
-  set(Qt_configure ./configure)
   set(Qt_args_other -no-cups -optimized-qmake)
 
   if(APPLE)
