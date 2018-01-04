@@ -16,3 +16,22 @@ file(COPY ${OpenCV_patch}/run_nvcc.cmake
   DESTINATION ${OpenCV_source}/cmake/FindCUDA
 )
 
+# Set link-directories for 6 executables that have trouble finding FFmpeg
+file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/annotation
+)
+file(COPY ${OpenCV_patch}/apps/createsamples/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/createsamples
+)
+file(COPY ${OpenCV_patch}/apps/interactive-calibration/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/interactive-calibration
+)
+file(COPY ${OpenCV_patch}/apps/traincascade/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/traincascade
+)
+file(COPY ${OpenCV_patch}/apps/version/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/version
+)
+file(COPY ${OpenCV_patch}/apps/visualisation/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/visualisation
+)
