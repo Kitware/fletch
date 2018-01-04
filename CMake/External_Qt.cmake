@@ -56,7 +56,16 @@ add_package_dependency(
   OPTIONAL
   EMBEDDED
 )
+
 if(Qt_WITH_ZLib)
+  if (NOT WIN32)
+    find_program(env env)
+    if (env STREQUAL env-NOTFOUND)
+      message(FATAL_ERROR "env command not found !")
+    endif()
+    set(env_var LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${fletch_BUILD_INSTALL_PREFIX}/lib)
+    list( APPEND Qt_configure ${env} ${env_var} )
+  endif()
   set(Qt_args_zlib
     -system-zlib
     -I ${fletch_BUILD_INSTALL_PREFIX}/include
