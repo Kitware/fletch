@@ -231,6 +231,11 @@ if(WITH_FFMPEG)
         find_library(FFMPEG_FORMAT_LIB "avformat" HINTS "${FFMPEG_LIB_DIR}")
         find_library(FFMPEG_UTIL_LIB "avutil" HINTS "${FFMPEG_LIB_DIR}")
         find_library(FFMPEG_SWSCALE_LIB "swscale" HINTS "${FFMPEG_LIB_DIR}")
+
+        if (FFMPEG_SWSCALE_LIB)
+          set(HAVE_FFMPEG_SWSCALE TRUE)
+        endif()
+
         if(FFMPEG_CODEC_LIB AND FFMPEG_FORMAT_LIB AND
            FFMPEG_UTIL_LIB AND FFMPEG_SWSCALE_LIB)
           set(ALIASOF_libavcodec_VERSION "Unknown")
