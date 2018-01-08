@@ -52,6 +52,12 @@ file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/annotation/
 )
 
+# Patch helps OpenCV define HAVE_SWSCALE when lib is found
+# The patch is required for highgui
+file(COPY ${OpenCV_patch}/OpenCVFindLibsVideo.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
+
 file(COPY ${OpenCV_patch}/apps/haartraining/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/haartraining
 )
