@@ -79,15 +79,18 @@ if(Qt_WITH_PNG)
     )
 endif()
 
-# This configure step should work across platforms because the Qt source
-# contains either configure.exe or configure.bat for Windows
-set(Qt_configure ./configure)
-
 if(WIN32)
   include(External_jom) # since this is only used by Qt on windows include here
   list(APPEND Qt_DEPENDS jom)
 
   set(JOM_EXE "${fletch_BUILD_PREFIX}/src/jom/jom.exe")
+
+  if (Qt_version VERSION_LESS 5.0.0)
+    set(Qt_configure configure.exe)
+  else()
+    set(Qt_configure configure.bat)
+  endif()
+
   if(Qt_WITH_ZLib)
     # Jom needs the path to zlib.dll to build correctly with zlib
     set(JOM_ADDITIONAL_PATH ${fletch_BUILD_INSTALL_PREFIX}/bin)
@@ -115,6 +118,7 @@ if(WIN32)
     endif()
   endif()
 else()
+  set(Qt_configure ./configure)
   if (Qt_version VERSION_LESS 5.0.0)
     if(BUILD_Qt_MINIMAL)
       list(APPEND Qt_args_package -no-javascript-jit -no-script -no-scripttools)
