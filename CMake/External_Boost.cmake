@@ -30,16 +30,25 @@ if(fletch_BUILD_WITH_PYTHON)
     -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
   )
 endif()
+
+set (Boost_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Boost/${Boost_SELECT_VERSION})
+if (EXISTS ${Boost_PATCH_DIR})
+  set(Boost_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DBoost_patch=${Boost_PATCH_DIR}
+    -DBoost_source=${fletch_BUILD_PREFIX}/src/Boost
+    -P ${Boost_PATCH_DIR}/Patch.cmake)
+else()
+  set(Boost_PATCH_COMMAND "")
+endif()
+
 ExternalProject_Add(Boost
   URL ${Boost_file}
   URL_MD5 ${Boost_md5}
   PREFIX ${fletch_BUILD_PREFIX}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DBoost_patch=${fletch_SOURCE_DIR}/Patches/Boost
-    -DBoost_source=${fletch_BUILD_PREFIX}/src/Boost
-    -P ${fletch_SOURCE_DIR}/Patches/Boost/Patch.cmake
+  PATCH_COMMAND
+    ${Boost_PATCH_COMMAND}
   CONFIGURE_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
     ${_Boost_DIR_ARGS}

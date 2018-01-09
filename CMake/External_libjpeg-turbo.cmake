@@ -1,5 +1,4 @@
 # libjpeg-turbo External project
-
 include(External_yasm)
 list(APPEND libjpeg-turbo_DEPENDS yasm)
 
@@ -57,6 +56,10 @@ else()
     DEPENDS ${libjpeg-turbo_DEPENDS}
     PREFIX ${fletch_BUILD_PREFIX}
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+    PATCH_COMMAND ${CMAKE_COMMAND}
+        -Dlibjpeg-turbo_patch:PATH=${fletch_SOURCE_DIR}/Patches/libjpeg-turbo
+        -Dlibjpeg-turbo_source:PATH=${fletch_BUILD_PREFIX}/src/libjpeg-turbo
+        -P ${fletch_SOURCE_DIR}/Patches/libjpeg-turbo/Patch.cmake
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ./configure
@@ -75,7 +78,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # libjpeg-turbo
 ################################
 set(libjpeg-turbo_ROOT \${fletch_ROOT})
-
-
 set(fletch_ENABLED_libjpeg-turbo TRUE)
 ")

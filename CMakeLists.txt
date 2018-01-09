@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.1.3)
 project(fletch)
 
 # Policy to address @foo@ variable expansion
@@ -34,7 +34,7 @@ set(CMAKE_MODULE_PATH ${fletch_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 
 # Don't force a build type in mutli-configuration platforms
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 endif()
 
 
@@ -63,11 +63,10 @@ endif()
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
 
 set(fletch_PYTHON_MAJOR_VERSION "2" CACHE STRING
-    "Python version to use: 3, 2, or empty")
+  "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
 
 if (fletch_BUILD_WITH_PYTHON)
-
   # If we change python versions re-find the bin, include, and libs
   if (NOT _prev_fletch_pymajor_version STREQUAL fletch_PYTHON_MAJOR_VERSION)
     # but dont clobber initial settings in the instance they are specified via
@@ -83,6 +82,9 @@ if (fletch_BUILD_WITH_PYTHON)
     endif()
   endif()
 
+  # Make a copy so we can determine if the user changes python versions
+  set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
+    "allows us to determine if the user changes python version")
   if (fletch_PYTHON_MAJOR_VERSION STREQUAL "3")
     find_package(PythonInterp 3.4 REQUIRED)
     find_package(PythonLibs 3.4 REQUIRED)
@@ -105,10 +107,6 @@ if (fletch_BUILD_WITH_PYTHON)
   if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
     message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
   endif()
-
-  # Make a copy so we can determine if the user changes python versions
-  set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
-    "allows us to determine if the user changes python version")
 endif()
 
 #

@@ -8,9 +8,22 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Protobuf)
   # Note the python protobuf wrapper is not installed here.
   # Instead it must be installed via `pip install protobuf`
   if (${Protobuf_version} LESS 3.0 AND fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
-    message(ERROR "Must use Protobuf >= 3.x with Python 3.x")
+    message(ERROR " Must use Protobuf >= 3.x with Python 3.x")
   endif()
 endif()
+
+
+
+set (Protobuf_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Protobuf/${Protobuf_SELECT_VERSION})
+if (EXISTS ${Protobuf_PATCH_DIR})
+  set(Protobuf_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DProtobuf_PATCH_DIR=${Protobuf_PATCH_DIR}
+    -DProtobuf_SOURCE_DIR=${fletch_BUILD_PREFIX}/src/Protobuf
+    -P ${Protobuf_PATCH_DIR}/Patch.cmake)
+else()
+  set(Protobuf_PATCH_COMMAND "")
+endif()
+
 
 Fletch_Require_Make()
 ExternalProject_Add(Protobuf
@@ -19,6 +32,9 @@ ExternalProject_Add(Protobuf
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    ${Protobuf_PATCH_COMMAND}
+
   BUILD_IN_SOURCE 1
   ${PROTOBUF_PATCH_ARG}
   CONFIGURE_COMMAND ./configure

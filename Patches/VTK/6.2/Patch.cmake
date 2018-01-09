@@ -35,3 +35,15 @@ foreach(f ${VS_2015_FILES})
   message("COPY  ${VTK_PATCH_DIR}/${f}    DESTINATION ${dest}")
   file(COPY ${VTK_PATCH_DIR}/${f} DESTINATION ${dest})
 endforeach()
+
+file(COPY
+  ${VTK_PATCH_DIR}/CMake/GenerateExportHeader.cmake
+  DESTINATION
+  ${VTK_SOURCE_DIR}/CMake
+  )
+
+file(COPY
+  ${VTK_PATCH_DIR}/CMake/vtkCompilerExtras.cmake
+  DESTINATION
+  ${VTK_SOURCE_DIR}/CMake
+  )

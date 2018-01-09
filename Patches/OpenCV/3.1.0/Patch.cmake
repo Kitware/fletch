@@ -37,3 +37,29 @@ file(COPY ${OpenCV_patch}/OpenCVModule.cmake
 file(COPY ${OpenCV_patch}/cv2.cpp
   DESTINATION ${OpenCV_source}/modules/python/src2
 )
+
+# Patch FindCUDA to split out nppi libraries
+file(COPY ${OpenCV_patch}/FindCUDA.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
+
+# Patch the generating file to use the correct location when using MSVC 2017 and later
+file(COPY ${OpenCV_patch}/run_nvcc.cmake
+  DESTINATION ${OpenCV_source}/cmake/FindCUDA
+)
+
+# Patch OpenCVDetectCUDA to stop compute_20 in CUDA 9
+file(COPY ${OpenCV_patch}/OpenCVDetectCUDA.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
+
+# Set link-directories for 3 executables that have trouble finding FFmpeg
+file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/annotation
+)
+file(COPY ${OpenCV_patch}/apps/createsamples/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/createsamples
+)
+file(COPY ${OpenCV_patch}/apps/traincascade/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/apps/traincascade
+)

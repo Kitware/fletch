@@ -19,6 +19,9 @@ file(COPY ${Qt_patch}/previewmanager.cpp
   DESTINATION ${Qt_source}/tools/designer/src/lib/shared/
   )
 
+file(COPY ${Qt_patch}/messagemodel.cpp
+  DESTINATION ${Qt_source}/tools/linguist/linguist/
+  )
 
 # Currently disabled as it seems to generate illegal opcodes with gcc44 on
 # SandyBridge CPUs and RHEL5
@@ -63,6 +66,7 @@ file(COPY
   ${Qt_patch}/gui/kernel/qcocoasharedwindowmethods_mac_p.h
   ${Qt_patch}/gui/kernel/qeventdispatcher_mac.mm
   ${Qt_patch}/gui/kernel/qt_cocoa_helpers_mac.mm
+  ${Qt_patch}/gui/kernel/qt_cocoa_helpers_mac_p.h
   ${Qt_patch}/gui/kernel/qwidget_mac.mm
   DESTINATION ${Qt_source}/src/gui/kernel
   )

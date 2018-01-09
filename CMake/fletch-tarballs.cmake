@@ -21,16 +21,35 @@
 #   External_foo.cmake files for examples)
 #-
 
-
-
 # Boost
-set(Boost_major_version 1)
-set(Boost_minor_version 55)
-set(Boost_patch_version 0)
-set(Boost_version ${Boost_major_version}.${Boost_minor_version}.${Boost_patch_version})
-set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_version}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
-set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
+# Support 1.55.0 (Default) and 1.65.1 optionally
+if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
+  set(Boost_SELECT_VERSION 1.55.0 CACHE STRING "Select the major version of Boost to build.")
+  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
+  message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
+
+  if (Boost_SELECT_VERSION VERSION_EQUAL 1.55.0)
+    # Boost 1.55
+    set(Boost_major_version 1)
+    set(Boost_minor_version 55)
+    set(Boost_patch_version 0)
+    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
+    set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
+  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
+    # Boost 1.65.1
+    set(Boost_major_version 1)
+    set(Boost_minor_version 65)
+    set(Boost_patch_version 1)
+    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
+    set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
+  else()
+    message(STATUS "Boost_SELECT_VERSION: Not supported")
+  endif()
+endif()
 list(APPEND fletch_external_sources Boost)
+
+
+
 
 # ZLib
 set(ZLib_version 1.2.8)
@@ -141,7 +160,7 @@ list(APPEND fletch_external_sources Eigen)
 # Support 2.4.13 and 3.1, and 3.3 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(OpenCV_SELECT_VERSION 3.1.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.1.0" "3.3.0")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.1.0" "3.3.1" "3.4.0")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
   set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
@@ -159,9 +178,12 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   endif()
 
   # Paired contrib repo information
-  if (OpenCV_version VERSION_EQUAL 3.3.0)
-    set(OpenCV_md5 "cc586ebe960a7cdd87100e89088abc06")
-    set(OpenCV_contrib_md5 "2dd6dc53d49a09dd8538e63a55edc87a")
+  if (OpenCV_version VERSION_EQUAL 3.4.0)
+    set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
+    set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
+  elseif (OpenCV_version VERSION_EQUAL 3.3.1)
+    set(OpenCV_md5 "2e4f061a91766c591e94f91bfa259346")
+    set(OpenCV_contrib_md5 "0d71ff7826075c514a6506b87739576a")
   elseif (OpenCV_version VERSION_EQUAL 3.1.0)
     set(OpenCV_md5 "6082ee2124d4066581a7386972bfd52a")
     set(OpenCV_contrib_md5 "0d0bfeabe539542791b465ec1c7c90e6")
@@ -297,15 +319,28 @@ set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
 list(APPEND fletch_external_sources PROJ4 )
 
 # libgeotiff
-set(libgeotiff_version "1.4.1")
+set(libgeotiff_version "1.4.2")
 set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
-set(libgeotiff_md5 "5ce69bd89fdc3be245bd118cf0bc71f1")
+set(libgeotiff_md5 "a7c7e11e301b7c17e44ea3107cd86e4e")
 list(APPEND fletch_external_sources libgeotiff)
 
 # GDAL
-set(GDAL_version "1.11.4")
-set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
-set(GDAL_md5 "e9a966f0f5a88c43da47faf78a865952")
+if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
+  set(GDAL_SELECT_VERSION 1.11.5 CACHE STRING "Select the major version of GDAL to build.")
+  set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.2.2" "1.11.5")
+  message(STATUS "GDAL Select version: ${GDAL_SELECT_VERSION}")
+  if (GDAL_SELECT_VERSION VERSION_EQUAL 2.2.2)
+    set(GDAL_version "2.2.2")
+    set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
+    set(GDAL_md5 "b81b7b31d8984435db1b1637cee80e30")
+  elseif(GDAL_SELECT_VERSION VERSION_EQUAL 1.11.5)
+    set(GDAL_version "1.11.5")
+    set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
+    set(GDAL_md5 "879fa140f093a2125f71e38502bdf714")
+  else()
+    message(STATUS "GDAL_SELECT_VERSION ${GDAL_SELECT_VERSION}: Not supported")
+  endif()
+endif()
 list(APPEND fletch_external_sources GDAL)
 
 # GeographicLib
@@ -341,6 +376,16 @@ if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
   endif()
 endif()
 list(APPEND fletch_external_sources PostgreSQL)
+
+# PostGIS
+# Currently it seems the this version of PostGIS will work with all provided PostgreSQL versions
+if(NOT WIN32)
+  set(PostGIS_version "2.1.8" )
+  set(PostGIS_url "http://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
+  set(PostGIS_md5 "c33923e37424978a1306ce461c1d14ed" )
+  set(PostGIS_experimental TRUE)
+  list(APPEND fletch_external_sources PostGIS )
+endif()
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
@@ -474,10 +519,25 @@ else()
 endif()
 list(APPEND fletch_external_sources Caffe)
 
+# Caffe-Segnet
+# This segnet code is based on caffe, and calls itself caffe, but much different than caffe
+if(WIN32)
+  #set(Caffe_Segnet_version "527f97c0692f116ada7cb97eed8172ef7da05416")
+  #set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/download/darknet-1e3a9ceb.zip")
+  #set(Caffe_Segnet_md5 "89fef1913972ec855c7b31a598c9c52f")
+else()
+  set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
+  set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
+  set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
+  
+  #Move this out when windows is supported
+  list(APPEND fletch_external_sources Caffe_Segnet)
+endif()
+
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/download/darknet-1e3a9ceb.zip")
-set(Darknet_md5 "89fef1913972ec855c7b31a598c9c52f")
+set(Darknet_url "https://data.kitware.com/api/v1/file/5a4f88a58d777f5e872f80f8/download/darknet-ce5beb49.zip")
+set(Darknet_md5 "d781157ba5eb81b8658aac0173fd5f09")
 list(APPEND fletch_external_sources Darknet)
 
 # PyBind11
@@ -492,6 +552,13 @@ set(Tensorflow_version "r1.2")
 set(Tensorflow_url "https://github.com/tensorflow/tensorflow/archive/${Tensorflow_version}.zip")
 set(Tensorflow_md5 "ef6bb9fea0e7057519d867e921334458")
 list(APPEND fletch_external_sources Tensorflow)
+
+# YAMLcpp
+set(YAMLcpp_version "0.5.3")
+set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/release-${YAMLcpp_version}.tar.gz")
+set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
+set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
+list(APPEND fletch_external_sources YAMLcpp)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
