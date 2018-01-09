@@ -30,6 +30,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # pybind11
 ################################
 set(pybind11_ROOT \${fletch_ROOT})
-
+set(pybind11_DIR \${fletch_ROOT}/share/cmake/pybind11/)
 set(fletch_ENABLED_pybind11 TRUE)
 ")
