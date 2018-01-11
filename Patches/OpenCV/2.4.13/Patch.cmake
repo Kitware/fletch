@@ -69,3 +69,7 @@ file(COPY ${OpenCV_patch}/apps/traincascade/CMakeLists.txt
 file(COPY ${OpenCV_patch}/apps/visualisation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/visualisation/
 )
+
+file(COPY ${OpenCV_patch}/modules/gpu/perf4au/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/modules/gpu/perf4au/
+)
