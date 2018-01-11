@@ -12,6 +12,8 @@ if (OCV_DEPENDENCIES_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-function")
   endif()
 
+link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
+
   file(GLOB srcs RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.h *.hpp)
   add_executable(${the_target} ${srcs})
 
