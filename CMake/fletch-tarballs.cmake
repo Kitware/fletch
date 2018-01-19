@@ -439,12 +439,10 @@ set(HDF5_md5 "bdf0fc3d648679eeb5d7b4b78f92a83f")
 list(APPEND fletch_external_sources HDF5)
 
 # SNAPPY
-if(NOT WIN32)
-  SET(Snappy_version "1.1.3")
-  SET(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
-  SET(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
-  list(APPEND fletch_external_sources Snappy)
-endif()
+set(Snappy_version "1.1.3")
+set(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
+set(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
+list(APPEND fletch_external_sources Snappy)
 
 # LevelDB
 set(LevelDB_version "1.18")
