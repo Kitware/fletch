@@ -447,13 +447,11 @@ if(NOT WIN32)
 endif()
 
 # LevelDB
-if(NOT WIN32)
-  set(LevelDB_version "1.18")
-  set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
-  set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
-  set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
-  list(APPEND fletch_external_sources LevelDB)
-endif()
+set(LevelDB_version "1.18")
+set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
+set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
+set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
+list(APPEND fletch_external_sources LevelDB)
 
 # Protobuf
 if(NOT WIN32)

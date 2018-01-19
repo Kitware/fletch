@@ -1,9 +1,3 @@
-if (WIN32)
-
-  # Build option for windows not yet generated
-  message( FATAL_ERROR "SNAPPY on windows not yet supported" )
-
-else()
   ExternalProject_Add(Snappy
     URL ${Snappy_url}
     URL_MD5 ${Snappy_md5}
@@ -21,7 +15,6 @@ else()
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
       -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
       )
-endif()
 
 fletch_external_project_force_install(PACKAGE Snappy)
 

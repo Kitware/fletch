@@ -14,17 +14,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} include)
 # CMake generators if no build type is set.
 if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RELEASE)
-  #set(CMAKE_BUILD_TYPE DEBUG)
 endif()
 
 message("Configuration: ${CMAKE_BUILD_TYPE}")
-
-## needs define:
-## 	COMPILER_MSVC
-## 	LEVELDB_PLATFORM_POSIX
-## 	LEVELDB_CSTDATOMIC_PRESENT
-## 	SNAPPY
-## 	OS_****
 
 if(WIN32 AND MSVC)
   add_definitions(-DOS_WIN)
@@ -32,11 +24,13 @@ if(WIN32 AND MSVC)
   add_definitions(-DCOMPILER_MSVC)
 
   add_definitions(-DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS)
-  add_definitions(-Dssize_t=ptrdiff_t) #workaround for ssize_t
+  #workaround for ssize_t
+  add_definitions(-Dssize_t=ptrdiff_t)
 
   set(PORT_SRCS port/port_win.cc util/env_win.cc util/win_logger.cc)
   set(PORT_HDRS port/port_win.h port/win/stdint.h util/win_logger.h)
-  include_directories(port/win) #workaround for stdint.h
+  #workaround for stdint.h
+  include_directories(port/win)
 
 #  set(CAPI_SRC db/c.cc)
 #  set(CAPI_HDRS include/leveldb/c.h)
@@ -170,11 +164,8 @@ set_target_properties(leveldb PROPERTIES
   SOVERSION ${VERSION_MAJOR}
   )
 
-#add_library(leveldb_static STATIC ${SRCS} ${HDRS} ${SNAPPY_SRCS} ${SNAPPY_HDRS})
-
 find_package(Threads)
 target_link_libraries(leveldb ${CMAKE_THREAD_LIBS_INIT} ${LIBS})
-#target_link_libraries(leveldb_static ${CMAKE_THREAD_LIBS_INIT} ${LIBS})
 
 # we distribute the leveldbutil as it might be useful
 install(TARGETS leveldb
