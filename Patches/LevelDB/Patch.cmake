@@ -1,7 +1,6 @@
-file(REMOVE ${LevelDB_source}/build_detect_platform)
 
-configure_file(
-  ${LevelDB_patch}/build_detect_platform.in
-  ${LevelDB_source}/build_detect_platform
-  @ONLY
+file(COPY
+  ${LevelDB_patch}/CMakeLists.txt
+  DESTINATION
+  ${LevelDB_source}
   )

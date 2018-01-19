@@ -38,10 +38,12 @@ else()
       -DLevelDB_patch:PATH=${fletch_SOURCE_DIR}/Patches/LevelDB
       -DLevelDB_source:PATH=${fletch_BUILD_PREFIX}/src/LevelDB
       -P ${fletch_SOURCE_DIR}/Patches/LevelDB/Patch.cmake
-    CONFIGURE_COMMAND ""
-    BUILD_IN_SOURCE 1
-    BUILD_COMMAND ${MAKE_EXECUTABLE}
-    INSTALL_COMMAND ${LevelDB_CUSTOM_INSTALL}
+    CMAKE_COMMAND
+    CMAKE_GENERATOR ${gen}
+    CMAKE_ARGS
+      ${COMMON_CMAKE_ARGS}
+      -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
+      -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
     )
 endif()
 
