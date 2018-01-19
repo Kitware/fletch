@@ -173,3 +173,9 @@ install(TARGETS leveldb
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   )
+
+install( DIRECTORY
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/leveldb
+  DESTINATION
+  include
+  )
