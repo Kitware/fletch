@@ -4,8 +4,6 @@ add_package_dependency(
   PACKAGE_DEPENDENCY Snappy
   PACKAGE_DEPENDENCY_ALIAS Snappy
   )
-# Default linux install process for LevelDB
-Fletch_Require_Make()
 
 ExternalProject_Add(LevelDB
   URL ${LevelDB_url}
