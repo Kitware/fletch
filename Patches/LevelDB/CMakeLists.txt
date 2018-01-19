@@ -27,8 +27,8 @@ if(WIN32 AND MSVC)
   #workaround for ssize_t
   add_definitions(-Dssize_t=ptrdiff_t)
 
-  set(PORT_SRCS port/port_win.cc util/env_win.cc util/win_logger.cc)
-  set(PORT_HDRS port/port_win.h port/win/stdint.h util/win_logger.h)
+  set(PORT_HDRS port/win/stdint.h)
+
   #workaround for stdint.h
   include_directories(port/win)
 
