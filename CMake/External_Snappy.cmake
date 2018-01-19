@@ -1,3 +1,9 @@
+
+if (WIN32)
+  # Build option for windows not yet generated
+  message( FATAL_ERROR "SNAPPY on windows not yet supported" )
+endif()
+
 ExternalProject_Add(Snappy
   URL ${Snappy_url}
   URL_MD5 ${Snappy_md5}

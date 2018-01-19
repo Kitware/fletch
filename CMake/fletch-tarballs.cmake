@@ -439,17 +439,21 @@ set(HDF5_md5 "bdf0fc3d648679eeb5d7b4b78f92a83f")
 list(APPEND fletch_external_sources HDF5)
 
 # SNAPPY
-set(Snappy_version "1.1.3")
-set(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
-set(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
-list(APPEND fletch_external_sources Snappy)
+if(NOT WIN32)
+  set(Snappy_version "1.1.3")
+  set(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
+  set(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
+  list(APPEND fletch_external_sources Snappy)
+endif()
 
 # LevelDB
-set(LevelDB_version "1.18")
-set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
-set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
-set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
-list(APPEND fletch_external_sources LevelDB)
+if(NOT WIN32)
+  set(LevelDB_version "1.18")
+  set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
+  set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
+  set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
+  list(APPEND fletch_external_sources LevelDB)
+endif()
 
 # Protobuf
 if(NOT WIN32)
@@ -506,7 +510,7 @@ else()
   set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
   set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
   set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
-  
+
   #Move this out when windows is supported
   list(APPEND fletch_external_sources Caffe_Segnet)
 endif()
