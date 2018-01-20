@@ -440,9 +440,9 @@ list(APPEND fletch_external_sources HDF5)
 
 # SNAPPY
 if(NOT WIN32)
-  SET(Snappy_version "1.1.3")
-  SET(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
-  SET(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
+  set(Snappy_version "1.1.3")
+  set(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
+  set(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
   list(APPEND fletch_external_sources Snappy)
 endif()
 
@@ -510,7 +510,7 @@ else()
   set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
   set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
   set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
-  
+
   #Move this out when windows is supported
   list(APPEND fletch_external_sources Caffe_Segnet)
 endif()
