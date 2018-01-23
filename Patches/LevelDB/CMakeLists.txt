@@ -32,14 +32,11 @@ if(WIN32 AND MSVC)
   #workaround for stdint.h
   include_directories(port/win)
 
-#  set(CAPI_SRC db/c.cc)
-#  set(CAPI_HDRS include/leveldb/c.h)
   set(CAPI_SRC)
   set(CAPI_HDRS)
   set(CAPI_TEST)
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 /Oi /EHsc")
-  #set(CMAKE_CXX_FLAGS_RELEASE "/O2 /Ob2 /DNDEBUG /MD")
   set(CMAKE_CXX_FLAGS_RELEASE "/Ox /Ob2 /Ot /DNDEBUG /MD")
   set(CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /Ob0 /RTC1 /D_DEBUG /MDd")
 
@@ -60,9 +57,23 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND CMAKE_COMPILER_IS_GNUCXX)
 
   set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
   set(CMAKE_CXX_FLAGS_DEBUG "-g")
+elseif(APPLE)
+  add_definitions(-DOS_MACOSX)
+  add_definitions(-DLEVELDB_PLATFORM_POSIX)
 
+  add_definitions(-fno-builtin-memcmp)
+
+  set(PORT_SRCS port/port_posix.cc util/env_posix.cc)
+  set(PORT_HDRS port/port_posix.h util/posix_logger.h)
+
+  set(CAPI_SRC db/c.cc)
+  set(CAPI_HDRS include/leveldb/c.h)
+  set(CAPI_TEST db/c_test.c)
+
+  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+  set(CMAKE_CXX_FLAGS_DEBUG "-g")
 else()
-  error("Unknown platform")
+  message(FATAL_ERROR "Unknown platform")
 endif()
 
 set(SRCS
