@@ -74,6 +74,8 @@ Package Upgrades
 
  * Added option to build GDAL 2.2.2
 
+ * Upgrade VXL to 63b790a424a9d3fd535ae7278d0a600408dbc08f
+
 Fixes since v1.0.0
 ------------------
 
