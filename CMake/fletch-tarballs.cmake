@@ -387,6 +387,12 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources PostGIS )
 endif()
 
+# CPPDB
+set(CppDB_version "0.3.0" )
+set(CppDB_url "http://downloads.sourceforge.net/project/cppcms/cppdb/${CppDB_version}/cppdb-${CppDB_version}.tar.bz2" )
+set(CppDB_md5 "091d1959e70d82d62a04118827732dfe")
+list(APPEND fletch_external_sources CppDB)
+
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   # Support the stable version 6.2, and work on updating to next version 8.0
