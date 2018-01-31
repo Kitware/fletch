@@ -171,7 +171,7 @@ HRESULT QWinRTBluetoothServiceDiscoveryWorker::onBluetoothDeviceFoundAsync(IAsyn
 
 #ifdef QT_WINRT_LIMITED_SERVICEDISCOVERY
     if (m_mode != QBluetoothServiceDiscoveryAgent::MinimalDiscovery) {
-        qWarning() << "Used Windows SDK version (" << QString::number(QT_UCRTVERSION) << ") does not "
+        qWarning() << "Used Windows SDK version does not "
                       "support full service discovery. Consider updating to a more recent Windows 10 "
                       "SDK (14393 or above).";
     }
