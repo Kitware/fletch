@@ -387,6 +387,12 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources PostGIS )
 endif()
 
+# CPPDB
+set(CppDB_version "0.3.0" )
+set(CppDB_url "http://downloads.sourceforge.net/project/cppcms/cppdb/${CppDB_version}/cppdb-${CppDB_version}.tar.bz2" )
+set(CppDB_md5 "091d1959e70d82d62a04118827732dfe")
+list(APPEND fletch_external_sources CppDB)
+
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   # Support the stable version 6.2, and work on updating to next version 8.0
@@ -408,9 +414,9 @@ endif()
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_version "cbca86fe5d12b7b0379d72a3aa6bf5cfeebd0302")
+set(VXL_version "63b790a424a9d3fd535ae7278d0a600408dbc08f")
 set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
-set(VXL_md5 "044cc927012aef07b38492f9df1fd772")
+set(VXL_md5 "5a7e9923630c2a2beef0e8d547e00697")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
@@ -453,9 +459,9 @@ endif()
 
 # SNAPPY
 if(NOT WIN32)
-  SET(Snappy_version "1.1.3")
-  SET(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
-  SET(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
+  set(Snappy_version "1.1.3")
+  set(Snappy_url "https://github.com/google/snappy/releases/download/1.1.3/snappy-${Snappy_version}.tar.gz")
+  set(Snappy_md5 "7358c82f133dc77798e4c2062a749b73")
   list(APPEND fletch_external_sources Snappy)
 endif()
 
@@ -529,7 +535,7 @@ else()
   set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
   set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
   set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
-  
+
   #Move this out when windows is supported
   list(APPEND fletch_external_sources Caffe_Segnet)
 endif()
@@ -540,12 +546,12 @@ set(Darknet_url "https://data.kitware.com/api/v1/file/5a4f88a58d777f5e872f80f8/d
 set(Darknet_md5 "d781157ba5eb81b8658aac0173fd5f09")
 list(APPEND fletch_external_sources Darknet)
 
-# PyBind11
-set(PyBind11_version "2.2.0")
-set(PyBind11_url "https://github.com/pybind/pybind11/archive/v${PyBind11_version}.tar.gz")
-set(PyBind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
-set(PyBind11_dlname "pybind11-${PyBind11_version}.tar.gz")
-list(APPEND fletch_external_sources PyBind11)
+# pybind11
+set(pybind11_version "2.2.0")
+set(pybind11_url "https://github.com/pybind/pybind11/archive/v${pybind11_version}.tar.gz")
+set(pybind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
+set(pybind11_dlname "pybind11-${pybind11_version}.tar.gz")
+list(APPEND fletch_external_sources pybind11)
 
 # Tensorflow
 set(Tensorflow_version "r1.2")

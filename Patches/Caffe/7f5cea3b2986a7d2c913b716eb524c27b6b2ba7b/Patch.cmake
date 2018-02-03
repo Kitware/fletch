@@ -15,3 +15,9 @@ else()
     ${Caffe_source}/cmake/
     )
 endif()
+
+file(COPY
+  ${Caffe_patch}/cmake/Cuda.cmake
+  DESTINATION
+  ${Caffe_source}/cmake/
+  )
