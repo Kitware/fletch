@@ -5,7 +5,7 @@ option(AUTO_ENABLE_CAFFE_DEPENDENCY "Automatically turn on all caffe dependencie
 if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
   #Snappy is needed by LevelDB and ZLib is needed by HDF5
   if(WIN32)
-    set(dependency Boost ZLib OpenCV HDF5)
+    set(dependency Boost GFlags GLog ZLib OpenCV HDF5)
   else()
     set(dependency Boost GFlags GLog ZLib HDF5 Snappy LevelDB LMDB OpenCV Protobuf)
   endif()
