@@ -97,60 +97,55 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 
 # FFmpeg
 set(_FFmpeg_supported TRUE)
-if(WIN32)
-
-  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+  if(WIN32)
     set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
     set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
     mark_as_advanced(FFmpeg_SELECT_VERSION)
-  endif()
-  # The windows version is git-c089e72 (2015-03-05)
-  # follows: n2.6-dev (2014-12-03)
-  # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
-  set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
+    # The windows version is git-c089e72 (2015-03-05)
+    # follows: n2.6-dev (2014-12-03)
+    # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
+    set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
 
-  if (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 3.1 )
-    message(FATAL_ERROR "CMake ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} is too old to support the 7z extension of FFmpeg")
-  endif()
-  include(CheckTypeSize)
-  if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
-    set(bitness 32)
-    message(FATAL_ERROR "Fletch does NOT support FMPEG 32 bit. Please use 64bit.")
-  endif()
-  # On windows download prebuilt binaries and shared libraries
-  # dev contains headers .lib, .def, and mingw .dll.a files
-  # shared contains dll and exe files.
-  set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
-  set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
-  set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
-  set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
-else()
-
-  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+    if (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 3.1 )
+      message(FATAL_ERROR "CMake ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} is too old to support the 7z extension of FFmpeg")
+    endif()
+    include(CheckTypeSize)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
+      set(bitness 32)
+      message(FATAL_ERROR "Fletch does NOT support FMPEG 32 bit. Please use 64bit.")
+    endif()
+    # On windows download prebuilt binaries and shared libraries
+    # dev contains headers .lib, .def, and mingw .dll.a files
+    # shared contains dll and exe files.
+    set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
+    set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
+    set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
+    set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
+  else()
     # allow different versions to be selected for testing purposes
     set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
     set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
     mark_as_advanced(FFmpeg_SELECT_VERSION)
+
+    #set(_FFmpeg_version 3.3.3) # (2017-07-29)
+    #set(_FFmpeg_version 2.6.2) # (2015-04-10)
+    set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
+    set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
+
+    if (_FFmpeg_version VERSION_EQUAL 3.3.3)
+      set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
+    elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
+      set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
+    elseif (_FFmpeg_supported AND _FFmpeg_version)
+      message("Unsupported FFmpeg version ${_FFmpeg_version}")
+    endif()
+
   endif()
-
-  #set(_FFmpeg_version 3.3.3) # (2017-07-29)
-  #set(_FFmpeg_version 2.6.2) # (2015-04-10)
-  set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
-  set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
-
-  if (_FFmpeg_version VERSION_EQUAL 3.3.3)
-    set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
-  elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
-    set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
-  elseif (_FFmpeg_supported AND _FFmpeg_version)
-    message("Unsupported FFmpeg version ${_FFmpeg_version}")
+  if(_FFmpeg_supported)
+    list(APPEND fletch_external_sources FFmpeg)
   endif()
-
 endif()
-if(_FFmpeg_supported)
-  list(APPEND fletch_external_sources FFmpeg)
-endif()
-
 
 # EIGEN
 set(Eigen_version 3.2.9)
