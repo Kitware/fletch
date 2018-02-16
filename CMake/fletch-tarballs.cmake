@@ -48,9 +48,6 @@ if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources Boost)
 
-
-
-
 # ZLib
 set(ZLib_version 1.2.8)
 set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
@@ -64,6 +61,12 @@ set(libjpeg-turbo_version "1.4.0")
 set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
 set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
+
+# openjpeg
+set(openjpeg_version "2.1.2")
+set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
+set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
+list(APPEND fletch_external_sources openjpeg)
 
 # libtiff
 set(libtiff_version "4.0.6")
