@@ -10,3 +10,5 @@ message("Patching GTest")
 foreach(dir googletest googlemock)
   file(COPY ${GTest_patch}/${dir}/CMakeLists.txt DESTINATION ${GTest_source}/${dir})
 endforeach()
+
+ file(COPY ${GTest_patch}/googletest/cmake/internal_utils.cmake DESTINATION ${GTest_source}/googletest/cmake)
