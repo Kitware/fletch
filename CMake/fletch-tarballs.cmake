@@ -142,9 +142,9 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     endif()
 
   endif()
-  if(_FFmpeg_supported)
-    list(APPEND fletch_external_sources FFmpeg)
-  endif()
+endif()
+if(_FFmpeg_supported)
+  list(APPEND fletch_external_sources FFmpeg)
 endif()
 
 # EIGEN
