@@ -61,6 +61,7 @@ set(QVTKNonMocHeaders
   )
 
 if(VTK_QT_VERSION VERSION_GREATER "4")
+  add_definitions(-DUSING_QT_5)
   set(qt_component_x11extras)
   if(VTK_USE_X)
     set(qt_component_x11extras X11Extras)
