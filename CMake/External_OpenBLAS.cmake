@@ -57,12 +57,6 @@ set(OpenBLAS_INCLUDE_DIR ${OpenBLAS_ROOT}/include)
 set(LAPACK_LIBRARIES ${OpenBLAS_LIB})
 set(BLAS_LIBRARIES ${OpenBLAS_LIB})
 
-message(STATUS "OpenBLAS_LIB = ${OpenBLAS_LIB}")
-message(STATUS "OpenBLAS_INCLUDE_DIR = ${OpenBLAS_INCLUDE_DIR}")
-message(STATUS "openblas_libname = ${openblas_libname}")
-message(STATUS "LAPACK_LIBRARIES = ${LAPACK_LIBRARIES}")
-message(STATUS "BLAS_LIBRARIES = ${BLAS_LIBRARIES}")
-
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # OpenBLAS
