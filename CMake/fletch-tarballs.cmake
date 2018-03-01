@@ -519,20 +519,6 @@ else()
   list(APPEND fletch_external_sources Caffe_Segnet)
 endif()
 
-set(CUB_version "1.8.0")
-set(CUB_url "https://github.com/NVlabs/cub/archive/v${CUB_version}.zip")
-set(CUB_md5 "a821b9dffbc9d1bacf1c8db2a59094bf")
-list(APPEND fletch_external_sources CUB)
-
-if (WIN32)
-else()
-  set(Caffe2_version "0.8.1")
-  set(Caffe2_url "https://github.com/caffe2/caffe2/archive/v${Caffe2_version}.zip")
-  set(Caffe2_md5 "29a394fb18bb1cc61d518e1fad148078")
-  list(APPEND fletch_external_sources Caffe2)
-
-endif()
-
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
 set(Darknet_url "https://data.kitware.com/api/v1/file/5a4f88a58d777f5e872f80f8/download/darknet-ce5beb49.zip")
@@ -552,6 +538,18 @@ set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/release-${YAMLcpp_ve
 set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
 set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
+
+set(CUB_version "1.8.0")
+set(CUB_url "https://github.com/NVlabs/cub/archive/v${CUB_version}.zip")
+set(CUB_md5 "a821b9dffbc9d1bacf1c8db2a59094bf")
+list(APPEND fletch_external_sources CUB)
+
+if (NOT WIN32)
+  set(Caffe2_version "0.8.1")
+  set(Caffe2_url "https://github.com/caffe2/caffe2/archive/v${Caffe2_version}.zip")
+  set(Caffe2_md5 "29a394fb18bb1cc61d518e1fad148078")
+  list(APPEND fletch_external_sources Caffe2)
+endif()
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"

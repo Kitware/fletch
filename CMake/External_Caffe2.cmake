@@ -2,63 +2,70 @@ set(allOk True)
 set(errorMessage)
 
 option(AUTO_ENABLE_CAFFE2_DEPENDENCY "Automatically turn on all caffe dependencies if caffe is enabled" OFF)
-if(fletch_ENABLE_Caffe2 AND AUTO_ENABLE_CAFFE2_DEPENDENCY)
-  #Snappy is needed by LevelDB and ZLib is needed by HDF5
-  if(WIN32)
-    set(dependency Boost GFlags GLog ZLib CUB)
-  else()
-    set(dependency Boost GFlags GLog Snappy LevelDB LMDB Protobuf CUB)
-  endif()
 
-  if(NOT APPLE AND NOT WIN32)
-    list(APPEND dependency OpenBLAS)
-  endif()
+function(addCaffe2Dendency depend version)
+  set(options OPTIONAL)
+  set(oneValueArgs )
+  set(multiValueArgs )
+  cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
-  set(OneWasOff FALSE)
-
-  foreach (_var IN LISTS dependency)
+  if(AUTO_ENABLE_CAFFE2_DEPENDENCY AND fletch_ENABLE_Caffe2)
     get_property(currentHelpString CACHE "fletch_ENABLE_${_var}" PROPERTY HELPSTRING)
     set(fletch_ENABLE_${_var} ON CACHE BOOL ${currentHelpString} FORCE)
     if(NOT TARGET ${_var})
       include(External_${_var})
     endif()
-  endforeach()
-endif()
+  endif()
 
-function(addCaffe2Dendency depend version)
-  if(NOT fletch_ENABLE_${depend} )
+  if(fletch_ENABLE_${depend} )
+    set(${depend}_FOUND TRUE)
+    set(Caffe2_DEPENDS ${Caffe2_DEPENDS} ${depend} PARENT_SCOPE)
+  else()
     find_package(${depend} ${version} QUIET)
     string(TOUPPER "${depend}" dependency_name_upper)
     if(NOT ${depend}_FOUND AND NOT ${dependency_name_upper}_FOUND)
-      message("${depend} is needed")
-      set(allOk False PARENT_SCOPE)
-      return()
+      set(${depend}_FOUND FALSE)
+      if (NOT MY_OPTIONAL)
+        message("${depend} is needed")
+        set(allOk False PARENT_SCOPE)
+        return()
+      endif()
+    else()
+      set(${depend}_FOUND TRUE)
+      message("Warning: Using system library for ${depend}")
     endif()
-    message("Warning: Using system library for ${depend}")
-  else() #need to make sure library is built before caffe
-    set(Caffe2_DEPENDS ${Caffe2_DEPENDS} ${depend} PARENT_SCOPE)
   endif()
-  add_package_dependency(
-    PACKAGE Caffe2
-    PACKAGE_DEPENDENCY ${depend}
-    PACKAGE_DEPENDENCY_ALIAS ${depend}
-    )
+
+  #need to make sure library is built before caffe2
+  #message(STATUS "${depend}_FOUND = ${${depend}_FOUND}")
+  if (${depend}_FOUND)
+    add_package_dependency(
+      PACKAGE Caffe2
+      PACKAGE_DEPENDENCY ${depend}
+      PACKAGE_DEPENDENCY_ALIAS ${depend}
+      )
+  endif()
 endfunction()
 
 # Check for dependencies.
-#if(NOT WIN32) # Win32 build takes care of most dependencies automatically
-#  addCaffe2Dendency(LevelDB "")
-#  addCaffe2Dendency(LMDB "")
-#  if(NOT APPLE)
-#    addCaffe2Dendency(OpenBLAS "")
-#  endif()
-#  addCaffe2Dendency(Protobuf "")
-#endif()
+if(NOT WIN32)
+  # Win32 build takes care of most dependencies automatically
+  # Is this still true for Caffe2?
+  addCaffe2Dendency(Snappy "")  # needed by LevelDB
+  addCaffe2Dendency(LevelDB "")
+  addCaffe2Dendency(LMDB "")
+  addCaffe2Dendency(Protobuf "")
+  if (NOT APPLE)
+    addCaffe2Dendency(OpenBLAS "")
+  endif()
+endif()
 addCaffe2Dendency(Boost "")
 addCaffe2Dendency(GFlags "")
 addCaffe2Dendency(GLog "")
 addCaffe2Dendency(CUB "")
-#addCaffe2Dendency(OpenCV "")
+addCaffe2Dendency(pybind11 "")
+addCaffe2Dendency(OpenCV "")
+addCaffe2Dendency(FFmpeg "" OPTIONAL)
 
 if(NOT allOk)
   message(FATAL_ERROR "Missing dependency(ies).")
@@ -93,7 +100,7 @@ endif()
 
 set( CAFFE2_LMDB_ARGS
   -DLMDB_INCLUDE_DIR:PATH=${LMDB_INCLUDE_DIR}
-  -DLMDB_LIBRARIES:PATH=${LMDB_LIBRARY}
+  -DLMDB_LIBRARIES:PATH=${LMDB_LIBRARIES}
   )
 
 # NOTE: Caffe currently has LevelDB_INCLUDE instead of the normal LevelDB_INCLUDE_DIR
@@ -103,6 +110,7 @@ set( CAFFE2_LevelDB_ARGS
   )
 
 set( CAFFE2_GLog_ARGS
+  -DGLOG_ROOT_DIR:PATH=${GLog_ROOT}
   -DGLOG_INCLUDE_DIR:PATH=${GLog_INCLUDE_DIR}
   -DGLOG_LIBRARY:FILEPATH=${GLog_LIBRARY}
   )
@@ -133,8 +141,10 @@ else()
   set(PYTHON_ARGS -DBUILD_PYTHON:BOOL=OFF)
 endif()
 
-set(CAFFE2_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_INCLUDE_DIR}"
-  "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}")
+set(CAFFE2_OPENBLAS_ARGS
+  -DOpenBLAS_INCLUDE_DIR="${OpenBLAS_INCLUDE_DIR}"
+  -DOpenBLAS_LIB="${OpenBLAS_LIB}"
+)
 
 if(fletch_BUILD_WITH_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
@@ -205,7 +215,6 @@ ExternalProject_Add(Caffe2
     -D BLAS:STRING=OpenBLAS
     -D BUILD_TEST:BOOL=OFF
     #NCCL_ROOT_DIR="https://github.com/NVIDIA/nccl/archive/v1.3.4-1.zip"
-    -D CUB_INCLUDE_DIR:PATH="${CUB_INCLUDE_DIR}"
     -D USE_NCCL:BOOL=OFF
     -D USE_GLOO:BOOL=OFF
     -D USE_MPI:BOOL=OFF
@@ -213,6 +222,7 @@ ExternalProject_Add(Caffe2
     -D USE_ROCKSDB:BOOL=OFF
     -D USE_MOBILE_OPENGL:BOOL=OFF
     -D USE_NNPACK:BOOL=OFF
+    -D CUB_INCLUDE_DIR:PATH=${CUB_INCLUDE_DIR}
     ${PYTHON_ARGS}
     ${CAFFE2_PROTOBUF_ARGS}
     ${CAFFE2_OPENCV_ARGS}

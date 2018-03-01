@@ -50,18 +50,16 @@ set(OpenBLAS_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 # Find the OpenBLAS library name that will be passed to OpenCV / Caffe / etc..
 # Note: the lib does not exist yet, but we can be pretty sure what it will be
 get_system_library_name(openblas openblas_libname)
-set(OpenBLAS_LIB "${OpenBLAS_ROOT}/lib/${openblas_libname}")
-set(OpenBLAS_INCLUDE_DIR "${OpenBLAS_ROOT}/include")
+set(OpenBLAS_LIB ${OpenBLAS_ROOT}/lib/${openblas_libname})
+set(OpenBLAS_INCLUDE_DIR ${OpenBLAS_ROOT}/include)
 
 # OpenBLAS implements both the LAPACK and BLAS API
-set(LAPACK_LIBRARIES "${OpenBLAS_LIB}")
-set(BLAS_LIBRARIES "${OpenBLAS_LIB}")
+set(LAPACK_LIBRARIES ${OpenBLAS_LIB})
+set(BLAS_LIBRARIES ${OpenBLAS_LIB})
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # OpenBLAS
 ########################################
 set(OpenBLAS_ROOT    \${fletch_ROOT})
-set(OpenBLAS_LIB     \${OpenBLAS_LIB})
-set(OpenBLAS_INCLUDE_DIR \${OpenBLAS_INCLUDE_DIR})
 ")
