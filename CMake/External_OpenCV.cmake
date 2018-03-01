@@ -82,6 +82,22 @@ else()
 endif()
 
 
+if(fletch_ENABLE_OpenBLAS)
+  if (OpenCV_version VERSION_LESS 3.2.0)
+  else()
+    message(STATUS "OpenCV depending on fletch OpenBLAS")
+    set(_OpenCV_ENABLE_OPENBLAS_DEFAULT TRUE)
+    #list(APPEND OpenCV_DEPENDS OpenBLAS)  # complains that this target doesnt exist. Does it?
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+      -DWITH_LAPACK:BOOL=FALSE  # workaround for undefined referenec to `gotoblas`
+      -DOPENCV_ENABLE_LAPACK:BOOL=FALSE  # workaround for undefined referenec to `gotoblas`
+      -DOpenBLAS_INCLUDE_DIR:PATH="${OpenBLAS_ROOT}/include"
+      -DOpenBLAS_LIB:PATH="${OpenBLAS_ROOT}/lib/${openblas_libname}"
+      )
+  endif()
+endif()
+
+
 # Handle GPU disable flag
 if(fletch_ENABLE_OpenCV_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
