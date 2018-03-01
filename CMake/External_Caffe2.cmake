@@ -2,30 +2,16 @@ set(allOk True)
 set(errorMessage)
 
 option(AUTO_ENABLE_CAFFE2_DEPENDENCY "Automatically turn on all caffe dependencies if caffe is enabled" OFF)
-if(fletch_ENABLE_Caffe2 AND AUTO_ENABLE_CAFFE2_DEPENDENCY)
-  #Snappy is needed by LevelDB and ZLib is needed by HDF5
-  if(WIN32)
-    set(dependency Boost GFlags GLog ZLib CUB)
-  else()
-    set(dependency Boost GFlags GLog Snappy LevelDB LMDB Protobuf CUB)
-  endif()
 
-  if(NOT APPLE AND NOT WIN32)
-    list(APPEND dependency OpenBLAS)
-  endif()
-
-  set(OneWasOff FALSE)
-
-  foreach (_var IN LISTS dependency)
+function(addCaffe2Dendency depend version)
+  if(AUTO_ENABLE_CAFFE2_DEPENDENCY AND fletch_ENABLE_Caffe2)
     get_property(currentHelpString CACHE "fletch_ENABLE_${_var}" PROPERTY HELPSTRING)
     set(fletch_ENABLE_${_var} ON CACHE BOOL ${currentHelpString} FORCE)
     if(NOT TARGET ${_var})
       include(External_${_var})
     endif()
-  endforeach()
-endif()
+  endif()
 
-function(addCaffe2Dendency depend version)
   if(NOT fletch_ENABLE_${depend} )
     find_package(${depend} ${version} QUIET)
     string(TOUPPER "${depend}" dependency_name_upper)
@@ -51,7 +37,9 @@ if(NOT WIN32)
   # Is this still true for Caffe2?
   addCaffe2Dendency(LevelDB "")
   addCaffe2Dendency(LMDB "")
-  addCaffe2Dendency(OpenBLAS "")
+  if (NOT APPLE)
+    addCaffe2Dendency(OpenBLAS "")
+  endif()
 endif()
 addCaffe2Dendency(Protobuf "")
 addCaffe2Dendency(Boost "")
@@ -60,6 +48,8 @@ addCaffe2Dendency(GLog "")
 addCaffe2Dendency(CUB "")
 addCaffe2Dendency(pybind11 "")
 addCaffe2Dendency(OpenCV "")
+addCaffe2Dendency(GLog "")
+addCaffe2Dendency(GFlags "")
 
 if(NOT allOk)
   message(FATAL_ERROR "Missing dependency(ies).")
@@ -135,8 +125,9 @@ else()
 endif()
 
 set(CAFFE2_OPENBLAS_ARGS
-  "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_INCLUDE_DIR}"
-  "-DOpenBLAS_LIB=${OpenBLAS_LIB}")
+  -DOpenBLAS_INCLUDE_DIR="${OpenBLAS_INCLUDE_DIR}"
+  -DOpenBLAS_LIB="${OpenBLAS_LIB}"
+)
 
 if(fletch_BUILD_WITH_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
