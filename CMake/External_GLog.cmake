@@ -29,10 +29,8 @@ fletch_external_project_force_install(PACKAGE GLog)
 set(GLog_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 
 get_system_library_name( glog glog_libname )
-unset(GLog_LIBRARY)
-unset(GLog_INCLUDE_DIR)
-set(GLog_INCLUDE_DIR:PATH="${GLog_ROOT}/include" CACHE PATH "" FORCE)
-set(GLog_LIBRARY:PATH="${GLog_ROOT}/lib/${glog_libname}" CACHE PATH "" FORCE)
+set(GLog_INCLUDE_DIR "${GLog_ROOT}/include")
+set(GLog_LIBRARY "${GLog_ROOT}/lib/${glog_libname}")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
