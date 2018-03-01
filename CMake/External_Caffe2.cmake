@@ -17,23 +17,34 @@ function(addCaffe2Dendency depend version)
     endif()
   endif()
 
-  if(NOT fletch_ENABLE_${depend} )
+  if(fletch_ENABLE_${depend} )
+    set(${depend}_FOUND TRUE)
+    set(Caffe2_DEPENDS ${Caffe2_DEPENDS} ${depend} PARENT_SCOPE)
+  else()
     find_package(${depend} ${version} QUIET)
     string(TOUPPER "${depend}" dependency_name_upper)
-    if(NOT ${depend}_FOUND AND NOT ${dependency_name_upper}_FOUND AND NOT MY_OPTIONAL)
-      message("${depend} is needed")
-      set(allOk False PARENT_SCOPE)
-      return()
+    if(NOT ${depend}_FOUND AND NOT ${dependency_name_upper}_FOUND)
+      set(${depend}_FOUND FALSE)
+      if (NOT MY_OPTIONAL)
+        message("${depend} is needed")
+        set(allOk False PARENT_SCOPE)
+        return()
+      endif()
+    else()
+      set(${depend}_FOUND TRUE)
+      message("Warning: Using system library for ${depend}")
     endif()
-    message("Warning: Using system library for ${depend}")
-  else() #need to make sure library is built before caffe
-    set(Caffe2_DEPENDS ${Caffe2_DEPENDS} ${depend} PARENT_SCOPE)
   endif()
-  add_package_dependency(
-    PACKAGE Caffe2
-    PACKAGE_DEPENDENCY ${depend}
-    PACKAGE_DEPENDENCY_ALIAS ${depend}
-    )
+
+  #need to make sure library is built before caffe2
+  #message(STATUS "${depend}_FOUND = ${${depend}_FOUND}")
+  if (${depend}_FOUND)
+    add_package_dependency(
+      PACKAGE Caffe2
+      PACKAGE_DEPENDENCY ${depend}
+      PACKAGE_DEPENDENCY_ALIAS ${depend}
+      )
+  endif()
 endfunction()
 
 # Check for dependencies.
@@ -54,7 +65,7 @@ addCaffe2Dendency(GLog "")
 addCaffe2Dendency(CUB "")
 addCaffe2Dendency(pybind11 "")
 addCaffe2Dendency(OpenCV "")
-addCaffe2Dendency(FFMpeg "" OPTIONAL)
+addCaffe2Dendency(FFmpeg "" OPTIONAL)
 
 if(NOT allOk)
   message(FATAL_ERROR "Missing dependency(ies).")
