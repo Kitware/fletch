@@ -282,6 +282,7 @@ foreach(source ${fletch_external_sources})
   endif()
 
   if(fletch_ENABLE_${source})
+    message(STATUS "source = ${source}")
     include(External_${source})
     set(fletch_current_package ${source})
     add_dependencies(Download ${source}-download)

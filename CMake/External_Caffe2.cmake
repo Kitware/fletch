@@ -5,9 +5,9 @@ option(AUTO_ENABLE_CAFFE2_DEPENDENCY "Automatically turn on all caffe dependenci
 if(fletch_ENABLE_Caffe2 AND AUTO_ENABLE_CAFFE2_DEPENDENCY)
   #Snappy is needed by LevelDB and ZLib is needed by HDF5
   if(WIN32)
-    set(dependency Boost GFlags GLog ZLib OpenCV HDF5)
+    set(dependency Boost GFlags GLog ZLib CUB)
   else()
-    set(dependency Boost GFlags GLog Snappy LevelDB LMDB OpenCV Protobuf)
+    set(dependency Boost GFlags GLog Snappy LevelDB LMDB Protobuf CUB)
   endif()
 
   if(NOT APPLE AND NOT WIN32)
@@ -57,7 +57,7 @@ endfunction()
 addCaffe2Dendency(Boost 1.46)
 addCaffe2Dendency(GFlags "")
 addCaffe2Dendency(GLog "")
-addCaffe2Dendency(OpenCV "")
+#addCaffe2Dendency(OpenCV "")
 
 if(NOT allOk)
   message(FATAL_ERROR "Missing dependency(ies).")
@@ -190,7 +190,7 @@ if(fletch_BUILD_WITH_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
   set( CAFFE2_GPU_ARGS
     ${CUDA_BUILD_FLAGS}
-    -DUSE_CUDA:BOOL=On
+    -DUSE_CUDA:BOOL=TRUE
     )
   if(fletch_BUILD_WITH_CUDNN)
     format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
@@ -209,6 +209,7 @@ if(fletch_BUILD_WITH_CUDA)
   endif()
 else()
   set( CAFFE2_GPU_ARGS
+    -DUSE_CUDA:BOOL=FALSE
     #-DCPU_ONLY:BOOL=ON
     #-DUSE_CUDNN:BOOL=OFF
     )
@@ -266,21 +267,22 @@ ExternalProject_Add(Caffe2
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
-    -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
-    -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
-    -DBOOST_ROOT:PATH=${BOOST_ROOT}
-    -DBLAS:STRING=OpenBLAS
-    -DBUILD_TEST:BOOL=OFF
+    -D CMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
+    -D CMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+    -D BOOST_ROOT:PATH=${BOOST_ROOT}
+    -D BLAS:STRING=OpenBLAS
+    -D BUILD_TEST:BOOL=OFF
     #PATCH_COMMAND ${Caffe2_PATCH_COMMAND}
     #NCCL_ROOT_DIR="https://github.com/NVIDIA/nccl/archive/v1.3.4-1.zip"
     #CUB_URL=https://github.com/NVlabs/cub/archive/v1.8.0.zip
-    -DUSE_NCCL:BOOL=OFF
-    -DUSE_GLOO:BOOL=OFF
-    -DUSE_MPI:BOOL=OFF
-    -DUSE_METAL:BOOL=OFF
-    -DUSE_ROCKSDB:BOOL=OFF
-    -DUSE_MOBILE_OPENGL:BOOL=OFF
-    -DUSE_NNPACK:BOOL=OFF
+    -D CUB_INCLUDE_DIR:PATH=${CMAKE_BINARY_DIR}/build/src/CUB
+    -D USE_NCCL:BOOL=OFF
+    -D USE_GLOO:BOOL=OFF
+    -D USE_MPI:BOOL=OFF
+    -D USE_METAL:BOOL=OFF
+    -D USE_ROCKSDB:BOOL=OFF
+    -D USE_MOBILE_OPENGL:BOOL=OFF
+    -D USE_NNPACK:BOOL=OFF
     ${PYTHON_ARGS}
     ${CAFFE2_PROTOBUF_ARGS}
     ${CAFFE2_OPENCV_ARGS}

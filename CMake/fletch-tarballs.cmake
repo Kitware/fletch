@@ -526,7 +526,13 @@ else()
   set(Caffe2_url "https://github.com/caffe2/caffe2/archive/v${Caffe2_version}.zip")
   set(Caffe2_md5 "29a394fb18bb1cc61d518e1fad148078")
   list(APPEND fletch_external_sources Caffe2)
+
 endif()
+
+set(CUB_version "1.8.0")
+set(CUB_url "https://github.com/NVlabs/cub/archive/v${CUB_version}.zip")
+set(CUB_md5 "a821b9dffbc9d1bacf1c8db2a59094bf")
+list(APPEND fletch_external_sources CUB)
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
