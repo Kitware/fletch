@@ -185,7 +185,7 @@ if(WIN32)
       -DBoost_USE_STATIC_LIBS:BOOL=OFF
       -DBUILD_SHARED_LIBS:BOOL=ON
   )
-else()
+endif()
 
 ExternalProject_Add(Caffe2
   DEPENDS ${Caffe2_DEPENDS}
