@@ -28,6 +28,9 @@ endif()
 fletch_external_project_force_install(PACKAGE LMDB)
 
 set(LMDB_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
+get_system_library_name( lmdb lmdb_libname )
+set(LMDB_INCLUDE_DIR "${LMDB_ROOT}/include")
+set(LMDB_LIBRARIES "${LMDB_ROOT}/lib/${lmdb_libname}")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
