@@ -54,9 +54,10 @@ endfunction()
 #  endif()
 #  addCaffe2Dendency(Protobuf "")
 #endif()
-addCaffe2Dendency(Boost 1.46)
+addCaffe2Dendency(Boost "")
 addCaffe2Dendency(GFlags "")
 addCaffe2Dendency(GLog "")
+addCaffe2Dendency(CUB "")
 #addCaffe2Dendency(OpenCV "")
 
 if(NOT allOk)
@@ -67,33 +68,16 @@ endif()
 
 set( CAFFE2_PROTOBUF_ARGS )
 
-if(fletch_ENABLE_Protobuf)
-  get_system_library_name( protobuf protobuf_libname )
-  get_system_library_name( protobuf-lite protobuf-lite_libname )
-  get_system_library_name( protoc protoc_libname )
-
-  set( CAFFE2_PROTOBUF_ARGS
-    -DPROTOBUF_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
-    -DPROTOBUF_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protobuf_libname}
-    -DPROTOBUF_LIBRARY_DEBUG:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protobuf_libname}
-    -DPROTOBUF_LITE_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protobuf-lite_libname}
-    -DPROTOBUF_LITE_LIBRARY_DEBUG:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protobuf-lite_libname}
-    -DPROTOBUF_PROTOC_EXECUTABLE:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin/protoc
-    -DPROTOBUF_PROTOC_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protoc_libname}
-    -DPROTOBUF_PROTOC_LIBRARY_DEBUG:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${protoc_libname}
-    )
-else()
-  set( CAFFE2_PROTOBUF_ARGS
-    -DPROTOBUF_INCLUDE_DIR:PATH=${PROTOBUF_INCLUDE_DIR}
-    -DPROTOBUF_LIBRARY:PATH=${PROTOBUF_LIBRARY}
-    -DPROTOBUF_LIBRARY_DEBUG:PATH=${PROTOBUF_LIBRARY_DEBUG}
-    -DPROTOBUF_LITE_LIBRARY:PATH=${PROTOBUF_LITE_LIBRARY}
-    -DPROTOBUF_LITE_LIBRARY_DEBUG:PATH=${PROTOBUF_LITE_LIBRARY_DEBUG}
-    -DPROTOBUF_PROTOC_EXECUTABLE:PATH=${PROTOBUF_PROTOC_EXECUTABLE}
-    -DPROTOBUF_PROTOC_LIBRARY:PATH=${PROTOBUF_PROTOC_LIBRARY}
-    -DPROTOBUF_PROTOC_LIBRARY_DEBUG:PATH=${PROTOBUF_PROTOC_LIBRARY_DEBUG}
-  )
-endif()
+set( CAFFE2_PROTOBUF_ARGS
+  -DPROTOBUF_INCLUDE_DIR:PATH=${PROTOBUF_INCLUDE_DIR}
+  -DPROTOBUF_LIBRARY:PATH=${PROTOBUF_LIBRARY}
+  -DPROTOBUF_LIBRARY_DEBUG:PATH=${PROTOBUF_LIBRARY_DEBUG}
+  -DPROTOBUF_LITE_LIBRARY:PATH=${PROTOBUF_LITE_LIBRARY}
+  -DPROTOBUF_LITE_LIBRARY_DEBUG:PATH=${PROTOBUF_LITE_LIBRARY_DEBUG}
+  -DPROTOBUF_PROTOC_EXECUTABLE:PATH=${PROTOBUF_PROTOC_EXECUTABLE}
+  -DPROTOBUF_PROTOC_LIBRARY:PATH=${PROTOBUF_PROTOC_LIBRARY}
+  -DPROTOBUF_PROTOC_LIBRARY_DEBUG:PATH=${PROTOBUF_PROTOC_LIBRARY_DEBUG}
+)
 
 if(fletch_ENABLE_OpenCV)
   set( CAFFE2_OPENCV_ARGS
@@ -107,54 +91,26 @@ else()
   )
 endif()
 
-if(fletch_ENABLE_LMDB)
-  get_system_library_name( lmdb lmdb_libname )
+set( CAFFE2_LMDB_ARGS
+  -DLMDB_INCLUDE_DIR:PATH=${LMDB_INCLUDE_DIR}
+  -DLMDB_LIBRARIES:PATH=${LMDB_LIBRARY}
+  )
 
-  set( CAFFE2_LMDB_ARGS
-    -DLMDB_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
-    -DLMDB_LIBRARIES:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${lmdb_libname}
-    )
-else()
-  set( CAFFE2_LMDB_ARGS
-    -DLMDB_INCLUDE_DIR:PATH=${LMDB_INCLUDE_DIR}
-    -DLMDB_LIBRARIES:PATH=${LMDB_LIBRARY}
-    )
-endif()
+# NOTE: Caffe currently has LevelDB_INCLUDE instead of the normal LevelDB_INCLUDE_DIR
+set( CAFFE2_LevelDB_ARGS
+  -DLevelDB_INCLUDE:PATH=${LevelDB_INCLUDE_DIR}
+  -DLevelDB_LIBRARY:PATH=${LevelDB_LIBRARY}
+  )
 
-if(fletch_ENABLE_LevelDB)
-  get_system_library_name( leveldb leveldb_libname )
-  # NOTE: Caffe2 currently has LevelDB_INCLUDE instead of the normal LevelDB_INCLUDE_DIR
-  set( CAFFE2_LevelDB_ARGS
-    -DLevelDB_INCLUDE:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
-    -DLevelDB_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${leveldb_libname}
-    )
-else()
-  set( CAFFE2_LevelDB_ARGS
-    -DLevelDB_INCLUDE:PATH=${LevelDB_INCLUDE_DIR}
-    -DLevelDB_LIBRARY:PATH=${LevelDB_LIBRARY}
-    )
-endif()
-
-if(fletch_ENABLE_GLog)
-  get_system_library_name( glog glog_libname )
-
-  set( CAFFE2_GLog_ARGS
-    -DGLOG_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
-    -DGLOG_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${glog_libname}
-    )
-else()
-  set( CAFFE2_GLog_ARGS
-    -DGLOG_INCLUDE_DIR:PATH=${GLog_INCLUDE_DIR}
-    -DGLOG_LIBRARY:FILEPATH=${GLog_LIBRARY}
-    )
-endif()
+set( CAFFE2_GLog_ARGS
+  -DGLOG_INCLUDE_DIR:PATH=${GLog_INCLUDE_DIR}
+  -DGLOG_LIBRARY:FILEPATH=${GLog_LIBRARY}
+  )
 
 if(fletch_ENABLE_GFlags)
-  get_system_library_name( gflags gflags_libname )
-
   set( CAFFE2_GFlags_ARGS
-    -DGFLAGS_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
-    -DGFLAGS_LIBRARY:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${gflags_libname}
+    -DGFLAGS_INCLUDE_DIR:PATH=${GFlags_INCLUDE_DIR}
+    -DGFLAGS_LIBRARY:PATH=${GFlags_LIBRARY}
     )
 else()
   set( CAFFE2_GFlags_ARGS -DGFLAGS_ROOT_DIR:PATH=${GFlags_DIR})
@@ -177,14 +133,8 @@ else()
   set(PYTHON_ARGS -DBUILD_PYTHON:BOOL=OFF)
 endif()
 
-if(fletch_ENABLE_OpenBLAS)
-  get_system_library_name(openblas openblas_libname)
-  set(CAFFE2_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_ROOT}/include"
-    "-DOpenBLAS_LIB=${OpenBLAS_ROOT}/lib/${openblas_libname}")
-else()
-  set(CAFFE2_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_INCLUDE_DIR}"
-    "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}")
-endif()
+set(CAFFE2_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_INCLUDE_DIR}"
+  "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}")
 
 if(fletch_BUILD_WITH_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
@@ -275,7 +225,7 @@ ExternalProject_Add(Caffe2
     #PATCH_COMMAND ${Caffe2_PATCH_COMMAND}
     #NCCL_ROOT_DIR="https://github.com/NVIDIA/nccl/archive/v1.3.4-1.zip"
     #CUB_URL=https://github.com/NVlabs/cub/archive/v1.8.0.zip
-    -D CUB_INCLUDE_DIR:PATH=${CMAKE_BINARY_DIR}/build/src/CUB
+    -D CUB_INCLUDE_DIR:PATH="${CUB_INCLUDE_DIR}"
     -D USE_NCCL:BOOL=OFF
     -D USE_GLOO:BOOL=OFF
     -D USE_MPI:BOOL=OFF
