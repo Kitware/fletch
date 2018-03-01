@@ -68,6 +68,4 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # OpenBLAS
 ########################################
 set(OpenBLAS_ROOT    \${fletch_ROOT})
-set(OpenBLAS_LIB     \${OpenBLAS_LIB})
-set(OpenBLAS_INCLUDE_DIR \${OpenBLAS_INCLUDE_DIR})
 ")
