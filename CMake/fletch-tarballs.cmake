@@ -506,11 +506,7 @@ list(APPEND fletch_external_sources Caffe)
 
 # Caffe-Segnet
 # This segnet code is based on caffe, and calls itself caffe, but much different than caffe
-if(WIN32)
-  #set(Caffe_Segnet_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-  #set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/download/darknet-1e3a9ceb.zip")
-  #set(Caffe_Segnet_md5 "89fef1913972ec855c7b31a598c9c52f")
-else()
+if(NOT WIN32)
   set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
   set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
   set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
@@ -521,8 +517,8 @@ endif()
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://data.kitware.com/api/v1/file/5a4f88a58d777f5e872f80f8/download/darknet-ce5beb49.zip")
-set(Darknet_md5 "d781157ba5eb81b8658aac0173fd5f09")
+set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/repository/fletch%2Fmaster/archive.zip")
+set(Darknet_md5 "d206b6da7af1f43340a217d6b05db5e3")
 list(APPEND fletch_external_sources Darknet)
 
 # pybind11
