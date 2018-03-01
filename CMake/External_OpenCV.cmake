@@ -83,8 +83,7 @@ endif()
 
 
 if(fletch_ENABLE_OpenBLAS)
-  if (OpenCV_version VERSION_LESS 3.2.0)
-  else()
+  if (NOT OpenCV_version VERSION_LESS 3.2.0)
     message(STATUS "OpenCV depending on fletch OpenBLAS")
     set(_OpenCV_ENABLE_OPENBLAS_DEFAULT TRUE)
     #list(APPEND OpenCV_DEPENDS OpenBLAS)  # complains that this target doesnt exist. Does it?
