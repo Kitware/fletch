@@ -46,19 +46,20 @@ function(addCaffe2Dendency depend version)
 endfunction()
 
 # Check for dependencies.
-#if(NOT WIN32) # Win32 build takes care of most dependencies automatically
-#  addCaffe2Dendency(LevelDB "")
-#  addCaffe2Dendency(LMDB "")
-#  if(NOT APPLE)
-#    addCaffe2Dendency(OpenBLAS "")
-#  endif()
-#  addCaffe2Dendency(Protobuf "")
-#endif()
+if(NOT WIN32)
+  # Win32 build takes care of most dependencies automatically
+  # Is this still true for Caffe2?
+  addCaffe2Dendency(LevelDB "")
+  addCaffe2Dendency(LMDB "")
+  addCaffe2Dendency(OpenBLAS "")
+endif()
+addCaffe2Dendency(Protobuf "")
 addCaffe2Dendency(Boost "")
 addCaffe2Dendency(GFlags "")
 addCaffe2Dendency(GLog "")
 addCaffe2Dendency(CUB "")
-#addCaffe2Dendency(OpenCV "")
+addCaffe2Dendency(pybind11 "")
+addCaffe2Dendency(OpenCV "")
 
 if(NOT allOk)
   message(FATAL_ERROR "Missing dependency(ies).")
