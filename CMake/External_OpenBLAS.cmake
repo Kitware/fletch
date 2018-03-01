@@ -53,6 +53,10 @@ get_system_library_name(openblas openblas_libname)
 set(OpenBLAS_LIB "${OpenBLAS_ROOT}/lib/${openblas_libname}")
 set(OpenBLAS_INCLUDE_DIR "${OpenBLAS_ROOT}/include")
 
+# OpenBLAS implements both the LAPACK and BLAS API
+set(LAPACK_LIBRARIES "${OpenBLAS_LIB}")
+set(BLAS_LIBRARIES "${OpenBLAS_LIB}")
+
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # OpenBLAS
