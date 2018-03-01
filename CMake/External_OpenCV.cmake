@@ -93,8 +93,8 @@ if(fletch_ENABLE_OpenBLAS)
       # note: the problem may be multiple cblas.h
       # A temporary workaround is to turn LAPACK off.
       -DWITH_LAPACK:BOOL=FALSE
-      -DOpenBLAS_INCLUDE_DIR:PATH="${OpenBLAS_ROOT}/include"
-      #-DOpenBLAS_LIB:PATH="${OpenBLAS_ROOT}/lib/${openblas_libname}"
+      -DOpenBLAS_INCLUDE_DIR:PATH="${OpenBLAS_INCLUDE_DIR}"
+      -DOpenBLAS_LIB:PATH="${OpenBLAS_LIB}"
       )
   endif()
 endif()
