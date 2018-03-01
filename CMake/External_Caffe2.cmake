@@ -181,31 +181,12 @@ endif()
 
 # Main build and install command
 if(WIN32)
-ExternalProject_Add(Caffe2
-  DEPENDS ${Caffe2_DEPENDS}
-  URL ${Caffe2_url}
-  URL_MD5 ${Caffe2_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-
-  PATCH_COMMAND ${Caffe2_PATCH_COMMAND}
-
-  CMAKE_COMMAND
-  CMAKE_GENERATOR ${gen}
-  CMAKE_ARGS
-    ${COMMON_CMAKE_ARGS}
-    -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
-    -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
-    -DBOOST_ROOT:PATH=${BOOST_ROOT}
-    -DBoost_USE_STATIC_LIBS:BOOL=OFF
-    -DBLAS:STRING=OpenBLAS
-    -DBUILD_SHARED_LIBS:BOOL=ON
-    ${CAFFE2_OPENCV_ARGS}
-    ${PYTHON_ARGS}
-    ${CAFFE2_GPU_ARGS}
-)
+  set(CAFFE2_WIN32_OPTIONS
+      -DBoost_USE_STATIC_LIBS:BOOL=OFF
+      -DBUILD_SHARED_LIBS:BOOL=ON
+  )
 else()
+
 ExternalProject_Add(Caffe2
   DEPENDS ${Caffe2_DEPENDS}
   URL ${Caffe2_url}
@@ -213,6 +194,7 @@ ExternalProject_Add(Caffe2
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  #PATCH_COMMAND ${Caffe2_PATCH_COMMAND}
   CMAKE_COMMAND
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
@@ -222,9 +204,7 @@ ExternalProject_Add(Caffe2
     -D BOOST_ROOT:PATH=${BOOST_ROOT}
     -D BLAS:STRING=OpenBLAS
     -D BUILD_TEST:BOOL=OFF
-    #PATCH_COMMAND ${Caffe2_PATCH_COMMAND}
     #NCCL_ROOT_DIR="https://github.com/NVIDIA/nccl/archive/v1.3.4-1.zip"
-    #CUB_URL=https://github.com/NVlabs/cub/archive/v1.8.0.zip
     -D CUB_INCLUDE_DIR:PATH="${CUB_INCLUDE_DIR}"
     -D USE_NCCL:BOOL=OFF
     -D USE_GLOO:BOOL=OFF
@@ -242,8 +222,8 @@ ExternalProject_Add(Caffe2
     ${CAFFE2_GFlags_ARGS}
     ${CAFFE2_OPENBLAS_ARGS}
     ${CAFFE2_GPU_ARGS}
+    ${CAFFE2_WIN32_OPTIONS}
   )
-endif()
 
 fletch_external_project_force_install(PACKAGE Caffe2)
 
