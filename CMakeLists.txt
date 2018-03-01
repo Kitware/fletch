@@ -57,6 +57,10 @@ if (fletch_BUILD_CXX11)
   set(fletch_CXX_STANDARD_VERSION "11")
 endif()
 
+
+# Disable exporting to the cmake package registry (see GH #341)
+set(CMAKE_EXPORT_NO_PACKAGE_REGISTRY TRUE)
+
 #
 # Do we want to build in Python support where available
 #
