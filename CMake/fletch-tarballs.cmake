@@ -41,6 +41,8 @@ if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
     set(Boost_minor_version 65)
     set(Boost_patch_version 1)
     set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
+
+    set(Boost_url "https://dl.bintray.com/boostorg/release/1.65.1/source/boost_1_65_1.tar.bz2")
     set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
   else()
     message(STATUS "Boost_SELECT_VERSION: Not supported")
