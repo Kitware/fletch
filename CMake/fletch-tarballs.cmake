@@ -154,6 +154,23 @@ set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
+#OpenBLAS
+if(NOT WIN32)
+  #set(OpenBLAS_version "0.2.15")
+  set(OpenBLAS_version "0.2.20")
+  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
+
+  if (OpenBLAS_version VERSION_EQUAL 0.2.20)
+    set(OpenBLAS_md5 "48637eb29f5b492b91459175dcc574b1")
+  elseif (OpenBLAS_version VERSION_EQUAL 0.2.15)
+    set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
+  else()
+    message("Unknown OpenBLAS version = ${OpenBLAS_version}")
+  endif()
+  set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.zip")
+  list(APPEND fletch_external_sources OpenBLAS)
+endif()
+
 # OpenCV
 # Support 2.4.13 and 3.1, and 3.3 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
@@ -222,23 +239,6 @@ set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_vers
 set(GTest_md5 "16877098823401d1bf2ed7891d7dce36")
 set(GTest_dlname "gtest-${GTest_version}.tar.gz")
 list(APPEND fletch_external_sources GTest)
-
-#OpenBLAS
-if(NOT WIN32)
-  #set(OpenBLAS_version "0.2.15")
-  set(OpenBLAS_version "0.2.20")
-  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
-
-  if (OpenBLAS_version VERSION_EQUAL 0.2.20)
-    set(OpenBLAS_md5 "48637eb29f5b492b91459175dcc574b1")
-  elseif (OpenBLAS_version VERSION_EQUAL 0.2.15)
-    set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
-  else()
-    message("Unknown OpenBLAS version = ${OpenBLAS_version}")
-  endif()
-  set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.zip")
-  list(APPEND fletch_external_sources OpenBLAS)
-endif()
 
 #SuiteSparse
 set(SuiteSparse_version 4.4.5)

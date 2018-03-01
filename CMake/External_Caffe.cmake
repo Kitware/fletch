@@ -230,14 +230,8 @@ else()
   set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
 endif()
 
-if(fletch_ENABLE_OpenBLAS)
-  get_system_library_name(openblas openblas_libname)
-  set(CAFFE_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_ROOT}/include"
-    "-DOpenBLAS_LIB=${OpenBLAS_ROOT}/lib/${openblas_libname}")
-else()
-  set(CAFFE_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_INCLUDE_DIR}"
-    "-DOpenBLAS_LIB=${OpenBLAS_LIBRARY}")
-endif()
+set(CAFFE_OPENBLAS_ARGS "-DOpenBLAS_INCLUDE_DIR=${OpenBLAS_INCLUDE_DIR}"
+  "-DOpenBLAS_LIB=${OpenBLAS_LIB}")
 
 if(fletch_BUILD_WITH_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
