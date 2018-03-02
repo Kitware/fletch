@@ -32,6 +32,8 @@ New Packages
 
 Package Upgrades
 
+ * Upgrade Eigen to version 3.3.4
+
  * Upgrade libgeotiff to version 1.4.2
 
  * Upgrade GLog to version 0.3.5
@@ -80,6 +82,10 @@ Package Upgrades
 
 Fixes since v1.0.0
 ------------------
+
+ * Fix issue building OpenCV 3.4 with OpenBLAS
+
+ * Fix issue where `CUDNN_TOOLKIT_ROOT_DIR` pointed to the wrong location. 
 
  * Increase minimum_cmake_required to support CMAKE_CXX_STANDARD
 

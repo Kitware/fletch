@@ -82,6 +82,24 @@ else()
 endif()
 
 
+if(fletch_ENABLE_OpenBLAS)
+  if (NOT OpenCV_version VERSION_LESS 3.2.0)
+    message(STATUS "OpenCV depending on fletch OpenBLAS")
+    set(_OpenCV_ENABLE_OPENBLAS_DEFAULT TRUE)
+    list(APPEND OpenCV_DEPENDS OpenBLAS)
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+      # FIXME: If LAPACK is on, opencv_traincascade fails to link.
+      # The error is: liblapack.so - undefined reference to `gotoblas`.
+      # note: the problem may be multiple cblas.h
+      # A temporary workaround is to turn LAPACK off.
+      -DWITH_LAPACK:BOOL=FALSE
+      -DOpenBLAS_INCLUDE_DIR:PATH="${OpenBLAS_INCLUDE_DIR}"
+      -DOpenBLAS_LIB:PATH="${OpenBLAS_LIB}"
+      )
+  endif()
+endif()
+
+
 # Handle GPU disable flag
 if(fletch_ENABLE_OpenCV_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)

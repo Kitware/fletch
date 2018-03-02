@@ -41,6 +41,8 @@ if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
     set(Boost_minor_version 65)
     set(Boost_patch_version 1)
     set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
+
+    set(Boost_url "https://dl.bintray.com/boostorg/release/1.65.1/source/boost_1_65_1.tar.bz2")
     set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
   else()
     message(STATUS "Boost_SELECT_VERSION: Not supported")
@@ -58,8 +60,11 @@ list(APPEND fletch_external_sources ZLib)
 
 # libjpeg-turbo
 set(libjpeg-turbo_version "1.4.0")
+# Alternative URL
 set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
 set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
+set(libjpeg-turbo_url "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${libjpeg-turbo_version}.tar.gz")
+set(libjpeg-turbo_md5 "ac29c335684d6af3d80e5550044019a6")
 list(APPEND fletch_external_sources libjpeg-turbo)
 
 # openjpeg
@@ -148,11 +153,28 @@ if(_FFmpeg_supported)
 endif()
 
 # EIGEN
-set(Eigen_version 3.2.9)
+set(Eigen_version 3.3.4)
 set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "6a578dba42d1c578d531ab5b6fa3f741")
+set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
+
+#OpenBLAS
+if(NOT WIN32)
+  #set(OpenBLAS_version "0.2.15")
+  set(OpenBLAS_version "0.2.20")
+  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
+
+  if (OpenBLAS_version VERSION_EQUAL 0.2.20)
+    set(OpenBLAS_md5 "48637eb29f5b492b91459175dcc574b1")
+  elseif (OpenBLAS_version VERSION_EQUAL 0.2.15)
+    set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
+  else()
+    message("Unknown OpenBLAS version = ${OpenBLAS_version}")
+  endif()
+  set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.zip")
+  list(APPEND fletch_external_sources OpenBLAS)
+endif()
 
 # OpenCV
 # Support 2.4.13 and 3.1, and 3.3 optionally
@@ -222,23 +244,6 @@ set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_vers
 set(GTest_md5 "16877098823401d1bf2ed7891d7dce36")
 set(GTest_dlname "gtest-${GTest_version}.tar.gz")
 list(APPEND fletch_external_sources GTest)
-
-#OpenBLAS
-if(NOT WIN32)
-  #set(OpenBLAS_version "0.2.15")
-  set(OpenBLAS_version "0.2.20")
-  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
-
-  if (OpenBLAS_version VERSION_EQUAL 0.2.20)
-    set(OpenBLAS_md5 "48637eb29f5b492b91459175dcc574b1")
-  elseif (OpenBLAS_version VERSION_EQUAL 0.2.15)
-    set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
-  else()
-    message("Unknown OpenBLAS version = ${OpenBLAS_version}")
-  endif()
-  set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.zip")
-  list(APPEND fletch_external_sources OpenBLAS)
-endif()
 
 #SuiteSparse
 set(SuiteSparse_version 4.4.5)
@@ -526,9 +531,9 @@ set(Darknet_md5 "d781157ba5eb81b8658aac0173fd5f09")
 list(APPEND fletch_external_sources Darknet)
 
 # pybind11
-set(pybind11_version "2.2.0")
+set(pybind11_version "2.2.1")
 set(pybind11_url "https://github.com/pybind/pybind11/archive/v${pybind11_version}.tar.gz")
-set(pybind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
+set(pybind11_md5 "bab1d46bbc465af5af3a4129b12bfa3b")
 set(pybind11_dlname "pybind11-${pybind11_version}.tar.gz")
 list(APPEND fletch_external_sources pybind11)
 
@@ -538,6 +543,18 @@ set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/release-${YAMLcpp_ve
 set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
 set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
+
+set(CUB_version "1.8.0")
+set(CUB_url "https://github.com/NVlabs/cub/archive/v${CUB_version}.zip")
+set(CUB_md5 "a821b9dffbc9d1bacf1c8db2a59094bf")
+list(APPEND fletch_external_sources CUB)
+
+if (NOT WIN32)
+  set(Caffe2_version "0.8.1")
+  set(Caffe2_url "https://github.com/caffe2/caffe2/archive/v${Caffe2_version}.zip")
+  set(Caffe2_md5 "29a394fb18bb1cc61d518e1fad148078")
+  list(APPEND fletch_external_sources Caffe2)
+endif()
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"

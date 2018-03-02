@@ -32,18 +32,28 @@ if (BUILD_CXSPARSE_ONLY)
 
 elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
 
-  find_package(LAPACK)
-  if (NOT LAPACK_FOUND)
-    list (APPEND MISSING_DEPS "lapack")
-  endif()
-
-  find_package(BLAS)
-  if (NOT BLAS_FOUND)
+  if (fletch_ENABLE_OpenBLAS)
+    # point SuiteSparse to the OpenBLAS we are building
     add_package_dependency(
       PACKAGE SuiteSparse
       PACKAGE_DEPENDENCY OpenBLAS
       PACKAGE_DEPENDENCY_ALIAS OpenBLAS
       )
+  elseif()
+    # Find system LAPACK and BLAS
+    find_package(LAPACK)
+    if (NOT LAPACK_FOUND)
+      list (APPEND MISSING_DEPS "lapack")
+    endif()
+
+    find_package(BLAS)
+    if (NOT BLAS_FOUND)
+      add_package_dependency(
+        PACKAGE SuiteSparse
+        PACKAGE_DEPENDENCY OpenBLAS
+        PACKAGE_DEPENDENCY_ALIAS OpenBLAS
+        )
+    endif()
   endif()
 
   if (MISSING_DEPS)
