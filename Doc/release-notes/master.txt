@@ -28,7 +28,11 @@ New Packages
 
  * Added GDAL 1.11.5
 
+ * Added openjpeg for jpeg2k decoding in GDAL
+
 Package Upgrades
+
+ * Upgrade Eigen to version 3.3.4
 
  * Upgrade libgeotiff to version 1.4.2
 

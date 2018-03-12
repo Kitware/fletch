@@ -122,7 +122,7 @@ if (NOT fletch_BUILD_INSTALL_PREFIX)
   # If building fletch from inside, change config out directory to the build directory
   set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
 else()
-  set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig.cmake )
+  set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/share/cmake/fletchConfig.cmake )
 endif()
 
 #

@@ -39,3 +39,6 @@ file(COPY ${OpenCV_patch}/apps/version/CMakeLists.txt
 file(COPY ${OpenCV_patch}/apps/visualisation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/visualisation
 )
+file(COPY ${OpenCV_patch}/OpenCVConfig.root-WIN32.cmake.in
+  DESTINATION ${OpenCV_source}/cmake/templates/
+)

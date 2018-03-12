@@ -24,7 +24,7 @@
 # Boost
 # Support 1.55.0 (Default) and 1.65.1 optionally
 if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
-  set(Boost_SELECT_VERSION 1.55.0 CACHE STRING "Select the major version of Boost to build.")
+  set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
   set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
@@ -48,9 +48,6 @@ if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources Boost)
 
-
-
-
 # ZLib
 set(ZLib_version 1.2.8)
 set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
@@ -64,6 +61,12 @@ set(libjpeg-turbo_version "1.4.0")
 set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
 set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
+
+# openjpeg
+set(openjpeg_version "2.1.2")
+set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
+set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
+list(APPEND fletch_external_sources openjpeg)
 
 # libtiff
 set(libtiff_version "4.0.6")
@@ -94,65 +97,60 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 
 # FFmpeg
 set(_FFmpeg_supported TRUE)
-if(WIN32)
-
-  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+  if(WIN32)
     set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
     set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
     mark_as_advanced(FFmpeg_SELECT_VERSION)
-  endif()
-  # The windows version is git-c089e72 (2015-03-05)
-  # follows: n2.6-dev (2014-12-03)
-  # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
-  set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
+    # The windows version is git-c089e72 (2015-03-05)
+    # follows: n2.6-dev (2014-12-03)
+    # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
+    set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
 
-  if (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 3.1 )
-    message(FATAL_ERROR "CMake ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} is too old to support the 7z extension of FFmpeg")
-  endif()
-  include(CheckTypeSize)
-  if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
-    set(bitness 32)
-    message(FATAL_ERROR "Fletch does NOT support FMPEG 32 bit. Please use 64bit.")
-  endif()
-  # On windows download prebuilt binaries and shared libraries
-  # dev contains headers .lib, .def, and mingw .dll.a files
-  # shared contains dll and exe files.
-  set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
-  set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
-  set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
-  set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
-else()
-
-  if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+    if (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 3.1 )
+      message(FATAL_ERROR "CMake ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} is too old to support the 7z extension of FFmpeg")
+    endif()
+    include(CheckTypeSize)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
+      set(bitness 32)
+      message(FATAL_ERROR "Fletch does NOT support FMPEG 32 bit. Please use 64bit.")
+    endif()
+    # On windows download prebuilt binaries and shared libraries
+    # dev contains headers .lib, .def, and mingw .dll.a files
+    # shared contains dll and exe files.
+    set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
+    set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
+    set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
+    set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
+  else()
     # allow different versions to be selected for testing purposes
     set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
     set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
     mark_as_advanced(FFmpeg_SELECT_VERSION)
+
+    #set(_FFmpeg_version 3.3.3) # (2017-07-29)
+    #set(_FFmpeg_version 2.6.2) # (2015-04-10)
+    set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
+    set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
+
+    if (_FFmpeg_version VERSION_EQUAL 3.3.3)
+      set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
+    elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
+      set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
+    elseif (_FFmpeg_supported AND _FFmpeg_version)
+      message("Unsupported FFmpeg version ${_FFmpeg_version}")
+    endif()
+
   endif()
-
-  #set(_FFmpeg_version 3.3.3) # (2017-07-29)
-  #set(_FFmpeg_version 2.6.2) # (2015-04-10)
-  set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
-  set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
-
-  if (_FFmpeg_version VERSION_EQUAL 3.3.3)
-    set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
-  elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
-    set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
-  elseif (_FFmpeg_supported AND _FFmpeg_version)
-    message("Unsupported FFmpeg version ${_FFmpeg_version}")
-  endif()
-
 endif()
 if(_FFmpeg_supported)
   list(APPEND fletch_external_sources FFmpeg)
 endif()
 
-
 # EIGEN
-set(Eigen_version 3.2.9)
+set(Eigen_version 3.3.4)
 set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "6a578dba42d1c578d531ab5b6fa3f741")
+set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
@@ -281,9 +279,9 @@ set(libjson_md5 "82f3fcbf9f8cf3c4e25e1bdd77d65164")
 list(APPEND fletch_external_sources libjson)
 
 # shapelib
-set(shapelib_version 1.3.0b2)
-set(shapelib_url "http://pkgs.fedoraproject.org/repo/pkgs/shapelib/shapelib-${shapelib_version}.tar.gz/708ea578bc299dcd9f723569d12bee8d/shapelib-${shapelib_version}.tar.gz")
-set(shapelib_md5 "708ea578bc299dcd9f723569d12bee8d")
+set(shapelib_version 1.4.1)
+set(shapelib_url "http://download.osgeo.org/shapelib/shapelib-${shapelib_version}.tar.gz")
+set(shapelib_md5 "ae9f1fcd2adda35b74ac4da8674a3178")
 list(APPEND fletch_external_sources shapelib)
 
 # TinyXML
@@ -396,7 +394,7 @@ list(APPEND fletch_external_sources CppDB)
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   # Support the stable version 6.2, and work on updating to next version 8.0
-  set(VTK_SELECT_VERSION 6.2 CACHE STRING "Select the version of VTK to build.")
+  set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
   set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0)
 endif()
 

@@ -3,7 +3,7 @@
 option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
 
 if(BUILD_Qt_MINIMAL)
-  set(Qt_args_package -no-webkit)
+  set(Qt_args_package -no-webkit -no-openssl)
 else()
   set(Qt_args_package -webkit)
 endif()
