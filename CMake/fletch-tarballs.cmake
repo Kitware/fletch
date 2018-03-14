@@ -22,7 +22,7 @@
 #-
 
 # Boost
-# Support 1.55.0 (Default) and 1.65.1 optionally
+# Support 1.65.1 (Default) and 1.55.0 optionally
 if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
   set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
   set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
@@ -517,6 +517,19 @@ else()
 
   #Move this out when windows is supported
   list(APPEND fletch_external_sources Caffe_Segnet)
+endif()
+
+# Video-Caffe
+# Another caffe fork that calls itself caffe, but much different than caffe
+if(WIN32)
+  #set(Video_Caffe_url "https://gitlab.kitware.com/kwiver/video_caffe/repository/Frame_API/archive.tar.gz")
+  #set(Video_Caffe_md5 "1fd4471c81dc5413a46869b61d314af0")
+else()
+  set(Video_Caffe_url "https://gitlab.kitware.com/kwiver/video_caffe/repository/Frame_API/archive.tar.gz")
+  set(Video_Caffe_md5 "1fd4471c81dc5413a46869b61d314af0")
+
+  #Move this out when windows is supported
+  list(APPEND fletch_external_sources Video_Caffe)
 endif()
 
 # Darknet
