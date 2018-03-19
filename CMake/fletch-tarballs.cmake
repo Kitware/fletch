@@ -24,7 +24,7 @@
 # Boost
 # Support 1.55.0 (Default) and 1.65.1 optionally
 if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
-  set(Boost_SELECT_VERSION 1.55.0 CACHE STRING "Select the major version of Boost to build.")
+  set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
   set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
@@ -148,9 +148,9 @@ if(_FFmpeg_supported)
 endif()
 
 # EIGEN
-set(Eigen_version 3.2.9)
+set(Eigen_version 3.3.4)
 set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "6a578dba42d1c578d531ab5b6fa3f741")
+set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
