@@ -12,7 +12,7 @@ endif()
 
 project(${the_target})
 
-link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
+link_directories(${OPENCV_LIB_INSTALL_PATH})
 
 ocv_include_directories("${OpenCV_SOURCE_DIR}/include/opencv")
 ocv_include_modules_recurse(${OPENCV_${the_target}_DEPS})
