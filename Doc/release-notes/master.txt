@@ -81,7 +81,7 @@ Package Upgrades
 Fixes since v1.0.0
 ------------------
 
- * Fix issue where `CUDNN_TOOLKIT_ROOT_DIR` pointed to the wrong location. 
+ * Rename `CUDNN_TOOLKIT_ROOT_DIR` to `CUDNN_ROOT_DIR`. 
 
  * Increase minimum_cmake_required to support CMAKE_CXX_STANDARD
 

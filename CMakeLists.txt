@@ -210,15 +210,15 @@ set(fletch_CUDA_VERSION_STRING ${CUDA_VERSION_STRING})
 
   option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
   if (fletch_BUILD_WITH_CUDNN)
-    set( CUDNN_TOOLKIT_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
-    mark_as_advanced( CUDNN_TOOLKIT_ROOT_DIR )
+    set( CUDNN_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
+    mark_as_advanced( CUDNN_ROOT_DIR )
     find_package( CUDNN QUIET REQUIRED)
 
     file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # CUDNN
 ########################################
-set(CUDNN_TOOLKIT_ROOT_DIR    ${CUDNN_TOOLKIT_ROOT_DIR})
+set(CUDNN_ROOT_DIR    ${CUDNN_ROOT_DIR})
 set(fletch_BUILT_WITH_CUDNN TRUE)
 ")
 
