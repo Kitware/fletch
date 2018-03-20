@@ -481,9 +481,17 @@ if(NOT WIN32)
 endif()
 
 # Caffe
-set(InternalCaffe True)
+if(fletch_ENABLE_Caffe)
+  set(Caffe_SELECT_VARIANT "Kitware" CACHE STRING "Select the variant of Caffe to build.")
+  if(WIN32)
+    set_property(CACHE Caffe_SELECT_VARIANT PROPERTY STRINGS "Kitware" "BVLC")
+  else()
+    set_property(CACHE Caffe_SELECT_VARIANT PROPERTY STRINGS "Kitware" "BVLC" "Segnet" "C3D_Video")
+  endif()
+endif()
+message(STATUS "Caffe variant : ${Caffe_SELECT_VARIANT}")
 
-if(InternalCaffe)
+if(Caffe_SELECT_VARIANT STREQUAL "Kitware")
   # Use the internal kitware hosted Caffe, which contain additional
   # functionality that has not been merged into the BVLC version.
   # This is the recommended option.
@@ -496,41 +504,37 @@ if(InternalCaffe)
     set(Caffe_url "https://data.kitware.com/api/v1/file/598215a28d777f16d01ea13b/download/caffe-linux-7f5cea3.zip")
     set(Caffe_md5 "da2e5c3920f721d70bc02e152f510215")
   endif()
-else()
+elseif(Caffe_SELECT_VARIANT STREQUAL "BVLC")
   # The original BVLC Caffe does not currently contain required functionality.
   set(Caffe_version "1.0")
   set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
   set(Caffe_md5 "5fbb0e32e7cd8de3de46e6fe6e4cd2b5")
+elseif(Caffe_SELECT_VARIANT STREQUAL "Segnet")  
+  # Caffe-Segnet
+  # This segnet code is based on caffe, and calls itself caffe, but much different than caffe
+  if(WIN32)
+    #set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
+    #set(Caffe_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
+    #set(Caffe_md5 "73780d2a1e9761711d4f7b806dd497ef")
+  else()
+    set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
+    set(Caffe_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
+    set(Caffe_md5 "73780d2a1e9761711d4f7b806dd497ef")
+  endif()
+elseif(Caffe_SELECT_VARIANT STREQUAL "C3D_Video")
+  # Video-Caffe
+  # Another caffe fork that calls itself caffe, but much different than caffe
+  if(WIN32)
+    #set(Caffe_url "https://gitlab.kitware.com/kwiver/video_caffe/repository/Frame_API/archive.tar.gz")
+    #set(Caffe_md5 "1fd4471c81dc5413a46869b61d314af0")
+    set(Caffe_version "C3D_Video")
+  else()
+    set(Caffe_url "https://gitlab.kitware.com/kwiver/video_caffe/repository/Frame_API/archive.tar.gz")
+    set(Caffe_md5 "1fd4471c81dc5413a46869b61d314af0")
+    set(Caffe_version "C3D_Video")
+  endif()
 endif()
 list(APPEND fletch_external_sources Caffe)
-
-# Caffe-Segnet
-# This segnet code is based on caffe, and calls itself caffe, but much different than caffe
-if(WIN32)
-  #set(Caffe_Segnet_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-  #set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/download/darknet-1e3a9ceb.zip")
-  #set(Caffe_Segnet_md5 "89fef1913972ec855c7b31a598c9c52f")
-else()
-  set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
-  set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
-  set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
-
-  #Move this out when windows is supported
-  list(APPEND fletch_external_sources Caffe_Segnet)
-endif()
-
-# Video-Caffe
-# Another caffe fork that calls itself caffe, but much different than caffe
-if(WIN32)
-  #set(Video_Caffe_url "https://gitlab.kitware.com/kwiver/video_caffe/repository/Frame_API/archive.tar.gz")
-  #set(Video_Caffe_md5 "1fd4471c81dc5413a46869b61d314af0")
-else()
-  set(Video_Caffe_url "https://gitlab.kitware.com/kwiver/video_caffe/repository/Frame_API/archive.tar.gz")
-  set(Video_Caffe_md5 "1fd4471c81dc5413a46869b61d314af0")
-
-  #Move this out when windows is supported
-  list(APPEND fletch_external_sources Video_Caffe)
-endif()
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows

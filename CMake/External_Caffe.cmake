@@ -1,6 +1,17 @@
 set(allOk True)
 set(errorMessage)
 
+if(Caffe_SELECT_VARIANT STREQUAL "C3D_Video")
+  if (NOT fletch_BUILD_WITH_CUDA)
+    message( FATAL_ERROR "C3D_Video Caffe requires CUDA" )
+    return()
+  endif()
+  if (NOT fletch_BUILD_WITH_CUDNN)
+    message( FATAL_ERROR "C3D_Video Caffe requires CUDNN" )
+    return()
+  endif()
+endif()
+
 option(AUTO_ENABLE_CAFFE_DEPENDENCY "Automatically turn on all caffe dependencies if caffe is enabled" OFF)
 if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
   #Snappy is needed by LevelDB and ZLib is needed by HDF5
@@ -266,6 +277,7 @@ else()
 endif()
 
 
+set(Caffe_PATCH_COMMAND "")
 set (Caffe_PATCH_DIR "${fletch_SOURCE_DIR}/Patches/Caffe/${Caffe_version}")
 if (EXISTS ${Caffe_PATCH_DIR})
   set(
@@ -274,8 +286,6 @@ if (EXISTS ${Caffe_PATCH_DIR})
     -DCaffe_source=${fletch_BUILD_PREFIX}/src/Caffe
     -P ${Caffe_PATCH_DIR}/Patch.cmake
     )
-else()
-  set(Caffe_PATCH_COMMAND "")
 endif()
 
 
@@ -346,4 +356,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # Caffe
 ########################################
 set(Caffe_ROOT    \${fletch_ROOT})
+set(Caffe_VARIANT  ${Caffe_SELECT_VARIANT})
 ")
