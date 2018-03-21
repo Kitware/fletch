@@ -32,6 +32,8 @@ New Packages
 
 Package Upgrades
 
+ * pybind11 to version 2.2.1
+
  * Upgrade Eigen to version 3.3.4
 
  * Upgrade libgeotiff to version 1.4.2
