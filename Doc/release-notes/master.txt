@@ -82,6 +82,8 @@ Package Upgrades
 
  * Upgrade VXL to 63b790a424a9d3fd535ae7278d0a600408dbc08f
 
+ * Boost 1.65 is now the default, remove Boost 1.55
+
 Fixes since v1.0.0
 ------------------
 
