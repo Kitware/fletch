@@ -84,6 +84,9 @@ Package Upgrades
 
  * Boost 1.65 is now the default, remove Boost 1.55
 
+ * OpenCV 3.4.0 is now the default.
+
+
 Fixes since v1.0.0
 ------------------
 
