@@ -28,14 +28,7 @@ if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPEN
   set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
-  if (Boost_SELECT_VERSION VERSION_EQUAL 1.55.0)
-    # Boost 1.55
-    set(Boost_major_version 1)
-    set(Boost_minor_version 55)
-    set(Boost_patch_version 0)
-    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
-    set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
-  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
+  if(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
     # Boost 1.65.1
     set(Boost_major_version 1)
     set(Boost_minor_version 65)
