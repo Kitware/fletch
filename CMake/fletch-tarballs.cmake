@@ -23,19 +23,12 @@
 
 # Boost
 # Support 1.55.0 (Default) and 1.65.1 optionally
-if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
+if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
   set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
-  if (Boost_SELECT_VERSION VERSION_EQUAL 1.55.0)
-    # Boost 1.55
-    set(Boost_major_version 1)
-    set(Boost_minor_version 55)
-    set(Boost_patch_version 0)
-    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
-    set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
-  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
+  if(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
     # Boost 1.65.1
     set(Boost_major_version 1)
     set(Boost_minor_version 65)
@@ -295,13 +288,28 @@ set(libkml_dlname "libkml-${libkml_version}.zip")
 list(APPEND fletch_external_sources libkml)
 
 # Qt
-set(Qt_release_location official_releases) # official_releases or archive
-set(Qt_version_major 4)
-set(Qt_version_minor 8)
-set(Qt_patch_version 6)
-set(Qt_version ${Qt_version_major}.${Qt_version_minor}.${Qt_patch_version})
-set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/${Qt_version_major}.${Qt_version_minor}/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
-set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
+# Support 4.8.6 and 5.10 optionally
+if (fletch_ENABLE_Qt OR fletch_ENABLE_ALL_PACKAGES)
+  set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
+  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.10.0")
+
+  set(Qt_version ${Qt_SELECT_VERSION})
+  string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
+  list(GET Qt_VERSION_LIST 0 Qt_version_major)
+  list(GET Qt_VERSION_LIST 1 Qt_version_minor)
+  list(GET Qt_VERSION_LIST 2 Qt_version_patch)
+  set(Qt_release_location official_releases) # official_releases or archive
+
+  if (Qt_version VERSION_EQUAL 5.10.0)
+    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.10/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
+    set(Qt_md5 "c5e275ab0ed7ee61d0f4b82cd471770d")
+  elseif (Qt_version VERSION_EQUAL 4.8.6)
+    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
+    set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
+  else()
+    message(ERROR "Qt Version \"${Qt_version}\" Not Supported")
+  endif()
+endif()
 list(APPEND fletch_external_sources Qt)
 
 # PROJ.4
