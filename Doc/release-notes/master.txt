@@ -28,7 +28,13 @@ New Packages
 
  * Added GDAL 1.11.5
 
+ * Added openjpeg for jpeg2k decoding in GDAL
+
 Package Upgrades
+
+ * pybind11 to version 2.2.1
+
+ * Upgrade Eigen to version 3.3.4
 
  * Upgrade libgeotiff to version 1.4.2
 
@@ -74,6 +80,13 @@ Package Upgrades
 
  * Added option to build GDAL 2.2.2
 
+ * Upgrade VXL to 63b790a424a9d3fd535ae7278d0a600408dbc08f
+
+ * Boost 1.65 is now the default, remove Boost 1.55
+
+ * OpenCV 3.4.0 is now the default.
+
+
 Fixes since v1.0.0
 ------------------
 
@@ -105,3 +118,5 @@ Fixes since v1.0.0
  * Patch Protobuf 2 to support arm boards like TX2
 
  * Patch OpenCV so the FFmpeg libraries it uses can find each other
+
+ * Add 'experimental' packages to VXL and remove BRL

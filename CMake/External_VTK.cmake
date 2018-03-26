@@ -192,7 +192,7 @@ option(VTK_ENABLE_DEBUG_LEAKS "Enable DEBUG LEAKS in VTK" OFF)
 mark_as_advanced(VTK_ENABLE_DEBUG_LEAKS)
 
 # General VTK flags
-set(vtk_cmake_args ${vtk_cmake_args}
+list(APPEND vtk_cmake_args
   -DVTK_Group_Imaging:BOOL=ON
   -DVTK_Group_Rendering:BOOL=ON
   -DVTK_Group_StandAlone:BOOL=ON
@@ -205,6 +205,7 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
   -DPYTHON_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
   -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
+  -DVTK_RENDERING_BACKEND:STRING=OpenGL
   )
 
 

@@ -47,9 +47,15 @@ file(COPY ${OpenCV_patch}/run_nvcc.cmake
   DESTINATION ${OpenCV_source}/cmake/FindCUDA
 )
 
-#
+# Set link-directories for 4 executables that have trouble finding FFmpeg
 file(COPY ${OpenCV_patch}/apps/annotation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/annotation/
+)
+
+# Patch helps OpenCV define HAVE_SWSCALE when lib is found
+# The patch is required for highgui
+file(COPY ${OpenCV_patch}/OpenCVFindLibsVideo.cmake
+  DESTINATION ${OpenCV_source}/cmake
 )
 
 file(COPY ${OpenCV_patch}/apps/haartraining/CMakeLists.txt
@@ -62,4 +68,8 @@ file(COPY ${OpenCV_patch}/apps/traincascade/CMakeLists.txt
 
 file(COPY ${OpenCV_patch}/apps/visualisation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/visualisation/
+)
+
+file(COPY ${OpenCV_patch}/modules/gpu/perf4au/CMakeLists.txt
+  DESTINATION ${OpenCV_source}/modules/gpu/perf4au/
 )
