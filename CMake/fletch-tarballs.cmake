@@ -23,19 +23,12 @@
 
 # Boost
 # Support 1.55.0 (Default) and 1.65.1 optionally
-if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
+if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
   set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
-  if (Boost_SELECT_VERSION VERSION_EQUAL 1.55.0)
-    # Boost 1.55
-    set(Boost_major_version 1)
-    set(Boost_minor_version 55)
-    set(Boost_patch_version 0)
-    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
-    set(Boost_md5 "d6eef4b4cacb2183f2bf265a5a03a354")
-  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
+  if(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
     # Boost 1.65.1
     set(Boost_major_version 1)
     set(Boost_minor_version 65)
@@ -157,7 +150,7 @@ list(APPEND fletch_external_sources Eigen)
 # OpenCV
 # Support 2.4.13 and 3.1, and 3.3 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(OpenCV_SELECT_VERSION 3.1.0 CACHE STRING "Select the  version of OpenCV to build.")
+  set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
   set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.1.0" "3.3.1" "3.4.0")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
@@ -301,13 +294,28 @@ set(libkml_dlname "libkml-${libkml_version}.zip")
 list(APPEND fletch_external_sources libkml)
 
 # Qt
-set(Qt_release_location official_releases) # official_releases or archive
-set(Qt_version_major 4)
-set(Qt_version_minor 8)
-set(Qt_patch_version 6)
-set(Qt_version ${Qt_version_major}.${Qt_version_minor}.${Qt_patch_version})
-set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/${Qt_version_major}.${Qt_version_minor}/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
-set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
+# Support 4.8.6 and 5.10 optionally
+if (fletch_ENABLE_Qt OR fletch_ENABLE_ALL_PACKAGES)
+  set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
+  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.10.0")
+
+  set(Qt_version ${Qt_SELECT_VERSION})
+  string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
+  list(GET Qt_VERSION_LIST 0 Qt_version_major)
+  list(GET Qt_VERSION_LIST 1 Qt_version_minor)
+  list(GET Qt_VERSION_LIST 2 Qt_version_patch)
+  set(Qt_release_location official_releases) # official_releases or archive
+
+  if (Qt_version VERSION_EQUAL 5.10.0)
+    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.10/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
+    set(Qt_md5 "c5e275ab0ed7ee61d0f4b82cd471770d")
+  elseif (Qt_version VERSION_EQUAL 4.8.6)
+    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
+    set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
+  else()
+    message(ERROR "Qt Version \"${Qt_version}\" Not Supported")
+  endif()
+endif()
 list(APPEND fletch_external_sources Qt)
 
 # PROJ.4
@@ -508,12 +516,12 @@ if(InternalCaffe)
   # This is the recommended option.
   if(WIN32)
     set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://data.kitware.com/api/v1/file/598215638d777f16d01ea138/download/caffe-win32-527f97c0.zip")
-    set(Caffe_md5 "4ec71f28a797eac7fe3ddcb0fbfab60e")
+    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Fwindows/archive.zip")
+    set(Caffe_md5 "a8376d867d87b6340313b82d87743bc7")
   else()
     set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
-    set(Caffe_url "https://data.kitware.com/api/v1/file/598215a28d777f16d01ea13b/download/caffe-linux-7f5cea3.zip")
-    set(Caffe_md5 "da2e5c3920f721d70bc02e152f510215")
+    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Flinux/archive.zip")
+    set(Caffe_md5 "29b5ddbd6e2f47836cee5e55c88e098f")
   endif()
 else()
   # The original BVLC Caffe does not currently contain required functionality.
@@ -525,11 +533,7 @@ list(APPEND fletch_external_sources Caffe)
 
 # Caffe-Segnet
 # This segnet code is based on caffe, and calls itself caffe, but much different than caffe
-if(WIN32)
-  #set(Caffe_Segnet_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-  #set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59cbedae8d777f7d33e9d9df/download/darknet-1e3a9ceb.zip")
-  #set(Caffe_Segnet_md5 "89fef1913972ec855c7b31a598c9c52f")
-else()
+if(NOT WIN32)
   set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
   set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
   set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
@@ -540,14 +544,14 @@ endif()
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://data.kitware.com/api/v1/file/5a4f88a58d777f5e872f80f8/download/darknet-ce5beb49.zip")
-set(Darknet_md5 "d781157ba5eb81b8658aac0173fd5f09")
+set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/repository/fletch%2Fmaster/archive.zip")
+set(Darknet_md5 "d206b6da7af1f43340a217d6b05db5e3")
 list(APPEND fletch_external_sources Darknet)
 
 # pybind11
-set(pybind11_version "2.2.0")
+set(pybind11_version "2.2.1")
 set(pybind11_url "https://github.com/pybind/pybind11/archive/v${pybind11_version}.tar.gz")
-set(pybind11_md5 "978b26aea1c6bfc4f88518ef33771af2")
+set(pybind11_md5 "bab1d46bbc465af5af3a4129b12bfa3b")
 set(pybind11_dlname "pybind11-${pybind11_version}.tar.gz")
 list(APPEND fletch_external_sources pybind11)
 

@@ -57,6 +57,10 @@ if (fletch_BUILD_CXX11)
   set(fletch_CXX_STANDARD_VERSION "11")
 endif()
 
+
+# Disable exporting to the cmake package registry (see GH #341)
+set(CMAKE_EXPORT_NO_PACKAGE_REGISTRY TRUE)
+
 #
 # Do we want to build in Python support where available
 #
@@ -119,11 +123,9 @@ option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 # allow the configuring package to set the install prefix.
 if (NOT fletch_BUILD_INSTALL_PREFIX)
   set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
-  # If building fletch from inside, change config out directory to the build directory
-  set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
-else()
-  set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/share/cmake/fletchConfig.cmake )
 endif()
+
+set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
 
 #
 # Create a CMake Version file
@@ -332,6 +334,10 @@ if (NOT "#@${fletch_requires_make}" STREQUAL "#@")
 endif()
 
 configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
+
+set(fletch_CONFIG_INSTALL ${fletch_BUILD_INSTALL_PREFIX}/share/cmake/fletchConfig.cmake )
+configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_INSTALL} @ONLY )
+
 
 # Last step, prepare install of fletch.
 include(${fletch_SOURCE_DIR}/CMake/fletch-install.cmake)

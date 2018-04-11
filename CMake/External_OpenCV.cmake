@@ -254,6 +254,15 @@ else()
     message("Unknown Python version")
 endif()
 
+if (CMAKE_CXX_COMPILER MATCHES ".*ccache*" AND
+    CMAKE_COMPILER_IS_GNUCC AND
+    fletch_BUILD_WITH_CUDA AND
+    CUDA_HOST_COMPILER STREQUAL CMAKE_C_COMPILER
+    )
+  message(WARNING
+    "You are using ccache as your compiler and CUDA support is enabled. This configuration is known to fail with nvcc. Make sure you pass -DCUDA_HOST_COMPILER=/usr/bin/cc as an argument to cmake. Adjust the path to match your actual C compiler's location")
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
