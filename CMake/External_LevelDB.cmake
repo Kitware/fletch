@@ -34,6 +34,9 @@ ExternalProject_Add(LevelDB
 fletch_external_project_force_install(PACKAGE LevelDB)
 
 set(LevelDB_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
+get_system_library_name( leveldb leveldb_libname )
+set(LevelDB_INCLUDE_DIR ${LevelDB_ROOT}/include)
+set(LevelDB_LIBRARY ${LevelDB_ROOT}/lib/${leveldb_libname})
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################

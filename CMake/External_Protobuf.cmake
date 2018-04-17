@@ -47,6 +47,20 @@ fletch_external_project_force_install(PACKAGE Protobuf)
 
 set(Protobuf_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "")
 
+get_system_library_name( protobuf protobuf_libname )
+get_system_library_name( protobuf-lite protobuf-lite_libname )
+get_system_library_name( protoc protoc_libname )
+
+set(PROTOBUF_INCLUDE_DIR "${Protobuf_ROOT}/include")
+set(PROTOBUF_LIBRARY "${Protobuf_ROOT}/lib/${protobuf_libname}")
+set(PROTOBUF_LIBRARY_DEBUG "${Protobuf_ROOT}/lib/${protobuf_libname}")
+set(PROTOBUF_LITE_LIBRARY "${Protobuf_ROOT}/lib/${protobuf-lite_libname}")
+set(PROTOBUF_LITE_LIBRARY_DEBUG "${Protobuf_ROOT}/lib/${protobuf-lite_libname}")
+set(PROTOBUF_PROTOC_EXECUTABLE "${Protobuf_ROOT}/bin/protoc")
+set(PROTOBUF_PROTOC_LIBRARY "${Protobuf_ROOT}/lib/${protoc_libname}")
+set(PROTOBUF_PROTOC_LIBRARY_DEBUG "${Protobuf_ROOT}/lib/${protoc_libname}")
+
+
 file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # Google Protobuf
