@@ -350,9 +350,9 @@ endif()
 list(APPEND fletch_external_sources GDAL)
 
 # GeographicLib
-set(GeographicLib_version "1.30" )
+set(GeographicLib_version "1.49" )
 set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
-set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
+set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
 list(APPEND fletch_external_sources GeographicLib )
 
 # GEOS
