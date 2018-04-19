@@ -55,12 +55,6 @@ set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-tu
 set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
 
-# openjpeg
-set(openjpeg_version "2.1.2")
-set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
-set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
-list(APPEND fletch_external_sources openjpeg)
-
 # libtiff
 set(libtiff_version "4.0.6")
 set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
@@ -82,6 +76,12 @@ else()
   set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
 endif()
 list(APPEND fletch_external_sources PNG)
+
+# openjpeg
+set(openjpeg_version "2.1.2")
+set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
+set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
+list(APPEND fletch_external_sources openjpeg)
 
 # YASM for building jpeg-turbo, not third party library
 set(yasm_version "1.3.0")
