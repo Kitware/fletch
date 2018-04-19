@@ -9,4 +9,10 @@ configure_file(
   ${Eigen_patch}/cmake/FindBLAS.cmake
   ${Eigen_source}/cmake/
   COPYONLY
+  )
+
+configure_file(
+  ${Eigen_patch}/cmake/language_support.cmake
+  ${Eigen_source}/cmake/
+  COPYONLY
 )
