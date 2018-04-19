@@ -1,4 +1,35 @@
 
+# libpng
+add_package_dependency(
+  PACKAGE openjpeg
+  PACKAGE_DEPENDENCY PNG
+  )
+if (fletch_ENABLE_PNG)
+  set(PNG_INCLUDE_DIR "${fletch_BUILD_INSTALL_PREFIX}/include")
+endif()
+
+list (APPEND openjpeg_DEPS
+  -DPNG_PNG_INCLUDE_DIR:PATH=${PNG_INCLUDE_DIR}
+  -DPNG_LIBRARY_RELEASE:FILEPATH=${PNG_LIBRARY}
+  )
+
+# libtiff
+add_package_dependency(
+  PACKAGE openjpeg
+  PACKAGE_DEPENDENCY libtiff
+  PACKAGE_DEPENDENCY_ALIAS TIFF
+  )
+if (fletch_ENABLE_libtiff)
+  set(TIFF_INCLUDE_DIR "${fletch_BUILD_INSTALL_PREFIX}/include")
+endif()
+
+if (DEFINED TIFF_LIBRARY)
+  list (APPEND openjpeg_DEPS
+    -DTIFF_INCLUDE_DIR:PATH=${TIFF_INCLUDE_DIR}
+    -DTIFF_LIBRARY_RELEASE:FILEPATH=${TIFF_LIBRARY}
+    )
+endif()
+
 ExternalProject_Add(openjpeg
   URL ${openjpeg_url}
   URL_MD5 ${openjpeg_md5}
@@ -15,6 +46,7 @@ ExternalProject_Add(openjpeg
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+    ${openjpeg_DEPS}
     ${COMMON_CMAKE_ARGS}
   )
 

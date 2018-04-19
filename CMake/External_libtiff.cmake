@@ -72,6 +72,9 @@ ExternalProject_Add(libtiff
 fletch_external_project_force_install(PACKAGE libtiff)
 
 set(libtiff_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
+get_system_library_name(tiff tiff_libname)
+set(TIFF_LIBRARY "${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_libname}")
+
 file(APPEND ${fletch_CONFIG_INPUT} "
 ################################
 # libtiff
