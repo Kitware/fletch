@@ -32,3 +32,10 @@ else()
     file(COPY ${PostgreSQL_patch}/cube DESTINATION ${PostgreSQL_source}/contrib/)
   endif()
 endif()
+
+#This patch is valid for any version of PostgreSQL through 2018-04-19
+file(COPY
+  ${PostgreSQL_patch}/src/bin/pg_rewind/copy_fetch.c
+  DESTINATION
+  ${PostgreSQL_source}/src/bin/pg_rewind/
+  )
