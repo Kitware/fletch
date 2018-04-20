@@ -6,7 +6,7 @@
 
 message("Patching Eigen ${Eigen_patch} AND ${Eigen_source}")
 configure_file(
-  ${Eigen_patch}/language_support.cmake
+  ${Eigen_patch}/cmake/FindBLAS.cmake
   ${Eigen_source}/cmake/
   COPYONLY
 )

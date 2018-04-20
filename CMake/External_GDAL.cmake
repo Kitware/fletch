@@ -158,12 +158,19 @@ else()
       set(_GDAL_PYTHON_PATH_PREFIX "PYTHONPATH=${GDAL_PYTHON_SITE_PACKAGES}")
    endif()
 
+   # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
+   if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT)
+     set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
+     list(APPEND _GDAL_DEPENDS openjpeg)
+   endif()
+
    # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
    set (GDAL_PKG_ARGS
      ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
-     ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE} ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK}
+     ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE} ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
      --without-jasper
      )
+
 
    Fletch_Require_Make()
    ExternalProject_Add(GDAL

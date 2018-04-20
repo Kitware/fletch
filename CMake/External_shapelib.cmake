@@ -7,12 +7,6 @@ ExternalProject_Add(shapelib
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
   BUILD_IN_SOURCE 1
-
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -Dshapelib_patch=${fletch_SOURCE_DIR}/Patches/shapelib
-    -Dshapelib_source=${fletch_BUILD_PREFIX}/src/shapelib
-    -P ${fletch_SOURCE_DIR}/Patches/shapelib/Patch.cmake
-
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}

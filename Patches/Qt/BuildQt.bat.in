@@ -1,5 +1,5 @@
 REM File configured from BuildQt.bat.in.
 REM Set the path for jom and run it
 cd @fletch_BUILD_PREFIX@/src/Qt
-PATH = @JOM_ADDITIONAL_PATH@;%PATH%
+PATH = @Qt_ADDITIONAL_PATH@;%PATH%
 @JOM_EXE@

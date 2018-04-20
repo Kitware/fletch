@@ -28,7 +28,13 @@ New Packages
 
  * Added GDAL 1.11.5
 
+ * Added openjpeg for jpeg2k decoding in GDAL
+
 Package Upgrades
+
+ * pybind11 to version 2.2.1
+
+ * Upgrade Eigen to version 3.3.4
 
  * Upgrade libgeotiff to version 1.4.2
 
@@ -81,6 +87,10 @@ Package Upgrades
  * Update GOES to version 3.6.2
 
  * Update PotGIS to version 2.4.3
+
+ * Boost 1.65 is now the default, remove Boost 1.55
+
+ * OpenCV 3.4.0 is now the default.
 
 
 Fixes since v1.0.0
