@@ -24,7 +24,6 @@ else()
   unset(fletch_ENABLE_OpenCV_FFmpeg CACHE)
 endif()
 
-
 # Note:
 # Some other libraries built by fletch could be used by OpenCV
 # these are: Ceres, Qt. Should these dependencies be added?
@@ -42,7 +41,7 @@ if(fletch_ENABLE_OpenCV_FFmpeg)
   # take precedence.
   if(NOT WIN32)
       # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
-      set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
+      set(custom_cmake_command CMAKE_COMMAND env PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
       message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
   else()
     message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
@@ -222,6 +221,12 @@ if (fletch_ENABLE_OpenCV_contrib)
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
   #Don't build these contrib modules, they fail on VS.
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_bioinspired:BOOL=FALSE)
+
+  if (fletch_ENABLE_GFlags)
+    message("GFlags_DIR ${GFlags_DIR}")
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS -Dgflags_DIR:PATH=${GFlags_DIR})
+  endif()
+
 endif()
 
 # In newer GCC we need to disable precompiled headers.
