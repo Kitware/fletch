@@ -426,6 +426,14 @@ set(VXL_md5 "5a7e9923630c2a2beef0e8d547e00697")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
+
+# Burnout
+set(Burnout_version "6b16f9f3772acebb5c33368946b5e1ff683b68fb")
+set(Burnout_url "https://github.com/Erotemic/burn-out/archive/${Burnout_version}.zip")
+set(Burnout_md5 "1e254ad88fd7e559e5bef8dde4175986")
+set(Burnout_dlname "Burnout-${Burnout_version}.zip")
+list(APPEND fletch_external_sources Burnout)
+
 # ITK
 set(ITK_version 4.11)
 set(ITK_minor 0)
