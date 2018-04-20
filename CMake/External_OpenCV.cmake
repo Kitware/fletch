@@ -42,7 +42,7 @@ if(fletch_ENABLE_OpenCV_FFmpeg)
   # take precedence.
   if(NOT WIN32)
       # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
-      set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
+      set(custom_cmake_command CMAKE_COMMAND env PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
       message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
   else()
     message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
