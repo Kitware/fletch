@@ -24,7 +24,6 @@ else()
   unset(fletch_ENABLE_OpenCV_FFmpeg CACHE)
 endif()
 
-
 # Note:
 # Some other libraries built by fletch could be used by OpenCV
 # these are: Ceres, Qt. Should these dependencies be added?
@@ -222,6 +221,12 @@ if (fletch_ENABLE_OpenCV_contrib)
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
   #Don't build these contrib modules, they fail on VS.
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_bioinspired:BOOL=FALSE)
+
+  if (fletch_ENABLE_GFlags)
+    message("GFlags_DIR ${GFlags_DIR}")
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS -Dgflags_DIR:PATH=${GFlags_DIR})
+  endif()
+
 endif()
 
 # In newer GCC we need to disable precompiled headers.
