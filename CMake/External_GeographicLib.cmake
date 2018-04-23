@@ -13,6 +13,8 @@ ExternalProject_Add(GeographicLib
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
+    #GeographicLIb cannot build with standard 98 anymore. Force 11
+    -DCMAKE_CXX_STANDARD:STRING=11
 )
 
 fletch_external_project_force_install(PACKAGE GeographicLib)
