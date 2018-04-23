@@ -42,7 +42,7 @@ Motivation
 When building large and complex projects it can be difficult to obtain all
 the required dependent libraries and get them to build and work together.
 Many of the projects in the first list above depend on many of the projects
-in the second list above.  If you naively build OpevCV and VXL, for example,
+in the second list above.  If you naively build OpenCV and VXL, for example,
 each may provide its own copy of libjpeg, libtiff, etc.  This is not a problem
 for the individual projects, but when you try to build a project, like KWIVER,
 against both of them you end up with conflicts from linking to multiple
