@@ -356,15 +356,15 @@ set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
 list(APPEND fletch_external_sources GeographicLib )
 
 # GEOS
-set(GEOS_version "3.4.2" )
+set(GEOS_version "3.6.2" )
 set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
-set(GEOS_md5 "fc5df2d926eb7e67f988a43a92683bae" )
+set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
 list(APPEND fletch_external_sources GEOS )
 
 # PostgreSQL
 if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
   set(PostgreSQL_SELECT_VERSION 9.5.1 CACHE STRING "Select the major version of PostgreSQL to build.")
-  set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "9.4.6")
+  set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "10.2")
   message(STATUS "PostgreSQL Select version: ${PostgreSQL_SELECT_VERSION}")
 
   if (PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.5.1)
@@ -372,11 +372,11 @@ if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
     set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
     set(PostgreSQL_md5 "11e037afaa4bd0c90bb3c3d955e2b401")
-  elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.4.6)
+  elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 10.2)
     # PostgreSQL 9.4
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
     set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
-    set(PostgreSQL_md5 "0371b9d4fb995062c040ea5c3c1c971e")
+    set(PostgreSQL_md5 "e97c3cc72bdf661441f29069299b260a")
   else()
     message(STATUS "PostgreSQL_SELECT_VERSION: Not supported")
   endif()
@@ -386,10 +386,9 @@ list(APPEND fletch_external_sources PostgreSQL)
 # PostGIS
 # Currently it seems the this version of PostGIS will work with all provided PostgreSQL versions
 if(NOT WIN32)
-  set(PostGIS_version "2.1.8" )
+  set(PostGIS_version "2.4.3" )
   set(PostGIS_url "http://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
-  set(PostGIS_md5 "c33923e37424978a1306ce461c1d14ed" )
-  set(PostGIS_experimental TRUE)
+  set(PostGIS_md5 "60395f3dc96505ca4e313449d6463c6a" )
   list(APPEND fletch_external_sources PostGIS )
 endif()
 

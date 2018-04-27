@@ -82,6 +82,12 @@ Package Upgrades
 
  * Upgrade VXL to 63b790a424a9d3fd535ae7278d0a600408dbc08f
 
+ * Add PostgreSQL version 10.2
+
+ * Update GOES to version 3.6.2
+
+ * Update PotGIS to version 2.4.3
+
  * Boost 1.65 is now the default, remove Boost 1.55
 
  * OpenCV 3.4.0 is now the default.
