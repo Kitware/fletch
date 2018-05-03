@@ -311,6 +311,6 @@ if(WIN32)
 else()
   set(OpenCV_DIR \${OpenCV_ROOT}/share/OpenCV)
 endif()
-
+set(OpenCV_VERSION ${OpenCV_SELECT_VERSION})
 set(fletch_ENABLED_OpenCV TRUE)
 ")
