@@ -276,7 +276,7 @@ UMFPACK_CONFIG =
 CHOLMOD_CONFIG = $(GPU_CONFIG)
 
 # uncomment this line to compile CHOLMOD without METIS:
-# CHOLMOD_CONFIG = -DNPARTITION
+CHOLMOD_CONFIG = -DNPARTITION
 
 #------------------------------------------------------------------------------
 # SuiteSparseQR configuration:

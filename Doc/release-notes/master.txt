@@ -127,4 +127,8 @@ Fixes since v1.0.0
 
  * Add 'experimental' packages to VXL and remove BRL
 
+
+* Explicitly disable metis support in Suitesparce since it's not used
+
 * Provide a recognizable download name for Darknet
+
