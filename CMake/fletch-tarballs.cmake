@@ -527,6 +527,7 @@ endif()
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
 set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/repository/fletch%2Fmaster/archive.zip")
 set(Darknet_md5 "d206b6da7af1f43340a217d6b05db5e3")
+set(Darnet_dlname "darknent-d206b6da7af1f4.zip")
 list(APPEND fletch_external_sources Darknet)
 
 # pybind11

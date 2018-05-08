@@ -53,6 +53,7 @@ ExternalProject_Add(Darknet
   DEPENDS ${Darknet_DEPENDS}
   URL ${Darknet_url}
   URL_MD5 ${Darknet_md5}
+  DOWNLOAD_NAME ${Darnet_dlname}
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
