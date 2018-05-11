@@ -332,7 +332,7 @@ list(APPEND fletch_external_sources libgeotiff)
 
 # GDAL
 if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
-  set(GDAL_SELECT_VERSION 1.11.5 CACHE STRING "Select the major version of GDAL to build.")
+  set(GDAL_SELECT_VERSION 2.2.2 CACHE STRING "Select the major version of GDAL to build.")
   set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.2.2" "1.11.5")
   message(STATUS "GDAL Select version: ${GDAL_SELECT_VERSION}")
   if (GDAL_SELECT_VERSION VERSION_EQUAL 2.2.2)
