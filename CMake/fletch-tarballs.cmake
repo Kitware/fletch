@@ -544,6 +544,14 @@ set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
 set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
+# qtExtensions
+set(qtExtensions_version "20180521gita4bc2b24")
+set(qtExtensions_tag "a4bc2b243fc2dedd1542ababd449e2f160db6329")
+set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
+set(qtExtensions_md5 "a8ad752db6cd228c000ecd1e30dfb641")
+set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
+list(APPEND fletch_external_sources qtExtensions)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
