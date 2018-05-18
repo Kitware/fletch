@@ -21,7 +21,7 @@ ExternalProject_Add(GFlags
 fletch_external_project_force_install(PACKAGE GFlags)
 
 set(GFlags_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
-
+set(GFlags_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/gflags CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # GFlags

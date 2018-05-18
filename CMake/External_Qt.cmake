@@ -12,14 +12,14 @@ endif()
 
 # We need python for Qt 5's Qt_Qml
 if (NOT Qt_version VERSION_LESS 5.0.0)
-  message("Building Qt 5")
+  message(STATUS "Building Qt 5")
   if (fletch_BUILD_WITH_PYTHON)
     list(APPEND Qt_ADDITIONAL_PATH ${PYTHON_EXECUTABLE})
   else()
     message(FATAL " Python is required for building Qt 5")
   endif()
 else()
-  message("Building Qt 4")
+  message(STATUS "Building Qt 4")
 endif()
 
 

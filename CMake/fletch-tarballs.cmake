@@ -55,12 +55,6 @@ set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-tu
 set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
 
-# openjpeg
-set(openjpeg_version "2.1.2")
-set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
-set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
-list(APPEND fletch_external_sources openjpeg)
-
 # libtiff
 set(libtiff_version "4.0.6")
 set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
@@ -82,6 +76,12 @@ else()
   set(PNG_md5 "3121bdc77c365a87e054b9f859f421fe")
 endif()
 list(APPEND fletch_external_sources PNG)
+
+# openjpeg
+set(openjpeg_version "2.1.2")
+set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
+set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
+list(APPEND fletch_external_sources openjpeg)
 
 # YASM for building jpeg-turbo, not third party library
 set(yasm_version "1.3.0")
@@ -350,21 +350,21 @@ endif()
 list(APPEND fletch_external_sources GDAL)
 
 # GeographicLib
-set(GeographicLib_version "1.30" )
+set(GeographicLib_version "1.49" )
 set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
-set(GeographicLib_md5 "eadf39013bfef1f87387e7964a2adf02" )
+set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
 list(APPEND fletch_external_sources GeographicLib )
 
 # GEOS
-set(GEOS_version "3.4.2" )
+set(GEOS_version "3.6.2" )
 set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
-set(GEOS_md5 "fc5df2d926eb7e67f988a43a92683bae" )
+set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
 list(APPEND fletch_external_sources GEOS )
 
 # PostgreSQL
 if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
   set(PostgreSQL_SELECT_VERSION 9.5.1 CACHE STRING "Select the major version of PostgreSQL to build.")
-  set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "9.4.6")
+  set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "10.2")
   message(STATUS "PostgreSQL Select version: ${PostgreSQL_SELECT_VERSION}")
 
   if (PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.5.1)
@@ -372,11 +372,11 @@ if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
     set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
     set(PostgreSQL_md5 "11e037afaa4bd0c90bb3c3d955e2b401")
-  elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.4.6)
+  elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 10.2)
     # PostgreSQL 9.4
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
     set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
-    set(PostgreSQL_md5 "0371b9d4fb995062c040ea5c3c1c971e")
+    set(PostgreSQL_md5 "e97c3cc72bdf661441f29069299b260a")
   else()
     message(STATUS "PostgreSQL_SELECT_VERSION: Not supported")
   endif()
@@ -386,9 +386,9 @@ list(APPEND fletch_external_sources PostgreSQL)
 # PostGIS
 # Currently it seems the this version of PostGIS will work with all provided PostgreSQL versions
 if(NOT WIN32)
-  set(PostGIS_version "2.1.8" )
+  set(PostGIS_version "2.4.3" )
   set(PostGIS_url "http://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
-  set(PostGIS_md5 "c33923e37424978a1306ce461c1d14ed" )
+  set(PostGIS_md5 "60395f3dc96505ca4e313449d6463c6a" )
   set(PostGIS_experimental TRUE)
   list(APPEND fletch_external_sources PostGIS )
 endif()
@@ -546,6 +546,7 @@ endif()
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
 set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/repository/fletch%2Fmaster/archive.zip")
 set(Darknet_md5 "d206b6da7af1f43340a217d6b05db5e3")
+set(Darnet_dlname "darknent-d206b6da7af1f4.zip")
 list(APPEND fletch_external_sources Darknet)
 
 # pybind11
@@ -567,6 +568,14 @@ set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/release-${YAMLcpp_ve
 set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
 set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
+
+# qtExtensions
+set(qtExtensions_version "20180517gitaa3d3111")
+set(qtExtensions_tag "aa3d311178f108b23b3febd65f9471cd05391479")
+set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
+set(qtExtensions_md5 "55a7681900f42d83f3739a3f5b723155")
+set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
+list(APPEND fletch_external_sources qtExtensions)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"

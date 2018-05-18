@@ -9,4 +9,12 @@ configure_file(
   ${Eigen_patch}/cmake/FindBLAS.cmake
   ${Eigen_source}/cmake/
   COPYONLY
+  )
+
+# Apply language_support patch from upstream commit
+# https://bitbucket.org/eigen/eigen/commits/ba14974d054a
+configure_file(
+  ${Eigen_patch}/cmake/language_support.cmake
+  ${Eigen_source}/cmake/
+  COPYONLY
 )
