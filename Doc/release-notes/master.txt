@@ -84,7 +84,7 @@ Package Upgrades
 
  * Add PostgreSQL version 10.2
 
- * Update GOES to version 3.6.2
+ * Update GEOS to version 3.6.2
 
  * Update PotGIS to version 2.4.3
 
