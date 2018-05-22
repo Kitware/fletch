@@ -92,6 +92,9 @@ Package Upgrades
 
  * OpenCV 3.4.0 is now the default.
 
+ * Update GDAL to 2.3.0 which is now the default. Maintaining the option
+   to build 1.11.5.
+
 
 Fixes since v1.0.0
 ------------------
