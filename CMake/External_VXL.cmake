@@ -33,6 +33,9 @@ set(VXL_ARGS_CONTRIB
   )
 
 # Handle FFMPEG disable flag
+  list(APPEND VXL_ARGS_VIDL
+    -DBUILD_CORE_VIDEO:BOOL=ON
+  )
 if(fletch_ENABLE_FFmpeg)
   add_package_dependency(
     PACKAGE VXL
@@ -40,7 +43,6 @@ if(fletch_ENABLE_FFmpeg)
     )
 else()
   set(VXL_ARGS_VIDL
-    -DBUILD_CORE_VIDEO:BOOL=ON
     -DFFMPEG_CONFIG:FILEPATH=IGNORE
     -DFFMPEG_INCLUDE1_DIR:PATH=IGNORE
     -DFFMPEG_INCLUDE2_DIR:PATH=IGNORE

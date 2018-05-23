@@ -420,9 +420,9 @@ endif()
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_version "63b790a424a9d3fd535ae7278d0a600408dbc08f")
+set(VXL_version "a81e0f0fe2986b24cd115f3766f538a16c718cbb")
 set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
-set(VXL_md5 "5a7e9923630c2a2beef0e8d547e00697")
+set(VXL_md5 "ad3c2dd5df843c4c6da846143530fdb9")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
