@@ -863,7 +863,7 @@ void QCoreTextFontEngine::getUnscaledGlyph(glyph_t, QPainterPath *, glyph_metric
 
 QFixed QCoreTextFontEngine::emSquareSize() const
 {
-    return QFixed::QFixed(int(CTFontGetUnitsPerEm(ctfont)));
+    return QFixed(int(CTFontGetUnitsPerEm(ctfont)));
 }
 
 QFontEngine *QCoreTextFontEngine::cloneWithSize(qreal pixelSize) const
