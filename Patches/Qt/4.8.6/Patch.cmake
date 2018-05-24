@@ -10,6 +10,11 @@ file(COPY ${Qt_patch}/linux-g++44
   DESTINATION ${Qt_source}/mkspecs
   )
 
+# Patching Qt 4.8.6 for compatibility with Mac OSX High Sierra v10.13.4 ref: https://wiki.qt.io/Qt_5.9.5_Known_Issues#macOS (link says 5.9.5, but experienced same error on 4.8.6)
+file(COPY ${Qt_patch}/qfontengine_coretext.mm
+  DESTINATION ${Qt_source}/src/gui/text
+  )
+
 # Patch the following 2 files to fix gcc 6 build issues.
 file(COPY ${Qt_patch}/itemviews.cpp
   DESTINATION ${Qt_source}/src/plugins/accessible/widgets/
