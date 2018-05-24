@@ -7,18 +7,11 @@ ExternalProject_Add(SuiteSparse
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     CMAKE_GENERATOR ${gen}
-    SOURCE_DIR ${fletch_BUILD_PREFIX}/src/SuiteSparse
-    PATCH_COMMAND ${CMAKE_COMMAND}
-      -DSuiteSparse_patch=${fletch_SOURCE_DIR}/Patches/SuiteSparse
-      -DSuiteSparse_source=${fletch_BUILD_PREFIX}/src/SuiteSparse
-      -DBUILD_CXSPARSE_ONLY:BOOL=${BUILD_CXSPARSE_ONLY}
-      -P ${fletch_SOURCE_DIR}/Patches/SuiteSparse/Patch.cmake
 
     CMAKE_ARGS
       ${COMMON_CMAKE_ARGS}
-      -DBUILD_SHARED_LIBS:BOOL=${_suite_sparese_build_shared}
-      -BUILD_TESTING:BOOL=OFF
-      ${SuiteSparse_EXTRA_BUILD_FLAGS}
+      -DSHARED:BOOL=${BUILD_SHARED_LIBS}
+      -DLIBRARY_OUTPUT_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
     )
 
   fletch_external_project_force_install(PACKAGE SuiteSparse)
