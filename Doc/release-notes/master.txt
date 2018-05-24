@@ -97,6 +97,7 @@ Package Upgrades
 
  * Update VXL hash to provide support for GCC version 8
 
+ * Update SuiteSparse to version 4.5.1 and use a cmakeified build from github
 
 Fixes since v1.0.0
 ------------------
@@ -131,7 +132,6 @@ Fixes since v1.0.0
  * Patch OpenCV so the FFmpeg libraries it uses can find each other
 
  * Add 'experimental' packages to VXL and remove BRL
-
 
 * Explicitly disable metis support in Suitesparce since it's not used
 
