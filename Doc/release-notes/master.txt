@@ -30,6 +30,8 @@ New Packages
 
  * Added openjpeg for jpeg2k decoding in GDAL
 
+ * Added qtExtensions
+
 Package Upgrades
 
  * pybind11 to version 2.2.1
