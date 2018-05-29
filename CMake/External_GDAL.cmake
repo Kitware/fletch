@@ -198,5 +198,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(GDAL_ROOT    \${fletch_ROOT})
 set(ENV{GDAL_ROOT} \${fletch_ROOT})
+set(fletch_ENABLED_GDAL TRUE)
 ")
 
