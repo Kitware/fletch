@@ -148,10 +148,10 @@ set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
 # OpenCV
-# Support 2.4.13 and 3.1, and 3.3 optionally
+# Support 2.4.13 and 3.4 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.1.0" "3.3.1" "3.4.0")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.0")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
   set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
@@ -172,16 +172,10 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   if (OpenCV_version VERSION_EQUAL 3.4.0)
     set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
     set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
-  elseif (OpenCV_version VERSION_EQUAL 3.3.1)
-    set(OpenCV_md5 "2e4f061a91766c591e94f91bfa259346")
-    set(OpenCV_contrib_md5 "0d71ff7826075c514a6506b87739576a")
-  elseif (OpenCV_version VERSION_EQUAL 3.1.0)
-    set(OpenCV_md5 "6082ee2124d4066581a7386972bfd52a")
-    set(OpenCV_contrib_md5 "0d0bfeabe539542791b465ec1c7c90e6")
   elseif (OpenCV_version VERSION_EQUAL 2.4.13)
     set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
   else()
-    message(ERROR "OpenCV Version \"${OpenCV_version}\" Not Supported")
+    message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
   endif()
 else()
   # Remove Contrib repo option when OpenCV is not enabled
