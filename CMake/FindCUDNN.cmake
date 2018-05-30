@@ -7,7 +7,10 @@
 #
 # The following variables will guide the build:
 #
-# CUDNN_TOOLKIT_ROOT_DIR  - Set to the install prefix of the CUDNN library
+# CUDNN_ROOT_DIR  - Set to the install prefix of the CUDNN library
+# CUDA_TOOLKIT_ROOT_DIR - Fallback search location if `CUDNN_ROOT_DIR` is not
+#                         specified, or does not contain libcudnn, then fall
+#                         back to search here.
 #
 # The following variables will be set:
 #
@@ -19,19 +22,31 @@ find_package( CUDA QUIET REQUIRED )
 
 find_library( CUDNN_LIBRARIES
       NAMES cudnn libcudnn
-      HINTS ${CUDA_TOOLKIT_ROOT_DIR}
-            ${CUDNN_TOOLKIT_ROOT_DIR}
+      HINTS ${CUDNN_ROOT_DIR}
+            ${CUDA_TOOLKIT_ROOT_DIR}
       PATH_SUFFIXES lib lib64 lib/x64 lib/x86 targets/aarch64-linux
     )
+
+find_path(CUDNN_INCLUDE_DIR cudnn.h
+    PATHS ${CUDNN_ROOT_DIR} ${CUDA_TOOLKIT_ROOT_DIR}
+    PATH_SUFFIXES cuda/include include)
+
 if( NOT CUDNN_LIBRARIES )
   set(CUDNN_FOUND FALSE)
-  message(FATAL_ERROR "Unable to find cudnn libraries, please ensure CUDA_TOOLKIT_ROOT_DIR has cudnn or the CUDNN_TOOLKIT_ROOT_DIR variable is properly set or set CUDNN_LIBRARIES")
+  message(FATAL_ERROR "Unable to find cudnn libraries, please ensure CUDA_TOOLKIT_ROOT_DIR has cudnn or the CUDNN_ROOT_DIR variable is properly set or set CUDNN_LIBRARIES")
 else()
   set(CUDNN_FOUND TRUE)
-  # We found cudnn with out CUDNN_TOOLKIT_ROOT_DIR, CUDA and CUDNN must be co-located
-  if(NOT CUDNN_TOOLKIT_ROOT_DIR)
-    set(CUDNN_TOOLKIT_ROOT_DIR ${CUDA_TOOLKIT_ROOT_DIR})
+  # We found cudnn with out CUDNN_ROOT_DIR, CUDA and CUDNN must be co-located
+  # (UNLESS we found it in the CMAKE_PREFIX_PATH or CPATH)
+  if(NOT CUDNN_ROOT_DIR)
+    if( NOT CUDNN_INCLUDE_DIR )
+      # If we didnt find the include, then assume cuda and cudnn are co-located
+      # (although this still might not be 100% accurate)
+      set(CUDNN_ROOT_DIR ${CUDA_TOOLKIT_ROOT_DIR})
+      set(CUDNN_INCLUDE_DIR ${CUDNN_ROOT_DIR}/include)
+    else()
+      get_filename_component(CUDNN_ROOT_DIR "${CUDNN_INCLUDE_DIR}" DIRECTORY [CACHE])
+    endif()
   endif()
-  set(CUDNN_INCLUDE_DIR ${CUDNN_TOOLKIT_ROOT_DIR}/include)
 endif()
 
