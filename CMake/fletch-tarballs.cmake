@@ -81,6 +81,7 @@ list(APPEND fletch_external_sources PNG)
 set(openjpeg_version "2.1.2")
 set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
 set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
+set(openjpeg_dlname "openjpeg-v${openjpeg_version}.tar.gz")
 list(APPEND fletch_external_sources openjpeg)
 
 # YASM for building jpeg-turbo, not third party library
