@@ -34,6 +34,7 @@ ExternalProject_Add(openjpeg
   URL ${openjpeg_url}
   URL_MD5 ${openjpeg_md5}
   DEPENDS ${openjpeg_DEPENDS}
+  DOWNLOAD_NAME ${openjpeg_dlname}
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
 
