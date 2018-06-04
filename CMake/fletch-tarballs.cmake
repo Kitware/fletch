@@ -384,6 +384,7 @@ if(NOT WIN32)
   set(PostGIS_version "2.4.3" )
   set(PostGIS_url "http://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
   set(PostGIS_md5 "60395f3dc96505ca4e313449d6463c6a" )
+  set(PostGIS_experimental TRUE)
   list(APPEND fletch_external_sources PostGIS )
 endif()
 
