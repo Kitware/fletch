@@ -34,7 +34,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # qtExtensions
 ########################################
 set(qtExtensions_ROOT \${fletch_ROOT})
-set(qtExtensions_DIR  \${fletch_ROOT}/lib/cmake)
+set(qtExtensions_DIR  \${fletch_ROOT}/lib/cmake/qtExtensions)
 
 set(fletch_ENABLED_qtExtensions TRUE)
 ")
