@@ -228,10 +228,10 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources OpenBLAS)
 endif()
 
-#SuiteSparse
-set(SuiteSparse_version 4.4.5)
-set(SuiteSparse_url "http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-${SuiteSparse_version}.tar.gz")
-set(SuiteSparse_md5 "a2926c27f8a5285e4a10265cc68bbc18")
+#SuiteSparse (SS Version is actually 4.5.1 from github package that applies CMake)
+set(SuiteSparse_version 1.3.1)
+set(SuiteSparse_url "https://github.com/jlblancoc/suitesparse-metis-for-windows/archive/v${SuiteSparse_version}.zip")
+set(SuiteSparse_md5 "cb7036e108b36d16aceca777f9c5d453")
 list(APPEND fletch_external_sources SuiteSparse)
 
 # Ceres Solver
