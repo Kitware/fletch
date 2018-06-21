@@ -290,7 +290,8 @@ list(APPEND fletch_external_sources libkml)
 
 # Qt
 # Support 4.8.6 and 5.10 optionally
-if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
+if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
+    fletch_ENABLE_ALL_PACKAGES)
   set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
   set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.10.0")
 
@@ -539,10 +540,10 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20180521gita4bc2b24")
-set(qtExtensions_tag "a4bc2b243fc2dedd1542ababd449e2f160db6329")
+set(qtExtensions_version "20180614git42d0ed3a")
+set(qtExtensions_tag "42d0ed3a69d0f6603e95639a40ecae463006e1e7")
 set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
-set(qtExtensions_md5 "a8ad752db6cd228c000ecd1e30dfb641")
+set(qtExtensions_md5 "ef215e739df57878df0d84474403bfd6")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
 list(APPEND fletch_external_sources qtExtensions)
 
