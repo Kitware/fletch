@@ -139,23 +139,9 @@ else()
   # For now, we're only going to to support the GDAL python bindings on
   # non-windows platforms.
   #-
-  if (fletch-GDAL_ENABLE_PYTHON)
-      # Not supported yet
+  if (fletch_BUILD_WITH_PYTHON)
       set(_GDAL_ARGS_PYTHON --with-python=yes )
       set(_GDAL_PYTHON_PREFIX "PYTHON=${PYTHON_EXECUTABLE}")
-
-      # The GDAL Python build is somewhat fussy.  Setting this (causing it
-      # to ignore the installed setuptools) is the only way to convince it
-      # to honor the "Prefix" settings we provide.
-      set(_GDAL_PY_HAVE_SETUPTOOLS_ARG "PY_HAVE_SETUPTOOLS=0")
-
-      find_python_site_packages(GDAL_PYTHON_SITE_PACKAGES ${fletch_BUILD_INSTALL_PREFIX} TRUE)
-      if (NOT GDAL_PYTHON_SITE_PACKAGES)
-          message(FATAL_ERROR "Could not find site-packages directory for GDAL python build")
-      endif()
-
-      file(MAKE_DIRECTORY ${GDAL_PYTHON_SITE_PACKAGES})
-      set(_GDAL_PYTHON_PATH_PREFIX "PYTHONPATH=${GDAL_PYTHON_SITE_PACKAGES}")
    endif()
 
    # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
@@ -182,9 +168,9 @@ else()
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${GDAL_PATCH_COMMAND}
-    CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
-    BUILD_COMMAND ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ${MAKE_EXECUTABLE} ${_GDAL_PY_HAVE_SETUPTOOLS_ARG}
-    INSTALL_COMMAND ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ${MAKE_EXECUTABLE} ${_GDAL_PY_HAVE_SETUPTOOLS_ARG} install
+    CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PYTHON_PREFIX} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
+    BUILD_COMMAND ${_GDAL_PYTHON_PREFIX} ${MAKE_EXECUTABLE}
+    INSTALL_COMMAND ${_GDAL_PYTHON_PREFIX} ${MAKE_EXECUTABLE} install
   )
 endif()
 
