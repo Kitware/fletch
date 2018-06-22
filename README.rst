@@ -89,6 +89,10 @@ On Linux systems, Install the following packages before building Fletch::
   sudo apt-get install liblapack-dev
   sudo apt-get install python2.7-dev
 
+  # If you are using a RHEL-based system, e.g. RedHat, CentOS or Fedora
+  # and enabling GDAL you might need to install redhat-rpm-config.
+  {dnf|yum} install redhat-rpm-config
+
 Fletch uses CMake (www.cmake.org) for easy cross-platform compilation. The
 minimum required version of CMake is 2.8.12, but newer versions are strongly
 recommended.
