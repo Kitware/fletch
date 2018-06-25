@@ -19,6 +19,13 @@ add_package_dependency(
   PACKAGE_DEPENDENCY_ALIAS TIFF
   )
 
+# libtiff
+add_package_dependency(
+  PACKAGE VXL
+  PACKAGE_DEPENDENCY libgeotiff
+  PACKAGE_DEPENDENCY_ALIAS GEOTIFF
+  )
+
 # libpng
 add_package_dependency(
   PACKAGE VXL
@@ -66,14 +73,6 @@ elseif(WIN32)
   set(VXL_ARGS_V3P
     # Geotiff
     )
-endif()
-
-if(${fletch_ENABLE_libtiff})
-  # When using the TIFF library from Fletch we need to explicitly
-  # disable the GeoTIFF library in VXL, because if a system GeoTiff package
-  # is found it will link against a system TIFF library, causing conflicts.
-  # This may change in the future if GeoTIFF is added to Fletch.
-  list(APPEND VXL_EXTRA_BUILD_FLAGS -DVXL_USE_GEOTIFF:BOOL=OFF)
 endif()
 
 ExternalProject_Add(VXL
