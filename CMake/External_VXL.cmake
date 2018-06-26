@@ -19,7 +19,7 @@ add_package_dependency(
   PACKAGE_DEPENDENCY_ALIAS TIFF
   )
 
-# libtiff
+# libgeotiff
 add_package_dependency(
   PACKAGE VXL
   PACKAGE_DEPENDENCY libgeotiff
@@ -107,6 +107,7 @@ ExternalProject_Add(VXL
     -DVXL_USE_DCMTK:BOOL=OFF
     -DJPEG_LIBRARY:FILEPATH=${JPEG_LIBRARY}
     -DJPEG_INCLUDE_DIR:PATH=${JPEG_INCLUDE_DIR}
+    -DGEOTIFF_LIBRARY=${libgeotiff_LIBRARY}
     ${VXL_EXTRA_BUILD_FLAGS}
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
