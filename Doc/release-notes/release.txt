@@ -139,3 +139,5 @@ Fixes since v1.0.0
  * Explicitly disable metis support in Suitesparce since it's not used
 
  * Provide a recognizable download name for Darknet
+
+ * Update the download url for Qt 4, upstream archived the package
