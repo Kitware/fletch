@@ -1,14 +1,27 @@
-# Make sure we're using Qt 4
-if(NOT (Qt_SELECT_VERSION VERSION_LESS 5 AND NOT (Qt_SELECT_VERSION VERSION_LESS 4)))
-  message(FATAL_ERROR "qtExtensions requires Qt major version 4")
-endif()
-
 # Qt
-add_package_dependency(
-  PACKAGE qtExtensions
-  PACKAGE_DEPENDENCY Qt
-  PACKAGE_DEPENDENCY_ALIAS Qt4
-)
+
+if(Qt_version_major EQUAL 4)
+  add_package_dependency(
+    PACKAGE qtExtensions
+    PACKAGE_DEPENDENCY Qt
+    PACKAGE_DEPENDENCY_ALIAS Qt4
+  )
+  set(QT_ARGS
+    -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
+    -DQTE_QT_VERSION:STRING=4
+  )
+else()
+  add_package_dependency(
+    PACKAGE qtExtensions
+    PACKAGE_DEPENDENCY Qt
+    PACKAGE_DEPENDENCY_ALIAS Qt5
+    PACKAGE_DEPENDENCY_COMPONENTS Widgets Xml Designer UiPlugin
+  )
+  set(QT_ARGS
+    -DQt5_DIR:PATH=${Qt5_DIR}
+    -DQTE_QT_VERSION:STRING=5
+  )
+endif()
 
 # The qtExtensions external project for fletch
 ExternalProject_Add(qtExtensions
@@ -22,7 +35,7 @@ ExternalProject_Add(qtExtensions
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
-    -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
+    ${QT_ARGS}
 )
 
 fletch_external_project_force_install(PACKAGE qtExtensions)
