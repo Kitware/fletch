@@ -1,0 +1,19 @@
+Fletch v1.1.1 Release Notes
+===========================
+
+This is a patch release of Fletch that provides bug fixes and documentation
+improvements over the previous v1.1.0 release.
+
+
+Updates since v1.1.0
+--------------------
+
+New Packages
+
+
+Package Upgrades
+
+
+Fixes since v1.1.0
+------------------
+
