@@ -134,10 +134,22 @@ ExternalProject_Add(libgeotiff
       )
   endif()
 
+  if (WIN32)
+    set (geotiff_lib_name geotiff_i.lib)
+  elseif(APPLE)
+    set (geotiff_lib_name libgeotiff.dylib)
+  else()
+    set (geotiff_lib_name libgeotiff.so)
+  endif()
   set(libgeotiff_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
+
+  set(libgeotiff_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/${geotiff_lib_name} CACHE FILEPATH "" FORCE)
+
   file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # libgeotiff
 ########################################
 set(libgeotiff_ROOT \${fletch_ROOT})
+set(libgeotiff_LIBRARY \${libgeotiff_LIBRARY})
+
 ")
