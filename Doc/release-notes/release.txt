@@ -141,3 +141,5 @@ Fixes since v1.0.1
  * Provide a recognizable download name for Darknet
 
  * Update the download url for Qt 4, upstream archived the package
+
+* Fix GDAL python support
