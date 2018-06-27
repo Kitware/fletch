@@ -83,7 +83,10 @@ macro(add_package_dependency)
     # Optional args
     PACKAGE_DEPENDENCY_ALIAS
     )
-  set(multiValueArg)
+  set(multiValueArgs
+    # Optional args
+    PACKAGE_DEPENDENCY_COMPONENTS
+    )
 
   cmake_parse_arguments(MY
     "${options}"
@@ -107,8 +110,11 @@ macro(add_package_dependency)
     if(MY_PACKAGE_DEPENDENCY_ALIAS)
       set(dependency_name ${MY_PACKAGE_DEPENDENCY_ALIAS})
     endif()
+    if(MY_PACKAGE_DEPENDENCY_COMPONENTS)
+      set(dependency_components COMPONENTS ${MY_PACKAGE_DEPENDENCY_COMPONENTS})
+    endif()
 
-    find_package(${dependency_name} QUIET)
+    find_package(${dependency_name} ${dependency_components} QUIET)
 
     # Handle both casing (For package foo, we can have either
     # foo_FOUND or FOO_FOUND defined)

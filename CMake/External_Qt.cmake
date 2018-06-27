@@ -252,14 +252,28 @@ add_dependencies(Download Qt-download)
 
 fletch_external_project_force_install(PACKAGE Qt)
 
-set(QT_QMAKE_EXECUTABLE ${fletch_BUILD_INSTALL_PREFIX}/bin/qmake
-  CACHE FILEPATH "" FORCE )
+if(Qt_version VERSION_LESS 5.0.0)
+  set(QT_QMAKE_EXECUTABLE ${fletch_BUILD_INSTALL_PREFIX}/bin/qmake
+    CACHE FILEPATH "" FORCE )
 
-file(APPEND ${fletch_CONFIG_INPUT} "
+  file(APPEND ${fletch_CONFIG_INPUT} [[
 ########################################
 # Qt
 ########################################
-set(QT_QMAKE_EXECUTABLE \${fletch_ROOT}/bin/qmake)
+set(QT_QMAKE_EXECUTABLE ${fletch_ROOT}/bin/qmake)
 
 set(fletch_ENABLED_Qt TRUE)
-")
+]])
+else()
+  set(Qt5_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/Qt5
+    CACHE FILEPATH "" FORCE )
+
+  file(APPEND ${fletch_CONFIG_INPUT} [[
+########################################
+# Qt
+########################################
+set(Qt5_DIR ${fletch_ROOT}/lib/cmake/Qt5)
+
+set(fletch_ENABLED_Qt TRUE)
+]])
+endif()
