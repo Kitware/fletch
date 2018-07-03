@@ -219,6 +219,23 @@ if(fletch_BUILD_WITH_PYTHON)
   message(STATUS "Configuring OpenCV Python : ${OpenCV_PYTHON_FLAGS}")
 endif()
 
+# Qt
+add_package_dependency(
+  PACKAGE OpenCV
+  PACKAGE_DEPENDENCY Qt
+  PACKAGE_DEPENDENCY_ALIAS Qt4
+  OPTIONAL
+)
+
+if (fletch_ENABLE_Qt)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DWITH_QT:BOOL=ON
+    -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE})
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DWITH_QT:BOOL=OFF)
+endif()
+
 # If a patch file exists for this version, apply it
 set (OpenCV_patch ${fletch_SOURCE_DIR}/Patches/OpenCV/${OpenCV_version})
 if (EXISTS ${OpenCV_patch})
