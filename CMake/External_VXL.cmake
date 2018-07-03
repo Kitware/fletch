@@ -20,11 +20,13 @@ add_package_dependency(
   )
 
 # libgeotiff
-add_package_dependency(
-  PACKAGE VXL
-  PACKAGE_DEPENDENCY libgeotiff
-  PACKAGE_DEPENDENCY_ALIAS GEOTIFF
-  )
+if(fletch_ENABLE_libgeotiff)
+  add_package_dependency(
+    PACKAGE VXL
+    PACKAGE_DEPENDENCY libgeotiff
+    PACKAGE_DEPENDENCY_ALIAS GEOTIFF
+    )
+endif()
 
 # libpng
 add_package_dependency(
