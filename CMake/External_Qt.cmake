@@ -211,6 +211,14 @@ if (Qt_version VERSION_LESS 5.0.0)
     -fast )
 endif()
 
+
+if (WIN32 AND NOT (Qt_version VERSION_LESS 5.0.0) )
+  # Dynamic OpenGL is the recommended way to build Qt5 on Windows
+  # and is required by VTK
+  list( APPEND Qt_configure
+    -opengl dynamic )
+endif()
+
 if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   if (Qt_version VERSION_LESS 5.0.0)
     list (APPEND Qt_configure
