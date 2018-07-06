@@ -397,15 +397,15 @@ list(APPEND fletch_external_sources CppDB)
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
-  # Support the stable version 6.2, and work on updating to next version 8.0
-  set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0)
+  # Provide the recent version 8.1.1, but support some tools that still require 6.2
+  set(VTK_SELECT_VERSION 8.1.1 CACHE STRING "Select the version of VTK to build.")
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.1.1)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
-  set(VTK_version 8.0)
-  set(VTK_url "http://www.vtk.org/files/release/8.0/VTK-8.0.0.zip")
-  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.1.1)
+  set(VTK_version 8.1)
+  set(VTK_url "http://www.vtk.org/files/release/8.1/VTK-8.1.1.zip")
+  set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
   set(VTK_version 6.2)
   set(VTK_url "http://www.vtk.org/files/release/6.2/VTK-6.2.0.zip")
