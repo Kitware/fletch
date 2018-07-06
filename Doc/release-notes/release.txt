@@ -143,3 +143,5 @@ Fixes since v1.0.1
  * Update the download url for Qt 4, upstream archived the package
 
 * Fix GDAL python support
+
+* Fix the numpy find module to reset vars if numpy not found. Allows user to fix existing configuration
