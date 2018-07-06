@@ -70,7 +70,7 @@ Package Upgrades
 
  * Associated the patches of VTK with specific versions
 
- * Update VTK version to 8.1.1 while keeping an option for 6.2
+ * Added experimental support for VTK version 8.0
 
  * Associated the patches of Ceres Solver with specific versions
 
