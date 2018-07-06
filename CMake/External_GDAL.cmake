@@ -96,14 +96,6 @@ else()
     set(_GDAL_ARGS_APPLE --without-libtool --with-netcdf=no --with-curl=no --with-local=/usr)
   endif()
 
-  # The GDAL python build is sufficiently
-  # touchy that default OFF is the only safe course of action.
-  set(_GDAL_PYTHON_DEFAULT OFF)
-
-  if (PYTHONINTERP_FOUND)
-    option(fletch-GDAL_ENABLE_PYTHON "Build the GDAL Python bindings" ${_GDAL_PYTHON_DEFAULT})
-  endif()
-
   if(fletch_ENABLE_ZLib)
     #If we're building libz, then use it.
     list(APPEND _GDAL_DEPENDS ZLib)
