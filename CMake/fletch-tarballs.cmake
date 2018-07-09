@@ -541,10 +541,10 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20180614git42d0ed3a")
-set(qtExtensions_tag "42d0ed3a69d0f6603e95639a40ecae463006e1e7")
+set(qtExtensions_version "20180706gitc2259d52")
+set(qtExtensions_tag "c2259d52fd9bf2c6f3a7dea18aea08f81010cfb5")
 set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
-set(qtExtensions_md5 "ef215e739df57878df0d84474403bfd6")
+set(qtExtensions_md5 "928fcd80b6c7e5534bf23c3b2fd76363")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
 list(APPEND fletch_external_sources qtExtensions)
 
