@@ -34,4 +34,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(GEOS_ROOT \${fletch_ROOT})
 set(GEOS_C_LIBRARY @GEOS_C_LIBRARY@)
+set(fletch_ENABLED_GEOS TRUE)
 ")

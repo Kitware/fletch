@@ -27,4 +27,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # GFlags
 #######################################
 set(GFlags_ROOT \${fletch_ROOT})
+set(fletch_ENABLED_GFlags TRUE)
 ")
