@@ -346,4 +346,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # Caffe
 ########################################
 set(Caffe_ROOT    \${fletch_ROOT})
+set(fletch_ENABLED_Caffe TRUE)
 ")
