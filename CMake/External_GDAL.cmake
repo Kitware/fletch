@@ -10,28 +10,6 @@ if (EXISTS ${GDAL_patch})
 endif()
 
 if (WIN32)
-  set (_gdal_msvc_version )
-  if (MSVC60)
-    set(_gdal_msvc_version "1200")
-  elseif(MSVC71)
-    set(_gdal_msvc_version "1310")
-  elseif(MSVC70)
-    set(_gdal_msvc_version "1300")
-  elseif(MSVC80)
-    set(_gdal_msvc_version "1400")
-  elseif(MSVC90)
-    set(_gdal_msvc_version "1500")
-  elseif(MSVC10)
-    set(_gdal_msvc_version "1600")
-  elseif(MSVC11)
-    set(_gdal_msvc_version "1700")
-  elseif(MSVC12)
-    set(_gdal_msvc_version "1800")
-  elseif(MSVC14)
-    set(_gdal_msvc_version "1900")
-  endif()
-
-
   set(_gdal_msvc_win64_option )
   include(CheckTypeSize)
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 Bits
@@ -78,9 +56,9 @@ if (WIN32)
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${GDAL_PATCH_COMMAND}
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS}
-    INSTALL_COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} install
-    COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} devinstall
+    BUILD_COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS}
+    INSTALL_COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} install
+    COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} devinstall
   )
 else()
 
