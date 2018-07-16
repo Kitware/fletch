@@ -174,6 +174,7 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
     set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
     set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
   elseif (OpenCV_version VERSION_EQUAL 2.4.13)
+    # TODO remove VTK 6.2 support when we remove support for OpenCV < 3.2
     set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
   else()
     message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
@@ -397,18 +398,22 @@ list(APPEND fletch_external_sources CppDB)
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
-  # Support the stable version 6.2, and work on updating to next version 8.0
   set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0)
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
-  set(VTK_version 8.0)
-  set(VTK_url "http://www.vtk.org/files/release/8.0/VTK-8.0.0.zip")
-  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
+  set(VTK_version 8.1.1)
+  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
+  set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
+elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
+  set(VTK_version 8.0.0)
+  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
+  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0.0
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
-  set(VTK_version 6.2)
-  set(VTK_url "http://www.vtk.org/files/release/6.2/VTK-6.2.0.zip")
+  # TODO remove when we remove support for OpenCV < 3.2
+  set(VTK_version 6.2.0)
+  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
 elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
@@ -416,9 +421,9 @@ endif()
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_version "a81e0f0fe2986b24cd115f3766f538a16c718cbb")
+set(VXL_version "1613dd9f8f06dae759d597c7e86f552a1d539754")
 set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
-set(VXL_md5 "ad3c2dd5df843c4c6da846143530fdb9")
+set(VXL_md5 "f49b704ffc2f5146d303f5b40e977e79")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
