@@ -24,17 +24,17 @@
 # Boost
 # Support 1.55.0 (Default) and 1.65.1 optionally
 if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
-  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
+  set(Boost_SELECT_VERSION 1.66.0 CACHE STRING "Select the major version of Boost to build.")
+  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.66.0")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
-  if(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
+  if(Boost_SELECT_VERSION VERSION_EQUAL 1.66.0)
     # Boost 1.65.1
     set(Boost_major_version 1)
-    set(Boost_minor_version 65)
-    set(Boost_patch_version 1)
+    set(Boost_minor_version 66)
+    set(Boost_patch_version 0)
     set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
-    set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
+    set(Boost_md5 "b2dfbd6c717be4a7bb2d88018eaccf75")
   else()
     message(STATUS "Boost_SELECT_VERSION: Not supported")
   endif()
@@ -151,8 +151,8 @@ list(APPEND fletch_external_sources Eigen)
 # OpenCV
 # Support 2.4.13 and 3.4 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.0")
+  set(OpenCV_SELECT_VERSION 3.4.1 CACHE STRING "Select the  version of OpenCV to build.")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.1")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
   set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
@@ -170,9 +170,9 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   endif()
 
   # Paired contrib repo information
-  if (OpenCV_version VERSION_EQUAL 3.4.0)
-    set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
-    set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
+  if (OpenCV_version VERSION_EQUAL 3.4.1)
+    set(OpenCV_md5 "8464ce888f4c283895626950bada1e44")
+    set(OpenCV_contrib_md5 "a255639242d58dd7e329556d43f2c316")
   elseif (OpenCV_version VERSION_EQUAL 2.4.13)
     # TODO remove VTK 6.2 support when we remove support for OpenCV < 3.2
     set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
