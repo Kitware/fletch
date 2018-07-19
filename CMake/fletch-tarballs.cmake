@@ -78,9 +78,9 @@ endif()
 list(APPEND fletch_external_sources PNG)
 
 # openjpeg
-set(openjpeg_version "2.1.2")
+set(openjpeg_version "2.3.0")
 set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
-set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
+set(openjpeg_md5 "6a1f8aaa1fe55d2088e3a9c942e0f698")
 set(openjpeg_dlname "openjpeg-v${openjpeg_version}.tar.gz")
 list(APPEND fletch_external_sources openjpeg)
 
