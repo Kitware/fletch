@@ -109,11 +109,13 @@ else()
   if(fletch_ENABLE_PNG)
     list(APPEND _GDAL_DEPENDS PNG)
     set( _GDAL_PNG_ARGS --with-png=${fletch_BUILD_INSTALL_PREFIX})
+    set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
   endif()
 
   if(fletch_ENABLE_libtiff)
     list(APPEND _GDAL_DEPENDS libtiff)
     set( _GDAL_TIFF_ARGS --with-libtiff=${libtiff_ROOT})
+    set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
   endif()
 
   if(fletch_ENABLE_libgeotiff)
@@ -140,6 +142,7 @@ else()
    if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT)
      set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
      list(APPEND _GDAL_DEPENDS openjpeg)
+    set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
    endif()
 
    # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
@@ -160,7 +163,7 @@ else()
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${GDAL_PATCH_COMMAND}
-    CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PYTHON_PREFIX} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
+    CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PKG_CONFIG_PATH} ${_GDAL_PYTHON_PREFIX} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
     BUILD_COMMAND ${_GDAL_PYTHON_PREFIX} ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${_GDAL_PYTHON_PREFIX} ${MAKE_EXECUTABLE} install
   )
