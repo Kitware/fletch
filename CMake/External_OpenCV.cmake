@@ -209,6 +209,7 @@ if (EXISTS ${OpenCV_patch})
   set(OPENCV_PATCH_COMMAND ${CMAKE_COMMAND}
     -DOpenCV_patch:PATH=${OpenCV_patch}
     -DOpenCV_source:PATH=${fletch_BUILD_PREFIX}/src/OpenCV
+    -Dfletch_PYTHON_MAJOR_VERSION=${fletch_PYTHON_MAJOR_VERSION}
     -P ${OpenCV_patch}/Patch.cmake
     )
 endif()
