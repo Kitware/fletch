@@ -151,8 +151,8 @@ list(APPEND fletch_external_sources Eigen)
 # OpenCV
 # Support 2.4.13 and 3.4 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(OpenCV_SELECT_VERSION 3.4.1 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.1")
+  set(OpenCV_SELECT_VERSION 3.4.2 CACHE STRING "Select the  version of OpenCV to build.")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.2")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
   set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
@@ -170,9 +170,9 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   endif()
 
   # Paired contrib repo information
-  if (OpenCV_version VERSION_EQUAL 3.4.1)
-    set(OpenCV_md5 "8464ce888f4c283895626950bada1e44")
-    set(OpenCV_contrib_md5 "a255639242d58dd7e329556d43f2c316")
+  if (OpenCV_version VERSION_EQUAL 3.4.2)
+    set(OpenCV_md5 "9e9ebe9c1fe98c468f6e53f5c3c49716")
+    set(OpenCV_contrib_md5 "171a0c9eabbdc3332164de6221684beb")
   elseif (OpenCV_version VERSION_EQUAL 2.4.13)
     # TODO remove VTK 6.2 support when we remove support for OpenCV < 3.2
     set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
