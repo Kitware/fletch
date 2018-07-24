@@ -5,7 +5,15 @@
 #pragma warning(disable:5033)  // 'register' is no longer a supported storage class
 #endif
 #include <math.h>
-#include <Python.h>
+/* Stop python from setting up a link to the python_d lib for debug builds*/
+/* Unset the debug so we link to the release lib */
+#ifdef _DEBUG
+  #undef _DEBUG
+  #include <Python.h>
+  #define _DEBUG
+#else
+  #include <Python.h>
+#endif
 #if defined(_MSC_VER) && (_MSC_VER >= 1800)
 #pragma warning(pop)
 #endif
