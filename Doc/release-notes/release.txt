@@ -1,9 +1,23 @@
 Fletch v1.1.0 Release Notes
 ===========================
 
-This is a patch release of Fletch that provides bug fixes and documentation
-improvements over the previous v1.0.0 release.
+This is a minor release of Fletch that provides both new functionality 
+and fixes over the previous v1.0.1 release. 
 
+This release adds many new packages to Fletch. Some of them include: 
+Caffe Segnet, Darknet, PostgreSQL, and many others. This release also 
+upgrades a significant amount of package’s versions such as: pybind11 
+to 2.2.1, Eigen to 3.3.4, libgeotiff 1.4.2, GLog to 0.3.5, and others. 
+Added support for several experimental versions for Python 3, 
+OpenCV 3.3, Protobuf 3.4.1, and ffmpeg3.3.3. 
+
+In addition to new libraries and updates, there are many bug fixes and
+general organizational changes. CUDA and CUDNN support has been cleaned 
+up, as well as significant improvement in the support for arm boards like 
+TX2 in many packages.
+
+There are many other changes in this release. These are detailed in the 
+change log below. 
 
 Updates since v1.0.1
 --------------------
