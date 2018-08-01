@@ -244,6 +244,7 @@ if(fletch_BUILD_WITH_CUDA)
   set( CAFFE_GPU_ARGS
     ${CUDA_BUILD_FLAGS}
     -DCPU_ONLY:BOOL=OFF
+    -DCUDA_ARCH_NAME:STRING=All
     )
   if(fletch_BUILD_WITH_CUDNN)
     format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
