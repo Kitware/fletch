@@ -553,6 +553,20 @@ set(qtExtensions_md5 "928fcd80b6c7e5534bf23c3b2fd76363")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
 list(APPEND fletch_external_sources qtExtensions)
 
+if (NOT WIN32)
+# ZeroMQ
+set(ZeroMQ_version "3.2.2")
+set(ZeroMQ_url "https://archive.org/download/zeromq_${ZeroMQ_version}/zeromq-${ZeroMQ_version}.tar.gz")
+set(ZeroMQ_md5 "df68431d9300da84a1a5f9a2784e33de")
+list(APPEND fletch_external_sources ZeroMQ)
+
+# CPP ZeroMQ header -- force-builds because of Git source
+set(cppzmq_git_repo "https://github.com/zeromq/cppzmq.git")
+set(cppzmq_git_tag "235803740753312576495301ebf5b8ed76407173")
+list(APPEND fletch_external_sources cppzmq)
+endif()
+
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
