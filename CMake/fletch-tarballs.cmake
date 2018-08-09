@@ -560,12 +560,12 @@ set(ZeroMQ_url "https://archive.org/download/zeromq_${ZeroMQ_version}/zeromq-${Z
 set(ZeroMQ_md5 "df68431d9300da84a1a5f9a2784e33de")
 list(APPEND fletch_external_sources ZeroMQ)
 
-# CPP ZeroMQ header -- force-builds because of Git source
-set(cppzmq_git_repo "https://github.com/zeromq/cppzmq.git")
-set(cppzmq_git_tag "235803740753312576495301ebf5b8ed76407173")
+# CPP ZeroMQ header
+set(cppzmq_version "4.2.3")
+set(cppzmq_url "https://github.com/zeromq/cppzmq/archive/v${cppzmq_version}.zip")
+set(cppzmq_md5 "f5a2ef3a4d47522fcb261171eb7ecfc4")
 list(APPEND fletch_external_sources cppzmq)
 endif()
-
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"

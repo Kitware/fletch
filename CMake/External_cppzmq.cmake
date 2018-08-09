@@ -8,25 +8,31 @@ if(NOT fletch_ENABLE_ZeroMQ)
 endif()
 
 ExternalProject_Add(cppzmq
+  URL ${cppzmq_url}
+  URL_MD5 ${cppzmq_md5}
   PREFIX ${fletch_BUILD_PREFIX}
-  GIT_REPOSITORY ${cppzmq_git_repo}
-  GIT_TAG ${cppzmq_git_tag}
+
   PATCH_COMMAND ${CMAKE_COMMAND}
-    -Dcppzmq_patch:PATH=${fletch_SOURCE_DIR}/Patches/cppzmq
-    -Dcppzmq_source:PATH=${fletch_BUILD_PREFIX}/src/cppzmq
-    -P ${fletch_SOURCE_DIR}/Patches/cppzmq/Patch.cmake
+   -Dcppzmq_patch:PATH=${fletch_SOURCE_DIR}/Patches/cppzmq
+   -Dcppzmq_source:PATH=${fletch_BUILD_PREFIX}/src/cppzmq
+   -P ${fletch_SOURCE_DIR}/Patches/cppzmq/Patch.cmake
+
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
+    ${COMMON_CMAKE_ARGS}
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
   BUILD_IN_SOURCE 1
 )
 
 # CMake build configuration additions
-set(cppzmq_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include CACHE PATH "" FORCE)
+
+set(cppzmq_ROOT ${fletch_BUILD_INSTALL_PREFIX}/include CACHE PATH "" FORCE)
+
 file(APPEND ${fletch_CONFIG_INPUT} "
 #######################################
 # cppzmq
 #######################################
+set(cppzmq_ROOT   \${fletch_ROOT})
 set(cppzmq_INCLUDE_DIR @cppzmq_INCLUDE_DIR@)
 ")
