@@ -519,6 +519,12 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources Caffe_Segnet)
 endif()
 
+# LibSVM
+set(libsvm_url "https://gitlab.kitware.com/kwiver/libsvm/-/archive/kitware/viame/master/libsvm-kitware-viame-master.zip")
+set(libsvm_md5 "dd9453be7746f76f7ad5afd2e39aa7c6")
+set(libsvm_dlname "libsvm-dd9453be7746f76")
+list(APPEND fletch_external_sources libsvm)
+
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
 set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/repository/fletch%2Fmaster/archive.zip")
