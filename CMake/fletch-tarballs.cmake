@@ -556,8 +556,8 @@ list(APPEND fletch_external_sources qtExtensions)
 if (NOT WIN32)
 # ZeroMQ
 set(ZeroMQ_version "4.2.5")
-set(ZeroMQ_url "https://github.com/zeromq/libzmq/archive/v${ZeroMQ_version}.tar.gz")
-set(ZeroMQ_md5 "da43d89dac623d99909fb95e2725fe05")
+set(ZeroMQ_url "https://github.com/zeromq/libzmq/releases/download/v${ZeroMQ_version}/zeromq-${ZeroMQ_version}.zip")
+set(ZeroMQ_md5 "61d111383eedb7b5e123ca6141011b2d")
 list(APPEND fletch_external_sources ZeroMQ)
 
 # CPP ZeroMQ header
