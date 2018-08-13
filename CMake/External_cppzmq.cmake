@@ -11,6 +11,9 @@ ExternalProject_Add(cppzmq
   URL ${cppzmq_url}
   URL_MD5 ${cppzmq_md5}
   PREFIX ${fletch_BUILD_PREFIX}
+  DOWNLOAD_NAME ${cppzmq_dlname}
+  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
 
   PATCH_COMMAND ${CMAKE_COMMAND}
    -Dcppzmq_patch:PATH=${fletch_SOURCE_DIR}/Patches/cppzmq
@@ -22,7 +25,6 @@ ExternalProject_Add(cppzmq
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-  BUILD_IN_SOURCE 1
 )
 
 # CMake build configuration additions
