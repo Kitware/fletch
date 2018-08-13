@@ -553,6 +553,20 @@ set(qtExtensions_md5 "928fcd80b6c7e5534bf23c3b2fd76363")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
 list(APPEND fletch_external_sources qtExtensions)
 
+# Leptonica
+set(Leptonica_version "1.76.0")
+set(Leptonica_url "https://github.com/DanBloomberg/leptonica/archive/${Leptonica_version}.tar.gz")
+set(Leptonica_md5 "acb724d63929021ef175ed502ee5b20d")
+set(lep_dlname "leptonica-${Leptonica_version}.tar.gz")
+list(APPEND fletch_external_sources Leptonica)
+
+# Tesseract
+set(Tesseract_version "3.05.02")
+set(Tesseract_url "https://github.com/tesseract-ocr/tesseract/archive/${Tesseract_version}.tar.gz")
+set(Tesseract_md5 "d3b8661f878aed931cf3a7595e69b989")
+set(tess_dlname "tesseract-${Tesseract_version}.tar.gz")
+list(APPEND fletch_external_sources Tesseract)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
