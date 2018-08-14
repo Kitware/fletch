@@ -88,6 +88,12 @@ else()
     set(_GDAL_ARGS_ZLIB "--with-libz=${ZLIB_ROOT}")
   endif()
 
+  if(fletch_ENABLE_PROJ4)
+    #If we're building libproj, then use it.
+    list(APPEND _GDAL_DEPENDS PROJ4 )
+    set(_GDAL_ARGS_PROJ4 "--with-proj=${PROJ4_ROOT}")
+  endif()
+
   # For now, I don't see the need for postgresql support in GDAL. If it is required, just add
   # -with-pg=/path/to/pg_config
   set(_GDAL_ARGS_PG "--without-pg")
@@ -144,7 +150,7 @@ else()
 
    # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
    set (GDAL_PKG_ARGS
-     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
+     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG} ${_GDAL_ARGS_PROJ4}
      ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE} ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
      --without-jasper
      )
