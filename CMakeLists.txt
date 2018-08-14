@@ -1,5 +1,10 @@
-cmake_minimum_required(VERSION 3.1.3)
+cmake_minimum_required(VERSION 3.3.0)
 project(fletch)
+
+if (fletch_ENABLE_VXL AND fletch_BUILD_CXX11)
+  cmake_minimum_required(VERSION 3.9.5)
+  message(STATUS "Building VXL with CXX 11 support requires CMake 3.9.5")
+endif()
 
 # Policy to address @foo@ variable expansion
 if(POLICY CMP0053)
