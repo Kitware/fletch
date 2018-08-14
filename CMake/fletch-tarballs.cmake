@@ -553,7 +553,6 @@ set(qtExtensions_md5 "928fcd80b6c7e5534bf23c3b2fd76363")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
 list(APPEND fletch_external_sources qtExtensions)
 
-<<<<<<< HEAD
 # Leptonica
 set(Leptonica_version "1.76.0")
 set(Leptonica_url "https://github.com/DanBloomberg/leptonica/archive/${Leptonica_version}.tar.gz")
@@ -567,7 +566,7 @@ set(Tesseract_url "https://github.com/tesseract-ocr/tesseract/archive/${Tesserac
 set(Tesseract_md5 "d3b8661f878aed931cf3a7595e69b989")
 set(tess_dlname "tesseract-${Tesseract_version}.tar.gz")
 list(APPEND fletch_external_sources Tesseract)
-=======
+
 # ZeroMQ
 set(ZeroMQ_version "4.2.5")
 set(ZeroMQ_url "https://github.com/zeromq/libzmq/archive/v${ZeroMQ_version}.tar.gz")
@@ -581,7 +580,6 @@ set(cppzmq_url "https://github.com/zeromq/cppzmq/archive/v${cppzmq_version}.zip"
 set(cppzmq_md5 "f5a2ef3a4d47522fcb261171eb7ecfc4")
 set(cppzmq_dlname "cppzmq-v${cppzmq_version}.zip")
 list(APPEND fletch_external_sources cppzmq)
->>>>>>> master
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
