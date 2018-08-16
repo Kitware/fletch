@@ -54,13 +54,33 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # Qt
-add_package_dependency(
-  PACKAGE VTK
-  PACKAGE_DEPENDENCY Qt
-  PACKAGE_DEPENDENCY_ALIAS Qt4
-)
-if(QT_QMAKE_EXECUTABLE)
-  set(BUILD_QT_WEBKIT ${QT_QTWEBKIT_FOUND})
+if(Qt_version_major EQUAL 4)
+  add_package_dependency(
+    PACKAGE VTK
+    PACKAGE_DEPENDENCY Qt
+    PACKAGE_DEPENDENCY_ALIAS Qt4
+  )
+  if(QT_QMAKE_EXECUTABLE)
+    set(BUILD_QT_WEBKIT ${QT_QTWEBKIT_FOUND})
+    set(vtk_cmake_args ${vtk_cmake_args}
+      -DVTK_RENDERING_BACKEND:STRING=OpenGL
+      -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
+      -DVTK_QT_VERSION:STRING=4
+    )
+  endif()
+else()
+  add_package_dependency(
+    PACKAGE VTK
+    PACKAGE_DEPENDENCY Qt
+    PACKAGE_DEPENDENCY_ALIAS Qt5
+    PACKAGE_DEPENDENCY_COMPONENTS
+      Core Gui Widgets OpenGL Designer UiPlugin
+  )
+  set(vtk_cmake_args ${vtk_cmake_args}
+    -DVTK_RENDERING_BACKEND:STRING=OpenGL2
+    -DQt5_DIR:PATH=${Qt5_DIR}
+    -DVTK_QT_VERSION:STRING=5
+  )
 endif()
 set(vtk_cmake_args ${vtk_cmake_args}
   -DVTK_Group_Qt:BOOL=OFF
@@ -70,7 +90,6 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DModule_vtkGUISupportQtWebkit:BOOL=${BUILD_QT_WEBKIT}
   -DModule_vtkRenderingQt:BOOL=ON
   -DModule_vtkViewsQt:BOOL=ON
-  -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
   -DVTK_QT_VERSION:STRING=${Qt_version_major}
 )
 
@@ -200,12 +219,11 @@ list(APPEND vtk_cmake_args
   -DVTK_WRAP_PYTHON:BOOL=${VTK_WRAP_PYTHON}
   -DVTK_DEBUG_LEAKS:BOOL=${VTK_ENABLE_DEBUG_LEAKS}
   -DVTK_REQUIRED_OBJCXX_FLAGS:STRING=""
-  -DVTK_GROUP_WEB:BOOL=OFF
+  -DVTK_Group_Web:BOOL=OFF
   -DVTK_PYTHON_VERSION=${fletch_PYTHON_MAJOR_VERSION}
   -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
   -DPYTHON_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
   -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
-  -DVTK_RENDERING_BACKEND:STRING=OpenGL
   )
 
 
@@ -236,13 +254,13 @@ ExternalProject_Add(VTK
 fletch_external_project_force_install(PACKAGE VTK)
 
 set(VTK_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
-set(VTK_DIR "${VTK_ROOT}/lib/cmake/vtk-${VTK_version}" CACHE PATH "" FORCE)
+set(VTK_DIR "${VTK_ROOT}/lib/cmake/vtk-${VTK_SELECT_VERSION}" CACHE PATH "" FORCE)
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # VTK
 ########################################
 set(VTK_ROOT \${fletch_ROOT})
-set(VTK_DIR \${fletch_ROOT}/lib/cmake/vtk-${VTK_version})
+set(VTK_DIR \${fletch_ROOT}/lib/cmake/vtk-${VTK_SELECT_VERSION})
 
 set(fletch_ENABLED_VTK TRUE)
 ")

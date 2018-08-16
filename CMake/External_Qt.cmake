@@ -14,7 +14,8 @@ endif()
 if (NOT Qt_version VERSION_LESS 5.0.0)
   message(STATUS "Building Qt 5")
   if (fletch_BUILD_WITH_PYTHON)
-    list(APPEND Qt_ADDITIONAL_PATH ${PYTHON_EXECUTABLE})
+    get_filename_component(PYTHON_EXEC_PATH ${PYTHON_EXECUTABLE} DIRECTORY)
+    list(APPEND Qt_ADDITIONAL_PATH ${PYTHON_EXEC_PATH})
   else()
     message(FATAL " Python is required for building Qt 5")
   endif()
@@ -209,6 +210,18 @@ if (Qt_version VERSION_LESS 5.0.0)
   list( APPEND Qt_configure
     -nomake demos -nomake translations -nomake linguist
     -fast )
+endif()
+
+
+if (WIN32 AND NOT (Qt_version VERSION_LESS 5.0.0) )
+  # The qtlocation module from Qt5 is currently broken on Windows.
+  # Disable until a fix is found.
+  list( APPEND Qt_configure
+    -skip qtlocation )
+  # Dynamic OpenGL is the recommended way to build Qt5 on Windows
+  # and is required by VTK
+  list( APPEND Qt_configure
+    -opengl dynamic )
 endif()
 
 if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")

@@ -88,6 +88,17 @@ file(COPY
   DESTINATION ${Qt_source}/src/gui/util
   )
 
+#
+# Qt moc has issues with some Boost headers which causes an inability
+# to use QT_VERSION_CHECK in VTK in newer complires.
+# The patch here is taken from Fedora.
+# https://src.fedoraproject.org/cgit/rpms/qt.git/tree/qt-everywhere-opensource-src-4.8.6-QTBUG-22829.patch
+file(COPY
+  ${Qt_patch}/src/tools/moc/main.cpp
+  DESTINATION
+  ${Qt_source}/src/tools/moc)
+
+
 # gui/widgets
 file(COPY
   ${Qt_patch}/gui/widgets/qcocoamenu_mac.mm

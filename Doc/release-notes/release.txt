@@ -70,7 +70,7 @@ Package Upgrades
 
  * Associated the patches of VTK with specific versions
 
- * Added experimental support for VTK version 8.0
+ * Upgraded VTK to 8.0 and added experimental support for VTK 8.1
 
  * Associated the patches of Ceres Solver with specific versions
 
@@ -141,3 +141,5 @@ Fixes since v1.0.1
  * Provide a recognizable download name for Darknet
 
  * Update the download url for Qt 4, upstream archived the package
+
+ * Fix the numpy find module to reset vars if numpy not found. Allows user to fix existing configuration

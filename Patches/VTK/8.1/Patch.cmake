@@ -4,7 +4,7 @@
 #-
 
 # This patch brings in the following two commits from VTK's release branch to
-# VTK v8.0
+# VTK v8.1
 #
 # commit 6a5509af338680c169a0b95aef92eac7bda953c6
 # Author: Sankhesh Jhaveri <sankhesh.jhaveri@kitware.com>

@@ -18,6 +18,11 @@ if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
 
   foreach (_var IN LISTS dependency)
     get_property(currentHelpString CACHE "fletch_ENABLE_${_var}" PROPERTY HELPSTRING)
+    # Under certain circumstances, currentHelpString won't be defined which
+    # causes an error in the set command below.
+    if ("${currentHelpString}" STREQUAL "")
+      set(currentHelpString ${_var})
+    endif()
     set(fletch_ENABLE_${_var} ON CACHE BOOL ${currentHelpString} FORCE)
     if(NOT TARGET ${_var})
       include(External_${_var})
@@ -335,4 +340,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # Caffe
 ########################################
 set(Caffe_ROOT    \${fletch_ROOT})
+set(fletch_ENABLED_Caffe TRUE)
 ")

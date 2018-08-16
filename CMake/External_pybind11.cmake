@@ -13,6 +13,9 @@ ExternalProject_Add(pybind11
   PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  PATCH_COMMAND ${CMAKE_COMMAND} -E copy
+    ${fletch_SOURCE_DIR}/Patches/pybind11/include/pybind11/pybind11.h
+    ${fletch_BUILD_PREFIX}/src/pybind11/include/pybind11/pybind11.h
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}

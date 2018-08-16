@@ -1,5 +1,10 @@
-cmake_minimum_required(VERSION 3.1.3)
+cmake_minimum_required(VERSION 3.3.0)
 project(fletch)
+
+if (fletch_ENABLE_VXL AND fletch_BUILD_CXX11)
+  cmake_minimum_required(VERSION 3.9.5)
+  message(STATUS "Building VXL with CXX 11 support requires CMake 3.9.5")
+endif()
 
 # Policy to address @foo@ variable expansion
 if(POLICY CMP0053)
@@ -56,10 +61,6 @@ option(fletch_BUILD_CXX11 "" TRUE)
 if (fletch_BUILD_CXX11)
   set(fletch_CXX_STANDARD_VERSION "11")
 endif()
-
-
-# Disable exporting to the cmake package registry (see GH #341)
-set(CMAKE_EXPORT_NO_PACKAGE_REGISTRY TRUE)
 
 #
 # Do we want to build in Python support where available
@@ -268,6 +269,8 @@ set (COMMON_CMAKE_ARGS
   -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
   -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_CXX_STANDARD:STRING=${fletch_CXX_STANDARD_VERSION}
+  -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY:BOOL=TRUE
+  -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY:BOOL=TRUE
   )
 
 #

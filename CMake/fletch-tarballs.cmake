@@ -78,9 +78,9 @@ endif()
 list(APPEND fletch_external_sources PNG)
 
 # openjpeg
-set(openjpeg_version "2.1.2")
+set(openjpeg_version "2.3.0")
 set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
-set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
+set(openjpeg_md5 "6a1f8aaa1fe55d2088e3a9c942e0f698")
 set(openjpeg_dlname "openjpeg-v${openjpeg_version}.tar.gz")
 list(APPEND fletch_external_sources openjpeg)
 
@@ -305,6 +305,7 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
     set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
     set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
   elseif (OpenCV_version VERSION_EQUAL 2.4.13)
+    # TODO remove VTK 6.2 support when we remove support for OpenCV < 3.2
     set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
   else()
     message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
@@ -397,18 +398,22 @@ list(APPEND fletch_external_sources CppDB)
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
-  # Support the stable version 6.2, and work on updating to next version 8.0
   set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0)
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
-  set(VTK_version 8.0)
-  set(VTK_url "http://www.vtk.org/files/release/8.0/VTK-8.0.0.zip")
-  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
+  set(VTK_version 8.1.1)
+  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
+  set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
+elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
+  set(VTK_version 8.0.0)
+  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
+  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0.0
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
-  set(VTK_version 6.2)
-  set(VTK_url "http://www.vtk.org/files/release/6.2/VTK-6.2.0.zip")
+  # TODO remove when we remove support for OpenCV < 3.2
+  set(VTK_version 6.2.0)
+  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
 elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
@@ -541,12 +546,26 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20180614git42d0ed3a")
-set(qtExtensions_tag "42d0ed3a69d0f6603e95639a40ecae463006e1e7")
+set(qtExtensions_version "20180706gitc2259d52")
+set(qtExtensions_tag "c2259d52fd9bf2c6f3a7dea18aea08f81010cfb5")
 set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
-set(qtExtensions_md5 "ef215e739df57878df0d84474403bfd6")
+set(qtExtensions_md5 "928fcd80b6c7e5534bf23c3b2fd76363")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
 list(APPEND fletch_external_sources qtExtensions)
+
+# ZeroMQ
+set(ZeroMQ_version "4.2.5")
+set(ZeroMQ_url "https://github.com/zeromq/libzmq/archive/v${ZeroMQ_version}.tar.gz")
+set(ZeroMQ_md5 "da43d89dac623d99909fb95e2725fe05")
+set(ZeroMQ_dlname "ZeroMQ-v${ZeroMQ_version}.tar.gz")
+list(APPEND fletch_external_sources ZeroMQ)
+
+# CPP ZeroMQ header
+set(cppzmq_version "4.2.3")
+set(cppzmq_url "https://github.com/zeromq/cppzmq/archive/v${cppzmq_version}.zip")
+set(cppzmq_md5 "f5a2ef3a4d47522fcb261171eb7ecfc4")
+set(cppzmq_dlname "cppzmq-v${cppzmq_version}.zip")
+list(APPEND fletch_external_sources cppzmq)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
