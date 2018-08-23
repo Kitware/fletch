@@ -293,7 +293,7 @@ list(APPEND fletch_external_sources libkml)
 # Support 4.8.6 and 5.11 optionally
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
-  set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
+  set(Qt_SELECT_VERSION 5.11.1 CACHE STRING "Select the version of Qt to build.")
   set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.1")
 
   set(Qt_version ${Qt_SELECT_VERSION})
