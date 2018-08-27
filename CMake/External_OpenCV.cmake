@@ -312,8 +312,9 @@ ExternalProject_Add(OpenCV
     -DBUILD_TESTS:BOOL=False
     -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
     -DWITH_JASPER:BOOL=False
-    -DBUILD_opencv_python2:BOOL=${fletch_python2}
-    -DBUILD_opencv_python3:BOOL=${fletch_python3}
+    -DBUILD_opencv_python:BOOL=False
+    -DBUILD_opencv_python2:BOOL=False
+    -DBUILD_opencv_python3:BOOL=False
     -DPYTHON_DEFAULT_EXECUTABLE=${PYTHON_EXECUTABLE}
     -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
     -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
