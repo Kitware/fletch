@@ -23,6 +23,12 @@ configure_file(
   )
 
 configure_file(
+  ${GDAL_patch}/frmts/wms/gdalwmsdataset.cpp
+  ${GDAL_source}/frmts/wms/gdalwmsdataset.cpp
+  COPYONLY
+  )
+
+configure_file(
   ${GDAL_patch}/apps/gdalserver.c
   ${GDAL_source}/apps/gdalserver.c
   COPYONLY
