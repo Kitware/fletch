@@ -74,14 +74,6 @@ else()
     set(_GDAL_ARGS_APPLE --without-libtool --with-netcdf=no --with-curl=no --with-local=/usr)
   endif()
 
-  # The GDAL python build is sufficiently
-  # touchy that default OFF is the only safe course of action.
-  set(_GDAL_PYTHON_DEFAULT OFF)
-
-  if (PYTHONINTERP_FOUND)
-    option(fletch-GDAL_ENABLE_PYTHON "Build the GDAL Python bindings" ${_GDAL_PYTHON_DEFAULT})
-  endif()
-
   if(fletch_ENABLE_ZLib)
     #If we're building libz, then use it.
     list(APPEND _GDAL_DEPENDS ZLib)
@@ -101,11 +93,13 @@ else()
   if(fletch_ENABLE_PNG)
     list(APPEND _GDAL_DEPENDS PNG)
     set( _GDAL_PNG_ARGS --with-png=${fletch_BUILD_INSTALL_PREFIX})
+    set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
   endif()
 
   if(fletch_ENABLE_libtiff)
     list(APPEND _GDAL_DEPENDS libtiff)
     set( _GDAL_TIFF_ARGS --with-libtiff=${libtiff_ROOT})
+    set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
   endif()
 
   if(fletch_ENABLE_libgeotiff)
@@ -120,29 +114,15 @@ else()
   # For now, we're only going to to support the GDAL python bindings on
   # non-windows platforms.
   #-
-  if (fletch-GDAL_ENABLE_PYTHON)
-      # Not supported yet
-      set(_GDAL_ARGS_PYTHON --with-python=yes )
-      set(_GDAL_PYTHON_PREFIX "PYTHON=${PYTHON_EXECUTABLE}")
-
-      # The GDAL Python build is somewhat fussy.  Setting this (causing it
-      # to ignore the installed setuptools) is the only way to convince it
-      # to honor the "Prefix" settings we provide.
-      set(_GDAL_PY_HAVE_SETUPTOOLS_ARG "PY_HAVE_SETUPTOOLS=0")
-
-      find_python_site_packages(GDAL_PYTHON_SITE_PACKAGES ${fletch_BUILD_INSTALL_PREFIX} TRUE)
-      if (NOT GDAL_PYTHON_SITE_PACKAGES)
-          message(FATAL_ERROR "Could not find site-packages directory for GDAL python build")
-      endif()
-
-      file(MAKE_DIRECTORY ${GDAL_PYTHON_SITE_PACKAGES})
-      set(_GDAL_PYTHON_PATH_PREFIX "PYTHONPATH=${GDAL_PYTHON_SITE_PACKAGES}")
+  if (fletch_BUILD_WITH_PYTHON)
+      set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
    endif()
 
    # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
    if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT)
      set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
      list(APPEND _GDAL_DEPENDS openjpeg)
+    set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
    endif()
 
    # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
@@ -163,9 +143,9 @@ else()
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${GDAL_PATCH_COMMAND}
-    CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
-    BUILD_COMMAND ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ${MAKE_EXECUTABLE} ${_GDAL_PY_HAVE_SETUPTOOLS_ARG}
-    INSTALL_COMMAND ${_GDAL_PYTHON_PREFIX} ${_GDAL_PYTHON_PATH_PREFIX} ${MAKE_EXECUTABLE} ${_GDAL_PY_HAVE_SETUPTOOLS_ARG} install
+    CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PKG_CONFIG_PATH} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
+    BUILD_COMMAND ${MAKE_EXECUTABLE}
+    INSTALL_COMMAND ${MAKE_EXECUTABLE} install
   )
 endif()
 

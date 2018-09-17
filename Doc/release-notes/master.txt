@@ -1,0 +1,18 @@
+Fletch v1.1.0 Release Notes
+===========================
+
+This is a patch release of Fletch that provides bug fixes and documentation
+improvements over the previous v1.0.0 release.
+
+
+Updates since v1.1.0
+--------------------
+
+New Packages
+
+
+Package Upgrades
+
+ * Updated ITK to 4.13.1 to allow vnl bulid on newer gcc
+
+ * Fix GDAL python support
