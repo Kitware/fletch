@@ -13,6 +13,6 @@ New Packages
 
 Package Upgrades
 
-* Updated ITK to 4.13.1 to allow vnl bulid on newer gcc
+ * Updated ITK to 4.13.1 to allow vnl bulid on newer gcc
 
-* Fix GDAL python support
+ * Fix GDAL python support
