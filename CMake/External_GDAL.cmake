@@ -115,8 +115,7 @@ else()
   # non-windows platforms.
   #-
   if (fletch_BUILD_WITH_PYTHON)
-      set(_GDAL_ARGS_PYTHON --with-python=yes )
-      set(_GDAL_PYTHON_PREFIX "PYTHON=${PYTHON_EXECUTABLE}")
+      set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
    endif()
 
    # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
@@ -144,9 +143,9 @@ else()
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${GDAL_PATCH_COMMAND}
-    CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PKG_CONFIG_PATH} ${_GDAL_PYTHON_PREFIX} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
-    BUILD_COMMAND ${_GDAL_PYTHON_PREFIX} ${MAKE_EXECUTABLE}
-    INSTALL_COMMAND ${_GDAL_PYTHON_PREFIX} ${MAKE_EXECUTABLE} install
+    CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PKG_CONFIG_PATH} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
+    BUILD_COMMAND ${MAKE_EXECUTABLE}
+    INSTALL_COMMAND ${MAKE_EXECUTABLE} install
   )
 endif()
 
