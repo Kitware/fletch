@@ -10,28 +10,6 @@ if (EXISTS ${GDAL_patch})
 endif()
 
 if (WIN32)
-  set (_gdal_msvc_version )
-  if (MSVC60)
-    set(_gdal_msvc_version "1200")
-  elseif(MSVC71)
-    set(_gdal_msvc_version "1310")
-  elseif(MSVC70)
-    set(_gdal_msvc_version "1300")
-  elseif(MSVC80)
-    set(_gdal_msvc_version "1400")
-  elseif(MSVC90)
-    set(_gdal_msvc_version "1500")
-  elseif(MSVC10)
-    set(_gdal_msvc_version "1600")
-  elseif(MSVC11)
-    set(_gdal_msvc_version "1700")
-  elseif(MSVC12)
-    set(_gdal_msvc_version "1800")
-  elseif(MSVC14)
-    set(_gdal_msvc_version "1900")
-  endif()
-
-
   set(_gdal_msvc_win64_option )
   include(CheckTypeSize)
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 Bits
@@ -78,9 +56,9 @@ if (WIN32)
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${GDAL_PATCH_COMMAND}
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS}
-    INSTALL_COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} install
-    COMMAND nmake -f makefile.vc MSVC_VER=${_gdal_msvc_version} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} devinstall
+    BUILD_COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS}
+    INSTALL_COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} install
+    COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} devinstall
   )
 else()
 
@@ -102,6 +80,12 @@ else()
     set(_GDAL_ARGS_ZLIB "--with-libz=${ZLIB_ROOT}")
   endif()
 
+  if(fletch_ENABLE_PROJ4)
+    #If we're building libproj, then use it.
+    list(APPEND _GDAL_DEPENDS PROJ4 )
+    set(_GDAL_ARGS_PROJ4 "--with-proj=${PROJ4_ROOT}")
+  endif()
+
   # For now, I don't see the need for postgresql support in GDAL. If it is required, just add
   # -with-pg=/path/to/pg_config
   set(_GDAL_ARGS_PG "--without-pg")
@@ -121,10 +105,7 @@ else()
   if(fletch_ENABLE_libgeotiff)
     list(APPEND _GDAL_DEPENDS libgeotiff)
     set( _GDAL_GEOTIFF_ARGS --with-geotiff=${libgeotiff_ROOT})
-    find_program(env env)
-    if (env STREQUAL env-NOTFOUND)
-      message(FATAL_ERROR "env command not found !")
-    endif()
+    set(env ${CMAKE_COMMAND} -E env)
     set(env_var LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${fletch_BUILD_INSTALL_PREFIX}/lib)
     set(GDAL_CONFIGURE_COMMAND ${env} ${env_var} ${GDAL_CONFIGURE_COMMAND})
   endif()
@@ -147,7 +128,7 @@ else()
 
    # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
    set (GDAL_PKG_ARGS
-     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
+     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG} ${_GDAL_ARGS_PROJ4}
      ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE} ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
      --without-jasper
      )

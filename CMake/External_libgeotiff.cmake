@@ -152,4 +152,5 @@ ExternalProject_Add(libgeotiff
 set(libgeotiff_ROOT \${fletch_ROOT})
 set(libgeotiff_LIBRARY \${libgeotiff_LIBRARY})
 
+set(fletch_ENABLED_libgeotiff TRUE)
 ")
