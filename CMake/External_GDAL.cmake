@@ -111,14 +111,13 @@ else()
   endif()
 
   #+
-  # For now, we're only going to to support the GDAL python bindings on
-  # non-windows platforms.
+  # GDAL Python dosen't work well for GDAL 1
   #-
-  if (fletch_BUILD_WITH_PYTHON)
-      set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
-   endif()
+  if (fletch_BUILD_WITH_PYTHON AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
+    set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
+  endif()
 
-   # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
+  # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
    if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT)
      set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
      list(APPEND _GDAL_DEPENDS openjpeg)
