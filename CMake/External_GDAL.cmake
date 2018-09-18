@@ -59,7 +59,7 @@ if (WIN32)
     BUILD_COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS}
     INSTALL_COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} install
     COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} devinstall
-  )
+    )
 else()
 
   if(APPLE)
@@ -111,30 +111,29 @@ else()
   endif()
 
   #+
-  # For now, we're only going to to support the GDAL python bindings on
-  # non-windows platforms.
+  # GDAL Python dosen't work well for GDAL 1
   #-
-  if (fletch_BUILD_WITH_PYTHON)
-      set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
-   endif()
+  if (fletch_BUILD_WITH_PYTHON AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
+    set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
+  endif()
 
-   # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
-   if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT)
-     set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
-     list(APPEND _GDAL_DEPENDS openjpeg)
+  # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
+  if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT)
+    set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
+    list(APPEND _GDAL_DEPENDS openjpeg)
     set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
-   endif()
+  endif()
 
-   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
-   set (GDAL_PKG_ARGS
-     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG} ${_GDAL_ARGS_PROJ4}
-     ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE} ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
-     --without-jasper
-     )
+  # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
+  set (GDAL_PKG_ARGS
+    ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG} ${_GDAL_ARGS_PROJ4}
+    ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE} ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
+    --without-jasper
+    )
 
 
-   Fletch_Require_Make()
-   ExternalProject_Add(GDAL
+  Fletch_Require_Make()
+  ExternalProject_Add(GDAL
     DEPENDS ${_GDAL_DEPENDS}
     URL ${GDAL_file}
     URL_MD5 ${GDAL_md5}
@@ -146,7 +145,7 @@ else()
     CONFIGURE_COMMAND ${GDAL_CONFIGURE_COMMAND} ${_GDAL_PKG_CONFIG_PATH} ./configure --with-jpeg12 --prefix=${fletch_BUILD_INSTALL_PREFIX} ${_GDAL_ARGS_APPLE} ${GDAL_PKG_ARGS}
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
-  )
+    )
 endif()
 
 fletch_external_project_force_install(PACKAGE GDAL)
