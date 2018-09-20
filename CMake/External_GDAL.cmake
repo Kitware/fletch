@@ -111,9 +111,9 @@ else()
   endif()
 
   #+
-  # GDAL Python dosen't work well for GDAL 1
+  # GDAL Python dosen't work well for GDAL 1, nor does it work well on Apple at the moment
   #-
-  if (fletch_BUILD_WITH_PYTHON AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
+  if (NOT APPLE AND fletch_BUILD_WITH_PYTHON AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
     set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
   endif()
 
