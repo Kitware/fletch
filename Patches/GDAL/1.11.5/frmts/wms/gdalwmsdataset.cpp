@@ -379,8 +379,8 @@ CPLErr GDALWMSDataset::Initialize(CPLXMLNode *config) {
         m_osReferer = pszReferer;
     
     if (ret == CE_None) {
-        const char *pszHttpZeroBlockCodes[0] = CPLGetXMLValue(config, "ZeroBlockHttpCodes", "");
-        if(pszHttpZeroBlockCodes == '\0') {
+        const char *pszHttpZeroBlockCodes = CPLGetXMLValue(config, "ZeroBlockHttpCodes", "");
+        if(pszHttpZeroBlockCodes[0] == '\0') {
             m_http_zeroblock_codes.push_back(204);
         } else {
             char **kv = CSLTokenizeString2(pszHttpZeroBlockCodes,",",CSLT_HONOURSTRINGS);
