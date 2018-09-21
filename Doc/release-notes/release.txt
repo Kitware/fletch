@@ -98,8 +98,6 @@ Package Upgrades
    to build 1.11.5.
 
  * Update VXL hash to provide support for GCC version 8
- 
- * Update Qt version 5.11.2
 
 
 Fixes since v1.0.1
