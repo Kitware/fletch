@@ -99,7 +99,7 @@ Package Upgrades
 
  * Update VXL hash to provide support for GCC version 8
  
- * Add Qt version 5.11.2
+ * Update Qt version 5.11.2
 
 
 Fixes since v1.0.1
