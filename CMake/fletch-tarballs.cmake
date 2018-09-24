@@ -294,7 +294,7 @@ list(APPEND fletch_external_sources libkml)
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
   set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
-  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.1")
+  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2")
 
   set(Qt_version ${Qt_SELECT_VERSION})
   string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
@@ -303,9 +303,9 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   list(GET Qt_VERSION_LIST 2 Qt_version_patch)
   set(Qt_release_location official_releases) # official_releases or archive
 
-  if (Qt_version VERSION_EQUAL 5.11.1)
+  if (Qt_version VERSION_EQUAL 5.11.2)
     set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
-    set(Qt_md5 "c6f0854d7de7bde80cfd8cc85bb7152b")
+    set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
     set(Qt_release_location archive)
     set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
