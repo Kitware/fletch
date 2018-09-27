@@ -26,7 +26,7 @@ if (BUILD_CXSPARSE_ONLY)
     CMAKE_ARGS
       ${COMMON_CMAKE_ARGS}
       -DBUILD_SHARED_LIBS:BOOL=${_suite_sparese_build_shared}
-      -BUILD_TESTING:BOOL=OFF
+      -DBUILD_TESTING:BOOL=OFF
       ${SuiteSparse_EXTRA_BUILD_FLAGS}
     )
 
