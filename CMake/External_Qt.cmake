@@ -222,6 +222,13 @@ list( APPEND Qt_configure
   ${Qt_args_framework}
   )
 
+if (NOT Qt_version VERSION_LESS 5.0.0)
+# The qtlocation module from Qt5 is currently broken.
+# Disable until a fix is found.
+  list( APPEND Qt_configure
+    -skip qtlocation )
+endif()
+
 # Additional options for Qt4
 if (Qt_version VERSION_LESS 5.0.0)
   list( APPEND Qt_configure
@@ -231,10 +238,6 @@ endif()
 
 
 if (WIN32 AND NOT (Qt_version VERSION_LESS 5.0.0) )
-  # The qtlocation module from Qt5 is currently broken on Windows.
-  # Disable until a fix is found.
-  list( APPEND Qt_configure
-    -skip qtlocation )
   # Dynamic OpenGL is the recommended way to build Qt5 on Windows
   # and is required by VTK
   list( APPEND Qt_configure
