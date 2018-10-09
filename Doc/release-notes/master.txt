@@ -13,8 +13,10 @@ New Packages
 
 Package Upgrades
 
- * Updated ITK to 4.13.1 to allow vnl bulid on newer gcc
+ * Updated ITK to 5.0a02 to allow vnl bulid on newer gcc
 
  * Fix GDAL python support
- 
+
  * Update Qt version 5.11.2
+
+ * Update GDAL to version 2.3.2
