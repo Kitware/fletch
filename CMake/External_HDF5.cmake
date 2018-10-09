@@ -2,7 +2,7 @@
 add_package_dependency(
   PACKAGE HDF5
   PACKAGE_DEPENDENCY ZLib
-  PACKAGE_DEPENDENCY_ALIAS ZLib
+  PACKAGE_DEPENDENCY_ALIAS ZLIB
   )
 
 if(fletch_ENABLE_ZLib)
@@ -43,4 +43,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # HDF5
 #######################################
 set(HDF5_ROOT \${fletch_ROOT})
+set(fletch_ENABLED_HDF5 TRUE)
 ")

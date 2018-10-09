@@ -1,0 +1,51 @@
+Fletch v1.0.1 Release Notes
+===========================
+
+This is a patch release of Fletch that provides bug fixes and documentation
+improvements over the previous v1.0.0 release.
+
+
+Updates since v1.0.0
+--------------------
+
+Documentation
+
+ * Updated the Fletch README with known issues
+
+Project Configuration
+
+ * Updated VTK to build with the VTK_DEBUG_LEAKS option turned off
+
+
+Fixes since v1.0.0
+------------------
+
+CMake
+
+ * Fixed support for CMake 2.8.12 by removing unsupported character escape
+   sequences and replacing a .tar.xz download with a .tar.gz.
+
+OpenCV 3.1
+
+ * Patched OpenCV 3.1 to remove the improper use of INSTALL_NAME_DIR which
+   causes packaging issues on MacOS.  This same patch was applied to OpenCV 2.4
+   in Fletch and was accepted upstream in OpenCV 3.2.  Details here:
+   https://github.com/opencv/opencv/pull/6006
+
+ * Patched OpenCV 3.1 to fix Debug builds on Windows when Python is enabled.
+   The issue was failure to link to python27_d.lib, which is not distributed
+   with Python installers.
+
+ * Patched OpenCV 3.1 to work with MSCV 1911 and darknet.
+   The issue was that OpenCV was not installed to the directory expected by darknet
+   because the MSVC version was not recognized in a recent version of
+   VisualStudio 2017.
+
+PNG
+
+ * Prevented excessive symlinking of libraries. The process was causing issues for the Ninja generator. It is a redundant operation since the soversion property will suffice.
+
+Qt
+
+ * Fixed an issue with building Qt with the latest patched update to Visual
+   Studio 2017 due to an improper CMake check on the version of Visual Studio.

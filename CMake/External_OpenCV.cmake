@@ -24,7 +24,6 @@ else()
   unset(fletch_ENABLE_OpenCV_FFmpeg CACHE)
 endif()
 
-
 # Note:
 # Some other libraries built by fletch could be used by OpenCV
 # these are: Ceres, Qt. Should these dependencies be added?
@@ -42,7 +41,7 @@ if(fletch_ENABLE_OpenCV_FFmpeg)
   # take precedence.
   if(NOT WIN32)
       # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
-      set(custom_cmake_command CMAKE_COMMAND PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
+      set(custom_cmake_command CMAKE_COMMAND env PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
       message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
   else()
     message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
@@ -91,6 +90,7 @@ if(fletch_ENABLE_OpenCV_CUDA)
     ${CUDNN_BUILD_FLAGS}
     -DWITH_CUBLAS=ON -DWITH_CUDA=ON
     -DWITH_CUFFT=ON
+    -DCUDA_NVCC_FLAGS=--expt-relaxed-constexpr
     )
 else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS
@@ -221,6 +221,11 @@ if (fletch_ENABLE_OpenCV_contrib)
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
   #Don't build these contrib modules, they fail on VS.
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_bioinspired:BOOL=FALSE)
+
+  if (fletch_ENABLE_GFlags)
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS -Dgflags_DIR:PATH=${GFlags_DIR})
+  endif()
+
 endif()
 
 # In newer GCC we need to disable precompiled headers.
@@ -242,6 +247,15 @@ elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
     set(fletch_python3 False)
 else()
     message("Unknown Python version")
+endif()
+
+if (CMAKE_CXX_COMPILER MATCHES ".*ccache*" AND
+    CMAKE_COMPILER_IS_GNUCC AND
+    fletch_BUILD_WITH_CUDA AND
+    CUDA_HOST_COMPILER STREQUAL CMAKE_C_COMPILER
+    )
+  message(WARNING
+    "You are using ccache as your compiler and CUDA support is enabled. This configuration is known to fail with nvcc. Make sure you pass -DCUDA_HOST_COMPILER=/usr/bin/cc as an argument to cmake. Adjust the path to match your actual C compiler's location")
 endif()
 
 ExternalProject_Add(OpenCV
@@ -297,6 +311,6 @@ if(WIN32)
 else()
   set(OpenCV_DIR \${OpenCV_ROOT}/share/OpenCV)
 endif()
-
+set(OpenCV_VERSION ${OpenCV_SELECT_VERSION})
 set(fletch_ENABLED_OpenCV TRUE)
 ")

@@ -1,5 +1,10 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.3.0)
 project(fletch)
+
+if (fletch_ENABLE_VXL AND fletch_BUILD_CXX11)
+  cmake_minimum_required(VERSION 3.9.5)
+  message(STATUS "Building VXL with CXX 11 support requires CMake 3.9.5")
+endif()
 
 # Policy to address @foo@ variable expansion
 if(POLICY CMP0053)
@@ -25,7 +30,7 @@ endif()
 #-
 set(fletch_VERSION_MAJOR 1)
 set(fletch_VERSION_MINOR 0)
-set(fletch_VERSION_PATCH 0)
+set(fletch_VERSION_PATCH 1)
 
 set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VERSION_PATCH}")
 
@@ -34,7 +39,7 @@ set(CMAKE_MODULE_PATH ${fletch_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 
 # Don't force a build type in mutli-configuration platforms
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 endif()
 
 
@@ -63,11 +68,10 @@ endif()
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
 
 set(fletch_PYTHON_MAJOR_VERSION "2" CACHE STRING
-    "Python version to use: 3, 2, or empty")
+  "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
 
 if (fletch_BUILD_WITH_PYTHON)
-
   # If we change python versions re-find the bin, include, and libs
   if (NOT _prev_fletch_pymajor_version STREQUAL fletch_PYTHON_MAJOR_VERSION)
     # but dont clobber initial settings in the instance they are specified via
@@ -83,6 +87,9 @@ if (fletch_BUILD_WITH_PYTHON)
     endif()
   endif()
 
+  # Make a copy so we can determine if the user changes python versions
+  set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
+    "allows us to determine if the user changes python version")
   if (fletch_PYTHON_MAJOR_VERSION STREQUAL "3")
     find_package(PythonInterp 3.4 REQUIRED)
     find_package(PythonLibs 3.4 REQUIRED)
@@ -105,10 +112,6 @@ if (fletch_BUILD_WITH_PYTHON)
   if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
     message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
   endif()
-
-  # Make a copy so we can determine if the user changes python versions
-  set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
-    "allows us to determine if the user changes python version")
 endif()
 
 #
@@ -121,11 +124,9 @@ option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
 # allow the configuring package to set the install prefix.
 if (NOT fletch_BUILD_INSTALL_PREFIX)
   set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
-  # If building fletch from inside, change config out directory to the build directory
-  set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
-else()
-  set(fletch_CONFIG_OUTPUT ${fletch_BUILD_INSTALL_PREFIX}/fletchConfig.cmake )
 endif()
+
+set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
 
 #
 # Create a CMake Version file
@@ -212,15 +213,15 @@ set(fletch_CUDA_VERSION_STRING ${CUDA_VERSION_STRING})
 
   option(fletch_BUILD_WITH_CUDNN "Build with CUDNN support" FALSE)
   if (fletch_BUILD_WITH_CUDNN)
-    set( CUDNN_TOOLKIT_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
-    mark_as_advanced( CUDNN_TOOLKIT_ROOT_DIR )
+    set( CUDNN_ROOT_DIR "" CACHE PATH "CUDNN root folder" )
+    mark_as_advanced( CUDNN_ROOT_DIR )
     find_package( CUDNN QUIET REQUIRED)
 
     file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # CUDNN
 ########################################
-set(CUDNN_TOOLKIT_ROOT_DIR    ${CUDNN_TOOLKIT_ROOT_DIR})
+set(CUDNN_ROOT_DIR    ${CUDNN_ROOT_DIR})
 set(fletch_BUILT_WITH_CUDNN TRUE)
 ")
 
@@ -268,6 +269,8 @@ set (COMMON_CMAKE_ARGS
   -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
   -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_CXX_STANDARD:STRING=${fletch_CXX_STANDARD_VERSION}
+  -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY:BOOL=TRUE
+  -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY:BOOL=TRUE
   )
 
 #
@@ -331,6 +334,10 @@ if (NOT "#@${fletch_requires_make}" STREQUAL "#@")
 endif()
 
 configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_OUTPUT} @ONLY )
+
+set(fletch_CONFIG_INSTALL ${fletch_BUILD_INSTALL_PREFIX}/share/cmake/fletchConfig.cmake )
+configure_file(${fletch_CONFIG_INPUT} ${fletch_CONFIG_INSTALL} @ONLY )
+
 
 # Last step, prepare install of fletch.
 include(${fletch_SOURCE_DIR}/CMake/fletch-install.cmake)

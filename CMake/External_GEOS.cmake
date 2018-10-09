@@ -13,7 +13,7 @@ ExternalProject_Add(GEOS
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DGEOS_ENABLE_MACOSX_FRAMEWORK:BOOL=OFF
-    -BUILD_TESTING:BOOL=OFF
+    -DBUILD_TESTING:BOOL=OFF
     -DGEOS_ENABLE_TESTS:BOOL=OFF
 )
 
@@ -34,4 +34,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 set(GEOS_ROOT \${fletch_ROOT})
 set(GEOS_C_LIBRARY @GEOS_C_LIBRARY@)
+set(fletch_ENABLED_GEOS TRUE)
 ")

@@ -5,7 +5,7 @@ option(AUTO_ENABLE_CAFFE_DEPENDENCY "Automatically turn on all caffe dependencie
 if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
   #Snappy is needed by LevelDB and ZLib is needed by HDF5
   if(WIN32)
-    set(dependency Boost ZLib OpenCV HDF5)
+    set(dependency Boost GFlags GLog ZLib OpenCV HDF5)
   else()
     set(dependency Boost GFlags GLog ZLib HDF5 Snappy LevelDB LMDB OpenCV Protobuf)
   endif()
@@ -18,6 +18,11 @@ if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
 
   foreach (_var IN LISTS dependency)
     get_property(currentHelpString CACHE "fletch_ENABLE_${_var}" PROPERTY HELPSTRING)
+    # Under certain circumstances, currentHelpString won't be defined which
+    # causes an error in the set command below.
+    if ("${currentHelpString}" STREQUAL "")
+      set(currentHelpString ${_var})
+    endif()
     set(fletch_ENABLE_${_var} ON CACHE BOOL ${currentHelpString} FORCE)
     if(NOT TARGET ${_var})
       include(External_${_var})
@@ -244,6 +249,7 @@ if(fletch_BUILD_WITH_CUDA)
   set( CAFFE_GPU_ARGS
     ${CUDA_BUILD_FLAGS}
     -DCPU_ONLY:BOOL=OFF
+    -DCUDA_ARCH_NAME:STRING=All
     )
   if(fletch_BUILD_WITH_CUDNN)
     format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
@@ -346,4 +352,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # Caffe
 ########################################
 set(Caffe_ROOT    \${fletch_ROOT})
+set(fletch_ENABLED_Caffe TRUE)
 ")

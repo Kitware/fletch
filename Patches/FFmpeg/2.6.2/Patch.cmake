@@ -11,3 +11,11 @@ configure_file(
   ${FFmpeg_source}/libavutil/common.h
   COPYONLY
 )
+
+# Adds patch to fix invalid regex
+# This patch is needed on newer compilers
+configure_file(
+  ${FFmpeg_patch}/texi2pod.pl
+  ${FFmpeg_source}/doc/
+  COPYONLY
+)

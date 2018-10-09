@@ -42,7 +42,7 @@ Motivation
 When building large and complex projects it can be difficult to obtain all
 the required dependent libraries and get them to build and work together.
 Many of the projects in the first list above depend on many of the projects
-in the second list above.  If you naively build OpevCV and VXL, for example,
+in the second list above.  If you naively build OpenCV and VXL, for example,
 each may provide its own copy of libjpeg, libtiff, etc.  This is not a problem
 for the individual projects, but when you try to build a project, like KWIVER,
 against both of them you end up with conflicts from linking to multiple
@@ -87,6 +87,11 @@ On Linux systems, Install the following packages before building Fletch::
   sudo apt-get install libexpat1-dev
   sudo apt-get install libgtk2.0-dev
   sudo apt-get install liblapack-dev
+  sudo apt-get install python2.7-dev
+
+  # If you are using a RHEL-based system, e.g. RedHat, CentOS or Fedora
+  # and enabling GDAL you might need to install redhat-rpm-config.
+  {dnf|yum} install redhat-rpm-config
 
 Fletch uses CMake (www.cmake.org) for easy cross-platform compilation. The
 minimum required version of CMake is 2.8.12, but newer versions are strongly
@@ -179,8 +184,17 @@ Getting Help
 ============
 
 Fletch is a component of Kitware_'s collection of open source tools. 
-Please join the `fletch-users <http://public.kitware.com/mailman/listinfo/fletch-users>`_
+Please join the `fletch-users <http://public.kitware.com/mailman/listinfo/kwiver-users>`_
 mailing list to discuss Fletch or to ask for help with using Fletch.
+
+If you experience a build failure, please create an issue on `GitHub <https://github.com/Kitware/fletch/issues>`_ and include the following information
+
+1. Your operating system with exact version.
+2. Your compiler's exact version.
+3. The CMake version you are using.
+3. The complete build log, preferably run with a single core after the build has failed.
+4. Details of exactly which CMake options were changed from the default.
+
 
 .. Appendix I: References
 .. ======================

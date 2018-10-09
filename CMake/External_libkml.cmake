@@ -45,17 +45,17 @@ ExternalProject_Add(libkml
 
 fletch_external_project_force_install(PACKAGE libkml)
 
-set(LIBKML_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "" FORCE)
-set(LIBKML_DIR "${LIBKML_ROOT}/lib/cmake" CACHE PATH "" FORCE)
-set(LIBKML_LIBNAME kml)
+set(KML_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "" FORCE)
+set(KML_DIR "${fletch_BUILD_INSTALL_PREFIX}/lib/cmake" CACHE PATH "" FORCE)
+set(KML_LIBNAME kml)
 
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # libkml
 ########################################
-set(LIBKML_ROOT    \${fletch_ROOT})
-set(LIBKML_DIR     \${fletch_ROOT}/lib/cmake)
-set(LIBKML_LIBNAME @LIBKML_LIBNAME@)
+set(KML_ROOT    \${fletch_ROOT})
+set(KML_DIR     \${fletch_ROOT}/lib/cmake)
+set(KML_LIBNAME @KML_LIBNAME@)
 
 set(fletch_ENABLED_libkml TRUE)
 ")

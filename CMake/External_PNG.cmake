@@ -34,13 +34,17 @@ ExternalProject_Add(PNG
   )
 
 fletch_external_project_force_install(PACKAGE PNG)
-
 set(PNG_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE)
+get_system_library_name( png png_libname )
+if (WIN32)
+  set(png_libname "lib${png_libname}")
+endif()
+set(PNG_LIBRARY "${PNG_ROOT}/lib/${png_libname}" )
+
 file(APPEND ${fletch_CONFIG_INPUT} "
-################################
+################################_
 # PNG
 ################################
 set(PNG_ROOT \${fletch_ROOT})
-
 set(fletch_ENABLED_PNG TRUE)
 ")

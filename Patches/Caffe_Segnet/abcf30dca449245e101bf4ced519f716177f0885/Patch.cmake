@@ -38,5 +38,6 @@ else()
   file(COPY ${Caffe_Segnet_patch}/tools/CMakeLists.txt
        DESTINATION ${Caffe_Segnet_source}/tools/ )
 
-  
+  file(COPY ${Caffe_Segnet_patch}/cmake/Cuda.cmake
+       DESTINATION ${Caffe_Segnet_source}/cmake/ )
 endif()

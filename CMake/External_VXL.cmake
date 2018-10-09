@@ -19,6 +19,13 @@ add_package_dependency(
   PACKAGE_DEPENDENCY_ALIAS TIFF
   )
 
+# libgeotiff
+add_package_dependency(
+  PACKAGE VXL
+  PACKAGE_DEPENDENCY libgeotiff
+  PACKAGE_DEPENDENCY_ALIAS GEOTIFF
+  )
+
 # libpng
 add_package_dependency(
   PACKAGE VXL
@@ -26,19 +33,23 @@ add_package_dependency(
   )
 
 set(VXL_ARGS_CONTRIB
+  -DBUILD_CONTRIB:BOOL=ON
   -DBUILD_BRL:BOOL=OFF
   -DBUILD_MUL_TOOLS:BOOL=OFF
   -DBUILD_PRIP:BOOL=OFF
   )
 
 # Handle FFMPEG disable flag
+list(APPEND VXL_ARGS_VIDL
+  -DBUILD_CORE_VIDEO:BOOL=ON
+  )
 if(fletch_ENABLE_FFmpeg)
   add_package_dependency(
     PACKAGE VXL
     PACKAGE_DEPENDENCY FFmpeg
     )
 else()
-  set(VXL_ARGS_VIDL
+  list( APPEND VXL_ARGS_VIDL
     -DFFMPEG_CONFIG:FILEPATH=IGNORE
     -DFFMPEG_INCLUDE1_DIR:PATH=IGNORE
     -DFFMPEG_INCLUDE2_DIR:PATH=IGNORE
@@ -47,7 +58,7 @@ else()
     -DFFMPEG_avutil_LIBRARY:PATH=IGNORE
     -DFFMPEG_swscale_LIBRARY:PATH=IGNORE
     -DWITH_FFMPEG:BOOL=OFF
-  )
+    )
 endif()
 
 if(UNIX)
@@ -62,14 +73,6 @@ elseif(WIN32)
   set(VXL_ARGS_V3P
     # Geotiff
     )
-endif()
-
-if(${fletch_ENABLE_libtiff})
-  # When using the TIFF library from Fletch we need to explicitly
-  # disable the GeoTIFF library in VXL, because if a system GeoTiff package
-  # is found it will link against a system TIFF library, causing conflicts.
-  # This may change in the future if GeoTIFF is added to Fletch.
-  list(APPEND VXL_EXTRA_BUILD_FLAGS -DVXL_USE_GEOTIFF:BOOL=OFF)
 endif()
 
 ExternalProject_Add(VXL
@@ -90,11 +93,13 @@ ExternalProject_Add(VXL
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
     -DBUILD_DOCUMENTATION:BOOL=OFF
+    -DBUILD_FOR_VXL_DASHBOARD:BOOL=ON
     -DBUILD_CORE_PROBABILITY:BOOL=ON
     -DBUILD_CORE_GEOMETRY:BOOL=ON
     -DBUILD_CORE_NUMERICS:BOOL=ON
     -DBUILD_CORE_IMAGING:BOOL=ON
     -DBUILD_CORE_SERIALISATION:BOOL=ON
+    -DBUILD_BRL:BOOL=OFF
     -DBUILD_GEL:BOOL=OFF
     -DBUILD_MUL:BOOL=OFF
     -DBUILD_MUL_TOOLS:BOOL=OFF
@@ -102,6 +107,7 @@ ExternalProject_Add(VXL
     -DVXL_USE_DCMTK:BOOL=OFF
     -DJPEG_LIBRARY:FILEPATH=${JPEG_LIBRARY}
     -DJPEG_INCLUDE_DIR:PATH=${JPEG_INCLUDE_DIR}
+    -DGEOTIFF_LIBRARY=${libgeotiff_LIBRARY}
     ${VXL_EXTRA_BUILD_FLAGS}
     DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
