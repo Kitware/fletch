@@ -122,8 +122,8 @@ macro(add_package_dependency)
 
     if(DEFINED ${dependency_name}_FOUND)
       set(dependency_found ${${dependency_name}_FOUND})
-    elseif(DEFINED uppercase_found)
-      set(dependency_found ${uppercase_found})
+    elseif(DEFINED ${uppercase_found}_FOUND)
+      set(dependency_found ${${uppercase_found}_FOUND})
     endif()
 
     if(NOT dependency_found AND MY_OPTIONAL)
