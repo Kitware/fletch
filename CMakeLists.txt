@@ -47,6 +47,12 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${fletch_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${fletch_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${fletch_VERSION_PATCH})
 
+# If fletch is being configured from the outside ( e.g. from a super-build)
+# allow the configuring package to set the install prefix.
+if (NOT fletch_BUILD_INSTALL_PREFIX)
+  set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
+endif()
+
 set(fletch_DOWNLOAD_DIR ${fletch_SOURCE_DIR}/Downloads CACHE PATH
     "Directory to download tarballs into.")
 
@@ -86,6 +92,20 @@ if (fletch_BUILD_WITH_PYTHON)
       unset(PYTHON_LIBRARY_DEBUG CACHE)
     endif()
   endif()
+  
+  # Choose python 2 or python 3
+  if (fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
+      set(fletch_python2 False)
+      set(fletch_python3 True)
+  elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
+      set(fletch_python2 True)
+      set(fletch_python3 False)
+  else()
+      message("Unknown Python version")
+  endif()
+  # If a library supports setting the install location of their python libraries (i.e. opencv)
+  # This is where we would like it to go. (Not all libs support this... caffe...)
+  set(fletch_python_install ${fletch_BUILD_INSTALL_PREFIX}/lib/site-packages)
 
   # Make a copy so we can determine if the user changes python versions
   set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
@@ -112,19 +132,34 @@ if (fletch_BUILD_WITH_PYTHON)
   if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
     message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
   endif()
+  
+  # Check PYTHON_LIBRARY to see if we need to split it up
+  # For example if you installed python3 with debug libs
+  # PYTHON_LIBRARY = optimized:path/to/python3.lib:debug:path/to/python3_d.lib
+  list(LENGTH PYTHON_LIBRARY len)
+  if(${len} GREATER 1)
+    set(lib_config)
+    foreach(value ${PYTHON_LIBRARY})
+      if(lib_config STREQUAL "optimized")
+        set(lib_config)
+        set(PYTHON_LIBRARY ${value})
+      elseif(lib_config STREQUAL "debug")
+        set(lib_config)
+        set(PYTHON_LIBRARY_DEBUG ${value})
+      else()
+        set(lib_config ${value})
+      endif()
+    endforeach()
+    message(STATUS "PYTHON_LIBRARY : ${PYTHON_LIBRARY}")
+    message(STATUS "PYTHON_LIBRARY_DEBUG : ${PYTHON_LIBRARY_DEBUG}")
+  endif()
+  
 endif()
 
 #
 # Convenience Option for Dashboards to turn on ALL available Packages
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
-
-
-# If fletch is being configured from the outside ( e.g. from a super-build)
-# allow the configuring package to set the install prefix.
-if (NOT fletch_BUILD_INSTALL_PREFIX)
-  set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
-endif()
 
 set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
 

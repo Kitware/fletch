@@ -202,6 +202,22 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_JPEG=ON)
 endif()
 
+set(OpenCV_PYTHON_FLAGS 
+     -DBUILD_opencv_python2:BOOL=OFF
+     -DBUILD_opencv_python3:BOOL=OFF
+   )
+if(fletch_BUILD_WITH_PYTHON)
+  set(OpenCV_PYTHON_FLAGS 
+    -DBUILD_opencv_python2:BOOL=${fletch_python2}
+    -DBUILD_opencv_python3:BOOL=${fletch_python3}
+    -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_PACKAGES_PATH:PATH=${fletch_python_install}
+    -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
+    -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
+    -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
+    -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_LIBRARY_DEBUG:FILEPATH=${PYTHON_LIBRARY_DEBUG}
+    )
+  message(STATUS "Configuring OpenCV Python : ${OpenCV_PYTHON_FLAGS}")
+endif()
 
 # If a patch file exists for this version, apply it
 set (OpenCV_patch ${fletch_SOURCE_DIR}/Patches/OpenCV/${OpenCV_version})
@@ -238,17 +254,6 @@ if (fletch_BUILD_CXX11)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_CXX11:BOOL=ON)
 endif()
 
-# Choose python 2 or python 3
-if (fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
-    set(fletch_python2 False)
-    set(fletch_python3 True)
-elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
-    set(fletch_python2 True)
-    set(fletch_python3 False)
-else()
-    message("Unknown Python version")
-endif()
-
 if (CMAKE_CXX_COMPILER MATCHES ".*ccache*" AND
     CMAKE_COMPILER_IS_GNUCC AND
     fletch_BUILD_WITH_CUDA AND
@@ -281,13 +286,8 @@ ExternalProject_Add(OpenCV
     -DBUILD_TESTS:BOOL=False
     -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
     -DWITH_JASPER:BOOL=False
-    -DBUILD_opencv_python2:BOOL=${fletch_python2}
-    -DBUILD_opencv_python3:BOOL=${fletch_python3}
-    -DPYTHON_DEFAULT_EXECUTABLE=${PYTHON_EXECUTABLE}
-    -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
-    -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
-    -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
-  ${OpenCV_EXTRA_BUILD_FLAGS}
+    ${OpenCV_EXTRA_BUILD_FLAGS}
+    ${OpenCV_PYTHON_FLAGS}
   )
 
 fletch_external_project_force_install(PACKAGE OpenCV)
