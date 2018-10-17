@@ -20,3 +20,5 @@ Package Upgrades
  * Update Qt version 5.11.2
 
  * Update GDAL to version 2.3.2
+
+ * Update VXL for critical bug fix
