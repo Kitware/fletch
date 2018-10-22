@@ -22,3 +22,9 @@ Package Upgrades
  * Update GDAL to version 2.3.2
 
  * Update VXL for critical bug fix
+
+Fixes since v1.1.0
+------------------
+
+ * Patched PNG to enable support for ARM64 processors
+
