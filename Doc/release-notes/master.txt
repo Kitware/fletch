@@ -26,5 +26,5 @@ Package Upgrades
 Fixes since v1.1.0
 ------------------
 
- * Patched PNG to enable support for ARM64 processors
+ * Patched PNG to enable support for ARM64/AARCH64 processors
 
