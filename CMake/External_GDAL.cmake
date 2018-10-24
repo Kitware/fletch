@@ -119,7 +119,7 @@ else()
 
   # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
   # OpenJPEG support is not valid for GDAL 1, it requires an older version than we provide.
-  if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT GDAL_SELECT_VERSION VERSION_LESS 2.0))
+  if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
   set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
   list(APPEND _GDAL_DEPENDS openjpeg)
   set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
