@@ -461,9 +461,9 @@ endif()
 
 # LevelDB
 if(NOT WIN32)
-  set(LevelDB_version "1.18")
+  set(LevelDB_version "1.19")
   set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
-  set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
+  set(LevelDB_md5 "6c201409cce6b711f46d68e0f4b1090a")
   set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
   list(APPEND fletch_external_sources LevelDB)
 endif()
