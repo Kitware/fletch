@@ -42,7 +42,7 @@ if (WIN32)
   endif()
 
   if ( fletch_BUILD_WITH_PYTHON AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
-    set(_GDAL_ARGS_PYTHON PY_DIR=${PYTHON_INCLUDE_DIRS}/../ )
+    set(_GDAL_ARGS_PYTHON PY_DIR=${PYTHON_INCLUDE_DIRS}/../ PY_INST_DIR={fletch_BUILD_INSTALL_PREFIX}/lib/python/ )
   endif()
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
   set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG} ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PYTHON})
