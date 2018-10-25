@@ -25,7 +25,6 @@ if(fletch_LTIDSDK_ROOT)
 endif()
 
 if (WIN32)
-
   if(fletch_ENABLE_PNG)
     set(_GDAL_ARGS_PNG)
     set(_GDAL_ARGS_PNG PNGDIR=${fletch_BUILD_INSTALL_PREFIX}/include PNG_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.lib)
@@ -42,8 +41,11 @@ if (WIN32)
     set( _GDAL_GEOTIFF_ARGS GEOTIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOTIFF_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/geotiff_i.lib)
   endif()
 
+  if ( fletch_BUILD_WITH_PYTHON AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
+    set(_GDAL_ARGS_PYTHON PY_DIR=${PYTHON_INCLUDE_DIRS}/../ )
+  endif()
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
-  set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG} ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS})
+  set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG} ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PYTHON})
 
   file(TO_NATIVE_PATH ${fletch_BUILD_INSTALL_PREFIX} _gdal_native_fletch_BUILD_INSTALL_PREFIX)
   ExternalProject_Add(GDAL
@@ -120,10 +122,10 @@ else()
   # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
   # OpenJPEG support is not valid for GDAL 1, it requires an older version than we provide.
   if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
-  set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
-  list(APPEND _GDAL_DEPENDS openjpeg)
-  set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
-endif()
+    set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
+    list(APPEND _GDAL_DEPENDS openjpeg)
+    set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
+  endif()
 
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
   set (GDAL_PKG_ARGS
