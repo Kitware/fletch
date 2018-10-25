@@ -303,6 +303,13 @@ set (COMMON_EP_ARGS
 set (COMMON_CMAKE_EP_ARGS
   CMAKE_GENERATOR ${CMAKE_GENERATOR}
   )
+if(CMAKE_GENERATOR STREQUAL Ninja)
+  # When building with Ninja, force each external project to use the terminal.
+  # This prevents exponential job spawning and allows seeing the output for
+  # each external project in real time, rather than buffering it until the
+  # entire external project build is completed.
+  list(APPEND COMMON_CMAKE_EP_ARGS USES_TERMINAL_BUILD 1)
+endif()
 # General arguments for CMake projects
 # Arguments to pass to each project's CMake
 set (COMMON_CMAKE_ARGS
