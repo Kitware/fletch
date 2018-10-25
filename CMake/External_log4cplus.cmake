@@ -2,11 +2,8 @@ ExternalProject_Add(log4cplus
     URL ${log4cplus_url}
     URL_MD5 ${log4cplus_md5}
     DOWNLOAD_NAME ${log4cplus_dlname}
-    PREFIX ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-    CMAKE_COMMAND
-    CMAKE_GENERATOR ${gen}
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
     CMAKE_ARGS
       ${COMMON_CMAKE_ARGS}
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}

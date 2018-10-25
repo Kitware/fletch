@@ -37,7 +37,7 @@ if(fletch_ENABLE_OpenCV_FFmpeg)
   list(APPEND OpenCV_DEPENDS FFmpeg)
 
   # OpenCV uses pkg-config to find libraries to link against and use, so placing
-  # our instal target library pkgconfig directory on the path link in order to
+  # our install target library pkgconfig directory on the path link in order to
   # take precedence.
   if(NOT WIN32)
       # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
@@ -268,14 +268,12 @@ ExternalProject_Add(OpenCV
   URL ${OpenCV_url}
   URL_MD5 ${OpenCV_md5}
   DOWNLOAD_NAME ${OpenCV_dlname}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
 
   PATCH_COMMAND ${OPENCV_PATCH_COMMAND}
 
   ${custom_cmake_command}
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}

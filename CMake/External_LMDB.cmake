@@ -7,17 +7,12 @@ else()
   ExternalProject_Add(LMDB
     URL ${LMDB_url}
     URL_MD5 ${LMDB_md5}
-    PREFIX  ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-    INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
-
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
     PATCH_COMMAND ${CMAKE_COMMAND}
       -DLMDB_patch:PATH=${fletch_SOURCE_DIR}/Patches/LMDB
       -DLMDB_source:PATH=${fletch_BUILD_PREFIX}/src/LMDB
       -P ${fletch_SOURCE_DIR}/Patches/LMDB/Patch.cmake
-
-    CMAKE_COMMAND
-    CMAKE_GENERATOR ${gen}
     CMAKE_ARGS
       ${COMMON_CMAKE_ARGS}
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}

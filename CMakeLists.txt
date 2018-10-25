@@ -292,7 +292,19 @@ endif()
 # Passing down configuration types requires special formatting since it is a list
 string( REPLACE ";" "$<SEMICOLON>" CMAKE_SS_CONF_TYPES "${CMAKE_CONFIGURATION_TYPES}" )
 
-# Collect the set of common CMake args so we can push them to each project
+# Collect some sets of common external project arguments so we can push them to
+# each project:
+# General arguments for all projects
+set (COMMON_EP_ARGS
+  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+  PREFIX ${fletch_BUILD_PREFIX}
+  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  )
+set (COMMON_CMAKE_EP_ARGS
+  CMAKE_GENERATOR ${CMAKE_GENERATOR}
+  )
+# General arguments for CMake projects
+# Arguments to pass to each project's CMake
 set (COMMON_CMAKE_ARGS
   -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

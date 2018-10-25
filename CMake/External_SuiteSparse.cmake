@@ -12,10 +12,8 @@ if (BUILD_CXSPARSE_ONLY)
     DEPENDS ${SuiteSparse_DEPENDS}
     URL ${SuiteSparse_file}
     URL_MD5 ${SuiteSparse_md5}
-    PREFIX ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-    CMAKE_GENERATOR ${gen}
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
     SOURCE_DIR ${fletch_BUILD_PREFIX}/src/SuiteSparse
     PATCH_COMMAND ${CMAKE_COMMAND}
       -DSuiteSparse_patch=${fletch_SOURCE_DIR}/Patches/SuiteSparse
@@ -77,9 +75,7 @@ elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
     DEPENDS ${SuiteSparse_DEPENDS}
     URL ${SuiteSparse_file}
     URL_MD5 ${SuiteSparse_md5}
-    PREFIX  ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-    INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
+    ${COMMON_EP_ARGS}
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${CMAKE_COMMAND}
       -DSuiteSparse_patch=${fletch_SOURCE_DIR}/Patches/SuiteSparse

@@ -46,9 +46,7 @@ endif()
 ExternalProject_Add(Boost
   URL ${Boost_file}
   URL_MD5 ${Boost_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+  ${COMMON_EP_ARGS}
   PATCH_COMMAND
     ${Boost_PATCH_COMMAND}
   CONFIGURE_COMMAND ${CMAKE_COMMAND}
