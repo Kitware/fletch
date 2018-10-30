@@ -4,10 +4,8 @@ ExternalProject_Add(ZLib
   URL ${ZLib_file}
   URL_MD5 ${zlib_md5}
   DOWNLOAD_NAME ${zlib_dlname}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-  CMAKE_GENERATOR ${gen}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=ON

@@ -9,13 +9,12 @@ endif()
 ExternalProject_Add(TinyXML
   URL ${TinyXML_url}
   URL_MD5 ${TinyXML_md5}
-  PREFIX  ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
     -DTinyXML_patch=${fletch_SOURCE_DIR}/Patches/TinyXML
     -DTinyXML_source=${fletch_BUILD_PREFIX}/src/TinyXML
     -P ${fletch_SOURCE_DIR}/Patches/TinyXML/Patch.cmake
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=${tinyxml_build_shared}

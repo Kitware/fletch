@@ -3,14 +3,12 @@
 ExternalProject_Add(GeographicLib
   URL ${GeographicLib_file}
   URL_MD5 ${GeographicLib_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
      -DGeographicLib_patch=${fletch_SOURCE_DIR}/Patches/GeographicLib
      -DGeographicLib_source=${fletch_BUILD_PREFIX}/src/GeographicLib
      -P ${fletch_SOURCE_DIR}/Patches/GeographicLib/Patch.cmake
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     #GeographicLIb cannot build with standard 98 anymore. Force 11

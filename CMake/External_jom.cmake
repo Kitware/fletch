@@ -10,9 +10,8 @@
 ExternalProject_Add(jom
   URL ${jom_url}
   URL_MD5 ${jom_md5}
+  ${COMMON_EP_ARGS}
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ""
   INSTALL_COMMAND ""
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
 )

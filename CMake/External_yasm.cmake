@@ -28,9 +28,8 @@ if (NOT _external_yasm_include)
   ExternalProject_Add(yasm
     URL ${yasm_url}
     URL_MD5 ${yasm_md5}
-    PREFIX ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-    CMAKE_GENERATOR ${gen}
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
     INSTALL_COMMAND ""
     CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=Release

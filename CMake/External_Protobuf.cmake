@@ -29,14 +29,10 @@ Fletch_Require_Make()
 ExternalProject_Add(Protobuf
   URL ${Protobuf_url}
   URL_MD5 ${Protobuf_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
     ${Protobuf_PATCH_COMMAND}
-
   BUILD_IN_SOURCE 1
-  ${PROTOBUF_PATCH_ARG}
   CONFIGURE_COMMAND ./configure
     --prefix=${fletch_BUILD_INSTALL_PREFIX}
   BUILD_COMMAND ${MAKE_EXECUTABLE}

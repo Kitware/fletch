@@ -28,11 +28,9 @@ ExternalProject_Add(qtExtensions
   DEPENDS ${qtExtensions_DEPENDS}
   URL ${qtExtensions_file}
   URL_MD5 ${qtExtensions_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
   DOWNLOAD_NAME ${qtExtensions_dlname}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-  CMAKE_GENERATOR ${gen}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${QT_ARGS}

@@ -111,10 +111,8 @@ ExternalProject_Add(libgeotiff
   DEPENDS ${libgeotiff_DEPENDS}
   URL ${libgeotiff_file}
   URL_MD5 ${libgeotiff_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-  CMAKE_GENERATOR ${gen}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}

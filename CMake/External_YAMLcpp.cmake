@@ -13,14 +13,12 @@ ExternalProject_Add(YAMLcpp
   URL ${YAMLcpp_url}
   URL_MD5 ${YAMPcpp_md5}
   DOWNLOAD_NAME ${YAMLcpp_dlname}
-  PREFIX  ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
     -DYAMLcpp_patch:PATH=${fletch_SOURCE_DIR}/Patches/YAMLcpp
     -DYAMLcpp_source:PATH=${fletch_BUILD_PREFIX}/src/YAMLcpp
     -P ${fletch_SOURCE_DIR}/Patches/YAMLcpp/Patch.cmake
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DBOOST_ROOT:PATH=${BOOST_ROOT}

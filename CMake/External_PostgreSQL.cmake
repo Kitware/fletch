@@ -2,7 +2,7 @@
 if(WIN32)
   set(_PostgreSQL_BUILD_IN_SOURCE_ARG)
   set(ARG
-    CMAKE_GENERATOR ${gen}
+    ${COMMON_CMAKE_EP_ARGS}
     CMAKE_ARGS
       ${COMMON_CMAKE_ARGS}
       -DCMAKE_INSTALL_PREFIX=${fletch_BUILD_INSTALL_PREFIX}
@@ -49,9 +49,7 @@ set(_PostgreSQL_PATCH_ARG PATCH_COMMAND
 ExternalProject_Add(PostgreSQL
   URL ${PostgreSQL_url}
   URL_MD5 ${PostgreSQL_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
   ${_PostgreSQL_BUILD_IN_SOURCE_ARG}
   ${_PostgreSQL_PATCH_ARG}
   ${_PostgreSQL_CONFIGURE_ARG}

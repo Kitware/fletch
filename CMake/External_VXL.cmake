@@ -80,8 +80,8 @@ ExternalProject_Add(VXL
   URL ${VXL_url}
   URL_MD5 ${VXL_md5}
   DOWNLOAD_NAME ${VXL_dlname}
-  PREFIX ${fletch_BUILD_PREFIX}
-  CMAKE_GENERATOR ${gen}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS
     ${KWIVER_ARGS_COMMON}
     ${VXL_ARGS_GUI}
@@ -109,8 +109,6 @@ ExternalProject_Add(VXL
     -DJPEG_INCLUDE_DIR:PATH=${JPEG_INCLUDE_DIR}
     -DGEOTIFF_LIBRARY=${libgeotiff_LIBRARY}
     ${VXL_EXTRA_BUILD_FLAGS}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   )
 
 ExternalProject_Add_Step(VXL forcebuild
