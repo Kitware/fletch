@@ -24,7 +24,21 @@ add_package_dependency(
   PACKAGE VXL
   PACKAGE_DEPENDENCY libgeotiff
   PACKAGE_DEPENDENCY_ALIAS GEOTIFF
+  OPTIONAL
   )
+
+# Geotiff requires special treatment here. First, there is no CMake provided FindModule
+# and the one provided by VXL is insufficient to find it. For now we have included a FindGEOTIFF.cmake
+# which is a fixed version of the one provided by VXL. We are not able to update to VXL master
+# currently because its treatment of FFmpeg is broken. Once we are able to upgrade to a version that
+# contains the fixed FindGEOTIFF.cmake, our copy of it can get deleted and the manually setting of
+# the library and include_dir for VXL here can probably go away too.
+if (GEOTIFF_FOUND)
+  list(APPEND VXL_EXTRA_BUILD_FLAGS
+    -DGEOTIFF_INCLUDE_DIR:PATH=${GEOTIFF_INCLUDE_DIR}
+    -DGEOTIFF_LIBRARY:FILEPATH=${GEOTIFF_LIBRARY}
+    )
+endif()
 
 # libpng
 add_package_dependency(
