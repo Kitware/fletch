@@ -28,3 +28,4 @@ Fixes since v1.1.0
 
  * Patched PNG to enable support for ARM64/AARCH64 processors
 
+ * Remove the hard geotiff requirement from VXL but fix its inclusion in VXL when user has a system version installed.
