@@ -212,6 +212,7 @@ mark_as_advanced(VTK_ENABLE_DEBUG_LEAKS)
 
 # General VTK flags
 list(APPEND vtk_cmake_args
+  -DBUILD_TESTING:BOOL=OFF
   -DVTK_Group_Imaging:BOOL=ON
   -DVTK_Group_Rendering:BOOL=ON
   -DVTK_Group_StandAlone:BOOL=ON
