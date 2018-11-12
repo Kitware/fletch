@@ -1,0 +1,159 @@
+Fletch v1.1.0 Release Notes
+===========================
+
+This is a minor release of Fletch that provides both new functionality 
+and fixes over the previous v1.0.1 release. 
+
+This release adds many new packages to Fletch. Some of them include: 
+Caffe Segnet, Darknet, PostgreSQL, and many others. This release also 
+upgrades a significant amount of package’s versions such as: pybind11 
+to 2.2.1, Eigen to 3.3.4, libgeotiff 1.4.2, GLog to 0.3.5, and others. 
+Added support for several experimental versions for Python 3, 
+OpenCV 3.3, Protobuf 3.4.1, and ffmpeg3.3.3. 
+
+In addition to new libraries and updates, there are many bug fixes and
+general organizational changes. CUDA and CUDNN support has been cleaned 
+up, as well as significant improvement in the support for arm boards like 
+TX2 in many packages.
+
+There are many other changes in this release. These are detailed in the 
+change log below. 
+
+Updates since v1.0.1
+--------------------
+
+New Packages
+
+ * Added Caffe Segnet
+
+ * Added Darknet
+
+ * Added PostgreSQL
+
+ * Added PyBind11 version 2.2.0
+
+ * Added GTest version 1.8.0
+
+ * Added libgeotiff version 1.4.1
+
+ * Added GEOS version 3.4.2
+
+ * Added PostGIS version 2.1.8
+
+ * Added GDAL 1.11.5
+
+ * Added openjpeg for jpeg2k decoding in GDAL
+
+ * Added qtExtensions
+
+Package Upgrades
+
+ * pybind11 to version 2.2.1
+
+ * Upgrade Eigen to version 3.3.4
+
+ * Upgrade libgeotiff to version 1.4.2
+
+ * Upgrade GLog to version 0.3.5
+
+ * Upgrade GFlags to version 2.2.1
+
+ * Updated Caffe to pull from a Kitware clone of the project and applied
+   various patches to allow it to build on Windows.
+
+ * Added experimental support for ffmpeg 3.3.3
+
+ * Associated the patches of Caffe with specific versions
+
+ * Associated the patches of OpenBLAS with specific versions
+
+ * Updated OpenBLAS to version 0.2.20
+
+ * Associated the patches of OpenCV with specific versions
+
+ * Added experimental support for OpenCV version 3.3.0
+
+ * OpenCV no longer links to VTK by default
+
+ * Updated PROJ.4 to 4.9.3. Installation is now implemented upstream, which
+   allows dropping our local patches, and upstream also installes the data
+   files (which our patches did not). This enables use of the EPSG database
+   by consumers.
+
+ * Updated Ceres Solver from v1.10.0 to v1.13.0
+
+ * Associated the patches of VTK with specific versions
+
+ * Upgraded VTK to 8.0 and added experimental support for VTK 8.1
+
+ * Associated the patches of Ceres Solver with specific versions
+
+ * Added experimental support for Protobuf 3.4.1
+
+ * Added experimental support for Python 3
+
+ * Added option for Boost 1.64.1. The default is 1.55.0
+
+ * Added option to build GDAL 2.2.2
+
+ * Upgrade VXL to 63b790a424a9d3fd535ae7278d0a600408dbc08f
+
+ * Add PostgreSQL version 10.2
+
+ * Update GEOS to version 3.6.2
+
+ * Update PotGIS to version 2.4.3
+
+ * Boost 1.65 is now the default, remove Boost 1.55
+
+ * OpenCV 3.4.0 is now the default.
+
+ * Update GDAL to 2.3.0 which is now the default. Maintaining the option
+   to build 1.11.5.
+
+ * Update VXL hash to provide support for GCC version 8
+
+
+Fixes since v1.0.1
+------------------
+
+ * Rename `CUDNN_TOOLKIT_ROOT_DIR` to `CUDNN_ROOT_DIR`.
+
+ * Increase minimum_cmake_required to support CMAKE_CXX_STANDARD
+
+ * Fix python version selection.
+
+ * Allow GLog build on MSVC
+
+ * Associated the patches of ffmpeg with specific versions
+
+ * Added Visual Studio support for Caffe.
+
+ * Clean up CUDA, CUDNN support.
+
+ * Added numpy requirment when building with Caffe and python
+
+ * Patched OpenCV version 3.1.0 for the case the absolute build path contains
+   the pattern "cuda"
+
+ * Patch Qt to compile on MacOS 10.13
+
+ * Patch libjpeg-turbo's config.guess to support arm boards like TX2
+
+ * Patch libxml2's config.guess to support arm boards like TX2
+
+ * Patch GDAL's config.guess to support arm boards like TX2
+
+ * Patch Protobuf 2 to support arm boards like TX2
+
+ * Patch OpenCV so the FFmpeg libraries it uses can find each other
+
+ * Add 'experimental' packages to VXL and remove BRL
+
+ * Explicitly disable metis support in Suitesparce since it's not used
+
+ * Provide a recognizable download name for Darknet
+
+ * Update the download url for Qt 4, upstream archived the package
+
+ * Fix the numpy find module to reset vars if numpy not found. Allows user to fix existing configuration

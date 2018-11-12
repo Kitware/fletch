@@ -1,159 +1,68 @@
-Fletch v1.1.0 Release Notes
+Fletch v1.2.0 Release Notes
 ===========================
 
-This is a minor release of Fletch that provides both new functionality 
-and fixes over the previous v1.0.1 release. 
+This is a minor release of Fletch that provides both new functionality
+and fixes over the previous v1.1.0 release.
 
-This release adds many new packages to Fletch. Some of them include: 
-Caffe Segnet, Darknet, PostgreSQL, and many others. This release also 
-upgrades a significant amount of package’s versions such as: pybind11 
-to 2.2.1, Eigen to 3.3.4, libgeotiff 1.4.2, GLog to 0.3.5, and others. 
-Added support for several experimental versions for Python 3, 
-OpenCV 3.3, Protobuf 3.4.1, and ffmpeg3.3.3. 
+This release updates many existing packages, and adds the finishing touches on support for ARM64/AARCH64 
+processors. Also, the minimum CMake version required to build Fletch has been increased to 3.3.0.
 
-In addition to new libraries and updates, there are many bug fixes and
-general organizational changes. CUDA and CUDNN support has been cleaned 
-up, as well as significant improvement in the support for arm boards like 
-TX2 in many packages.
+Major packages that received updates in this release: QT, GDAL, ITK, and VXL. There has also been general 
+organizational and stability improvements.
 
-There are many other changes in this release. These are detailed in the 
-change log below. 
+There are many other changes in this release. These are detailed in the change log below.
 
-Updates since v1.0.1
+Updates since v1.1.0
 --------------------
 
 New Packages
 
- * Added Caffe Segnet
-
- * Added Darknet
-
- * Added PostgreSQL
-
- * Added PyBind11 version 2.2.0
-
- * Added GTest version 1.8.0
-
- * Added libgeotiff version 1.4.1
-
- * Added GEOS version 3.4.2
-
- * Added PostGIS version 2.1.8
-
- * Added GDAL 1.11.5
-
- * Added openjpeg for jpeg2k decoding in GDAL
-
- * Added qtExtensions
+ * Added ZeroMQ version 3.2.2, as well as CPP-ZeroMQ Headers
 
 Package Upgrades
 
- * pybind11 to version 2.2.1
+ * Updated ITK to 5.0b02 to allow vnl build on newer gcc
 
- * Upgrade Eigen to version 3.3.4
+ * Update Qt version 5.11.2
 
- * Upgrade libgeotiff to version 1.4.2
+ * Update qtExtensions enabling qtNaturalSort usage
 
- * Upgrade GLog to version 0.3.5
+ * Update GDAL to version 2.3.2
 
- * Upgrade GFlags to version 2.2.1
+ * Update openJPEG to version 2.3.0
 
- * Updated Caffe to pull from a Kitware clone of the project and applied
-   various patches to allow it to build on Windows.
+ * Update VXL for critical bug fix
 
- * Added experimental support for ffmpeg 3.3.3
+ * Update LevelDB to version 1.19 to allow support for TX2 ARM64
 
- * Associated the patches of Caffe with specific versions
+ * Adds option to build experimental VTK version 8.2 that brings in support for TeleSculptor. 
 
- * Associated the patches of OpenBLAS with specific versions
-
- * Updated OpenBLAS to version 0.2.20
-
- * Associated the patches of OpenCV with specific versions
-
- * Added experimental support for OpenCV version 3.3.0
-
- * OpenCV no longer links to VTK by default
-
- * Updated PROJ.4 to 4.9.3. Installation is now implemented upstream, which
-   allows dropping our local patches, and upstream also installes the data
-   files (which our patches did not). This enables use of the EPSG database
-   by consumers.
-
- * Updated Ceres Solver from v1.10.0 to v1.13.0
-
- * Associated the patches of VTK with specific versions
-
- * Upgraded VTK to 8.0 and added experimental support for VTK 8.1
-
- * Associated the patches of Ceres Solver with specific versions
-
- * Added experimental support for Protobuf 3.4.1
-
- * Added experimental support for Python 3
-
- * Added option for Boost 1.64.1. The default is 1.55.0
-
- * Added option to build GDAL 2.2.2
-
- * Upgrade VXL to 63b790a424a9d3fd535ae7278d0a600408dbc08f
-
- * Add PostgreSQL version 10.2
-
- * Update GEOS to version 3.6.2
-
- * Update PotGIS to version 2.4.3
-
- * Boost 1.65 is now the default, remove Boost 1.55
-
- * OpenCV 3.4.0 is now the default.
-
- * Update GDAL to 2.3.0 which is now the default. Maintaining the option
-   to build 1.11.5.
-
- * Update VXL hash to provide support for GCC version 8
-
-
-Fixes since v1.0.1
+Fixes since v1.1.0
 ------------------
+ 
+ * Fix GDAL Python support
+ 
+ * Patched PNG to enable support for ARM64/AARCH64 processors.
 
- * Rename `CUDNN_TOOLKIT_ROOT_DIR` to `CUDNN_ROOT_DIR`.
+ * Remove the hard geotiff requirement from VXL but fix its inclusion in VXL when user has a system version
+ installed.
 
- * Increase minimum_cmake_required to support CMAKE_CXX_STANDARD
+ * Disable building of VTK tests, they are not used. This decreases overall build time.
 
- * Fix python version selection.
+ * Enhance Ninja build support by forcing each external project to use the terminal. This prevents 
+exponential job spawning and allows seeing the output for each external project in real time, rather 
+than buffering it until the entire external project build is completed.
 
- * Allow GLog build on MSVC
+ * Add new variables COMMON_EP_ARGS and COMMON_CMAKE_EP_ARGS for arguments that are common to (almost) all
+invocations of ExternalProject_Add, and invocations for which the external project uses CMake.
 
- * Associated the patches of ffmpeg with specific versions
+ * add_package_dependency macro now correctly checks for FOUND variable DEFINED.
 
- * Added Visual Studio support for Caffe.
+ * All available flags are now correctly passed to Caffe on Windows.
 
- * Clean up CUDA, CUDNN support.
+ * Change the top-level CMAKE_INSTALL_LIBDIR to be a relative path, rather than absolute.
 
- * Added numpy requirment when building with Caffe and python
+ * Change URL of libxml to use HTTP instead of FTP
 
- * Patched OpenCV version 3.1.0 for the case the absolute build path contains
-   the pattern "cuda"
+ * Disable qt-location when building Qt5, as it is broken
 
- * Patch Qt to compile on MacOS 10.13
-
- * Patch libjpeg-turbo's config.guess to support arm boards like TX2
-
- * Patch libxml2's config.guess to support arm boards like TX2
-
- * Patch GDAL's config.guess to support arm boards like TX2
-
- * Patch Protobuf 2 to support arm boards like TX2
-
- * Patch OpenCV so the FFmpeg libraries it uses can find each other
-
- * Add 'experimental' packages to VXL and remove BRL
-
- * Explicitly disable metis support in Suitesparce since it's not used
-
- * Provide a recognizable download name for Darknet
-
- * Update the download url for Qt 4, upstream archived the package
-
- * Fix the numpy find module to reset vars if numpy not found. Allows user to fix existing configuration
