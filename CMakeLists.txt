@@ -1,5 +1,10 @@
-cmake_minimum_required(VERSION 3.1.3)
+cmake_minimum_required(VERSION 3.3.0)
 project(fletch)
+
+if (fletch_ENABLE_VXL AND fletch_BUILD_CXX11)
+  cmake_minimum_required(VERSION 3.9.5)
+  message(STATUS "Building VXL with CXX 11 support requires CMake 3.9.5")
+endif()
 
 # Policy to address @foo@ variable expansion
 if(POLICY CMP0053)
@@ -42,6 +47,12 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${fletch_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${fletch_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${fletch_VERSION_PATCH})
 
+# If fletch is being configured from the outside ( e.g. from a super-build)
+# allow the configuring package to set the install prefix.
+if (NOT fletch_BUILD_INSTALL_PREFIX)
+  set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
+endif()
+
 set(fletch_DOWNLOAD_DIR ${fletch_SOURCE_DIR}/Downloads CACHE PATH
     "Directory to download tarballs into.")
 
@@ -56,10 +67,6 @@ option(fletch_BUILD_CXX11 "" TRUE)
 if (fletch_BUILD_CXX11)
   set(fletch_CXX_STANDARD_VERSION "11")
 endif()
-
-
-# Disable exporting to the cmake package registry (see GH #341)
-set(CMAKE_EXPORT_NO_PACKAGE_REGISTRY TRUE)
 
 #
 # Do we want to build in Python support where available
@@ -86,6 +93,20 @@ if (fletch_BUILD_WITH_PYTHON)
     endif()
   endif()
 
+  # Choose python 2 or python 3
+  if (fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
+      set(fletch_python2 False)
+      set(fletch_python3 True)
+  elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
+      set(fletch_python2 True)
+      set(fletch_python3 False)
+  else()
+      message("Unknown Python version")
+  endif()
+  # If a library supports setting the install location of their python libraries (i.e. opencv)
+  # This is where we would like it to go. (Not all libs support this... caffe...)
+  set(fletch_python_install ${fletch_BUILD_INSTALL_PREFIX}/lib/site-packages)
+
   # Make a copy so we can determine if the user changes python versions
   set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
     "allows us to determine if the user changes python version")
@@ -111,19 +132,34 @@ if (fletch_BUILD_WITH_PYTHON)
   if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
     message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
   endif()
+  
+  # Check PYTHON_LIBRARY to see if we need to split it up
+  # For example if you installed python3 with debug libs
+  # PYTHON_LIBRARY = optimized:path/to/python3.lib:debug:path/to/python3_d.lib
+  list(LENGTH PYTHON_LIBRARY len)
+  if(${len} GREATER 1)
+    set(lib_config)
+    foreach(value ${PYTHON_LIBRARY})
+      if(lib_config STREQUAL "optimized")
+        set(lib_config)
+        set(PYTHON_LIBRARY ${value})
+      elseif(lib_config STREQUAL "debug")
+        set(lib_config)
+        set(PYTHON_LIBRARY_DEBUG ${value})
+      else()
+        set(lib_config ${value})
+      endif()
+    endforeach()
+    message(STATUS "PYTHON_LIBRARY : ${PYTHON_LIBRARY}")
+    message(STATUS "PYTHON_LIBRARY_DEBUG : ${PYTHON_LIBRARY_DEBUG}")
+  endif()
+  
 endif()
 
 #
 # Convenience Option for Dashboards to turn on ALL available Packages
 #
 option(fletch_ENABLE_ALL_PACKAGES "Enable all available packages" FALSE)
-
-
-# If fletch is being configured from the outside ( e.g. from a super-build)
-# allow the configuring package to set the install prefix.
-if (NOT fletch_BUILD_INSTALL_PREFIX)
-  set(fletch_BUILD_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install)
-endif()
 
 set(fletch_CONFIG_OUTPUT ${fletch_BINARY_DIR}/fletchConfig.cmake )
 
@@ -256,7 +292,26 @@ endif()
 # Passing down configuration types requires special formatting since it is a list
 string( REPLACE ";" "$<SEMICOLON>" CMAKE_SS_CONF_TYPES "${CMAKE_CONFIGURATION_TYPES}" )
 
-# Collect the set of common CMake args so we can push them to each project
+# Collect some sets of common external project arguments so we can push them to
+# each project:
+# General arguments for all projects
+set (COMMON_EP_ARGS
+  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+  PREFIX ${fletch_BUILD_PREFIX}
+  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  )
+set (COMMON_CMAKE_EP_ARGS
+  CMAKE_GENERATOR ${CMAKE_GENERATOR}
+  )
+if(CMAKE_GENERATOR STREQUAL Ninja)
+  # When building with Ninja, force each external project to use the terminal.
+  # This prevents exponential job spawning and allows seeing the output for
+  # each external project in real time, rather than buffering it until the
+  # entire external project build is completed.
+  list(APPEND COMMON_CMAKE_EP_ARGS USES_TERMINAL_BUILD 1)
+endif()
+# General arguments for CMake projects
+# Arguments to pass to each project's CMake
 set (COMMON_CMAKE_ARGS
   -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -265,9 +320,11 @@ set (COMMON_CMAKE_ARGS
   -DCMAKE_POLICY_DEFAULT_CMP0042=NEW
   -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-  -DCMAKE_INSTALL_LIBDIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib
+  -DCMAKE_INSTALL_LIBDIR:PATH=lib
   -DCMAKE_PREFIX_PATH:PATH=${fletch_BUILD_INSTALL_PREFIX}
   -DCMAKE_CXX_STANDARD:STRING=${fletch_CXX_STANDARD_VERSION}
+  -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY:BOOL=TRUE
+  -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY:BOOL=TRUE
   )
 
 #

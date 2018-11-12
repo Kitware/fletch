@@ -98,6 +98,15 @@ if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
 endif(MSVC)
 
+# setting definitions and sources for arm
+# "-DPNG_ARM_NEON_OPT=0" needed to build on arm64
+# see: https://github.com/glennrp/libpng/blob/a54a0562c53daf2d627f1631be0dd6531cca1694/CMakeLists.txt#L195
+ 
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^arm" OR
+   CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64")
+  add_definitions(-DPNG_ARM_NEON_OPT=0)
+endif()
+
 if(PNG_DEBUG)
   add_definitions(-DPNG_DEBUG)
 endif()

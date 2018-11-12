@@ -59,3 +59,8 @@ execute_command_wrapper(
   integer property_tree graph spirit fusion ${Boost_EXTRA_LIBS}
   ${Boost_BUILD_DIR}
 )
+
+# Copy all Boost header files to the build tree.
+file(COPY        "${Boost_SOURCE_DIR}/boost/"
+     DESTINATION "${Boost_BUILD_DIR}/boost/"
+     USE_SOURCE_PERMISSIONS)

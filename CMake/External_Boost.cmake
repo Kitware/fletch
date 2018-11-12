@@ -19,6 +19,8 @@ set(_Boost_DIR_ARGS
   -DBoost_INSTALL_DIR=${fletch_BUILD_INSTALL_PREFIX}
 )
 
+set(fletch_EXTRA_BOOST_LIBS "" CACHE STRING "Additional Boost libraries to install")
+
 if(fletch_BUILD_WITH_PYTHON)
   set(fletch_EXTRA_BOOST_LIBS ${fletch_EXTRA_BOOST_LIBS} python)
 
@@ -44,20 +46,18 @@ endif()
 ExternalProject_Add(Boost
   URL ${Boost_file}
   URL_MD5 ${Boost_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+  ${COMMON_EP_ARGS}
   PATCH_COMMAND
     ${Boost_PATCH_COMMAND}
   CONFIGURE_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
+    -DBoost_EXTRA_LIBS=${fletch_EXTRA_BOOST_LIBS}
     ${_Boost_DIR_ARGS}
     ${_Boost_PYTHON_ARGS}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Configure.cmake
   BUILD_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_BUILD_TYPE=$<CONFIGURATION>
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
-    -DBoost_EXTRA_LIBS=${fletch_EXTRA_BOOST_LIBS}
     ${_Boost_DIR_ARGS}
     ${_Boost_PYTHON_ARGS}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Build.cmake

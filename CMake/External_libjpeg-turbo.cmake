@@ -7,15 +7,12 @@ if(WIN32)
     URL ${libjpeg-turbo_url}
     URL_MD5 ${libjpeg-turbo_md5}
     DEPENDS ${libjpeg-turbo_DEPENDS}
-    PREFIX ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
     PATCH_COMMAND ${CMAKE_COMMAND}
         -Dlibjpeg-turbo_patch:PATH=${fletch_SOURCE_DIR}/Patches/libjpeg-turbo
         -Dlibjpeg-turbo_source:PATH=${fletch_BUILD_PREFIX}/src/libjpeg-turbo
         -P ${fletch_SOURCE_DIR}/Patches/libjpeg-turbo/Patch.cmake
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-
-    CMAKE_GENERATOR ${gen}
     CMAKE_ARGS
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
       -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
@@ -54,13 +51,11 @@ else()
     URL ${libjpeg-turbo_url}
     URL_MD5 ${libjpeg-turbo_md5}
     DEPENDS ${libjpeg-turbo_DEPENDS}
-    PREFIX ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+    ${COMMON_EP_ARGS}
     PATCH_COMMAND ${CMAKE_COMMAND}
         -Dlibjpeg-turbo_patch:PATH=${fletch_SOURCE_DIR}/Patches/libjpeg-turbo
         -Dlibjpeg-turbo_source:PATH=${fletch_BUILD_PREFIX}/src/libjpeg-turbo
         -P ${fletch_SOURCE_DIR}/Patches/libjpeg-turbo/Patch.cmake
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ./configure
       --prefix=${fletch_BUILD_INSTALL_PREFIX}

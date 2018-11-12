@@ -21,13 +21,11 @@ ExternalProject_Add(PNG
   DEPENDS ${PNG_DEPENDS}
   URL ${PNG_url}
   URL_MD5 ${PNG_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND} -E copy
     ${fletch_SOURCE_DIR}/Patches/PNG/CMakeLists.txt
     ${fletch_BUILD_PREFIX}/src/PNG/CMakeLists.txt
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${png_cmake_args}

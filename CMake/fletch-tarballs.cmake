@@ -78,9 +78,9 @@ endif()
 list(APPEND fletch_external_sources PNG)
 
 # openjpeg
-set(openjpeg_version "2.1.2")
+set(openjpeg_version "2.3.0")
 set(openjpeg_url "https://github.com/uclouvain/openjpeg/archive/v${openjpeg_version}.tar.gz")
-set(openjpeg_md5 "40a7bfdcc66280b3c1402a0eb1a27624")
+set(openjpeg_md5 "6a1f8aaa1fe55d2088e3a9c942e0f698")
 set(openjpeg_dlname "openjpeg-v${openjpeg_version}.tar.gz")
 list(APPEND fletch_external_sources openjpeg)
 
@@ -245,8 +245,8 @@ list(APPEND fletch_external_sources Ceres)
 if(NOT WIN32)
   set(libxml2_release "2.9")
   set(libxml2_patch_version 0)
-  set(libxml2_url "ftp://xmlsoft.org/libxml2/libxml2-sources-${libxml2_release}.${libxml2_patch_version}.tar.gz")
-  set(libxml2_md5 "7da7af8f62e111497d5a2b61d01bd811")
+  set(libxml2_url "http://xmlsoft.org/sources/libxml2-2.9.0.tar.gz")
+  set(libxml2_md5 "5b9bebf4f5d2200ae2c4efe8fa6103f7")
   list(APPEND fletch_external_sources libxml2)
 endif()
 
@@ -290,11 +290,11 @@ set(libkml_dlname "libkml-${libkml_version}.zip")
 list(APPEND fletch_external_sources libkml)
 
 # Qt
-# Support 4.8.6 and 5.10 optionally
+# Support 4.8.6 and 5.11 optionally
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
   set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
-  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.10.0")
+  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2")
 
   set(Qt_version ${Qt_SELECT_VERSION})
   string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
@@ -303,9 +303,9 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   list(GET Qt_VERSION_LIST 2 Qt_version_patch)
   set(Qt_release_location official_releases) # official_releases or archive
 
-  if (Qt_version VERSION_EQUAL 5.10.0)
-    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.10/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
-    set(Qt_md5 "c5e275ab0ed7ee61d0f4b82cd471770d")
+  if (Qt_version VERSION_EQUAL 5.11.2)
+    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
+    set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
     set(Qt_release_location archive)
     set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
@@ -330,13 +330,13 @@ list(APPEND fletch_external_sources libgeotiff)
 
 # GDAL
 if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
-  set(GDAL_SELECT_VERSION 2.3.0 CACHE STRING "Select the major version of GDAL to build.")
-  set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.3.0" "1.11.5")
+  set(GDAL_SELECT_VERSION 2.3.2 CACHE STRING "Select the major version of GDAL to build.")
+  set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.3.2" "1.11.5")
   message(STATUS "GDAL Select version: ${GDAL_SELECT_VERSION}")
-  if (GDAL_SELECT_VERSION VERSION_EQUAL 2.3.0)
-    set(GDAL_version "2.3.0")
+  if (GDAL_SELECT_VERSION VERSION_EQUAL 2.3.2)
+    set(GDAL_version "2.3.2")
     set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
-    set(GDAL_md5 "5906e3a92ce4436c1ca5379a06595447")
+    set(GDAL_md5 "221e4bfe3e8e9443fd33f8fe46f8bf60")
   elseif(GDAL_SELECT_VERSION VERSION_EQUAL 1.11.5)
     set(GDAL_version "1.11.5")
     set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
@@ -399,10 +399,19 @@ list(APPEND fletch_external_sources CppDB)
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1)
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1 8.2-pre)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.2-pre)
+  set(VTK_SELECT_VERSION 8.2)
+  set(VTK_tag "3ad789a980dd8da13f86dd79f37cf2e67f4d4dbf")
+  set(VTK_url "http://www.vtk.org/gitweb?p=VTK.git&a=snapshot&h=${VTK_tag}")
+  set(VTK_md5 "cb6857024e6559ccbad34e84573f5a1b")
+  # TODO: Remove corresponding logic in External_VTK.cmake when we replace
+  # this with 8.2 (official)
+  set(VTK_dlname "VTK-${VTK_tag}.tar.gz")
+elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
+  # TODO: Remove when we support 8.2 (official, not 8.2-pre)?
   set(VTK_version 8.1.1)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
@@ -411,7 +420,7 @@ elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0.0
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
-  # TODO remove when we remove support for OpenCV < 3.2
+  # TODO: Remove when we remove support for OpenCV < 3.2
   set(VTK_version 6.2.0)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
@@ -421,17 +430,17 @@ endif()
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_version "1613dd9f8f06dae759d597c7e86f552a1d539754")
+set(VXL_version "0bb0ca92867408caec298cef05412ed85c6d56b7")
 set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
-set(VXL_md5 "f49b704ffc2f5146d303f5b40e977e79")
+set(VXL_md5 "287536149942081666a2f9a3be87a666")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
 # ITK
-set(ITK_version 4.11)
-set(ITK_minor 0)
-set(ITK_url "http://downloads.sourceforge.net/project/itk/itk/${ITK_version}/InsightToolkit-${ITK_version}.${ITK_minor}.tar.gz")
-set(ITK_md5 "1a71ae9d2f7b3140ac17e8bbb0602c8a")
+set(ITK_version 5.0)
+set(ITK_minor b01)
+set(ITK_url "https://github.com/InsightSoftwareConsortium/ITK/archive/v${ITK_version}${ITK_minor}.zip")
+set(ITK_md5 "3a93ba69d3bf05258054806fab742611")
 set(ITK_experimental TRUE)
 list(APPEND fletch_external_sources ITK)
 
@@ -461,9 +470,9 @@ endif()
 
 # LevelDB
 if(NOT WIN32)
-  set(LevelDB_version "1.18")
+  set(LevelDB_version "1.19")
   set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
-  set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
+  set(LevelDB_md5 "6c201409cce6b711f46d68e0f4b1090a")
   set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
   list(APPEND fletch_external_sources LevelDB)
 endif()
@@ -546,12 +555,26 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20180706gitc2259d52")
-set(qtExtensions_tag "c2259d52fd9bf2c6f3a7dea18aea08f81010cfb5")
+set(qtExtensions_version "20180927git793dec73")
+set(qtExtensions_tag "793dec73da8204e586b9cc30c65864790a4d0d17")
 set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
-set(qtExtensions_md5 "928fcd80b6c7e5534bf23c3b2fd76363")
+set(qtExtensions_md5 "31dd4b6953af20ed245e5ddde939f54d")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
 list(APPEND fletch_external_sources qtExtensions)
+
+# ZeroMQ
+set(ZeroMQ_version "4.2.5")
+set(ZeroMQ_url "https://github.com/zeromq/libzmq/archive/v${ZeroMQ_version}.tar.gz")
+set(ZeroMQ_md5 "da43d89dac623d99909fb95e2725fe05")
+set(ZeroMQ_dlname "ZeroMQ-v${ZeroMQ_version}.tar.gz")
+list(APPEND fletch_external_sources ZeroMQ)
+
+# CPP ZeroMQ header
+set(cppzmq_version "4.2.3")
+set(cppzmq_url "https://github.com/zeromq/cppzmq/archive/v${cppzmq_version}.zip")
+set(cppzmq_md5 "f5a2ef3a4d47522fcb261171eb7ecfc4")
+set(cppzmq_dlname "cppzmq-v${cppzmq_version}.zip")
+list(APPEND fletch_external_sources cppzmq)
 
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"

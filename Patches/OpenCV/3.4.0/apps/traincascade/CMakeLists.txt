@@ -8,7 +8,7 @@ endif()
 project(traincascade)
 set(the_target opencv_traincascade)
 
-link_directories(${OPENCV_LIB_INSTALL_PATH})
+link_directories(${CMAKE_INSTALL_PREFIX}/${OPENCV_LIB_INSTALL_PATH})
 
 ocv_warnings_disable(CMAKE_CXX_FLAGS -Woverloaded-virtual)
 

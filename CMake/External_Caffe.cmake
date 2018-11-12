@@ -5,9 +5,9 @@ option(AUTO_ENABLE_CAFFE_DEPENDENCY "Automatically turn on all caffe dependencie
 if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
   #Snappy is needed by LevelDB and ZLib is needed by HDF5
   if(WIN32)
-    set(dependency Boost GFlags GLog ZLib OpenCV HDF5)
+    set(dependency Boost GFlags GLog HDF5 OpenCV ZLib )
   else()
-    set(dependency Boost GFlags GLog ZLib HDF5 Snappy LevelDB LMDB OpenCV Protobuf)
+    set(dependency Boost GFlags GLog HDF5 LevelDB LMDB OpenCV Protobuf Snappy ZLib)
   endif()
 
   if(NOT APPLE AND NOT WIN32)
@@ -18,6 +18,11 @@ if(fletch_ENABLE_Caffe AND AUTO_ENABLE_CAFFE_DEPENDENCY)
 
   foreach (_var IN LISTS dependency)
     get_property(currentHelpString CACHE "fletch_ENABLE_${_var}" PROPERTY HELPSTRING)
+    # Under certain circumstances, currentHelpString won't be defined which
+    # causes an error in the set command below.
+    if ("${currentHelpString}" STREQUAL "")
+      set(currentHelpString ${_var})
+    endif()
     set(fletch_ENABLE_${_var} ON CACHE BOOL ${currentHelpString} FORCE)
     if(NOT TARGET ${_var})
       include(External_${_var})
@@ -54,10 +59,10 @@ if(NOT WIN32) # Win32 build takes care of most dependencies automatically
   endif()
   addCaffeDendency(Protobuf "")
 endif()
-addCaffeDendency(HDF5 "") # Caffe for windows grabs its own HDF5, but we need a parallel builds so we don't break other code
 addCaffeDendency(Boost 1.46)
 addCaffeDendency(GFlags "")
 addCaffeDendency(GLog "")
+addCaffeDendency(HDF5 "") # Caffe for windows grabs its own HDF5, but we need a parallel builds so we don't break other code
 addCaffeDendency(OpenCV "")
 addCaffeDendency(ZLib "")
 
@@ -94,7 +99,7 @@ else()
     -DPROTOBUF_PROTOC_EXECUTABLE:PATH=${PROTOBUF_PROTOC_EXECUTABLE}
     -DPROTOBUF_PROTOC_LIBRARY:PATH=${PROTOBUF_PROTOC_LIBRARY}
     -DPROTOBUF_PROTOC_LIBRARY_DEBUG:PATH=${PROTOBUF_PROTOC_LIBRARY_DEBUG}
-  )
+    )
 endif()
 
 if(fletch_ENABLE_OpenCV)
@@ -105,7 +110,7 @@ if(fletch_ENABLE_OpenCV)
 else()
   set( CAFFE_OPENCV_ARGS
     -DOpenCV_DIR:PATH=${OpenCV_DIR}
-  )
+    )
 endif()
 
 if(fletch_ENABLE_LMDB)
@@ -162,23 +167,18 @@ else()
 endif()
 
 if(fletch_ENABLE_HDF5)
-
   if( CMAKE_BUILD_TYPE STREQUAL "Debug" )
-
     get_system_library_name( hdf5_debug hdf5_libname )
     get_system_library_name( hdf5_hl_debug hdf5_hl_libname )
     get_system_library_name( hdf5_cpp_debug hdf5_cpp_libname )
     get_system_library_name( hdf5_hl_cpp_debug hdf5_hl_cpp_libname )
-
-
   else()
-
     get_system_library_name( hdf5 hdf5_libname )
     get_system_library_name( hdf5_hl hdf5_hl_libname )
     get_system_library_name( hdf5_cpp hdf5_cpp_libname )
     get_system_library_name( hdf5_hl_cpp hdf5_hl_cpp_libname )
-
   endif()
+
   set( CAFFE_HDF5_ARGS
     -DHDF5_INCLUDE_DIRS:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
     -DHDF5_HL_INCLUDE_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/include
@@ -188,15 +188,12 @@ if(fletch_ENABLE_HDF5)
     -DHDF5_hdf5_hl_LIBRARY_DEBUG:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
     -DHDF5_hdf5_hl_LIBRARY_RELEASE:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
     -DHDF5_HL_LIBRARIES:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
-
     -DHDF5_CXX_LIBRARY_hdf5:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_libname}
     -DHDF5_CXX_LIBRARY_hdf5_cpp:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_cpp_libname}
     -DHDF5_CXX_LIBRARY_hdf5_hl:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
     -DHDF5_CXX_LIBRARY_hdf5_hl_cpp:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_cpp_libname}
-
     -DHDF5_C_LIBRARY_hdf5_hl:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_libname}
     -DHDF5_C_LIBRARY_hdf5:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/${hdf5_hl_libname}
-
     )
 else()
   set( CAFFE_HDF5_ARGS
@@ -208,7 +205,7 @@ else()
     -DHDF5_hdf5_hl_LIBRARY_DEBUG:PATH=${HDF5_hdf5_hl_LIBRARY_DEBUG}
     -DHDF5_hdf5_hl_LIBRARY_RELEASE:PATH=${HDF5_hdf5_hl_LIBRARY_RELEASE}
     -DHDF5_HL_LIBRARIES:PATH=${HDF5_HL_LIBRARIES}
-  )
+    )
 endif()
 
 if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
@@ -217,15 +214,15 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   endif()
   find_package(NumPy 1.7 REQUIRED)
   set(PYTHON_ARGS
-      -DBUILD_python:BOOL=ON
-      -DBUILD_python_layer:BOOL=ON
-      -Dpython_version=${fletch_PYTHON_MAJOR_VERSION}
-      -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
-      -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
-      -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
-      -DNUMPY_INCLUDE_DIR=${NUMPY_INCLUDE_DIR}
-      -DNUMPY_VERSION=${NUMPY_VERSION}
-      )
+    -DBUILD_python:BOOL=ON
+    -DBUILD_python_layer:BOOL=ON
+    -Dpython_version=${fletch_PYTHON_MAJOR_VERSION}
+    -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+    -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+    -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
+    -DNUMPY_INCLUDE_DIR=${NUMPY_INCLUDE_DIR}
+    -DNUMPY_VERSION=${NUMPY_VERSION}
+    )
 else()
   set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
 endif()
@@ -244,6 +241,7 @@ if(fletch_BUILD_WITH_CUDA)
   set( CAFFE_GPU_ARGS
     ${CUDA_BUILD_FLAGS}
     -DCPU_ONLY:BOOL=OFF
+    -DCUDA_ARCH_NAME:STRING=All
     )
   if(fletch_BUILD_WITH_CUDNN)
     format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
@@ -251,12 +249,12 @@ if(fletch_BUILD_WITH_CUDA)
       ${CAFFE_GPU_ARGS}
       ${CUDNN_BUILD_FLAGS}
       -DUSE_CUDNN:BOOL=ON
-    )
+      )
   else()
     set( CAFFE_GPU_ARGS
       ${CAFFE_GPU_ARGS}
       -DUSE_CUDNN:BOOL=OFF
-    )
+      )
   endif()
 else()
   set( CAFFE_GPU_ARGS
@@ -264,7 +262,6 @@ else()
     -DUSE_CUDNN:BOOL=OFF
     )
 endif()
-
 
 set (Caffe_PATCH_DIR "${fletch_SOURCE_DIR}/Patches/Caffe/${Caffe_version}")
 if (EXISTS ${Caffe_PATCH_DIR})
@@ -278,63 +275,55 @@ else()
   set(Caffe_PATCH_COMMAND "")
 endif()
 
-
 # Main build and install command
 if(WIN32)
-ExternalProject_Add(Caffe
-  DEPENDS ${Caffe_DEPENDS}
-  URL ${Caffe_url}
-  URL_MD5 ${Caffe_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-
-  PATCH_COMMAND ${Caffe_PATCH_COMMAND}
-
-  CMAKE_COMMAND
-  CMAKE_GENERATOR ${gen}
-  CMAKE_ARGS
-    ${COMMON_CMAKE_ARGS}
-    -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
-    -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
-    -DBOOST_ROOT:PATH=${BOOST_ROOT}
-    -DBoost_USE_STATIC_LIBS:BOOL=OFF
-    -DBLAS:STRING=Open
-    -DBUILD_SHARED_LIBS:BOOL=ON
-    ${CAFFE_OPENCV_ARGS}
-    ${PYTHON_ARGS}
-    ${CAFFE_GPU_ARGS}
-)
+  ExternalProject_Add(Caffe
+    DEPENDS ${Caffe_DEPENDS}
+    URL ${Caffe_url}
+    URL_MD5 ${Caffe_md5}
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
+    PATCH_COMMAND ${Caffe_PATCH_COMMAND}
+    CMAKE_ARGS
+      ${COMMON_CMAKE_ARGS}
+      -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
+      -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+      -DBOOST_ROOT:PATH=${BOOST_ROOT}
+      -DBoost_USE_STATIC_LIBS:BOOL=OFF
+      -DBLAS:STRING=Open
+      -DBUILD_SHARED_LIBS:BOOL=ON
+      ${PYTHON_ARGS}
+      ${CAFFE_GPU_ARGS}
+      ${CAFFE_GFlags_ARGS}
+      ${CAFFE_GLog_ARGS}
+      ${CAFFE_HDF5_ARGS}
+      ${CAFFE_OPENCV_ARGS}
+    )
 else()
-ExternalProject_Add(Caffe
-  DEPENDS ${Caffe_DEPENDS}
-  URL ${Caffe_url}
-  URL_MD5 ${Caffe_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-
-  PATCH_COMMAND ${Caffe_PATCH_COMMAND}
-
-  CMAKE_COMMAND
-  CMAKE_GENERATOR ${gen}
-  CMAKE_ARGS
-    ${COMMON_CMAKE_ARGS}
-    -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
-    -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
-    -DBOOST_ROOT:PATH=${BOOST_ROOT}
-    -DBLAS:STRING=Open
-    ${PYTHON_ARGS}
-    ${CAFFE_PROTOBUF_ARGS}
-    ${CAFFE_OPENCV_ARGS}
-    ${CAFFE_LMDB_ARGS}
-    ${CAFFE_LevelDB_ARGS}
-    ${CAFFE_GLog_ARGS}
-    ${CAFFE_GFlags_ARGS}
-    ${CAFFE_HDF5_ARGS}
-    ${CAFFE_OPENBLAS_ARGS}
-    ${CAFFE_GPU_ARGS}
-  )
+  ExternalProject_Add(Caffe
+    DEPENDS ${Caffe_DEPENDS}
+    URL ${Caffe_url}
+    URL_MD5 ${Caffe_md5}
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
+    PATCH_COMMAND ${Caffe_PATCH_COMMAND}
+    CMAKE_ARGS
+      ${COMMON_CMAKE_ARGS}
+      -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
+      -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+      -DBOOST_ROOT:PATH=${BOOST_ROOT}
+      -DBLAS:STRING=Open
+      ${PYTHON_ARGS}
+      ${CAFFE_GPU_ARGS}
+      ${CAFFE_LevelDB_ARGS}
+      ${CAFFE_LMDB_ARGS}
+      ${CAFFE_GFlags_ARGS}
+      ${CAFFE_GLog_ARGS}
+      ${CAFFE_HDF5_ARGS}
+      ${CAFFE_OPENBLAS_ARGS}
+      ${CAFFE_OPENCV_ARGS}
+      ${CAFFE_PROTOBUF_ARGS}
+    )
 endif()
 
 fletch_external_project_force_install(PACKAGE Caffe)

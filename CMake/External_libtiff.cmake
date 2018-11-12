@@ -53,16 +53,12 @@ ExternalProject_Add(libtiff
   DEPENDS ${libtiff_DEPENDS}
   URL ${libtiff_url}
   URL_MD5 ${libtiff_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
     -Dlibtiff_source:STRING=${fletch_BUILD_PREFIX}/src/libtiff
     -Dlibtiff_patch:STRING=${fletch_SOURCE_DIR}/Patches/libtiff
     -P ${fletch_SOURCE_DIR}/Patches/libtiff/Patch.cmake
-
-  # Build with cmake
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=TRUE

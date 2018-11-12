@@ -15,16 +15,13 @@ ExternalProject_Add(LevelDB
   URL_MD5 ${LevelDB_md5}
   DOWNLOAD_NAME ${LevelDB_dlname}
   DEPENDS ${LevelDB_DEPENDS}
-  PREFIX  ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
     -DSNAPPY_ROOT:PATH=${SNAPPY_ROOT}
     -DLevelDB_patch:PATH=${fletch_SOURCE_DIR}/Patches/LevelDB
     -DLevelDB_source:PATH=${fletch_BUILD_PREFIX}/src/LevelDB
     -P ${fletch_SOURCE_DIR}/Patches/LevelDB/Patch.cmake
-  CMAKE_COMMAND
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
