@@ -146,7 +146,8 @@ with the Fletch source directory for each desired configuration. For example :
 
 NOTES
 -----
-Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug'.  
+Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug'. 
+Also, when building Qt5 on Windows, if the path to the QT base directory is 63 or more characters, a build error will occur.  
 
 Linux users who build FFmpeg and OpenCV together might experience an issue linking to libavcodec. To allow OpenCV to link to FFmpeg, export LD_LIBRARY_PATH to include fletch's install/lib directory, e.g. export LD_LIBRARY_PATH=/home/user1/fletch/bld/install/lib/:$LD_LIBRARY_PATH  
 
