@@ -1,31 +1,66 @@
-Fletch v1.1.0 Release Notes
+Fletch v1.2.0 Release Notes
 ===========================
 
-This is a patch release of Fletch that provides bug fixes and documentation
-improvements over the previous v1.0.0 release.
+This is a minor release of Fletch that provides both new functionality
+and fixes over the previous v1.1.0 release.
 
+This release updates many existing packages, and adds the finishing touches on support for ARM64/AARCH64 processors. Also, the minimum CMake version required to build Fletch has been increased to 3.3.0.
+
+Major packages that received updates in this release: QT, GDAL, ITK, and VXL. There has also been general organizational and stability improvements.
+
+There are many other changes in this release. These are detailed in the
+change log below.
 
 Updates since v1.1.0
 --------------------
 
 New Packages
 
+ * Added ZeroMQ version 3.2.2, as well as CPP-ZeroMQ Headers
 
 Package Upgrades
 
- * Updated ITK to 5.0b02 to allow vnl bulid on newer gcc
-
- * Fix GDAL python support
+ * Updated ITK to 5.0b02 to allow vnl build on newer gcc
 
  * Update Qt version 5.11.2
 
+ * Update qtExtensions enabling qtNaturalSort usage
+
  * Update GDAL to version 2.3.2
+
+ * Update openJPEG to version 2.3.0
 
  * Update VXL for critical bug fix
 
+ * Update LevelDB to version 1.19 to allow support for TX2 ARM64
+
+ * Adds option to build experimental VTK version 8.2 that brings in support for TeleSculptor. 
+
 Fixes since v1.1.0
 ------------------
-
- * Patched PNG to enable support for ARM64/AARCH64 processors
+ 
+ * Fix GDAL Python support
+ 
+ * Patched PNG to enable support for ARM64/AARCH64 processors.
 
  * Remove the hard geotiff requirement from VXL but fix its inclusion in VXL when user has a system version installed.
+
+ * Disable building of VTK tests, they are not used. This decreases overall build time.
+
+ * Enhance Ninja build support by forcing each external project to use the terminal. This prevents exponential job spawning and allows seeing the
+output for each external project in real time, rather than buffering it until the entire external project build is completed.
+
+ * Add new variables COMMON_EP_ARGS and COMMON_CMAKE_EP_ARGS for arguments that are common to (almost) all invocations of
+ExternalProject_Add, and invocations for which the external project uses
+CMake.
+
+ * add_package_dependency macro now correctly checks for FOUND variable DEFINED.
+
+ * All available flags are now correctly passed to Caffe on Windows.
+
+ * Change the top-level CMAKE_INSTALL_LIBDIR to be a relative path, rather than absolute.
+
+ * Change URL of libxml to use HTTP instead of FTP
+
+ * Disable qt-location when building Qt5, as it is broken
+
