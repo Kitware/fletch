@@ -94,7 +94,7 @@ On Linux systems, Install the following packages before building Fletch::
   {dnf|yum} install redhat-rpm-config
 
 Fletch uses CMake (www.cmake.org) for easy cross-platform compilation. The
-minimum required version of CMake is 2.8.12, but newer versions are strongly
+minimum required version of CMake is 3.3.0, but newer versions are strongly
 recommended.
 
 Currently, a compiler with at C++11 support is expected (e.g. GCC 4.8, Visual
