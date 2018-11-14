@@ -46,3 +46,9 @@ configure_file(
   ${GDAL_source}/
   COPYONLY
   )
+
+configure_file(
+  ${GDAL_patch}/ogr/ogrsf_frmts/vfk/vfkfeature.cpp
+  ${GDAL_source}/ogr/ogrsf_frmts/vfk/
+  COPYONLY
+  )
