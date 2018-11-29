@@ -227,7 +227,14 @@ add_package_dependency(
   OPTIONAL
 )
 
-if (fletch_ENABLE_Qt)
+if ( fletch_ENABLE_Qt )
+  option(fletch_ENABLE_OpenCV_Qt "Build OpenCV with FFMPEG support" TRUE )
+  mark_as_advanced(fletch_ENABLE_OpenCV_Qt)
+else()
+  unset(fletch_ENABLE_OpenCV_Qt CACHE)
+endif()
+
+if (fletch_ENABLE_OpenCV_Qt)
   if (Qt_version VERSION_LESS 5.0.0)
     list(APPEND OpenCV_EXTRA_BUILD_FLAGS
       -DWITH_QT:BOOL=4
