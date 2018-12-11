@@ -202,12 +202,12 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_JPEG=ON)
 endif()
 
-set(OpenCV_PYTHON_FLAGS 
+set(OpenCV_PYTHON_FLAGS
      -DBUILD_opencv_python2:BOOL=OFF
      -DBUILD_opencv_python3:BOOL=OFF
    )
 if(fletch_BUILD_WITH_PYTHON)
-  set(OpenCV_PYTHON_FLAGS 
+  set(OpenCV_PYTHON_FLAGS
     -DBUILD_opencv_python2:BOOL=${fletch_python2}
     -DBUILD_opencv_python3:BOOL=${fletch_python3}
     -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_PACKAGES_PATH:PATH=${fletch_python_install}
@@ -275,7 +275,7 @@ if (fletch_ENABLE_OpenCV_contrib)
 endif()
 
 # In newer GCC we need to disable precompiled headers.
-if (CMAKE_COMPILER_IS_GNUCC AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6)
+if (CMAKE_COMPILER_IS_GNUCC AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_PRECOMPILED_HEADERS:BOOL=OFF)
 endif()
 
