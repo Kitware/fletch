@@ -97,6 +97,10 @@ ExternalProject_Add(VXL
   DOWNLOAD_NAME ${VXL_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    -DVXL_patch:PATH=${fletch_SOURCE_DIR}/Patches/VXL
+    -DVXL_source:PATH=${fletch_BUILD_PREFIX}/src/VXL
+    -P ${fletch_SOURCE_DIR}/Patches/VXL/Patch.cmake
   CMAKE_ARGS
     ${KWIVER_ARGS_COMMON}
     ${VXL_ARGS_GUI}
