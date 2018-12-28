@@ -437,9 +437,9 @@ list(APPEND fletch_external_sources VXL)
 
 # ITK
 set(ITK_version 5.0)
-set(ITK_minor b01)
-set(ITK_url "https://github.com/InsightSoftwareConsortium/ITK/archive/v${ITK_version}${ITK_minor}.zip")
-set(ITK_md5 "3a93ba69d3bf05258054806fab742611")
+set(ITK_minor b03)
+set(ITK_url "https://github.com/InsightSoftwareConsortium/ITK/archive/${ITK_version}${ITK_minor}.tar.gz")
+set(ITK_md5 "84d10e1d6324c1c1250ac4ecfcc1b403")
 set(ITK_experimental TRUE)
 list(APPEND fletch_external_sources ITK)
 
