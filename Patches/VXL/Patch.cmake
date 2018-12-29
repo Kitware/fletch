@@ -5,6 +5,6 @@
 
 message("Patching VXL in ${VXL_source}")
 
-file(COPY ${VXL_patch}/FindFFMPEG.cmake
-  DESTINATION ${VXL_source}/config/cmake/Modules/NewCMake/
+file(COPY ${VXL_patch}//vidl_ffmpeg_ostream_v56.hxx
+  DESTINATION ${VXL_source}/core/vidl/
 )
