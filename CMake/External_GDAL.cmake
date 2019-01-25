@@ -108,6 +108,11 @@ else()
     set(GDAL_CONFIGURE_COMMAND ${env} ${env_var} ${GDAL_CONFIGURE_COMMAND})
   endif()
 
+  if(fletch_ENABLE_libxml2)
+    list(APPEND _GDAL_DEPENDS libxml2)
+    set(_GDAL_ARGS_XML2 "--with-xml2=${LIBXML2_ROOT}/bin/xml2-config")
+  endif()
+
   #+
   # GDAL Python dosen't work well for GDAL 1, nor does it work well on Apple at the moment
   #-
@@ -125,8 +130,9 @@ endif()
 
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
   set (GDAL_PKG_ARGS
-    ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG} ${_GDAL_ARGS_PROJ4}
-    ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE} ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
+    ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
+    ${_GDAL_ARGS_PROJ4} ${_GDAL_ARGS_XML2} ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE}
+    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
     --without-jasper
     )
 
