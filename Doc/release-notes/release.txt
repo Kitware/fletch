@@ -1,0 +1,16 @@
+Fletch v1.2.1 Release Notes
+===========================
+
+This is a patch release of Fletch that provides fixes over the previous v1.2.0 release.
+
+
+Updates since v1.2.0
+--------------------
+
+
+Fixes since v1.2.0
+------------------
+ 
+ * GDAL now has explicit dependency on libxml2 if enabled in Fletch.
+   Previously it was possibly to for GDAL to find a conflicting
+   system package for libxml2.
