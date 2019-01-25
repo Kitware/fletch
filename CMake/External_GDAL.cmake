@@ -67,9 +67,15 @@ else()
     #
     # Also set '--with-local=/usr' to force selection of /usr/lib/libiconv over e.g. /opt/local/lib
     # from macports.  GDAL's '--with-libiconv-prefix' option looks like it should handle
-    # this but in fact seems to do nothing.
-    #
-    set(_GDAL_ARGS_APPLE --without-libtool --with-netcdf=no --with-curl=no --with-local=/usr)
+    # this but in fact seems to do nothing. 
+
+    if(fletch_ENABLE_libkml)
+      #If we're building libkml on apple, then use it. 
+      list(APPEND _GDAL_DEPENDS libkml)
+      set(_GDAL_ARGS_APPLE --with-libkml=${KML_DIR} --without-libtool --with-netcdf=no --with-curl=no --with-local=/usr)
+    else()
+      set(_GDAL_ARGS_APPLE --without-libtool --with-netcdf=no --with-curl=no --with-local=/usr)
+    endif()
   endif()
 
   if(fletch_ENABLE_ZLib)
