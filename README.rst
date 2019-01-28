@@ -77,7 +77,9 @@ Using the Fletch Docker
 
 Pull the image from Dockerhub::
 
- "docker pull kitware/fletch:latest"
+ "docker pull kitware/fletch:latest" (master)
+                or
+ "docker pull kitware/fletch:1.2.0" (release version)
 
 (https://hub.docker.com/r/kitware/fletch)
 
