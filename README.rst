@@ -79,9 +79,12 @@ Pull the image from Dockerhub::
 
  "docker pull kitware/fletch:latest"
 
+(https://hub.docker.com/r/kitware/fletch)
+
 or build the Fletch image using the dockerfile::
 
- "docker build -t fletch:tagname" .
+ "docker build -t fletch:tagname ."
+
 
 Building Fletch
 ===============
