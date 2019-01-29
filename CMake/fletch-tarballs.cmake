@@ -554,11 +554,11 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20180927git793dec73")
-set(qtExtensions_tag "793dec73da8204e586b9cc30c65864790a4d0d17")
-set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
-set(qtExtensions_md5 "31dd4b6953af20ed245e5ddde939f54d")
-set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
+set(qtExtensions_version "20190125gitbd13a416")
+set(qtExtensions_tag "bd13a41647a4d3e49a2644eecf9b6f6d775dac79")
+set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
+set(qtExtensions_md5 "a296f608f09d98cd851360d43c910371")
+set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
 list(APPEND fletch_external_sources qtExtensions)
 
 # ZeroMQ
