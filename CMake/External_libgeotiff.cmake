@@ -78,6 +78,10 @@ else()
 endif()
 
 # libtiff
+if (NOT fletch_ENABLE_libtiff)
+  message(FATAL " You must enable libtiff from fletch to build libgeotiff.")
+endif()
+
 add_package_dependency(
   PACKAGE libgeotiff
   PACKAGE_DEPENDENCY libtiff
