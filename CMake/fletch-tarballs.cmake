@@ -348,9 +348,9 @@ endif()
 list(APPEND fletch_external_sources GDAL)
 
 # PDAL
-set(PDAL_version 1.8.0)
+set(PDAL_version 1.7.2)
 set(PDAL_url "https://github.com/PDAL/PDAL/releases/download/${PDAL_version}/PDAL-${PDAL_version}-src.tar.gz")
-set(PDAL_md5 "f2fb81abbd6b9a2fab0b7cb7bd025c86")
+set(PDAL_md5 "a89710005fd54e6d2436955e2e542838")
 list(APPEND fletch_external_sources PDAL)
 
 # GeographicLib
