@@ -347,6 +347,12 @@ if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources GDAL)
 
+# PDAL
+set(PDAL_version 1.8.0)
+set(PDAL_url "https://github.com/PDAL/PDAL/releases/download/${PDAL_version}/PDAL-${PDAL_version}-src.tar.gz")
+set(PDAL_md5 "f2fb81abbd6b9a2fab0b7cb7bd025c86")
+list(APPEND fletch_external_sources PDAL)
+
 # GeographicLib
 set(GeographicLib_version "1.49" )
 set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
