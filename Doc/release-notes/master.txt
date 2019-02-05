@@ -1,14 +1,8 @@
-Fletch v1.2.0 Release Notes
+Fletch v1.3.0 Release Notes
 ===========================
 
-This is a minor release of Fletch that provides both new functionality
-and fixes over the previous v1.1.0 release.
-
-This release updates many existing packages, and adds the finishing touches on support for ARM64/AARCH64 
-processors. Also, the minimum CMake version required to build Fletch has been increased to 3.3.0.
-
-Major packages that received updates in this release: QT, GDAL, ITK, and VXL. There has also been general 
-organizational and stability improvements.
+This is a minor release of Fletch that provides both new functionality and fixes over 
+the previous v1.2.0 release.
 
 There are many other changes in this release. These are detailed in the change log below.
 
@@ -20,3 +14,10 @@ New Packages
 
 Package Upgrades
 
+
+Fixes since v1.2.0
+------------------
+
+- Libjpeg-turbo and libtiff are now requirements to build libgeotiff. It was possible to
+  try to build libgeotiff without libjpeg-tubo and libtiff enabled, this would result in
+  several build errors.
