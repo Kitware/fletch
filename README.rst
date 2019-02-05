@@ -9,7 +9,7 @@ pure CMake_ project.  It does not provide any actual functionality beyond
 encoding the knowledge of how to obtain, configure, and build a large
 collection of external projects.  Fletch bootstraps a computer vision software
 development environment by configuring various external projects to all work
-together nicely.  Futhermore it provides this environment in a standard way
+together nicely.  Furthermore it provides this environment in a standard way
 across platforms: Linux, MacOS, and Windows.
 
 Some of the bigger projects that Fletch builds are
@@ -53,7 +53,7 @@ and projects like MacPorts and Brew on MacOS.  However, each package manager has
 its own versions of each of the packages and these are specific to the package
 manager and to the operating system.  If we make KWIVER build against Ubuntu
 16.04 packages it might not build against the packaged versions provided by RHEL
-or even another version of Ubuntu.  Futhermore, building on Windows with
+or even another version of Ubuntu.  Furthermore, building on Windows with
 Visual Studio is a challenge because there is no standard package manager
 for Windows.
 
@@ -71,6 +71,21 @@ Overview of Directories
 ``CMake``     contains the CMake code to obtain and configure the projects
 ``Patches``   contains the patches to apply to the downloaded source code
 ============= ==================================================================
+
+Using the Fletch Docker
+======================
+
+Pull the image from Dockerhub::
+
+ "docker pull kitware/fletch:latest" (master)
+                or
+ "docker pull kitware/fletch:1.2.0" (release version)
+
+(https://hub.docker.com/r/kitware/fletch)
+
+or build the Fletch image using the dockerfile::
+
+ "docker build -t fletch:tagname ."
 
 
 Building Fletch
@@ -94,7 +109,7 @@ On Linux systems, Install the following packages before building Fletch::
   {dnf|yum} install redhat-rpm-config
 
 Fletch uses CMake (www.cmake.org) for easy cross-platform compilation. The
-minimum required version of CMake is 2.8.12, but newer versions are strongly
+minimum required version of CMake is 3.3.0, but newer versions are strongly
 recommended.
 
 Currently, a compiler with at C++11 support is expected (e.g. GCC 4.8, Visual
@@ -146,9 +161,10 @@ with the Fletch source directory for each desired configuration. For example :
 
 NOTES
 -----
-Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug'.  
+Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug'. 
+Also, when building Qt5 on Windows, if the path to the QT base directory is 63 or more characters, a build error will occur.  
 
-Linux users who build FFmpeg and OpenCV together might experience an issue linking to libavcodec. To allow OpenCV to link to FFmpeg, export LD_LIBRARY_PATH to include fletch's install/lib directory, e.g. export LD_LIBRARY_PATH=/home/user1/fletch/bld/install/lib/:$LD_LIBRARY_PATH  
+Linux users who build FFmpeg and OpenCV together might experience an issue linking to libavcodec. To allow OpenCV to link to FFmpeg, export LD_LIBRARY_PATH to include Fletch's install/lib directory, e.g. export LD_LIBRARY_PATH=/home/user1/fletch/bld/install/lib/:$LD_LIBRARY_PATH  
 
 The recommended CMake configuration is to enable all packages and, if desired, python.
 
@@ -162,7 +178,7 @@ Running from a shell or cmd window::
 
   mkdir fletch
   cd fletch
-  # Pull the source into a subfolder 'src'
+  # Pull the source into a sub-folder 'src'
   git clone https://github.com/Kitware/fletch.git src
   # Create a folder to build in
   mkdir build/rel
@@ -177,7 +193,7 @@ On Linux/OSX/MinGW, execute make
   
 For MSVC users, open the generated fletch.sln and build the project in the configuration associated with the build folder.
 Even though MSVC supports building multiple configurations, you should only build one configuration per build folder.
-If you need multiple configurations you should create multiple subfolders and repeat the above instructions for each configuration.
+If you need multiple configurations you should create multiple sub-folders and repeat the above instructions for each configuration.
 Also If you enable Python, please ensure that python is on your Windows PATH 
 
 Getting Help

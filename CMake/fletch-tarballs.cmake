@@ -148,43 +148,6 @@ set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
-# OpenCV
-# Support 2.4.13 and 3.4 optionally
-if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.0")
-
-  set(OpenCV_version ${OpenCV_SELECT_VERSION})
-  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
-  set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
-
-  # Expose optional contrib repo when enabling OpenCV version >= 3.x
-  if (NOT OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
-    list(APPEND fletch_external_sources OpenCV_contrib)
-    set(OpenCV_contrib_version "${OpenCV_version}")
-    set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
-    set(OpenCV_contrib_dlname "opencv-contrib-${OpenCV_version}.zip")
-  else()
-    # Remove Contrib repo option when OpenCV is not the correct version
-    unset(fletch_ENABLE_OpenCV_contrib CACHE)
-  endif()
-
-  # Paired contrib repo information
-  if (OpenCV_version VERSION_EQUAL 3.4.0)
-    set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
-    set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
-  elseif (OpenCV_version VERSION_EQUAL 2.4.13)
-    # TODO remove VTK 6.2 support when we remove support for OpenCV < 3.2
-    set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
-  else()
-    message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
-  endif()
-else()
-  # Remove Contrib repo option when OpenCV is not enabled
-  unset(fletch_ENABLE_OpenCV_contrib CACHE)
-endif()
-list(APPEND fletch_external_sources OpenCV)
-
 # log4cplus
 set(log4cplus_version "1.2.x")
 set(log4cplus_url "https://github.com/Kitware/log4cplus/archive/1.2.x.zip")
@@ -315,6 +278,42 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   endif()
 endif()
 list(APPEND fletch_external_sources Qt)
+
+# OpenCV
+# Support 2.4.13 and 3.4 optionally
+if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
+  set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.0")
+
+  set(OpenCV_version ${OpenCV_SELECT_VERSION})
+  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+  set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+
+  # Expose optional contrib repo when enabling OpenCV version >= 3.x
+  if (NOT OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
+    list(APPEND fletch_external_sources OpenCV_contrib)
+    set(OpenCV_contrib_version "${OpenCV_version}")
+    set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
+    set(OpenCV_contrib_dlname "opencv-contrib-${OpenCV_version}.zip")
+  else()
+    # Remove Contrib repo option when OpenCV is not the correct version
+    unset(fletch_ENABLE_OpenCV_contrib CACHE)
+  endif()
+
+  # Paired contrib repo information
+  if (OpenCV_version VERSION_EQUAL 3.4.0)
+    set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
+    set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
+  elseif (OpenCV_version VERSION_EQUAL 2.4.13)
+    set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
+  else()
+    message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
+  endif()
+else()
+  # Remove Contrib repo option when OpenCV is not enabled
+  unset(fletch_ENABLE_OpenCV_contrib CACHE)
+endif()
+list(APPEND fletch_external_sources OpenCV)
 
 # PROJ.4
 set(PROJ4_version "4.9.3" )
@@ -561,11 +560,11 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20180927git793dec73")
-set(qtExtensions_tag "793dec73da8204e586b9cc30c65864790a4d0d17")
-set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
-set(qtExtensions_md5 "31dd4b6953af20ed245e5ddde939f54d")
-set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
+set(qtExtensions_version "20190125gitbd13a416")
+set(qtExtensions_tag "bd13a41647a4d3e49a2644eecf9b6f6d775dac79")
+set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
+set(qtExtensions_md5 "a296f608f09d98cd851360d43c910371")
+set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
 list(APPEND fletch_external_sources qtExtensions)
 
 # ZeroMQ

@@ -1,11 +1,18 @@
-Fletch v1.1.0 Release Notes
+Fletch v1.2.0 Release Notes
 ===========================
 
-This is a patch release of Fletch that provides bug fixes and documentation
-improvements over the previous v1.0.0 release.
+This is a minor release of Fletch that provides both new functionality
+and fixes over the previous v1.1.0 release.
 
+This release updates many existing packages, and adds the finishing touches on support for ARM64/AARCH64 
+processors. Also, the minimum CMake version required to build Fletch has been increased to 3.3.0.
 
-Updates since v1.1.0
+Major packages that received updates in this release: QT, GDAL, ITK, and VXL. There has also been general 
+organizational and stability improvements.
+
+There are many other changes in this release. These are detailed in the change log below.
+
+Updates since v1.2.0
 --------------------
 
 New Packages
@@ -14,19 +21,3 @@ New Packages
 
 Package Upgrades
 
- * Updated ITK to 5.0b02 to allow vnl bulid on newer gcc
-
- * Fix GDAL python support
-
- * Update Qt version 5.11.2
-
- * Update GDAL to version 2.3.2
-
- * Update VXL for critical bug fix
-
-Fixes since v1.1.0
-------------------
-
- * Patched PNG to enable support for ARM64/AARCH64 processors
-
- * Remove the hard geotiff requirement from VXL but fix its inclusion in VXL when user has a system version installed.

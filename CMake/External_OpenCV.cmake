@@ -202,12 +202,12 @@ else()
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_JPEG=ON)
 endif()
 
-set(OpenCV_PYTHON_FLAGS 
+set(OpenCV_PYTHON_FLAGS
      -DBUILD_opencv_python2:BOOL=OFF
      -DBUILD_opencv_python3:BOOL=OFF
    )
 if(fletch_BUILD_WITH_PYTHON)
-  set(OpenCV_PYTHON_FLAGS 
+  set(OpenCV_PYTHON_FLAGS
     -DBUILD_opencv_python2:BOOL=${fletch_python2}
     -DBUILD_opencv_python3:BOOL=${fletch_python3}
     -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_PACKAGES_PATH:PATH=${fletch_python_install}
@@ -217,6 +217,36 @@ if(fletch_BUILD_WITH_PYTHON)
     -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_LIBRARY_DEBUG:FILEPATH=${PYTHON_LIBRARY_DEBUG}
     )
   message(STATUS "Configuring OpenCV Python : ${OpenCV_PYTHON_FLAGS}")
+endif()
+
+# Qt
+add_package_dependency(
+  PACKAGE OpenCV
+  PACKAGE_DEPENDENCY Qt
+  PACKAGE_DEPENDENCY_ALIAS Qt4
+  OPTIONAL
+)
+
+if ( fletch_ENABLE_Qt )
+  option(fletch_ENABLE_OpenCV_Qt "Build OpenCV with FFMPEG support" TRUE )
+  mark_as_advanced(fletch_ENABLE_OpenCV_Qt)
+else()
+  unset(fletch_ENABLE_OpenCV_Qt CACHE)
+endif()
+
+if (fletch_ENABLE_OpenCV_Qt)
+  if (Qt_version VERSION_LESS 5.0.0)
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+      -DWITH_QT:BOOL=4
+      -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE})
+  else()
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+      -DWITH_QT:BOOL=5
+      -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE})
+  endif()
+else()
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DWITH_QT:BOOL=OFF)
 endif()
 
 # If a patch file exists for this version, apply it
@@ -245,7 +275,7 @@ if (fletch_ENABLE_OpenCV_contrib)
 endif()
 
 # In newer GCC we need to disable precompiled headers.
-if (CMAKE_COMPILER_IS_GNUCC AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6)
+if (CMAKE_COMPILER_IS_GNUCC AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_PRECOMPILED_HEADERS:BOOL=OFF)
 endif()
 
