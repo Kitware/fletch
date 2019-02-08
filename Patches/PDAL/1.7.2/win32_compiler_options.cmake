@@ -54,7 +54,3 @@ endfunction()
 # Windows htonl and similar are in winsock :(
 #
 set(WINSOCK_LIBRARY ws2_32)
-
-set(CMAKE_INCLUDE_PATH "c:/OSGeo4W64/include;$ENV{CMAKE_INCLUDE_PATH}")
-set(CMAKE_LIBRARY_PATH "c:/OSGeo4W64/lib;$ENV{CMAKE_LIBRARY_PATH}")
-set(CMAKE_PREFIX_PATH "c:/OSGeo4W64/cmake;$ENV{CMAKE_LIBRARY_PATH}")
