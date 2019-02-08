@@ -44,6 +44,13 @@ else()
       )
 endif()
 
+# Set GEOS dependency
+if (fletch_ENABLE_GEOS)
+  message(STATUS "PDAL depending on internal GEOS")
+  list(APPEND PDAL_DEPENDS GEOS)
+else()
+  message(FATAL_ERROR "GEOS is required for PDAL, please enable")
+endif()
 
 ExternalProject_Add(PDAL
   DEPENDS ${PDAL_DEPENDS}
