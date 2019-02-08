@@ -421,9 +421,9 @@ endif()
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_version "2.0.2")
-set(VXL_url "https://github.com/vxl/vxl/archive/v${VXL_version}.zip")
-set(VXL_md5 "a32c1d69db6b1de605e010bd14cb6524")
+set(VXL_version "c3fd27959f51e0469a7a6075e975f245ac306f3d")
+set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
+set(VXL_md5 "9ae63bb158ae3e5e2104152093a4c46c")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
