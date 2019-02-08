@@ -243,11 +243,11 @@ set(shapelib_md5 "ae9f1fcd2adda35b74ac4da8674a3178")
 list(APPEND fletch_external_sources shapelib)
 
 # TinyXML
-set(TinyXML_version_major "2")
-set(TinyXML_version_minor "6")
-set(TinyXML_version_patch "2")
-set(TinyXML_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML_version_major}_${TinyXML_version_minor}_${TinyXML_version_patch}.zip")
-set(TinyXML_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
+set(TinyXML_version_major "7")
+set(TinyXML_version_minor "0")
+set(TinyXML_version_patch "1")
+set(TinyXML_url "https://github.com/leethomason/tinyxml2/archive/${TinyXML_version_major}.${TinyXML_version_minor}.${TinyXML_version_patch}.zip")
+set(TinyXML_md5 "03ad292c4b6454702c0cc22de0d196ad")
 list(APPEND fletch_external_sources TinyXML)
 
 # libkml
