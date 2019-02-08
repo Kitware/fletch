@@ -215,7 +215,7 @@ list(APPEND SRCS ${BASE_SRCS} ${PRIVATE_SRCS})
 if (NOT PDAL_HAVE_LIBXML2)
     file(GLOB XML_SRCS
         io/Ilvis2MetadataReader.cpp
-        io/Ilvis2Metadata.cpp
+        io/Ilvis2Reader.cpp
         ${PDAL_SRC_DIR}/DbWriter.cpp
         ${PDAL_SRC_DIR}/DbReader.cpp
         ${PDAL_SRC_DIR}/XMLSchema.cpp)
@@ -256,7 +256,6 @@ target_include_directories(${PDAL_BASE_LIB_NAME}
         ${PDAL_VENDOR_DIR}/eigen
         ${PDAL_VENDOR_DIR}/pdalboost
         ${PDAL_JSONCPP_INCLUDE_DIR}
-        ${LIBXML2_INCLUDE_DIR}
         ${ZSTD_INCLUDE_DIR}
     INTERFACE
         ${GDAL_INCLUDE_DIR}
@@ -269,7 +268,6 @@ target_link_libraries(${PDAL_BASE_LIB_NAME}
         ${GEOS_LIBRARY}
         ${GEOTIFF_LIBRARY}
         ${LASZIP_LIBRARY}
-        ${LIBXML2_LIBRARIES}
         ${ZLIB_LIBRARIES}
         ${LIBLZMA_LIBRARIES}
         ${ZSTD_STATIC_LIB}
@@ -283,6 +281,16 @@ target_link_libraries(${PDAL_BASE_LIB_NAME}
     INTERFACE
         ${PDAL_LIBDIR}
 )
+if (PDAL_HAVE_LIBXML2)
+  target_include_directories(${PDAL_BASE_LIB_NAME}
+      PRIVATE
+          ${LIBXML2_INCLUDE_DIR}
+  )
+  target_link_libraries(${PDAL_BASE_LIB_NAME}
+      PRIVATE
+          ${LIBXML2_LIBRARIES}
+  )
+endif()
 target_compile_definitions(${PDAL_BASE_LIB_NAME}
     PRIVATE
         ${LASZIP_DEFINES}

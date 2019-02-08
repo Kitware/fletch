@@ -11,3 +11,8 @@ file(COPY ${PDAL_patch}/win32_compiler_options.cmake
   DESTINATION ${PDAL_source}/cmake
 )
 
+# LIBXML2 is supposed to be optional, but the CMake code to remove it is broken
+file(COPY ${PDAL_patch}/CMakeLists.txt
+  DESTINATION ${PDAL_source}/
+)
+
