@@ -46,6 +46,7 @@ if (WIN32)
   set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG} ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS})
   file(TO_NATIVE_PATH ${fletch_BUILD_INSTALL_PREFIX} _gdal_native_fletch_BUILD_INSTALL_PREFIX)
   set (GDAL_ARGS MSVC_VER=${MSVC_VERSION}
+                 DATADIR=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}\\share\\gdal
                  GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}
                  ${_gdal_msvc_win64_option}
                  ${GDAL_PKG_ARGS})
