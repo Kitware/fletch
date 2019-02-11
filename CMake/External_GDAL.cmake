@@ -44,8 +44,12 @@ if (WIN32)
 
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
   set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG} ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS})
-
   file(TO_NATIVE_PATH ${fletch_BUILD_INSTALL_PREFIX} _gdal_native_fletch_BUILD_INSTALL_PREFIX)
+  set (GDAL_ARGS MSVC_VER=${MSVC_VERSION}
+                 GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}
+                 ${_gdal_msvc_win64_option}
+                 ${GDAL_PKG_ARGS})
+
   ExternalProject_Add(GDAL
     DEPENDS ${_GDAL_DEPENDS}
     URL ${GDAL_file}
@@ -54,9 +58,9 @@ if (WIN32)
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${GDAL_PATCH_COMMAND}
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS}
-    INSTALL_COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} install
-    COMMAND nmake -f makefile.vc MSVC_VER=${MSVC_VERSION} GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX} ${_gdal_msvc_win64_option} ${GDAL_PKG_ARGS} devinstall
+    BUILD_COMMAND nmake -f makefile.vc ${GDAL_ARGS}
+    INSTALL_COMMAND nmake -f makefile.vc ${GDAL_ARGS} install
+    COMMAND nmake -f makefile.vc ${GDAL_ARGS} devinstall
     )
 else()
 
