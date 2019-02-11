@@ -14,3 +14,6 @@ Fixes since v1.2.0
  * GDAL now has explicit dependency on libxml2 if enabled in Fletch.
    Previously it was possibly to for GDAL to find a conflicting
    system package for libxml2.
+
+ * GDAL now installs it's data files into share/gdal on Windows,
+   which is consistent to the install location on other platforms.
