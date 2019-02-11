@@ -14,3 +14,7 @@ Fixes since v1.2.0
  * GDAL now has explicit dependency on libxml2 if enabled in Fletch.
    Previously it was possibly to for GDAL to find a conflicting
    system package for libxml2.
+
+ * Paths in fletchConfig.cmake were not quoted causing problems if the path
+   contains spaces (spaces were replaced with semicolons by CMake).  Quotes
+   are now added to some paths that are more likely to have spaces.

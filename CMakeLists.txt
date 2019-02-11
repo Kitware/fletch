@@ -196,7 +196,7 @@ set(fletch_INSTALL_BUILD_DIR ${fletch_BUILD_INSTALL_PREFIX})
 file(WRITE ${fletch_CONFIG_INPUT} "
 # Configuration file for the fletch build
 set(fletch_VERSION ${fletch_VERSION})
-set(fletch_ROOT @fletch_INSTALL_BUILD_DIR@)
+set(fletch_ROOT \"@fletch_INSTALL_BUILD_DIR@\")
 set(fletch_WITH_PYTHON ${fletch_BUILD_WITH_PYTHON})
 set(fletch_PYTHON_MAJOR_VERSION ${fletch_PYTHON_MAJOR_VERSION})
 ")
@@ -238,7 +238,7 @@ if (fletch_BUILD_WITH_CUDA)
 ########################################
 # CUDA
 ########################################
-set(CUDA_TOOLKIT_ROOT_DIR    ${CUDA_TOOLKIT_ROOT_DIR})
+set(CUDA_TOOLKIT_ROOT_DIR    \"${CUDA_TOOLKIT_ROOT_DIR}\")
 set(fletch_BUILT_WITH_CUDA TRUE)
 set(fletch_CUDA_VERSION_MAJOR ${CUDA_VERSION_MAJOR})
 set(fletch_CUDA_VERSION_MINOR ${CUDA_VERSION_MINOR})
