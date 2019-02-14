@@ -110,6 +110,13 @@ include(${PDAL_CMAKE_DIR}/options.cmake)
 
 set(PDAL_BUILD_TYPE ${CMAKE_BUILD_TYPE})
 
+# Extra flag needed for Windows, or build fails.
+#   See: https://github.com/google/googletest/issues/1373
+#        https://github.com/ddnet/ddnet/pull/978 (related)
+if (WIN32)
+  string(APPEND CMAKE_CXX_FLAGS " /D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING")
+endif()
+
 #------------------------------------------------------------------------------
 #  Dependencies.
 #------------------------------------------------------------------------------
