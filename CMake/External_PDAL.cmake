@@ -52,6 +52,23 @@ else()
   message(FATAL_ERROR "GEOS is required for PDAL, please enable")
 endif()
 
+if(WIN32)
+# Windows needs help finding dependency libs/includes
+  list(APPEND PDAL_EXTRA_BUILD_FLAGS
+    -DGEOS_LIBRARY=${fletch_BUILD_INSTALL_PREFIX}/lib/geos_c.lib
+    -DGEOS_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/includes
+	
+    -DGDAL_LIBRARY=${fletch_BUILD_INSTALL_PREFIX}/lib/gdal_i.lib
+    -DGDAL_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/include
+
+    -DZLIB_LIBRARY_RELEASE=${fletch_BUILD_INSTALL_PREFIX}/lib/zlib.lib
+    -DZLIB_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/include
+
+    -DGEOTIFF_LIBRARY=${fletch_BUILD_INSTALL_PREFIX}/lib/geotiff_i.lib
+    -DGEOTIFF_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/include
+  )
+endif()
+
 ExternalProject_Add(PDAL
   DEPENDS ${PDAL_DEPENDS}
   URL ${PDAL_file}
