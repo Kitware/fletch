@@ -15,6 +15,9 @@ Fixes since v1.2.0
    Previously it was possibly to for GDAL to find a conflicting
    system package for libxml2.
 
+ * GDAL now installs it's data files into share/gdal on Windows,
+   which is consistent to the install location on other platforms.
+
  * Paths in fletchConfig.cmake were not quoted causing problems if the path
    contains spaces (spaces were replaced with semicolons by CMake).  Quotes
    are now added to some paths that are more likely to have spaces.
