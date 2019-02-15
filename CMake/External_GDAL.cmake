@@ -118,6 +118,15 @@ else()
     set(_GDAL_ARGS_XML2 "--with-xml2=${LIBXML2_ROOT}/bin/xml2-config")
   endif()
 
+  # GDAL has a tendency to pickup bad system libkml versions, and then fail.
+  # Thus, use fletch libkml or turn off.  
+  if(fletch_ENABLE_libkml)
+    list(APPEND _GDAL_DEPENDS libkml)
+    set(_GDAL_ARGS_KML "--with-libkml=${KML_ROOT}")
+  else()  
+    set(_GDAL_ARGS_KML "--with-libkml=no")
+  endif()
+
   #+
   # GDAL Python dosen't work well for GDAL 1, nor does it work well on Apple at the moment
   #-
@@ -137,7 +146,7 @@ endif()
   set (GDAL_PKG_ARGS
     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
     ${_GDAL_ARGS_PROJ4} ${_GDAL_ARGS_XML2} ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE}
-    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
+    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG} ${_GDAL_ARGS_KML}
     --without-jasper
     )
 
