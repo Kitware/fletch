@@ -89,6 +89,15 @@ else()
     set(_GDAL_ARGS_PROJ4 "--with-proj=${PROJ4_ROOT}")
   endif()
 
+  if(fletch_ENABLE_libkml)
+    #If we're building libkml, then use it.
+    list(APPEND _GDAL_DEPENDS libkml )
+    set(_GDAL_ARGS_KML --with-libkml=${KML_ROOT})
+    set(env ${CMAKE_COMMAND} -E env)
+    set(env_var LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${fletch_BUILD_INSTALL_PREFIX}/lib)
+    set(GDAL_CONFIGURE_COMMAND ${env} ${env_var} ${GDAL_CONFIGURE_COMMAND})
+  endif()
+
   # For now, I don't see the need for postgresql support in GDAL. If it is required, just add
   # -with-pg=/path/to/pg_config
   set(_GDAL_ARGS_PG "--without-pg")
@@ -137,7 +146,7 @@ endif()
   set (GDAL_PKG_ARGS
     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
     ${_GDAL_ARGS_PROJ4} ${_GDAL_ARGS_XML2} ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE}
-    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
+    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG} ${_GDAL_ARGS_KML}
     --without-jasper
     )
 

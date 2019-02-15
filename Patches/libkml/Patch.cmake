@@ -16,3 +16,13 @@ file(COPY
   ${libkml_patch}/unzip.c
   DESTINATION ${libkml_source}/third_party/zlib-1.2.3/contrib/minizip
 )
+
+file(COPY
+  ${libkml_patch}/CMakeLists.txt
+  DESTINATION ${libkml_source}
+)
+
+file(COPY
+  ${libkml_patch}/KMLConfig.cmake.in
+  DESTINATION ${libkml_source}
+)
