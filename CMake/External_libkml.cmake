@@ -11,7 +11,7 @@ else()
     )
 endif()
 
-# If we're building Boost, use that one.
+# Latest libKML depends on boost.
 if(fletch_ENABLE_Boost)
   set(libkml_use_external_boost
     -DLIBKML_USE_EXTERNAL_BOOST:BOOL=ON
@@ -22,6 +22,7 @@ else()
   set(libkml_use_external_boost
     -DLIBKML_USE_EXTERNAL_BOOST:BOOL=OFF
     )
+  message(FATAL_ERROR "boost is required for libkml, please enable")
 endif()
 
 ExternalProject_Add(libkml

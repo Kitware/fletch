@@ -14,6 +14,9 @@ New Packages
 
 Package Upgrades
 
+- LibKML has been upgraded to version 1.3.0. This version includes the required functions
+  to properly build against GDAL 2.3.2. GDAL will now build with Fletch's libKML, if both
+  are enabled. 
 
 Fixes since v1.2.0
 ------------------
