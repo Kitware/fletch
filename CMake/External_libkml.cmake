@@ -25,6 +25,20 @@ else()
   message(FATAL_ERROR "boost is required for libkml, please enable")
 endif()
 
+# Latest libKML depends on ZLib.
+if(fletch_ENABLE_ZLib)
+  set(libkml_use_external_zlib
+	  -DLIBKML_USE_EXTERNAL_ZLIB:BOOL=ON
+	  -DZLIB_ROOT:PATH=${ZLIB_ROOT}
+    )
+  set(_KML_DEPENDS ${_KML_DEPENDS} ZLib)
+else()
+  set(libkml_use_external_zlib
+    -DLIBKML_USE_EXTERNAL_ZLIB:BOOL=OFF
+    )
+  message(FATAL_ERROR "zlib is required for libkml, please enable")
+endif()
+
 ExternalProject_Add(libkml
   DEPENDS ${_KML_DEPENDS}
   URL ${libkml_url}
@@ -40,6 +54,7 @@ ExternalProject_Add(libkml
     ${COMMON_CMAKE_ARGS}
     ${libkml_use_external_expat}
     ${libkml_use_external_boost}
+    ${libkml_use_external_zlib}
 )
 
 fletch_external_project_force_install(PACKAGE libkml)
