@@ -250,10 +250,11 @@ set(TinyXML_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
 list(APPEND fletch_external_sources TinyXML)
 
 # libkml
-set(libkml_version "1.3.0")
-set(libkml_url "https://github.com/libkml/libkml/archive/${libkml_version}.zip")
-set(libkml_md5 "94677be38cf2e30205dee9b8fbdb5dce")
-set(libkml_dlname "libkml-${libkml_version}.zip")
+set(libkml_version "916a801")
+set(libkml_tag "916a801ed3143ab82c07ec108bad271aa441da16")
+set(libkml_url "https://github.com/libkml/libkml/archive/${libkml_tag}.zip")
+set(libkml_md5 "ba91fe965f2dc79efd20a64cddbbf0b5")
+set(libkml_dlname "libkml-${libkml_tag}.zip")
 list(APPEND fletch_external_sources libkml)
 
 # Qt
