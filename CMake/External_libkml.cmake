@@ -39,6 +39,30 @@ else()
   message(FATAL_ERROR "zlib is required for libkml, please enable")
 endif()
 
+# Latest libKML depends on minizip.
+if(fletch_ENABLE_minizip)
+  set(libkml_use_external_minizip
+          -DMINIZIP_ROOT=${MINIZIP_ROOT}
+	  #-DMINIZIP_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/include
+	  #-DMINIZIP_LIBRARIES=${fletch_BUILD_INSTALL_PREFIX}/lib
+    )
+  set(_KML_DEPENDS ${_KML_DEPENDS} minizip) 
+else()
+  message(FATAL_ERROR "minizip is required for libkml, please enable")
+endif()
+
+# Latest libKML depends on uriparser.
+if(fletch_ENABLE_uriparser)
+  set(libkml_use_external_uriparser
+          -DURIPARSER_ROOT=${URIPARSER_ROOT}
+	  #-DURIPARSER_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/include
+	  #-DURIPARSER_LIBRARIES=${fletch_BUILD_INSTALL_PREFIX}/lib
+    )
+  set(_KML_DEPENDS ${_KML_DEPENDS} uriparser)
+else()
+  message(FATAL_ERROR "uriparser is required for libkml, please enable")
+endif()
+
 ExternalProject_Add(libkml
   DEPENDS ${_KML_DEPENDS}
   URL ${libkml_url}
@@ -55,6 +79,8 @@ ExternalProject_Add(libkml
     ${libkml_use_external_expat}
     ${libkml_use_external_boost}
     ${libkml_use_external_zlib}
+    ${libkml_use_external_minizip}
+    ${libkml_use_external_uriparser}
 )
 
 fletch_external_project_force_install(PACKAGE libkml)

@@ -249,6 +249,22 @@ set(TinyXML_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML_vers
 set(TinyXML_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
 list(APPEND fletch_external_sources TinyXML)
 
+# Minizip
+set(minizip_version "4adfffb")
+set(minizip_tag "4adfffb1dc95ddbed0a1e16aefac449dc4e7ef5f")
+set(minizip_url "https://github.com/nmoinvaz/minizip/archive/${minizip_tag}.zip")
+set(minizip_md5 "5919dc368361b74e9522de68723fa11d")
+set(minizip_dlname "minizip-${minizip_tag}.zip")
+list(APPEND fletch_external_sources minizip)
+
+# Uriparser
+set(uriparser_version "95a18f7")
+set(uriparser_tag "95a18f725bb6ab50120319f162eb8302bdf93b43")
+set(uriparser_url "https://github.com/uriparser/uriparser/archive/${uriparser_tag}.zip")
+set(uriparser_md5 "0cde07f14005226b1d1b3e4e2474b97a")
+set(uriparser_dlname "uriparser-${uriparser_version}.zip")
+list(APPEND fletch_external_sources uriparser)
+
 # libkml
 set(libkml_version "916a801")
 set(libkml_tag "916a801ed3143ab82c07ec108bad271aa441da16")
