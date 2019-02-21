@@ -63,6 +63,15 @@ else()
   message(FATAL_ERROR "uriparser is required for libkml, please enable")
 endif()
 
+# Can't build libkml dynamic libs on APPLE
+# see: https://github.com/libkml/libkml/issues/251
+
+if(APPLE)
+  set(extra_cmake_args -DBUILD_SHARED_LIBS=OFF)
+else()
+  set(extra_cmake_args -DBUILD_SHARED_LIBS=ON)
+endif()
+
 ExternalProject_Add(libkml
   DEPENDS ${_KML_DEPENDS}
   URL ${libkml_url}
@@ -81,6 +90,7 @@ ExternalProject_Add(libkml
     ${libkml_use_external_zlib}
     ${libkml_use_external_minizip}
     ${libkml_use_external_uriparser}
+    ${extra_cmake_args}
 )
 
 fletch_external_project_force_install(PACKAGE libkml)
