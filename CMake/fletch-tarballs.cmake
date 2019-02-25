@@ -351,17 +351,23 @@ if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources GDAL)
 
-# GeographicLib
-set(GeographicLib_version "1.49" )
-set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
-set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
-list(APPEND fletch_external_sources GeographicLib )
-
 # GEOS
 set(GEOS_version "3.6.2" )
 set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
 set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
 list(APPEND fletch_external_sources GEOS )
+
+# PDAL
+set(PDAL_version 1.7.2)
+set(PDAL_url "https://github.com/PDAL/PDAL/releases/download/${PDAL_version}/PDAL-${PDAL_version}-src.tar.gz")
+set(PDAL_md5 "a89710005fd54e6d2436955e2e542838")
+list(APPEND fletch_external_sources PDAL)
+
+# GeographicLib
+set(GeographicLib_version "1.49" )
+set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
+set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
+list(APPEND fletch_external_sources GeographicLib )
 
 # PostgreSQL
 if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)

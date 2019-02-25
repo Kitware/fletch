@@ -11,6 +11,7 @@ Updates since v1.2.0
 
 New Packages
 
+ * Added PDAL version 1.7.2
 
 Package Upgrades
 
