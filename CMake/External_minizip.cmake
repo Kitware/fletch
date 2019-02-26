@@ -3,11 +3,18 @@
 # If we're building ZLib, use that one.
 if(fletch_ENABLE_ZLib)
   set(MINIZIP_DEPENDS ${MINZIP_DEPENDS} ZLib)
-  set(minizip_use_external_zlib
-        -DZLIB_ROOT:PATH=${ZLIB_ROOT}
-	)
+    list(APPEND minizip_use_external_zlib
+      -DZLIB_INCLUDE_DIR=${fletch_BUILD_INSTALL_PREFIX}/include	
+    )
 else()
   message(FATAL_ERROR "MINIZIP requires ZLib, please enable")
+endif()
+
+# Help Windows find ZLib lib
+if(WIN32)
+  list(APPEND minizip_use_external_zlib
+    -DZLIB_LIBRARY_RELEASE=${fletch_BUILD_INSTALL_PREFIX}/lib/zlib.lib
+    -DBUILD_SHARED_LIBS=OFF)
 endif()
 
 ExternalProject_Add(minizip
@@ -20,6 +27,7 @@ ExternalProject_Add(minizip
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${minizip_use_external_zlib}
+    -DUSE_AES=OFF
 )
 
 fletch_external_project_force_install(PACKAGE minizip)
