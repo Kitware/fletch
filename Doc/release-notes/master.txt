@@ -22,3 +22,6 @@ Fixes since v1.2.0
 - Libjpeg-turbo and libtiff are now requirements to build libgeotiff. It was possible to
   try to build libgeotiff without libjpeg-tubo and libtiff enabled, this would result in
   several build errors.
+
+- GDAL will now no longer built with google libkml support. GDAL would fail occasionally
+  as a result of automatically finding and using an old libkml version.
