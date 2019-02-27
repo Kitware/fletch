@@ -58,6 +58,14 @@ if (fletch_ENABLE_VXL)
   list(APPEND ITK_DEPENDS VXL)
 endif()
 
+if (fletch_ENABLE_OpenCV)
+  list (APPEND itk_cmake_args
+    -DModule_ITKVideoBridgeOpenCV:BOOL=ON
+    -DOpenCV_DIR:PATH=${OpenCV_ROOT}
+    )
+  list(APPEND ITK_DEPENDS VXL)
+endif()
+
 ExternalProject_Add(ITK
   DEPENDS ${ITK_DEPENDS}
   URL ${ITK_file}
