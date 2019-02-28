@@ -39,6 +39,8 @@ RUN mkdir /cmake \
 # Building Fletch
 #
 
+ENV LD_LIBRARY_PATH=/fletch_install/lib/:$LD_LIBRARY_PATH
+
 RUN mkdir /fletch_install/ \
   && git clone -b master --single-branch https://github.com/Kitware/fletch.git fletch \ 
   && cd /fletch/ && mkdir build && cd build \
@@ -49,7 +51,5 @@ RUN mkdir /fletch_install/ \
     ../ \
   && make -j$(nproc) -k \
   && rm -rf /fletch 
-
-ENV LD_LIBRARY_PATH=/fletch_install/lib/:$LD_LIBRARY_PATH
 
 CMD [ "bash" ]
