@@ -5,6 +5,18 @@
 
 message("Patching OpenCV in ${OpenCV_source}")
 
+# Windows patch for making <array> #ifdef true for MSVC
+#  read about the fix here: https://github.com/opencv/opencv/pull/10589
+#  error here: https://github.com/Microsoft/vcpkg/issues/3024
+if(WIN32)
+  file(COPY ${OpenCV_patch}/cvdef.h
+    DESTINATION ${OpenCV_source}/modules/core/include/opencv2/core/
+  )
+  
+  file(COPY ${OpenCV_patch}/test_mat.cpp
+    DESTINATION ${OpenCV_source}/modules/core/test/
+  )
+endif()
 
 # Patch FindCUDA to unset CUDA_HOST_COMPILER before it figures out what it should be
 file(COPY ${OpenCV_patch}/FindCUDA.cmake
