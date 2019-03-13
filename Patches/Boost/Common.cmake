@@ -24,9 +24,9 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES SunPro)
   set(BOOST_TOOLSET sun)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-    set(BOOST_CXX_STANDARD "-std=c++98")
+    set(BOOST_CXX_STANDARD "cxxflags=c++98")
   else()
-    set(BOOST_CXX_STANDARD "-std=c++11")
+    set(BOOST_CXX_STANDARD "cxxflags=c++98")
   endif()
   set(BOOST_TOOLSET gcc)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES PGI)
@@ -80,7 +80,7 @@ endif()
 # Compile the complete list of B2 args
 set(B2_ARGS
   --abbreviate-paths -j${NCPU} --toolset=${BOOST_TOOLSET} --disable-icu ${_fletch_boost_python_arg}
-  -sNO_BZIP2=1 cxxflags=${BOOST_CXX_STANDARD}
+  -sNO_BZIP2=1 ${BOOST_CXX_STANDARD}
   ${B2_FLAVOR_ARGS}
 )
 
