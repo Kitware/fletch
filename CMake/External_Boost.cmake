@@ -1,15 +1,6 @@
 
 # The Boost external project for fletch
 
-if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-    set(BOOST_CXX_STANDARD "-std=c++98")
-  else()
-    set(BOOST_CXX_STANDARD "-std=c++11")
-  endif()
-  message("EXTERNAL_BOOST_CXX_STANDARD: ${BOOST_CXX_STANDARD}")
-endif()
-
 if(MSVC AND (NOT MSVC_VERSION LESS 1910))
   # Get the CMAKE version string and make sure it's not a release candidate and >= 3.8.0
   if( (CMAKE_VERSION MATCHES "^3\\.8\\.0-rc") OR (CMAKE_VERSION VERSION_LESS 3.8.0))
