@@ -1,9 +1,9 @@
 
 if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-    set(GTest_CXX_STANDARD "98")
+    set(Gtest_CXX_STANDARD_ARGS "-DCMAKE_CXX_STANDARD:STRING=98")
   else()
-    set(GTest_CXX_STANDARD "11")
+    set(Gtest_CXX_STANDARD_ARGS "-DCMAKE_CXX_STANDARD:STRING=11")
   endif()
 endif()
 
@@ -19,7 +19,7 @@ ExternalProject_Add(GTest
     -P ${fletch_SOURCE_DIR}/Patches/GTest/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
-    -DCMAKE_CXX_STANDARD:STRING=${GTest_CXX_STANDARD}
+    ${Gtest_CXX_STANDARD_ARGS}
   )
 
 set(GTEST_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
