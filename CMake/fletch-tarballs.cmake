@@ -426,9 +426,9 @@ elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
-  set(VTK_version 8.0.0)
+  set(VTK_version 8.0.1)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
-  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0.0
+  set(VTK_md5 "c248dbe8ffd9b74c6f41199e66d6c690")  # v8.0.1
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
   # TODO: Remove when we remove support for OpenCV < 3.2
   set(VTK_version 6.2.0)
