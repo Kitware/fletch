@@ -1,5 +1,5 @@
 # Fletch Dockerfile
-ARG UBUNTU_VER=18
+ARG UBUNTU_VER=18.04
 FROM ubuntu:${UBUNTU_VER}
 
 RUN apt-get update && apt-get install --no-install-recommends -y \ 
