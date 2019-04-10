@@ -63,7 +63,7 @@ if (fletch_ENABLE_OpenCV)
     -DModule_ITKVideoBridgeOpenCV:BOOL=ON
     -DOpenCV_DIR:PATH=${OpenCV_ROOT}
     )
-  list(APPEND ITK_DEPENDS VXL)
+  list(APPEND ITK_DEPENDS OpenCV)
 endif()
 
 ExternalProject_Add(ITK
