@@ -23,8 +23,16 @@ elseif(NOT APPLE)
   # For Linux machines
   ExternalProject_Add_Step(ZLib fixup-install
     COMMAND ${CMAKE_COMMAND} -E copy
-      ${fletch_BUILD_INSTALL_PREFIX}/lib/libzlib.so
       ${fletch_BUILD_INSTALL_PREFIX}/lib/libz.so
+      ${fletch_BUILD_INSTALL_PREFIX}/lib/libzlib.so
+    DEPENDEES install
+    )
+else()
+  # APPLE
+  ExternalProject_Add_Step(ZLib fixup-install
+    COMMAND ${CMAKE_COMMAND} -E copy
+      ${fletch_BUILD_INSTALL_PREFIX}/lib/libz.dylib
+      ${fletch_BUILD_INSTALL_PREFIX}/lib/libzlib.dylib
     DEPENDEES install
     )
 endif()

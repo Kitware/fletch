@@ -9,3 +9,7 @@ file(COPY ${Boost_patch}/build.bat
 file(COPY ${Boost_patch}/copy_path.cpp
   DESTINATION ${Boost_source}/tools/bcp/
   )
+
+file(COPY ${Boost_patch}/builtin_converters.cpp
+  DESTINATION ${Boost_source}/libs/python/src/converter/
+  )

@@ -42,10 +42,9 @@ endif()
 list(APPEND fletch_external_sources Boost)
 
 # ZLib
-set(ZLib_version 1.2.8)
-set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
-set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
-set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
+set(ZLib_version 1.2.9)
+set(ZLib_url "https://github.com/madler/zlib/archive/v${ZLib_version}.zip")
+set(zlib_md5 "d71ee9e2998abd2fdfb6a40c8f3c7bd7")
 set(zlib_dlname "zlib-${ZLib_version}.zip")
 list(APPEND fletch_external_sources ZLib)
 
@@ -92,11 +91,13 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 # FFmpeg
 set(_FFmpeg_supported TRUE)
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+  # allow different versions to be selected for testing purposes
+  set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
+  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
+  mark_as_advanced(FFmpeg_SELECT_VERSION)
+
   if(WIN32)
-    set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
-    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
-    mark_as_advanced(FFmpeg_SELECT_VERSION)
-    # The windows version is git-c089e72 (2015-03-05)
+    # The windows 2.6 version is git-c089e72 (2015-03-05)
     # follows: n2.6-dev (2014-12-03)
     # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
     set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
@@ -112,16 +113,20 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     # On windows download prebuilt binaries and shared libraries
     # dev contains headers .lib, .def, and mingw .dll.a files
     # shared contains dll and exe files.
-    set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
-    set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
-    set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
-    set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
+    if (_FFmpeg_version VERSION_EQUAL 3.3.3)
+      set(FFmpeg_dev_md5 "2788ff871ba1c1b91b6f0e91633bef2a")
+      set(FFmpeg_shared_md5 "beb39d523cdb032b59f81db80b020f31")
+      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/5c520afc8d777f072b212cca/download/ffmpeg-3.3.3-win64-dev.zip")
+      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/5c520b068d777f072b212cd4/download/ffmpeg-3.3.3-win64-shared.zip")
+    elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
+      set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
+      set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
+      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
+      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
+    else (_FFmpeg_supported AND _FFmpeg_version)
+      message("Unsupported FFmpeg version ${_FFmpeg_version}")
+    endif()
   else()
-    # allow different versions to be selected for testing purposes
-    set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
-    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
-    mark_as_advanced(FFmpeg_SELECT_VERSION)
-
     #set(_FFmpeg_version 3.3.3) # (2017-07-29)
     #set(_FFmpeg_version 2.6.2) # (2015-04-10)
     set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
@@ -256,7 +261,7 @@ list(APPEND fletch_external_sources libkml)
 # Support 4.8.6 and 5.11 optionally
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
-  set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
+  set(Qt_SELECT_VERSION 5.11.2 CACHE STRING "Select the version of Qt to build.")
   set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2")
 
   set(Qt_version ${Qt_SELECT_VERSION})
@@ -346,17 +351,23 @@ if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources GDAL)
 
-# GeographicLib
-set(GeographicLib_version "1.49" )
-set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
-set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
-list(APPEND fletch_external_sources GeographicLib )
-
 # GEOS
 set(GEOS_version "3.6.2" )
 set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
 set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
 list(APPEND fletch_external_sources GEOS )
+
+# PDAL
+set(PDAL_version 1.7.2)
+set(PDAL_url "https://github.com/PDAL/PDAL/releases/download/${PDAL_version}/PDAL-${PDAL_version}-src.tar.gz")
+set(PDAL_md5 "a89710005fd54e6d2436955e2e542838")
+list(APPEND fletch_external_sources PDAL)
+
+# GeographicLib
+set(GeographicLib_version "1.49" )
+set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
+set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
+list(APPEND fletch_external_sources GeographicLib )
 
 # PostgreSQL
 if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
@@ -415,9 +426,9 @@ elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
-  set(VTK_version 8.0.0)
+  set(VTK_version 8.0.1)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
-  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0.0
+  set(VTK_md5 "c248dbe8ffd9b74c6f41199e66d6c690")  # v8.0.1
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
   # TODO: Remove when we remove support for OpenCV < 3.2
   set(VTK_version 6.2.0)
@@ -554,11 +565,11 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20180927git793dec73")
-set(qtExtensions_tag "793dec73da8204e586b9cc30c65864790a4d0d17")
-set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
-set(qtExtensions_md5 "31dd4b6953af20ed245e5ddde939f54d")
-set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
+set(qtExtensions_version "20190206gited20c9ed")
+set(qtExtensions_tag "ed20c9edea67732f0ea363cd6b36d3c7379c8c71")
+set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
+set(qtExtensions_md5 "6c5e11c26146e4964d4e973921501e56")
+set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
 list(APPEND fletch_external_sources qtExtensions)
 
 # ZeroMQ
