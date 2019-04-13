@@ -208,8 +208,8 @@ list(APPEND fletch_external_sources Ceres)
 if(NOT WIN32)
   set(libxml2_release "2.9")
   set(libxml2_patch_version 0)
-  set(libxml2_url "ftp://xmlsoft.org/libxml2/libxml2-sources-${libxml2_release}.${libxml2_patch_version}.tar.gz")
-  set(libxml2_md5 "7da7af8f62e111497d5a2b61d01bd811")
+  set(libxml2_url "http://xmlsoft.org/sources/libxml2-2.9.0.tar.gz")
+  set(libxml2_md5 "5b9bebf4f5d2200ae2c4efe8fa6103f7")
   list(APPEND fletch_external_sources libxml2)
 endif()
 
@@ -253,11 +253,11 @@ set(libkml_dlname "libkml-${libkml_version}.zip")
 list(APPEND fletch_external_sources libkml)
 
 # Qt
-# Support 4.8.6 and 5.10 optionally
+# Support 4.8.6 and 5.11 optionally
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
   set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
-  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.10.0")
+  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2")
 
   set(Qt_version ${Qt_SELECT_VERSION})
   string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
@@ -266,9 +266,9 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   list(GET Qt_VERSION_LIST 2 Qt_version_patch)
   set(Qt_release_location official_releases) # official_releases or archive
 
-  if (Qt_version VERSION_EQUAL 5.10.0)
-    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.10/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
-    set(Qt_md5 "c5e275ab0ed7ee61d0f4b82cd471770d")
+  if (Qt_version VERSION_EQUAL 5.11.2)
+    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
+    set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
     set(Qt_release_location archive)
     set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
@@ -305,7 +305,6 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
     set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
     set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
   elseif (OpenCV_version VERSION_EQUAL 2.4.13)
-    # TODO remove VTK 6.2 support when we remove support for OpenCV < 3.2
     set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
   else()
     message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
@@ -330,13 +329,13 @@ list(APPEND fletch_external_sources libgeotiff)
 
 # GDAL
 if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
-  set(GDAL_SELECT_VERSION 2.3.0 CACHE STRING "Select the major version of GDAL to build.")
-  set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.3.0" "1.11.5")
+  set(GDAL_SELECT_VERSION 2.3.2 CACHE STRING "Select the major version of GDAL to build.")
+  set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.3.2" "1.11.5")
   message(STATUS "GDAL Select version: ${GDAL_SELECT_VERSION}")
-  if (GDAL_SELECT_VERSION VERSION_EQUAL 2.3.0)
-    set(GDAL_version "2.3.0")
+  if (GDAL_SELECT_VERSION VERSION_EQUAL 2.3.2)
+    set(GDAL_version "2.3.2")
     set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
-    set(GDAL_md5 "5906e3a92ce4436c1ca5379a06595447")
+    set(GDAL_md5 "221e4bfe3e8e9443fd33f8fe46f8bf60")
   elseif(GDAL_SELECT_VERSION VERSION_EQUAL 1.11.5)
     set(GDAL_version "1.11.5")
     set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
@@ -399,10 +398,19 @@ list(APPEND fletch_external_sources CppDB)
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1)
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1 8.2-pre)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.2-pre)
+  set(VTK_SELECT_VERSION 8.2)
+  set(VTK_tag "3ad789a980dd8da13f86dd79f37cf2e67f4d4dbf")
+  set(VTK_url "http://www.vtk.org/gitweb?p=VTK.git&a=snapshot&h=${VTK_tag}")
+  set(VTK_md5 "cb6857024e6559ccbad34e84573f5a1b")
+  # TODO: Remove corresponding logic in External_VTK.cmake when we replace
+  # this with 8.2 (official)
+  set(VTK_dlname "VTK-${VTK_tag}.tar.gz")
+elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
+  # TODO: Remove when we support 8.2 (official, not 8.2-pre)?
   set(VTK_version 8.1.1)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
@@ -411,7 +419,7 @@ elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0.0
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
-  # TODO remove when we remove support for OpenCV < 3.2
+  # TODO: Remove when we remove support for OpenCV < 3.2
   set(VTK_version 6.2.0)
   set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
@@ -461,9 +469,9 @@ endif()
 
 # LevelDB
 if(NOT WIN32)
-  set(LevelDB_version "1.18")
+  set(LevelDB_version "1.19")
   set(LevelDB_url "https://github.com/google/leveldb/archive/v${LevelDB_version}.tar.gz")
-  set(LevelDB_md5 "73770de34a2a5ab34498d2e05b2b7fa0")
+  set(LevelDB_md5 "6c201409cce6b711f46d68e0f4b1090a")
   set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
   list(APPEND fletch_external_sources LevelDB)
 endif()

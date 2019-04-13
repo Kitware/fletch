@@ -22,6 +22,13 @@ configure_file(
   COPYONLY
   )
 
+# The patch on this file comes from the current version of GDAL, 2.3.0
+configure_file(
+  ${GDAL_patch}/frmts/wms/gdalwmsdataset.cpp
+  ${GDAL_source}/frmts/wms/gdalwmsdataset.cpp
+  COPYONLY
+  )
+
 configure_file(
   ${GDAL_patch}/apps/gdalserver.c
   ${GDAL_source}/apps/gdalserver.c
@@ -37,5 +44,11 @@ configure_file(
 configure_file(
   ${GDAL_patch}/config.guess
   ${GDAL_source}/
+  COPYONLY
+  )
+
+configure_file(
+  ${GDAL_patch}/ogr/ogrsf_frmts/vfk/vfkfeature.cpp
+  ${GDAL_source}/ogr/ogrsf_frmts/vfk/
   COPYONLY
   )

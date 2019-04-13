@@ -19,14 +19,12 @@ ExternalProject_Add(CppDB
   DEPENDS ${_CppDB_DEPENDS}
   URL ${CppDB_url}
   URL_MD5 ${CppDB_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
     -DCppDB_patch=${fletch_SOURCE_DIR}/Patches/CppDB
     -DCppDB_source=${fletch_BUILD_PREFIX}/src/CppDB
     -P ${fletch_SOURCE_DIR}/Patches/CppDB/Patch.cmake
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}

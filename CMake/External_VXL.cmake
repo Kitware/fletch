@@ -20,11 +20,23 @@ add_package_dependency(
   )
 
 # libgeotiff
-if(fletch_ENABLE_libgeotiff)
-  add_package_dependency(
-    PACKAGE VXL
-    PACKAGE_DEPENDENCY libgeotiff
-    PACKAGE_DEPENDENCY_ALIAS GEOTIFF
+add_package_dependency(
+  PACKAGE VXL
+  PACKAGE_DEPENDENCY libgeotiff
+  PACKAGE_DEPENDENCY_ALIAS GEOTIFF
+  OPTIONAL
+  )
+
+# Geotiff requires special treatment here. First, there is no CMake provided FindModule
+# and the one provided by VXL is insufficient to find it. For now we have included a FindGEOTIFF.cmake
+# which is a fixed version of the one provided by VXL. We are not able to update to VXL master
+# currently because its treatment of FFmpeg is broken. Once we are able to upgrade to a version that
+# contains the fixed FindGEOTIFF.cmake, our copy of it can get deleted and the manually setting of
+# the library and include_dir for VXL here can probably go away too.
+if (GEOTIFF_FOUND)
+  list(APPEND VXL_EXTRA_BUILD_FLAGS
+    -DGEOTIFF_INCLUDE_DIR:PATH=${GEOTIFF_INCLUDE_DIR}
+    -DGEOTIFF_LIBRARY:FILEPATH=${GEOTIFF_LIBRARY}
     )
 endif()
 
@@ -36,6 +48,7 @@ add_package_dependency(
 
 set(VXL_ARGS_CONTRIB
   -DVXL_BUILD_CONTRIB:BOOL=ON
+  -DVXL_BUILD_RPL:BOOL=ON
   -DVXL_BUILD_BRL:BOOL=OFF
   -DVXL_BUILD_MUL_TOOLS:BOOL=OFF
   -DVXL_BUILD_PRIP:BOOL=OFF
@@ -82,12 +95,12 @@ ExternalProject_Add(VXL
   URL ${VXL_url}
   URL_MD5 ${VXL_md5}
   DOWNLOAD_NAME ${VXL_dlname}
-  PREFIX ${fletch_BUILD_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
     -DVXL_patch:PATH=${fletch_SOURCE_DIR}/Patches/VXL
     -DVXL_source:PATH=${fletch_BUILD_PREFIX}/src/VXL
     -P ${fletch_SOURCE_DIR}/Patches/VXL/Patch.cmake
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${KWIVER_ARGS_COMMON}
     ${VXL_ARGS_GUI}
@@ -116,8 +129,6 @@ ExternalProject_Add(VXL
     -DJPEG_INCLUDE_DIR:PATH=${JPEG_INCLUDE_DIR}
     -DGEOTIFF_LIBRARY=${libgeotiff_LIBRARY}
     ${VXL_EXTRA_BUILD_FLAGS}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
   )
 
 ExternalProject_Add_Step(VXL forcebuild

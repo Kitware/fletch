@@ -10,17 +10,13 @@ endif()
 ExternalProject_Add(cppzmq
   URL ${cppzmq_url}
   URL_MD5 ${cppzmq_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
   DOWNLOAD_NAME ${cppzmq_dlname}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
    -Dcppzmq_patch:PATH=${fletch_SOURCE_DIR}/Patches/cppzmq
    -Dcppzmq_source:PATH=${fletch_BUILD_PREFIX}/src/cppzmq
    -P ${fletch_SOURCE_DIR}/Patches/cppzmq/Patch.cmake
-
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}

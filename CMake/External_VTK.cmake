@@ -212,6 +212,7 @@ mark_as_advanced(VTK_ENABLE_DEBUG_LEAKS)
 
 # General VTK flags
 list(APPEND vtk_cmake_args
+  -DBUILD_TESTING:BOOL=OFF
   -DVTK_Group_Imaging:BOOL=ON
   -DVTK_Group_Rendering:BOOL=ON
   -DVTK_Group_StandAlone:BOOL=ON
@@ -226,6 +227,12 @@ list(APPEND vtk_cmake_args
   -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
   )
 
+# TODO: Remove this when we replace 8.2-pre with 8.2 (official)
+if(VTK_dlname)
+  set(VTK_DOWNLOAD_NAME DOWNLOAD_NAME ${VTK_dlname})
+else()
+  set(VTK_DOWNLOAD_NAME "")
+endif()
 
 set (VTK_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/VTK/${VTK_SELECT_VERSION})
 if (EXISTS ${VTK_PATCH_DIR})
@@ -241,11 +248,10 @@ ExternalProject_Add(VTK
   DEPENDS ${VTK_DEPENDS}
   URL ${VTK_file}
   URL_MD5 ${VTK_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${VTK_DOWNLOAD_NAME}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${VTK_PATCH_COMMAND}
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${vtk_cmake_args}

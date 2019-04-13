@@ -10,8 +10,7 @@ if (WIN32)
   ExternalProject_Add(FFmpeg_dev
     URL ${FFmpeg_dev_url}
     URL_MD5 ${FFmpeg_dev_md5}
-    PREFIX ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+    ${COMMON_EP_ARGS}
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -21,8 +20,7 @@ if (WIN32)
   ExternalProject_Add(FFmpeg_shared
     URL ${FFmpeg_shared_url}
     URL_MD5 ${FFmpeg_shared_md5}
-    PREFIX ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
+    ${COMMON_EP_ARGS}
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -97,9 +95,7 @@ else ()
     URL ${FFmpeg_file}
     DEPENDS ${ffmpeg_DEPENDS}
     URL_MD5 ${FFmpeg_md5}
-    PREFIX ${fletch_BUILD_PREFIX}
-    DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+    ${COMMON_EP_ARGS}
     PATCH_COMMAND ${FFMPEG_PATCH_COMMAND}
     CONFIGURE_COMMAND ${FFMPEG_CONFIGURE_COMMAND}
     BUILD_COMMAND ${MAKE_EXECUTABLE}

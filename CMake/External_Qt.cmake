@@ -1,12 +1,18 @@
 # The Qt external project for fletch
 
+option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
 if (Qt_version VERSION_LESS 5.0.0)
-  option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
 
   if(BUILD_Qt_MINIMAL)
     set(Qt_args_package -no-webkit -no-openssl)
   else()
     set(Qt_args_package -webkit)
+  endif()
+else()
+  if(BUILD_Qt_MINIMAL)
+    set(Qt_args_package -skip qtwebengine )
+  else()
+    set(Qt_args_package )
   endif()
 endif()
 
@@ -132,7 +138,12 @@ if(WIN32)
     endif()
   endif()
 else()
-  set(Qt_configure ./configure)
+  set(env ${CMAKE_COMMAND} -E env)
+
+  set(configure_env_var PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig)
+  if(NOT "$ENV{PKG_CONFIG_PATH}" STREQUAL "")
+    set(configure_env_var "${configure_env_var}:$ENV{PKG_CONFIG_PATH}")
+  endif()
   if (Qt_version VERSION_LESS 5.0.0)
     if(BUILD_Qt_MINIMAL)
       list(APPEND Qt_args_package -no-javascript-jit -no-script -no-scripttools)
@@ -148,7 +159,19 @@ else()
   endif()
 
   Fletch_Require_Make()
-  set(Qt_build ${MAKE_EXECUTABLE})
+  if(APPLE)
+    set(build_env_var DYLD_LIBRARY_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib)
+    if(NOT "$ENV{DYLD_LIBRARY_PATH}" STREQUAL "")
+      set(build_env_var "${build_env_var}:$ENV{DYLD_LIBRARY_PATH}")
+    endif()
+  else()
+    set(build_env_var LD_LIBRARY_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib)
+    if(NOT "$ENV{LD_LIBRARY_PATH}" STREQUAL "")
+      set(build_env_var "${build_env_var}:$ENV{LD_LIBRARY_PATH}")
+    endif()
+  endif()
+  set(Qt_configure ${env} ${configure_env_var} ./configure)
+  set(Qt_build ${env} ${build_env_var} ${MAKE_EXECUTABLE})
   set(Qt_install_cmd ${MAKE_EXECUTABLE} install)
   set(Qt_args_other -no-cups -optimized-qmake)
 
@@ -205,6 +228,13 @@ list( APPEND Qt_configure
   ${Qt_args_framework}
   )
 
+if (NOT Qt_version VERSION_LESS 5.0.0)
+# The qtlocation module from Qt5 is currently broken.
+# Disable until a fix is found.
+  list( APPEND Qt_configure
+    -skip qtlocation )
+endif()
+
 # Additional options for Qt4
 if (Qt_version VERSION_LESS 5.0.0)
   list( APPEND Qt_configure
@@ -214,10 +244,6 @@ endif()
 
 
 if (WIN32 AND NOT (Qt_version VERSION_LESS 5.0.0) )
-  # The qtlocation module from Qt5 is currently broken on Windows.
-  # Disable until a fix is found.
-  list( APPEND Qt_configure
-    -skip qtlocation )
   # Dynamic OpenGL is the recommended way to build Qt5 on Windows
   # and is required by VTK
   list( APPEND Qt_configure
@@ -251,9 +277,7 @@ ExternalProject_Add(Qt
   DEPENDS ${Qt_DEPENDS}
   URL ${Qt_file}
   URL_MD5 ${Qt_md5}
-  PREFIX ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
   BUILD_IN_SOURCE 1
   PATCH_COMMAND ${QT_PATCH_COMMAND}
   CONFIGURE_COMMAND ${Qt_configure}

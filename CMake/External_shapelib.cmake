@@ -3,11 +3,9 @@ ExternalProject_Add(shapelib
   DEPENDS ${_SHAPE_DEPENDS}
   URL ${shapelib_url}
   URL_MD5 ${shapelib_md5}
-  PREFIX  ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   BUILD_IN_SOURCE 1
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
 )

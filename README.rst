@@ -89,8 +89,12 @@ On Linux systems, Install the following packages before building Fletch::
   sudo apt-get install liblapack-dev
   sudo apt-get install python2.7-dev
 
+  # If you are using a RHEL-based system, e.g. RedHat, CentOS or Fedora
+  # and enabling GDAL you might need to install redhat-rpm-config.
+  {dnf|yum} install redhat-rpm-config
+
 Fletch uses CMake (www.cmake.org) for easy cross-platform compilation. The
-minimum required version of CMake is 2.8.12, but newer versions are strongly
+minimum required version of CMake is 3.3.0, but newer versions are strongly
 recommended.
 
 Currently, a compiler with at C++11 support is expected (e.g. GCC 4.8, Visual
@@ -142,7 +146,8 @@ with the Fletch source directory for each desired configuration. For example :
 
 NOTES
 -----
-Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug'.  
+Windows users, there is a known issue in Qt that will cause a build error if you name a build folder 'release' or 'debug'. 
+Also, when building Qt5 on Windows, if the path to the QT base directory is 63 or more characters, a build error will occur.  
 
 Linux users who build FFmpeg and OpenCV together might experience an issue linking to libavcodec. To allow OpenCV to link to FFmpeg, export LD_LIBRARY_PATH to include fletch's install/lib directory, e.g. export LD_LIBRARY_PATH=/home/user1/fletch/bld/install/lib/:$LD_LIBRARY_PATH  
 

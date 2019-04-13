@@ -29,14 +29,12 @@ ExternalProject_Add(libkml
   URL ${libkml_url}
   URL_MD5 ${libkml_md5}
   DOWNLOAD_NAME ${libkml_dlname}
-  PREFIX  ${fletch_BUILD_PREFIX}
-  DOWNLOAD_DIR ${fletch_DOWNLOAD_DIR}
-  INSTALL_DIR  ${fletch_BUILD_INSTALL_PREFIX}
+  ${COMMON_EP_ARGS}
+  ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
     -Dlibkml_patch:PATH=${fletch_SOURCE_DIR}/Patches/libkml
     -Dlibkml_source:PATH=${fletch_BUILD_PREFIX}/src/libkml
     -P ${fletch_SOURCE_DIR}/Patches/libkml/Patch.cmake
-  CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${libkml_use_external_expat}
