@@ -1704,5 +1704,80 @@
         <field name="SUN_EL" length="5"/>
         <field name="SUN_AZ" length="5"/>
     </tre>
+    
+    <tre name="MIMCSA" length="121" location="file">
+        <field name="LAYER_ID" length="36" type="string"/>
+        <field name="NOMINAL_FRAME_RATE" length="13" type="real" minval="0.0" format="UE"/>
+        <field name="MIN_FRAME_RATE" length="13" type="real" minval="0.0" format="UE"/>
+        <field name="MAX_FRAME_RATE" length="13" type="real" minval="0.0" format="UE"/>
+        <field name="T_RSET" length="2" type="integer" minval="0" maxval="99"/>
+        <field name="MI_REQ_DECODER" length="2" type="string"/>
+        <field name="MI_REQ_PROFILE" length="36" type="string"/>
+        <field name="MI_REQ_LEVEL" length="6" type="string"/>
+    </tre>
+
+    <tre name="CAMSDA" minlength="196" maxlength="99985" location="file">
+        <field name="NUM_CAMERA_SETS" length="3" type="integer" minval="1" maxval="999"/>
+        <field name="NUM_CAMERA_SETS_IN_TRE" length="3" type="integer" minval="1" maxval="534"/>
+        <field name="FIRST_CAMERA_SET_IN_TRE" length="3" type="integer" minval="1" maxval="999"/>
+        <loop counter="NUM_CAMERA_SETS_IN_TRE" md_prefix="CAMERA_SET_IN_TRE_%03d_" name="CAMERA_SETS">
+            <field name="NUM_CAMERAS_IN_SET" minval="1" maxval="543" length="3" type="integer"/>
+            <loop counter="NUM_CAMERAS_IN_SET" md_prefix="CAMERA_%03d_" name="CAMERAS">
+                <field name="CAMERA_ID" type="string" length="36"/>
+                <field name="CAMERA_DESC" type="string" length="80"/>
+                <field name="LAYER_ID" type="string" length="36"/>
+                <field name="IDLVL" type="integer" length="3" minval="1" maxval="999"/>
+                <field name="IALVL" type="integer" length="3" minval="0" maxval="998"/>
+                <field name="ILOC" type="string" length="10"/>
+                <field name="NROWS" type="integer" length="8" minval="1" maxval="99999999"  />
+                <field name="NCOLS" type="integer" length="8" minval="1" maxval="99999999"/>
+            </loop>
+        </loop>
+    </tre>
+
+    <tre name="TMINTA" minlength="58" maxlength="99985" location="file">
+        <field name="NUM_TIME_INT" length="4" type="integer" minval="1" maxval="1851"/>
+        <loop counter="NUM_TIME_INT" name="TIME INTERVALS" md_prefix="TIME_INTERVAL_%04d">
+            <field name="TIME_INTERVAL_INDEX" length="6" type="integer" minval="0" maxval="999999"/>
+            <field name="START_TIMESTAMP" length="24" type="string"/>
+            <field name="END_TIMESTAMP" length="24" type="string"/>
+        </loop>
+    </tre>
+
+    <tre name="MTIMFA" minlength="138" maxlength="99985" location="file">
+        <field name="LAYER_ID" length="36" type="string"/>
+        <field name="CAMERA_SET_INDEX" length="3" type="integer" minval="1" maxval="999"/>
+        <field name="TIME_INTERVAL_INDEX" length="6" type="integer" minval="1" maxval="999999"/>
+        <field name="NUM_CAMERAS_DEFINED" length="3" type="integer" minval="1" maxval="999"/>
+        <loop counter="NUM_CAMERAS_DEFINED" md_prefix="CAMERA_%d" name="CAMERAS">
+            <field name="CAMERA_ID" type="string" length="36"/>
+            <field name="NUM_TEMP_BLOCKS" type="integer" length="3" minval="1" maxval="999"/>
+            <loop counter="NUM_TEMP_BLOCKS" name="TEMPORAL_BLOCKS" md_prefix="TEMPORAL_BLOCK_%d">
+                <field name="START_TIMESTAMP" length="24" type="string"/>
+                <field name="END_TIMESTAMP" length="24" type="string"/>
+                <field name="IMAGE_SEG_INDEX" length="3" type="string"/>
+            </loop>
+        </loop>
+    </tre>
+
+    <tre name="MTIMSA" minlength="150" maxlength="99985" location="image">
+        <field name="IMAGE_SEG_INDEX" length="3" type="integer" minval="1" maxval="999"/>
+        <field name="GEOCOORDS_STATIC" length="2" type="string"/>
+        <field name="LAYER_ID" length="36" type="string"/>
+        <field name="CAMERA_SET_INDEX" length="3" type="integer" minval="1" maxval="999"/>
+        <field name="CAMERA_ID" length="36" type="string"/>
+        <field name="TIME_INTERVAL_INDEX" length="6" type="integer" minval="1" maxval="999999"/>
+        <field name="TEMP_BLOCK_INDEX" length="3" type="integer" minval="1" maxval="999"/>
+        <field name="NOMINAL_FRAME_RATE" length="13" type="real" format="UE"/>
+        <field name="REFERENCE_FRAME_NUM" length="9" type="string"/>
+        <field name="BASE_TIMESTAMP" length="24" type="string"/>
+        <field name="DT_MULTIPLIER" length="8" type="UINT"/>
+        <field name="DT_SIZE" length="1" type="UINT" minval="1" maxval="8"/>
+        <field name="NUMBER_FRAMES" length="4" type="UINT"/>
+        <field name="NUMBER_DT" length="4" type="UINT"/>
+        <loop counter="NUMBER_DT" md_prefix="DT%d" name="DELTA_TIME">
+            <field name="DT" length_var="DT_SIZE" type="UINT"/>
+        </loop>
+    </tre>
 
 </tres>
