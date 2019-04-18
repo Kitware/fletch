@@ -226,8 +226,8 @@ namespace cv
         //integral image computation used in the Mean Variation Census Transform
         void imageMeanKernelSize(const Mat &image, int windowSize, Mat &cost)
         {
-            CV_Assert(image.size > 0);
-            CV_Assert(cost.size > 0);
+            CV_Assert(image.size != NULL);
+            CV_Assert(cost.size != NULL);
             CV_Assert(windowSize % 2 != 0);
             int win = windowSize / 2;
             float scalling = ((float) 1) / (windowSize * windowSize);
