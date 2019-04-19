@@ -78,7 +78,7 @@ ExternalProject_Add(ITK
     ${itk_cmake_args}
     -DModule_PhaseSymmetry:BOOL=ON
     -DModule_AnisotropicDiffusionLBR:BOOL=ON
-    -DITK_SKIP_PATH_LENGTH_CHECKS:BOOL=OFF
+    -DITK_SKIP_PATH_LENGTH_CHECKS:BOOL=ON
 )
 
 fletch_external_project_force_install(PACKAGE ITK)
