@@ -33,7 +33,7 @@ add_package_dependency(
 # currently because its treatment of FFmpeg is broken. Once we are able to upgrade to a version that
 # contains the fixed FindGEOTIFF.cmake, our copy of it can get deleted and the manually setting of
 # the library and include_dir for VXL here can probably go away too.
-if (GEOTIFF_FOUND)
+if (fletch_ENABLE_libgeotiff)
   list(APPEND VXL_EXTRA_BUILD_FLAGS
     -DGEOTIFF_INCLUDE_DIR:PATH=${GEOTIFF_INCLUDE_DIR}
     -DGEOTIFF_LIBRARY:FILEPATH=${GEOTIFF_LIBRARY}
@@ -127,7 +127,6 @@ ExternalProject_Add(VXL
     -DVXL_USE_DCMTK:BOOL=OFF
     -DJPEG_LIBRARY:FILEPATH=${JPEG_LIBRARY}
     -DJPEG_INCLUDE_DIR:PATH=${JPEG_INCLUDE_DIR}
-    -DGEOTIFF_LIBRARY=${libgeotiff_LIBRARY}
     ${VXL_EXTRA_BUILD_FLAGS}
   )
 
