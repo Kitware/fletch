@@ -17,6 +17,7 @@ add_package_dependency(
   PACKAGE VXL
   PACKAGE_DEPENDENCY libtiff
   PACKAGE_DEPENDENCY_ALIAS TIFF
+  OPTIONAL
   )
 
 # libgeotiff
@@ -41,6 +42,16 @@ if (fletch_ENABLE_libgeotiff)
 else()
   list(APPEND VXL_EXTRA_BUILD_FLAGS
     -DVXL_USE_GEOTIFF:BOOL=OFF
+    )
+endif()
+
+if (fletch_ENABLE_libtiff)
+  list(APPEND VXL_EXTRA_BUILD_FLAGS
+    -DWITH_TIFF:BOOL=ON
+    )
+else()
+  list(APPEND VXL_EXTRA_BUILD_FLAGS
+    -DWITH_TIFF:BOOL=OFF
     )
 endif()
 
