@@ -86,7 +86,6 @@ if (fletch_ENABLE_OpenCV OR OpenCV_DIR)
     -DModule_ITKVideoBridgeOpenCV:BOOL=ON
     -DOpenCV_DIR:PATH=${OpenCV_DIR}
     )
-  list(APPEND ITK_DEPENDS OpenCV)
 endif()
 
 if (fletch_ENABLE_HDF5)
