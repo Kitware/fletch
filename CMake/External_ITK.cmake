@@ -81,10 +81,10 @@ if (fletch_ENABLE_VXL)
   list(APPEND ITK_DEPENDS VXL)
 endif()
 
-if (fletch_ENABLE_OpenCV)
+if (fletch_ENABLE_OpenCV OR OpenCV_DIR)
   list (APPEND itk_cmake_args
     -DModule_ITKVideoBridgeOpenCV:BOOL=ON
-    -DOpenCV_DIR:PATH=${OpenCV_ROOT}
+    -DOpenCV_DIR:PATH=${OpenCV_DIR}
     )
   list(APPEND ITK_DEPENDS OpenCV)
 endif()
