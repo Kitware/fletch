@@ -127,7 +127,7 @@ if (fletch_BUILD_WITH_PYTHON)
   if(NOT _python_version MATCHES "^${fletch_PYTHON_MAJOR_VERSION}.*")
     message(FATAL_ERROR "Requested python \"${fletch_PYTHON_MAJOR_VERSION}\" but got \"${_python_version}\"")
   endif()
-  
+
   # Check PYTHON_LIBRARY to see if we need to split it up
   # For example if you installed python3 with debug libs
   # PYTHON_LIBRARY = optimized:path/to/python3.lib:debug:path/to/python3_d.lib
@@ -148,7 +148,6 @@ if (fletch_BUILD_WITH_PYTHON)
     message(STATUS "PYTHON_LIBRARY : ${PYTHON_LIBRARY}")
     message(STATUS "PYTHON_LIBRARY_DEBUG : ${PYTHON_LIBRARY_DEBUG}")
   endif()
-  
 endif()
 
 #

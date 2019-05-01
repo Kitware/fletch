@@ -9,19 +9,18 @@ using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" ;
 "
   )
 
-  if(fletch_BUILD_WITH_PYTHON)
-    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-      set(PYTHON_ARGUMENTS "<address-model>64")
-    endif()
-    get_filename_component(PYTHON_LIBRARY_DIR ${PYTHON_LIBRARY} DIRECTORY)
-    file(APPEND ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "\n\
+if(ENABLE_Boost_PYTHON)
+  if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(PYTHON_ARGUMENTS "<address-model>64")
+  endif()
+  get_filename_component(PYTHON_LIBRARY_DIR ${PYTHON_LIBRARY} DIRECTORY)
+  file(APPEND ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "\n\
 using python : ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}\n\
              : ${PYTHON_EXECUTABLE}\n\
              : ${PYTHON_INCLUDE_DIR}\n\
              : ${PYTHON_LIBRARY_DIR}\n\
-             : ${PYTHON_ARGUMENTS}\n\
-; "
-  )
+             : ${PYTHON_ARGUMENTS}\n\; "
+    )
   endif()
 endif()
 
@@ -29,7 +28,7 @@ if(WIN32)
   set(BOOTSTRAP ${Boost_SOURCE_DIR}/bootstrap.bat)
 else()
   set(BOOTSTRAP ${Boost_SOURCE_DIR}/bootstrap.sh)
-  if (fletch_BUILD_WITH_PYTHON)
+  if (ENABLE_Boost_PYTHON)
     set(BOOTSTRAP_ARGS "--with-python=${PYTHON_EXECUTABLE}")
   endif()
 endif()

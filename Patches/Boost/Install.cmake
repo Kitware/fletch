@@ -13,7 +13,7 @@ foreach(SUFFIX lib so a dylib)
   )
 endforeach()
 
-if (fletch_BUILD_WITH_PYTHON)
+if (ENABLE_Boost_PYTHON)
   file(COPY ${Boost_source}/boost/python/raw_function.hpp
     DESTINATION ${Boost_INSTALL_DIR}/include/boost/python
     USE_SOURCE_PERMISSIONS

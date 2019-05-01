@@ -1,6 +1,5 @@
 
 # The Boost external project for fletch
-
 if(MSVC AND (NOT MSVC_VERSION LESS 1910))
   # Get the CMAKE version string and make sure it's not a release candidate and >= 3.8.0
   if( (CMAKE_VERSION MATCHES "^3\\.8\\.0-rc") OR (CMAKE_VERSION VERSION_LESS 3.8.0))
@@ -22,15 +21,19 @@ set(_Boost_DIR_ARGS
 set(fletch_EXTRA_BOOST_LIBS "" CACHE STRING "Additional Boost libraries to install")
 
 if(fletch_BUILD_WITH_PYTHON)
-  set(fletch_EXTRA_BOOST_LIBS ${fletch_EXTRA_BOOST_LIBS} python)
+  option(ENABLE_Boost_PYTHON "" FALSE)
+  mark_as_advanced(ENABLE_Boost_PYTHON)
+  if (ENABLE_Boost_PYTHON)
+    set(fletch_EXTRA_BOOST_LIBS ${fletch_EXTRA_BOOST_LIBS} python)
 
-  set(_Boost_PYTHON_ARGS
-    -DPYTHON_VERSION_MAJOR=${PYTHON_VERSION_MAJOR}
-    -DPYTHON_VERSION_MINOR=${PYTHON_VERSION_MINOR}
-    -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
-    -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
-    -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
-  )
+    set(_Boost_PYTHON_ARGS
+      -DPYTHON_VERSION_MAJOR=${PYTHON_VERSION_MAJOR}
+      -DPYTHON_VERSION_MINOR=${PYTHON_VERSION_MINOR}
+      -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+      -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
+      -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+      )
+    endif()
 endif()
 
 set (Boost_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Boost/${Boost_SELECT_VERSION})
@@ -65,7 +68,7 @@ ExternalProject_Add(Boost
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
     ${_Boost_DIR_ARGS}
     -DBoost_source=${fletch_BUILD_PREFIX}/src/Boost
-    -Dfletch_BUILD_WITH_PYTHON=${fletch_BUILD_WITH_PYTHON}
+    -DENABLE_Boost_PYTHON=${ENABLE_Boost_PYTHON}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Install.cmake
 )
 add_dependencies(Download Boost-download)
