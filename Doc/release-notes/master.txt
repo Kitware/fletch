@@ -15,7 +15,8 @@ New Packages
 
 Package Upgrades
 
- * Added option for VTK 8.2 and removed older 8.1 and 8.2-pre
+ * Added option for VTK 8.2 and removed older 8.1 and 8.2-pre.
+   VTK 8.2 is now the default version.
 
 
 Fixes since v1.2.0
