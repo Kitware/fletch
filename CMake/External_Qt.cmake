@@ -110,6 +110,12 @@ if(WIN32)
     list(APPEND Qt_ADDITIONAL_PATH ${fletch_BUILD_INSTALL_PREFIX}/bin)
   endif()
 
+  if (fletch_BUILD_WITH_PYTHON)
+    # In case Python is not on the system path
+    get_filename_component(PYTHON_EXE_DIR ${PYTHON_EXECUTABLE} DIRECTORY)
+    list(APPEND Qt_ADDITIONAL_PATH ${PYTHON_EXE_DIR})
+  endif()
+
   set(Qt_build ${fletch_BUILD_PREFIX}/src/Qt-build/BuildQt.bat)
   configure_file(
     ${fletch_SOURCE_DIR}/Patches/Qt/BuildQt.bat.in
