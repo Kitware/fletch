@@ -21,3 +21,8 @@ Fixes since v1.2.0
  * Paths in fletchConfig.cmake were not quoted causing problems if the path
    contains spaces (spaces were replaced with semicolons by CMake).  Quotes
    are now added to some paths that are more likely to have spaces.
+
+ * The path to the Python interpreter is now added to the PATH environment
+   variable when building Qt on Windows if Python is enabled.  Qt 5 requires
+   Python in some build steps and expects it on the PATH.  Windows Python
+   installations do not always put Python on the PATH globally.
