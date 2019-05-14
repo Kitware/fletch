@@ -143,6 +143,7 @@ check_symbol_exists("strdup" "string.h" HAVE_STRDUP)
 check_symbol_exists("strlcat" "string.h" HAVE_STRLCAT)
 check_symbol_exists("st_blocksize" "sys/stat.h" HAVE_STRUCT_STAT_ST_BLKSIZE)
 check_symbol_exists("sysconf" "unistd.h" HAVE_SYSCONF)
+check_symbol_exists("snprintf" "stdio.h" HAVE_SNPRINTF)
 
 set(HAVE_HDF5_H 1)
 check_symbol_exists("H5free_memory" "vtk_hdf5.h" HDF5_HAS_H5FREE)
