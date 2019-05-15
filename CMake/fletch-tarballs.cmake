@@ -241,13 +241,23 @@ set(shapelib_url "http://download.osgeo.org/shapelib/shapelib-${shapelib_version
 set(shapelib_md5 "ae9f1fcd2adda35b74ac4da8674a3178")
 list(APPEND fletch_external_sources shapelib)
 
-# TinyXML
-set(TinyXML_version_major "2")
-set(TinyXML_version_minor "6")
-set(TinyXML_version_patch "2")
-set(TinyXML_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML_version_major}_${TinyXML_version_minor}_${TinyXML_version_patch}.zip")
-set(TinyXML_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
-list(APPEND fletch_external_sources TinyXML)
+# TinyXML_1
+set(TinyXML1_version_major "2")
+set(TinyXML1_version_minor "6")
+set(TinyXML1_version_patch "2")
+set(TinyXML1_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML1_version_major}_${TinyXML1_version_minor}_${TinyXML1_version_patch}.zip")
+set(TinyXML2_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
+set(TinyXML2_dlname "tinyXML1.zip")
+list(APPEND fletch_external_sources TinyXML1)
+
+# TinyXML_2
+set(TinyXML2_version_major "7")
+set(TinyXML2_version_minor "0")
+set(TinyXML2_version_patch "1")
+set(TinyXML2_url "https://github.com/leethomason/tinyxml2/archive/${TinyXML2_version_major}.${TinyXML2_version_minor}.${TinyXML2_version_patch}.zip")
+set(TinyXML2_md5 "03ad292c4b6454702c0cc22de0d196ad")
+set(TinyXML2_dlname "tinyXML2.zip")
+list(APPEND fletch_external_sources TinyXML2)
 
 # libkml
 set(libkml_version "20150911git79b3eb0")
