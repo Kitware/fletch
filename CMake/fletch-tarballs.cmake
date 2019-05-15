@@ -409,34 +409,23 @@ list(APPEND fletch_external_sources CppDB)
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1 8.2-pre)
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.2)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.2-pre)
-  set(VTK_SELECT_VERSION 8.2)
-  set(VTK_tag "3ad789a980dd8da13f86dd79f37cf2e67f4d4dbf")
-  set(VTK_url "http://www.vtk.org/gitweb?p=VTK.git&a=snapshot&h=${VTK_tag}")
-  set(VTK_md5 "cb6857024e6559ccbad34e84573f5a1b")
-  # TODO: Remove corresponding logic in External_VTK.cmake when we replace
-  # this with 8.2 (official)
-  set(VTK_dlname "VTK-${VTK_tag}.tar.gz")
-elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
-  # TODO: Remove when we support 8.2 (official, not 8.2-pre)?
-  set(VTK_version 8.1.1)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
-  set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.2)
+  set(VTK_version 8.2.0)
+  set(VTK_md5 "94ba8959b56dcfa6bac996158669ac36")
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
   set(VTK_version 8.0.1)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "c248dbe8ffd9b74c6f41199e66d6c690")  # v8.0.1
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
   # TODO: Remove when we remove support for OpenCV < 3.2
   set(VTK_version 6.2.0)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
 elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
 endif()
+set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
 list(APPEND fletch_external_sources VTK)
 
 # VXL

@@ -236,13 +236,6 @@ list(APPEND vtk_cmake_args
   -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
   )
 
-# TODO: Remove this when we replace 8.2-pre with 8.2 (official)
-if(VTK_dlname)
-  set(VTK_DOWNLOAD_NAME DOWNLOAD_NAME ${VTK_dlname})
-else()
-  set(VTK_DOWNLOAD_NAME "")
-endif()
-
 set (VTK_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/VTK/${VTK_SELECT_VERSION})
 if (EXISTS ${VTK_PATCH_DIR})
   set(VTK_PATCH_COMMAND ${CMAKE_COMMAND}
