@@ -92,7 +92,7 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 set(_FFmpeg_supported TRUE)
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
-  set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
+  set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
   set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
   mark_as_advanced(FFmpeg_SELECT_VERSION)
 
@@ -108,7 +108,7 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     include(CheckTypeSize)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
       set(bitness 32)
-      message(FATAL_ERROR "Fletch does NOT support FMPEG 32 bit. Please use 64bit.")
+      message(FATAL_ERROR "Fletch does NOT support FFMPEG 32 bit. Please use 64 bit.")
     endif()
     # On windows download prebuilt binaries and shared libraries
     # dev contains headers .lib, .def, and mingw .dll.a files
