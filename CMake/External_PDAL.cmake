@@ -92,6 +92,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # PDAL
 ########################################
 set(PDAL_ROOT    \${fletch_ROOT})
+set(PDAL_DIR \${fletch_ROOT}/lib/pdal/cmake)
 set(PDAL_INCLUDE_DIR \${fletch_ROOT}/include)
 
 set(fletch_ENABLED_PDAL TRUE)
