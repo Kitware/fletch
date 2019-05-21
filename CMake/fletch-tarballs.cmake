@@ -418,7 +418,7 @@ list(APPEND fletch_external_sources CppDB)
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
-  set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
+  set(VTK_SELECT_VERSION 8.2 CACHE STRING "Select the version of VTK to build.")
   set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.2)
 endif()
 
