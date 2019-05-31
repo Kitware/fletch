@@ -246,8 +246,8 @@ set(TinyXML1_version_major "2")
 set(TinyXML1_version_minor "6")
 set(TinyXML1_version_patch "2")
 set(TinyXML1_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML1_version_major}_${TinyXML1_version_minor}_${TinyXML1_version_patch}.zip")
-set(TinyXML2_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
-set(TinyXML2_dlname "tinyXML1.zip")
+set(TinyXML1_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
+set(TinyXML1_dlname "tinyXML1.zip")
 list(APPEND fletch_external_sources TinyXML1)
 
 # TinyXML_2
