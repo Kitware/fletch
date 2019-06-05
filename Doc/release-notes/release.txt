@@ -26,3 +26,6 @@ Fixes since v1.2.0
    variable when building Qt on Windows if Python is enabled.  Qt 5 requires
    Python in some build steps and expects it on the PATH.  Windows Python
    installations do not always put Python on the PATH globally.
+
+ * RPATH is now set in qtExtensions so that the qte-amc tool can find Qt
+   libraries on macOS.

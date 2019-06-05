@@ -34,6 +34,7 @@ ExternalProject_Add(qtExtensions
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${QT_ARGS}
+    -DCMAKE_INSTALL_RPATH:PATH=${fletch_INSTALL_BUILD_DIR}/lib
 )
 
 fletch_external_project_force_install(PACKAGE qtExtensions)
