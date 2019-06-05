@@ -135,6 +135,8 @@ else()
     set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
     list(APPEND _GDAL_DEPENDS openjpeg)
     set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
+  else()
+    set(JPEG_ARG "--without-openjpeg")
   endif()
 
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
