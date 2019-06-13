@@ -42,10 +42,9 @@ endif()
 list(APPEND fletch_external_sources Boost)
 
 # ZLib
-set(ZLib_version 1.2.8)
-set(ZLib_tag "66a753054b356da85e1838a081aa94287226823e")
-set(ZLib_url "https://github.com/commontk/zlib/archive/${ZLib_tag}.zip")
-set(zlib_md5 "1d0e64ac4f7c7fe3a73ae044b70ef857")
+set(ZLib_version 1.2.9)
+set(ZLib_url "https://github.com/madler/zlib/archive/v${ZLib_version}.zip")
+set(zlib_md5 "d71ee9e2998abd2fdfb6a40c8f3c7bd7")
 set(zlib_dlname "zlib-${ZLib_version}.zip")
 list(APPEND fletch_external_sources ZLib)
 
@@ -92,11 +91,13 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 # FFmpeg
 set(_FFmpeg_supported TRUE)
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
+  # allow different versions to be selected for testing purposes
+  set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
+  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
+  mark_as_advanced(FFmpeg_SELECT_VERSION)
+
   if(WIN32)
-    set(FFmpeg_SELECT_VERSION "win32" CACHE STRING "Select the version of FFmpeg to build.")
-    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "win32")
-    mark_as_advanced(FFmpeg_SELECT_VERSION)
-    # The windows version is git-c089e72 (2015-03-05)
+    # The windows 2.6 version is git-c089e72 (2015-03-05)
     # follows: n2.6-dev (2014-12-03)
     # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
     set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
@@ -107,21 +108,25 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     include(CheckTypeSize)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
       set(bitness 32)
-      message(FATAL_ERROR "Fletch does NOT support FMPEG 32 bit. Please use 64bit.")
+      message(FATAL_ERROR "Fletch does NOT support FFMPEG 32 bit. Please use 64 bit.")
     endif()
     # On windows download prebuilt binaries and shared libraries
     # dev contains headers .lib, .def, and mingw .dll.a files
     # shared contains dll and exe files.
-    set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
-    set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
-    set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
-    set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
+    if (_FFmpeg_version VERSION_EQUAL 3.3.3)
+      set(FFmpeg_dev_md5 "2788ff871ba1c1b91b6f0e91633bef2a")
+      set(FFmpeg_shared_md5 "beb39d523cdb032b59f81db80b020f31")
+      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/5c520afc8d777f072b212cca/download/ffmpeg-3.3.3-win64-dev.zip")
+      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/5c520b068d777f072b212cd4/download/ffmpeg-3.3.3-win64-shared.zip")
+    elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
+      set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
+      set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
+      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
+      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
+    else (_FFmpeg_supported AND _FFmpeg_version)
+      message("Unsupported FFmpeg version ${_FFmpeg_version}")
+    endif()
   else()
-    # allow different versions to be selected for testing purposes
-    set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
-    set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
-    mark_as_advanced(FFmpeg_SELECT_VERSION)
-
     #set(_FFmpeg_version 3.3.3) # (2017-07-29)
     #set(_FFmpeg_version 2.6.2) # (2015-04-10)
     set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
@@ -147,43 +152,6 @@ set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
 set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
-
-# OpenCV
-# Support 2.4.13 and 3.4 optionally
-if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.0")
-
-  set(OpenCV_version ${OpenCV_SELECT_VERSION})
-  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
-  set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
-
-  # Expose optional contrib repo when enabling OpenCV version >= 3.x
-  if (NOT OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
-    list(APPEND fletch_external_sources OpenCV_contrib)
-    set(OpenCV_contrib_version "${OpenCV_version}")
-    set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
-    set(OpenCV_contrib_dlname "opencv-contrib-${OpenCV_version}.zip")
-  else()
-    # Remove Contrib repo option when OpenCV is not the correct version
-    unset(fletch_ENABLE_OpenCV_contrib CACHE)
-  endif()
-
-  # Paired contrib repo information
-  if (OpenCV_version VERSION_EQUAL 3.4.0)
-    set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
-    set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
-  elseif (OpenCV_version VERSION_EQUAL 2.4.13)
-    # TODO remove VTK 6.2 support when we remove support for OpenCV < 3.2
-    set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
-  else()
-    message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
-  endif()
-else()
-  # Remove Contrib repo option when OpenCV is not enabled
-  unset(fletch_ENABLE_OpenCV_contrib CACHE)
-endif()
-list(APPEND fletch_external_sources OpenCV)
 
 # log4cplus
 set(log4cplus_version "1.2.x")
@@ -273,13 +241,23 @@ set(shapelib_url "http://download.osgeo.org/shapelib/shapelib-${shapelib_version
 set(shapelib_md5 "ae9f1fcd2adda35b74ac4da8674a3178")
 list(APPEND fletch_external_sources shapelib)
 
-# TinyXML
-set(TinyXML_version_major "2")
-set(TinyXML_version_minor "6")
-set(TinyXML_version_patch "2")
-set(TinyXML_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML_version_major}_${TinyXML_version_minor}_${TinyXML_version_patch}.zip")
-set(TinyXML_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
-list(APPEND fletch_external_sources TinyXML)
+# TinyXML_1
+set(TinyXML1_version_major "2")
+set(TinyXML1_version_minor "6")
+set(TinyXML1_version_patch "2")
+set(TinyXML1_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML1_version_major}_${TinyXML1_version_minor}_${TinyXML1_version_patch}.zip")
+set(TinyXML1_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
+set(TinyXML1_dlname "tinyXML1.zip")
+list(APPEND fletch_external_sources TinyXML1)
+
+# TinyXML_2
+set(TinyXML2_version_major "7")
+set(TinyXML2_version_minor "0")
+set(TinyXML2_version_patch "1")
+set(TinyXML2_url "https://github.com/leethomason/tinyxml2/archive/${TinyXML2_version_major}.${TinyXML2_version_minor}.${TinyXML2_version_patch}.zip")
+set(TinyXML2_md5 "03ad292c4b6454702c0cc22de0d196ad")
+set(TinyXML2_dlname "tinyXML2.zip")
+list(APPEND fletch_external_sources TinyXML2)
 
 # libkml
 set(libkml_version "20150911git79b3eb0")
@@ -293,7 +271,7 @@ list(APPEND fletch_external_sources libkml)
 # Support 4.8.6 and 5.11 optionally
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
-  set(Qt_SELECT_VERSION 4.8.6 CACHE STRING "Select the version of Qt to build.")
+  set(Qt_SELECT_VERSION 5.11.2 CACHE STRING "Select the version of Qt to build.")
   set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2")
 
   set(Qt_version ${Qt_SELECT_VERSION})
@@ -315,6 +293,42 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   endif()
 endif()
 list(APPEND fletch_external_sources Qt)
+
+# OpenCV
+# Support 2.4.13 and 3.4 optionally
+if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
+  set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.0")
+
+  set(OpenCV_version ${OpenCV_SELECT_VERSION})
+  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+  set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+
+  # Expose optional contrib repo when enabling OpenCV version >= 3.x
+  if (NOT OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
+    list(APPEND fletch_external_sources OpenCV_contrib)
+    set(OpenCV_contrib_version "${OpenCV_version}")
+    set(OpenCV_contrib_url "http://github.com/Itseez/opencv_contrib/archive/${OpenCV_contrib_version}.zip")
+    set(OpenCV_contrib_dlname "opencv-contrib-${OpenCV_version}.zip")
+  else()
+    # Remove Contrib repo option when OpenCV is not the correct version
+    unset(fletch_ENABLE_OpenCV_contrib CACHE)
+  endif()
+
+  # Paired contrib repo information
+  if (OpenCV_version VERSION_EQUAL 3.4.0)
+    set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
+    set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
+  elseif (OpenCV_version VERSION_EQUAL 2.4.13)
+    set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
+  else()
+    message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
+  endif()
+else()
+  # Remove Contrib repo option when OpenCV is not enabled
+  unset(fletch_ENABLE_OpenCV_contrib CACHE)
+endif()
+list(APPEND fletch_external_sources OpenCV)
 
 # PROJ.4
 set(PROJ4_version "4.9.3" )
@@ -347,17 +361,23 @@ if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources GDAL)
 
-# GeographicLib
-set(GeographicLib_version "1.49" )
-set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
-set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
-list(APPEND fletch_external_sources GeographicLib )
-
 # GEOS
 set(GEOS_version "3.6.2" )
 set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
 set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
 list(APPEND fletch_external_sources GEOS )
+
+# PDAL
+set(PDAL_version 1.7.2)
+set(PDAL_url "https://github.com/PDAL/PDAL/releases/download/${PDAL_version}/PDAL-${PDAL_version}-src.tar.gz")
+set(PDAL_md5 "a89710005fd54e6d2436955e2e542838")
+list(APPEND fletch_external_sources PDAL)
+
+# GeographicLib
+set(GeographicLib_version "1.49" )
+set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
+set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
+list(APPEND fletch_external_sources GeographicLib )
 
 # PostgreSQL
 if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
@@ -398,35 +418,24 @@ list(APPEND fletch_external_sources CppDB)
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
-  set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1 8.2-pre)
+  set(VTK_SELECT_VERSION 8.2 CACHE STRING "Select the version of VTK to build.")
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.2)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.2-pre)
-  set(VTK_SELECT_VERSION 8.2)
-  set(VTK_tag "3ad789a980dd8da13f86dd79f37cf2e67f4d4dbf")
-  set(VTK_url "http://www.vtk.org/gitweb?p=VTK.git&a=snapshot&h=${VTK_tag}")
-  set(VTK_md5 "cb6857024e6559ccbad34e84573f5a1b")
-  # TODO: Remove corresponding logic in External_VTK.cmake when we replace
-  # this with 8.2 (official)
-  set(VTK_dlname "VTK-${VTK_tag}.tar.gz")
-elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
-  # TODO: Remove when we support 8.2 (official, not 8.2-pre)?
-  set(VTK_version 8.1.1)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
-  set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.2)
+  set(VTK_version 8.2.0)
+  set(VTK_md5 "94ba8959b56dcfa6bac996158669ac36")
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
-  set(VTK_version 8.0.0)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
-  set(VTK_md5 "0bec6b6aa3c92cc9e058a12e80257990")  # v8.0.0
+  set(VTK_version 8.0.1)
+  set(VTK_md5 "c248dbe8ffd9b74c6f41199e66d6c690")  # v8.0.1
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
   # TODO: Remove when we remove support for OpenCV < 3.2
   set(VTK_version 6.2.0)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
 elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
 endif()
+set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
 list(APPEND fletch_external_sources VTK)
 
 # VXL
@@ -555,11 +564,11 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20180927git793dec73")
-set(qtExtensions_tag "793dec73da8204e586b9cc30c65864790a4d0d17")
-set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.zip")
-set(qtExtensions_md5 "31dd4b6953af20ed245e5ddde939f54d")
-set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.zip")
+set(qtExtensions_version "20190517gita911d919")
+set(qtExtensions_tag "a911d919bc8f01c6f3af067dc95a654b2f27cf16")
+set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
+set(qtExtensions_md5 "b4be0f7cf4b3bde943fc1d47061fa82a")
+set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
 list(APPEND fletch_external_sources qtExtensions)
 
 # ZeroMQ

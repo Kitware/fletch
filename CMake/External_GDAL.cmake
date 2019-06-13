@@ -25,7 +25,6 @@ if(fletch_LTIDSDK_ROOT)
 endif()
 
 if (WIN32)
-
   if(fletch_ENABLE_PNG)
     set(_GDAL_ARGS_PNG)
     set(_GDAL_ARGS_PNG PNGDIR=${fletch_BUILD_INSTALL_PREFIX}/include PNG_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.lib)
@@ -46,10 +45,11 @@ if (WIN32)
   set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG} ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS})
   file(TO_NATIVE_PATH ${fletch_BUILD_INSTALL_PREFIX} _gdal_native_fletch_BUILD_INSTALL_PREFIX)
   set (GDAL_ARGS MSVC_VER=${MSVC_VERSION}
-                 DATADIR=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}\\share\\gdal
-                 GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}
-                 ${_gdal_msvc_win64_option}
-                 ${GDAL_PKG_ARGS})
+    DATADIR=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}\\share\\gdal
+    GDAL_HOME=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}
+    ${_gdal_msvc_win64_option}
+    ${GDAL_PKG_ARGS}
+    )
 
   ExternalProject_Add(GDAL
     DEPENDS ${_GDAL_DEPENDS}
@@ -118,6 +118,10 @@ else()
     set(_GDAL_ARGS_XML2 "--with-xml2=${LIBXML2_ROOT}/bin/xml2-config")
   endif()
 
+  # GDAL has a tendency to pick up old libkml versions and fail.
+  #   Thus, disable GDAL with libkml.
+  set(_GDAL_ARGS_libKML "--with-libkml=no")
+
   #+
   # GDAL Python dosen't work well for GDAL 1, nor does it work well on Apple at the moment
   #-
@@ -128,17 +132,18 @@ else()
   # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
   # OpenJPEG support is not valid for GDAL 1, it requires an older version than we provide.
   if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
-  set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
-  list(APPEND _GDAL_DEPENDS openjpeg)
-  set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
-endif()
+    set(JPEG_ARG "--with-openjpeg=${openjpeg_ROOT}")
+    list(APPEND _GDAL_DEPENDS openjpeg)
+    set( _GDAL_PKG_CONFIG_PATH "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig" )
+  else()
+    set(JPEG_ARG "--without-openjpeg")
+  endif()
 
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
   set (GDAL_PKG_ARGS
     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
     ${_GDAL_ARGS_PROJ4} ${_GDAL_ARGS_XML2} ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE}
-    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG}
-    --without-jasper
+    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG} ${_GDAL_ARGS_libKML} --without-jasper
     )
 
 

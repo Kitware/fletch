@@ -1,0 +1,34 @@
+Fletch v1.3.0 Release Notes
+===========================
+
+This is a minor release of Fletch that provides both new functionality and fixes over 
+the previous v1.2.0 release.
+
+There are many other changes in this release. These are detailed in the change log below.
+
+Updates since v1.2.0
+--------------------
+
+New Packages
+
+ * Added PDAL version 1.7.2
+
+Package Upgrades
+
+ * Updated qtextensions to 20190517gita911d919.
+
+ * Updated default FFMPEG version from 2.6.2 to 3.3.3.
+
+ * Added option for VTK 8.2 and removed older 8.1 and 8.2-pre.
+   VTK 8.2 is now the default version.
+
+
+Fixes since v1.2.0
+------------------
+
+- Libjpeg-turbo and libtiff are now requirements to build libgeotiff. It was possible to
+  try to build libgeotiff without libjpeg-tubo and libtiff enabled, this would result in
+  several build errors.
+
+- GDAL will now no longer built with google libkml support. GDAL would fail occasionally
+  as a result of automatically finding and using an old libkml version.

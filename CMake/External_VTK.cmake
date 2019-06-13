@@ -8,6 +8,17 @@ set(install_include_dir ${fletch_BUILD_INSTALL_PREFIX}/include)
 set(install_library_dir ${fletch_BUILD_INSTALL_PREFIX}/lib)
 set(install_binary_dir ${fletch_BUILD_INSTALL_PREFIX}/bin)
 
+# Rendering backend
+if(VTK_SELECT_VERSION VERSION_LESS 8.1)
+  set(vtk_cmake_args ${vtk_cmake_args}
+      -DVTK_RENDERING_BACKEND:STRING=OpenGL
+      )
+else()
+  set(vtk_cmake_args ${vtk_cmake_args}
+      -DVTK_RENDERING_BACKEND:STRING=OpenGL2
+      )
+endif()
+
 # Boost
 # Do not use boost with VTK. It's unecessary and causes build errors.
 set(vtk_cmake_args ${vtk_cmake_args}
@@ -63,7 +74,6 @@ if(Qt_version_major EQUAL 4)
   if(QT_QMAKE_EXECUTABLE)
     set(BUILD_QT_WEBKIT ${QT_QTWEBKIT_FOUND})
     set(vtk_cmake_args ${vtk_cmake_args}
-      -DVTK_RENDERING_BACKEND:STRING=OpenGL
       -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
       -DVTK_QT_VERSION:STRING=4
     )
@@ -77,7 +87,6 @@ else()
       Core Gui Widgets OpenGL Designer UiPlugin
   )
   set(vtk_cmake_args ${vtk_cmake_args}
-    -DVTK_RENDERING_BACKEND:STRING=OpenGL2
     -DQt5_DIR:PATH=${Qt5_DIR}
     -DVTK_QT_VERSION:STRING=5
   )
@@ -226,13 +235,6 @@ list(APPEND vtk_cmake_args
   -DPYTHON_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
   -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
   )
-
-# TODO: Remove this when we replace 8.2-pre with 8.2 (official)
-if(VTK_dlname)
-  set(VTK_DOWNLOAD_NAME DOWNLOAD_NAME ${VTK_dlname})
-else()
-  set(VTK_DOWNLOAD_NAME "")
-endif()
 
 set (VTK_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/VTK/${VTK_SELECT_VERSION})
 if (EXISTS ${VTK_PATCH_DIR})
