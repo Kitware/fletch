@@ -2,11 +2,11 @@ Fletch v1.3.0 Release Notes
 ===========================
 
 This is a minor release of Fletch that provides both new functionality and fixes over 
-the previous v1.2.0 release.
+the previous v1.2.1 release.
 
 There are many other changes in this release. These are detailed in the change log below.
 
-Updates since v1.2.0
+Updates since v1.2.1
 --------------------
 
 New Packages
@@ -23,7 +23,7 @@ Package Upgrades
    VTK 8.2 is now the default version.
 
 
-Fixes since v1.2.0
+Fixes since v1.2.1
 ------------------
 
 - Libjpeg-turbo and libtiff are now requirements to build libgeotiff. It was possible to
