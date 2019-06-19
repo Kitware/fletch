@@ -13,6 +13,8 @@ New Packages
 
 Package Upgrades
 
+- Update GTest to 1.8.1 to fix gcc 9.1 build error
+
 Fixes since v1.3.0
 ------------------
 
