@@ -279,7 +279,7 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   list(GET Qt_VERSION_LIST 0 Qt_version_major)
   list(GET Qt_VERSION_LIST 1 Qt_version_minor)
   list(GET Qt_VERSION_LIST 2 Qt_version_patch)
-  set(Qt_release_location official_releases) # official_releases or archive
+  set(Qt_release_location archive) # official_releases or archive
 
   if (Qt_version VERSION_EQUAL 5.11.2)
     set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
