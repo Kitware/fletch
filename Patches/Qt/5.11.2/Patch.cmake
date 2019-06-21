@@ -14,3 +14,8 @@ file(COPY ${Qt_patch}/qtconnectivity/src/bluetooth/qbluetoothservicediscoveryage
 file(COPY ${Qt_patch}/qtscript/src/3rdparty/javascriptcore/JavaScriptCore/jit/JITStubs.cpp
   DESTINATION ${Qt_source}/qtscript/src/3rdparty/javascriptcore/JavaScriptCore/jit/
   )
+
+# Patch for gcc 9.1.
+file(COPY ${Qt_patch}/qtbase/src/corelib/global/qrandom.cpp
+  DESTINATION ${Qt_source}/qtbase/src/corelib/global/
+  )

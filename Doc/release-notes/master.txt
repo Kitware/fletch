@@ -16,3 +16,4 @@ Package Upgrades
 Fixes since v1.3.0
 ------------------
 
+- Patch Qt5 to fix build errors with gcc 9.1
