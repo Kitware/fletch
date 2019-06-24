@@ -24,7 +24,7 @@ endif()
 # can still detect after the change)
 #-
 set(fletch_VERSION_MAJOR 1)
-set(fletch_VERSION_MINOR 2)
+set(fletch_VERSION_MINOR 3)
 set(fletch_VERSION_PATCH 0)
 
 set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VERSION_PATCH}")

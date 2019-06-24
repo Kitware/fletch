@@ -92,7 +92,7 @@ set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
 set(_FFmpeg_supported TRUE)
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
-  set(FFmpeg_SELECT_VERSION 2.6.2 CACHE STRING "Select the version of FFmpeg to build.")
+  set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
   set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
   mark_as_advanced(FFmpeg_SELECT_VERSION)
 
@@ -108,7 +108,7 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     include(CheckTypeSize)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
       set(bitness 32)
-      message(FATAL_ERROR "Fletch does NOT support FMPEG 32 bit. Please use 64bit.")
+      message(FATAL_ERROR "Fletch does NOT support FFMPEG 32 bit. Please use 64 bit.")
     endif()
     # On windows download prebuilt binaries and shared libraries
     # dev contains headers .lib, .def, and mingw .dll.a files
@@ -174,9 +174,9 @@ set(GLog_md5 "5df6d78b81e51b90ac0ecd7ed932b0d4")
 set(GLog_dlname "glog-${GLog_version}.tar.gz")
 list(APPEND fletch_external_sources GLog)
 
-set(GTest_version "1.8.0")
+set(GTest_version "1.8.1")
 set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_version}.tar.gz")
-set(GTest_md5 "16877098823401d1bf2ed7891d7dce36")
+set(GTest_md5 "2e6fbeb6a91310a16efe181886c59596")
 set(GTest_dlname "gtest-${GTest_version}.tar.gz")
 list(APPEND fletch_external_sources GTest)
 
@@ -241,13 +241,23 @@ set(shapelib_url "http://download.osgeo.org/shapelib/shapelib-${shapelib_version
 set(shapelib_md5 "ae9f1fcd2adda35b74ac4da8674a3178")
 list(APPEND fletch_external_sources shapelib)
 
-# TinyXML
-set(TinyXML_version_major "2")
-set(TinyXML_version_minor "6")
-set(TinyXML_version_patch "2")
-set(TinyXML_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML_version_major}_${TinyXML_version_minor}_${TinyXML_version_patch}.zip")
-set(TinyXML_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
-list(APPEND fletch_external_sources TinyXML)
+# TinyXML_1
+set(TinyXML1_version_major "2")
+set(TinyXML1_version_minor "6")
+set(TinyXML1_version_patch "2")
+set(TinyXML1_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML1_version_major}_${TinyXML1_version_minor}_${TinyXML1_version_patch}.zip")
+set(TinyXML1_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
+set(TinyXML1_dlname "tinyXML1.zip")
+list(APPEND fletch_external_sources TinyXML1)
+
+# TinyXML_2
+set(TinyXML2_version_major "7")
+set(TinyXML2_version_minor "0")
+set(TinyXML2_version_patch "1")
+set(TinyXML2_url "https://github.com/leethomason/tinyxml2/archive/${TinyXML2_version_major}.${TinyXML2_version_minor}.${TinyXML2_version_patch}.zip")
+set(TinyXML2_md5 "03ad292c4b6454702c0cc22de0d196ad")
+set(TinyXML2_dlname "tinyXML2.zip")
+list(APPEND fletch_external_sources TinyXML2)
 
 # libkml
 set(libkml_version "20150911git79b3eb0")
@@ -269,7 +279,7 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   list(GET Qt_VERSION_LIST 0 Qt_version_major)
   list(GET Qt_VERSION_LIST 1 Qt_version_minor)
   list(GET Qt_VERSION_LIST 2 Qt_version_patch)
-  set(Qt_release_location official_releases) # official_releases or archive
+  set(Qt_release_location archive) # official_releases or archive
 
   if (Qt_version VERSION_EQUAL 5.11.2)
     set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
@@ -408,35 +418,24 @@ list(APPEND fletch_external_sources CppDB)
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
-  set(VTK_SELECT_VERSION 8.0 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.1 8.2-pre)
+  set(VTK_SELECT_VERSION 8.2 CACHE STRING "Select the version of VTK to build.")
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.2)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.2-pre)
-  set(VTK_SELECT_VERSION 8.2)
-  set(VTK_tag "3ad789a980dd8da13f86dd79f37cf2e67f4d4dbf")
-  set(VTK_url "http://www.vtk.org/gitweb?p=VTK.git&a=snapshot&h=${VTK_tag}")
-  set(VTK_md5 "cb6857024e6559ccbad34e84573f5a1b")
-  # TODO: Remove corresponding logic in External_VTK.cmake when we replace
-  # this with 8.2 (official)
-  set(VTK_dlname "VTK-${VTK_tag}.tar.gz")
-elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.1)
-  # TODO: Remove when we support 8.2 (official, not 8.2-pre)?
-  set(VTK_version 8.1.1)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
-  set(VTK_md5 "64f3acd5c28b001d5bf0e5a95b3a0af5")  # v8.1.1
+if (VTK_SELECT_VERSION VERSION_EQUAL 8.2)
+  set(VTK_version 8.2.0)
+  set(VTK_md5 "94ba8959b56dcfa6bac996158669ac36")
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
   set(VTK_version 8.0.1)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "c248dbe8ffd9b74c6f41199e66d6c690")  # v8.0.1
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
   # TODO: Remove when we remove support for OpenCV < 3.2
   set(VTK_version 6.2.0)
-  set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
   set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
 elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
 endif()
+set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
 list(APPEND fletch_external_sources VTK)
 
 # VXL
@@ -565,10 +564,10 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20190206gited20c9ed")
-set(qtExtensions_tag "ed20c9edea67732f0ea363cd6b36d3c7379c8c71")
+set(qtExtensions_version "20190517gita911d919")
+set(qtExtensions_tag "a911d919bc8f01c6f3af067dc95a654b2f27cf16")
 set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
-set(qtExtensions_md5 "6c5e11c26146e4964d4e973921501e56")
+set(qtExtensions_md5 "b4be0f7cf4b3bde943fc1d47061fa82a")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
 list(APPEND fletch_external_sources qtExtensions)
 
