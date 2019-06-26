@@ -17,6 +17,8 @@ Package Upgrades
 
 - Update OpenBLAS to 0.3.6 to fix gcc 9.1 build error
 
+- Update Qt to support 5.12.4 (retaining 5.11.2 and 4.8.6 as options)
+
 Fixes since v1.3.0
 ------------------
 
