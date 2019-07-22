@@ -13,7 +13,7 @@ file(COPY ${VXL_patch}//vnl_matrix_fixed.h
   DESTINATION ${VXL_source}/core/vnl/
 )
 
-file(COPY ${VXL_patch}//vnl_transpose.h
+file(COPY ${VXL_patch}//vnl_io_matrix.h
   DESTINATION ${VXL_source}/core/vnl/
 )
 
