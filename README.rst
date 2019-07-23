@@ -79,13 +79,13 @@ Using the Fletch Docker Image
 =============================
 
 Kitware maintains a `Docker <https://www.docker.com/>`_ image with Fletch prebuilt.
-The Dockerfile used to build th image can be found `here <dockerfile>`_
+The Dockerfile used to build the image can be found `here <dockerfile>`_
 
 Pull the image from Dockerhub::
 
  "docker pull kitware/fletch:latest" (master)
                 or
- "docker pull kitware/fletch:1.2.0" (release version)
+ "docker pull kitware/fletch:v1.3.0" (release version)
 
 (`https://hub.docker.com/r/kitware/fletch <https://hub.docker.com/r/kitware/fletch>`_)
 
