@@ -46,7 +46,7 @@ RUN mkdir -p /fletch_install/ /fletch/build \
   && cd /fletch/build \
   && cmake -DCMAKE_BUILD_TYPE=Release \
     -Dfletch_ENABLE_ALL_PACKAGES=ON \
-    -Dfletch_ENABLE_PYTHON=ON \
+    -Dfletch_BUILD_WITH_PYTHON=ON \
     -Dfletch_BUILD_INSTALL_PREFIX=/fletch_install \
     ../ \
   && make -j`nproc` -k \
