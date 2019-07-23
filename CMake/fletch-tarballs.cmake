@@ -85,8 +85,8 @@ list(APPEND fletch_external_sources openjpeg)
 
 # YASM for building jpeg-turbo, not third party library
 set(yasm_version "1.3.0")
-set(yasm_url "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz")
-set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
+set(yasm_url "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz")
+set(yasm_md5 "38802696efbc27554d75d93a84a23183")
 
 # FFmpeg
 set(_FFmpeg_supported TRUE)
