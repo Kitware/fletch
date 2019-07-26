@@ -1,6 +1,12 @@
 # Fletch Dockerfile
+# Installs the fletch binary to /opt/kitware/fletch
+
 ARG UBUNTU_VER=18.04
 FROM ubuntu:${UBUNTU_VER}
+
+#
+# Install System Dependencies
+#
 
 RUN apt-get update && apt-get install --no-install-recommends -y \ 
  build-essential \ 
@@ -14,40 +20,30 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
  openssl \
  curl \
  git \
+ python3-dev \
+ python3-pip \
+ libreadline-dev \
  zlib1g-dev \
- python2.7-dev \
- python-pip \
+ cmake \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
- && pip install numpy
+ && pip3 install numpy
+
+RUN ln -s /usr/bin/python3 /usr/local/bin/python
 
 #
-# Building CMake
-#
-ARG CMAKE_VER=3.14
-ARG CMAKE_PATCH=0
-ENV PATH $PATH:/cmake/cmake-${CMAKE_VER}.${CMAKE_PATCH}/bin
-RUN mkdir /cmake \
- && cd /cmake \
- && curl -O "https://cmake.org/files/v${CMAKE_VER}/cmake-${CMAKE_VER}.${CMAKE_PATCH}.tar.gz" \
- && tar -xvf cmake-${CMAKE_VER}.${CMAKE_PATCH}.tar.gz \
- && rm cmake-${CMAKE_VER}.${CMAKE_PATCH}.tar.gz \
- && cd cmake-${CMAKE_VER}.${CMAKE_PATCH} \
- && ./configure \
- && make -j`nproc` -k 
-
-#
-# Building Fletch
+# Build Fletch
 #
 
-ENV LD_LIBRARY_PATH=/fletch_install/lib/:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/opt/kitware/fletch/lib/:$LD_LIBRARY_PATH
 COPY . /fletch
-RUN mkdir -p /fletch_install/ /fletch/build \
+RUN mkdir -p /fletch/build /opt/kitware/fletch \
   && cd /fletch/build \
   && cmake -DCMAKE_BUILD_TYPE=Release \
     -Dfletch_ENABLE_ALL_PACKAGES=ON \
-    -Dfletch_ENABLE_PYTHON=ON \
-    -Dfletch_BUILD_INSTALL_PREFIX=/fletch_install \
+    -Dfletch_BUILD_WITH_PYTHON=ON \
+    -Dfletch_PYTHON_MAJOR_VERSION=3 \
+    -Dfletch_BUILD_INSTALL_PREFIX=/opt/kitware/fletch \
     ../ \
   && make -j`nproc` -k \
   && rm -rf /fletch 
