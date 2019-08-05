@@ -40,7 +40,6 @@ RUN apt-get clean \
 #
 # Build Fletch
 #
-RUN echo "$PY_MAJOR_VERSION"
 COPY . /fletch
 RUN mkdir -p /fletch/build /opt/kitware/fletch \
   && cd /fletch/build \
