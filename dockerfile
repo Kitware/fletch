@@ -1,7 +1,7 @@
 # Fletch Dockerfile
 # Installs the fletch binary to /opt/kitware/fletch
 
-ARG BASE_IMAGE=Ubuntu:18.04
+ARG BASE_IMAGE=ubuntu:18.04
 FROM ${BASE_IMAGE}
 
 ARG PY_MAJOR_VERSION=3
