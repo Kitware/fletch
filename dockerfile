@@ -29,8 +29,9 @@ RUN apt-get update && \
 # conditional python package installation based on version
 RUN if [ "$PY_MAJOR_VERSION" = "2" ]; then \
       apt-get install --no-install-recommends -y python2.7-dev \
+                                                 python2.7-setuptools \
                                                  python-pip && \
-      pip install numpy; \
+      pip install numpy==1.16; \
     else \
       apt-get install --no-install-recommends -y python3 \
                                                  python3-dev \
