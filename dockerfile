@@ -1,10 +1,12 @@
 # Fletch Dockerfile
 # Installs the fletch binary to /opt/kitware/fletch
-ARG BASE_IMAGE=nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04
 
+ARG BASE_IMAGE=Ubuntu:18.04
 FROM ${BASE_IMAGE}
+
 ARG PY_MAJOR_VERSION=3
-ARG ENABLE_CUDA=ON
+ARG ENABLE_CUDA=OFF
+
 #
 # Install System Dependencies
 #
@@ -23,6 +25,7 @@ RUN apt-get update && \
                                                libreadline-dev \
                                                zlib1g-dev \
                                                cmake
+                                               
 # conditional python package installation based on version
 RUN if [ "$PY_MAJOR_VERSION" = "2" ]; then \
       apt-get install --no-install-recommends -y python2.7-dev \
@@ -35,11 +38,14 @@ RUN if [ "$PY_MAJOR_VERSION" = "2" ]; then \
       pip3 install numpy && \
       ln -s /usr/bin/python3 /usr/local/bin/python; \
     fi
+    
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+    
 #
 # Build Fletch
 #
+ENV LD_LIBRARY_PATH=/opt/kitware/fletch/lib/:$LD_LIBRARY_PATH
 COPY . /fletch
 RUN mkdir -p /fletch/build /opt/kitware/fletch \
   && cd /fletch/build \
@@ -52,4 +58,3 @@ RUN mkdir -p /fletch/build /opt/kitware/fletch \
     ../ \
   && make -j$(nproc) -k \
   && rm -rf /fletch
-ENV LD_LIBRARY_PATH=/opt/kitware/fletch/lib/:$LD_LIBRARY_PATH
