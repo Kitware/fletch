@@ -21,6 +21,7 @@ RUN apt-get update && \
                                                liblapack-dev \
                                                openssl \
                                                curl \
+                                               wget \
                                                git \
                                                libreadline-dev \
                                                zlib1g-dev
