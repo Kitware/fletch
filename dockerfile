@@ -23,8 +23,13 @@ RUN apt-get update && \
                                                curl \
                                                git \
                                                libreadline-dev \
-                                               zlib1g-dev \
-                                               cmake
+                                               zlib1g-dev
+
+# Install CMake 3.15
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.15.1/cmake-3.15.1-Linux-x86_64.sh \
+&& chmod +x cmake-3.15.1-Linux-x86_64.sh \
+&& ./cmake-3.15.1-Linux-x86_64.sh --skip-license \
+&& rm -rf cmake-3.15.1-Linux-x86_64.sh
                                                
 # conditional python package installation based on version
 RUN if [ "$PY_MAJOR_VERSION" = "2" ]; then \
