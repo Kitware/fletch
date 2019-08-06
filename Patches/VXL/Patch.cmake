@@ -20,3 +20,10 @@ file(COPY ${VXL_patch}//vnl_transpose.h
 file(COPY ${VXL_patch}//vnl_io_matrix.hxx
   DESTINATION ${VXL_source}/core/vnl/io/
 )
+
+# Cherry-pick commits onto c3fd279:
+# - 1e8a027fc2 "BUG: fixing absolute path which slips into install location"
+# - d0ff9f7266 "COMP: Missing file for install of vxl"
+file(COPY ${VXL_patch}//vcl/CMakeLists.txt
+  DESTINATION ${VXL_source}/vcl/
+)
