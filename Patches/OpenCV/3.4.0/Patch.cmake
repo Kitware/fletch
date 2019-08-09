@@ -12,7 +12,7 @@ if(WIN32)
   file(COPY ${OpenCV_patch}/cvdef.h
     DESTINATION ${OpenCV_source}/modules/core/include/opencv2/core/
   )
-  
+
   file(COPY ${OpenCV_patch}/test_mat.cpp
     DESTINATION ${OpenCV_source}/modules/core/test/
   )
@@ -47,3 +47,8 @@ file(COPY ${OpenCV_patch}/apps/version/CMakeLists.txt
 file(COPY ${OpenCV_patch}/apps/visualisation/CMakeLists.txt
   DESTINATION ${OpenCV_source}/apps/visualisation
 )
+
+# The following patch is a fix for python 3.7
+file(COPY ${OpenCV_patch}/modules/python/src2/cv2.cpp
+  DESTINATION ${OpenCV_source}/modules/python/src2/
+  )
