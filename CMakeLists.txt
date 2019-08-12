@@ -297,7 +297,10 @@ set (COMMON_EP_ARGS
   )
 set (COMMON_CMAKE_EP_ARGS
   CMAKE_GENERATOR ${CMAKE_GENERATOR}
+  CMAKE_GENERATOR_PLATFORM ${CMAKE_GENERATOR_PLATFORM}
+  CMAKE_GENERATOR_TOOLSET ${CMAKE_GENERATOR_TOOLSET}
   )
+
 if(CMAKE_GENERATOR STREQUAL Ninja)
   # When building with Ninja, force each external project to use the terminal.
   # This prevents exponential job spawning and allows seeing the output for
