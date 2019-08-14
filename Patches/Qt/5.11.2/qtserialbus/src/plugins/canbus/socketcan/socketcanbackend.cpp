@@ -50,6 +50,7 @@
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
+#include <linux/sockios.h>
 
 #ifndef CANFD_MTU
 // CAN FD support was added by Linux kernel 3.6
