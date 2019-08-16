@@ -19,3 +19,11 @@ file(COPY ${Qt_patch}/qtscript/src/3rdparty/javascriptcore/JavaScriptCore/jit/JI
 file(COPY ${Qt_patch}/qtbase/src/corelib/global/qrandom.cpp
   DESTINATION ${Qt_source}/qtbase/src/corelib/global/
   )
+
+
+# Patch for gcc 9.1 and updated kernel headers.
+if (NOT WIN32)
+  file(COPY ${Qt_patch}/qtserialbus/src/plugins/canbus/socketcan/socketcanbackend.cpp
+    DESTINATION ${Qt_source}/qtserialbus/src/plugins/canbus/socketcan/
+    )
+endif()
