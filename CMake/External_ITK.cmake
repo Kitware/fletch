@@ -66,6 +66,14 @@ if (fletch_ENABLE_OpenCV)
   list(APPEND ITK_DEPENDS OpenCV)
 endif()
 
+if (fletch_ENABLE_HDF5)
+  list (APPEND itk_cmake_args
+    -DITK_USE_SYSTEM_HDF5:BOOL=ON
+    -DHDF5_DIR:PATH=${HDF5_ROOT}
+    )
+  list(APPEND ITK_DEPENDS HDF5)
+endif()
+
 ExternalProject_Add(ITK
   DEPENDS ${ITK_DEPENDS}
   URL ${ITK_file}
