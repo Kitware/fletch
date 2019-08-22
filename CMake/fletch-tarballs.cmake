@@ -448,13 +448,6 @@ set(VXL_md5 "9ae63bb158ae3e5e2104152093a4c46c")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
-# ITK
-set(ITK_version "fc688e7a2c89967e3d6cbb779f87ec37a4e4750b")
-set(ITK_url "https://github.com/InsightSoftwareConsortium/ITK/archive/${ITK_version}.tar.gz")
-set(ITK_md5 "8f0965e5ac7828a273dfff8d3b81ff9a")
-set(ITK_experimental TRUE)
-list(APPEND fletch_external_sources ITK)
-
 # LMDB
 if(NOT WIN32)
   set(LMDB_version "0.9.16")
@@ -487,6 +480,13 @@ if(NOT WIN32)
   set(LevelDB_dlname "leveldb-${LevelDB_version}.tar.gz")
   list(APPEND fletch_external_sources LevelDB)
 endif()
+
+# ITK
+set(ITK_version "fc688e7a2c89967e3d6cbb779f87ec37a4e4750b")
+set(ITK_url "https://github.com/InsightSoftwareConsortium/ITK/archive/${ITK_version}.tar.gz")
+set(ITK_md5 "8f0965e5ac7828a273dfff8d3b81ff9a")
+set(ITK_experimental TRUE)
+list(APPEND fletch_external_sources ITK)
 
 # Protobuf
 if(NOT WIN32)
