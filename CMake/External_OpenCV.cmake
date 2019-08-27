@@ -216,7 +216,7 @@ set(OpenCV_PYTHON_FLAGS
      -DBUILD_opencv_python2:BOOL=OFF
      -DBUILD_opencv_python3:BOOL=OFF
    )
-if(FALSE)
+if(fletch_BUILD_WITH_PYTHON)
   set(OpenCV_PYTHON_FLAGS
     -DBUILD_opencv_python:BOOL=${fletch_BUILD_WITH_PYTHON}
     -DBUILD_opencv_python2:BOOL=${fletch_python2}
