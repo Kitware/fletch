@@ -100,7 +100,7 @@ if (fletch_BUILD_WITH_PYTHON)
   endif()
   # If a library supports setting the install location of their python libraries (i.e. opencv)
   # This is where we would like it to go. (Not all libs support this... caffe...)
-  set(fletch_python_install ${fletch_BUILD_INSTALL_PREFIX}/lib/site-packages)
+  set(fletch_python_install ${fletch_BUILD_INSTALL_PREFIX}/lib/python${PYTHON_VERSION}/site-packages)
 
   # Make a copy so we can determine if the user changes python versions
   set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
