@@ -588,6 +588,12 @@ set(cppzmq_md5 "f5a2ef3a4d47522fcb261171eb7ecfc4")
 set(cppzmq_dlname "cppzmq-v${cppzmq_version}.zip")
 list(APPEND fletch_external_sources cppzmq)
 
+# wxWidgets
+set(wxWidgets_version "3.1.2")
+set(wxWidgets_url "https://github.com/wxWidgets/wxWidgets/archive/v${wxWidgets_version}.zip")
+set(wxWidgets_md5 "8e5d9f19427b556e613d2021476042ac")
+list(APPEND fletch_external_sources wxWidgets)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
