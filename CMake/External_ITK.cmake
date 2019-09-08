@@ -74,6 +74,12 @@ if (fletch_ENABLE_HDF5)
   list(APPEND ITK_DEPENDS HDF5)
 endif()
 
+if (WIN32)
+  list (APPEND itk_cmake_args
+    -DITK_CXX_OPTIMIZATION_FLAGS:STRING="/arch:AVX"
+    )
+endif()
+
 ExternalProject_Add(ITK
   DEPENDS ${ITK_DEPENDS}
   URL ${ITK_file}
