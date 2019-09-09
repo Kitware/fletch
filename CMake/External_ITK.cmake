@@ -77,6 +77,7 @@ endif()
 if (WIN32)
   list (APPEND itk_cmake_args
     -DITK_CXX_OPTIMIZATION_FLAGS:STRING=/arch:AVX
+    -DITK_C_OPTIMIZATION_FLAGS:STRING=/arch:AVX
     )
 endif()
 
