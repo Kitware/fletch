@@ -57,7 +57,11 @@ else()
   message(FATAL_ERROR "Unsupported compiler ${CMAKE_CXX_COMPILER_ID} on ${CMAKE_SYSTEM_NAME}")
 endif()
 
-list(APPEND B2_FLAVOR_ARGS link=shared)
+if(${BUILD_SHARED_LIBS})
+  list(APPEND B2_FLAVOR_ARGS link=shared)
+else()
+  list(APPEND B2_FLAVOR_ARGS link=static)
+endif()
 
 # 32 or 64 bit
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
