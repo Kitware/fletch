@@ -353,9 +353,18 @@ endif()
 list(APPEND fletch_external_sources PROJ4 )
 
 # libgeotiff
-set(libgeotiff_version "1.4.2")
-set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
-set(libgeotiff_md5 "a7c7e11e301b7c17e44ea3107cd86e4e")
+# This outer if is silly since geotiff requires proj4, but here for safety..
+if (fletch_ENABLE_PROJ4 OR fletch_ENABLE_ALL_PACKAGES)
+  if (PROJ4_SELECT_VERSION STREQUAL "6.1.1")
+    set(libgeotiff_version "1.5.1")
+    set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
+    set(libgeotiff_md5 "8d42e4cb7cfe845c3189c38e18f52994")
+  else()
+    set(libgeotiff_version "1.4.2")
+    set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
+    set(libgeotiff_md5 "a7c7e11e301b7c17e44ea3107cd86e4e")
+  endif()
+endif()
 list(APPEND fletch_external_sources libgeotiff)
 
 # GDAL
