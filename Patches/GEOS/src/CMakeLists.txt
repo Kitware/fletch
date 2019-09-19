@@ -77,6 +77,7 @@ else()
   endif()
 
   if(GEOS_BUILD_STATIC)
+    set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
     file(GLOB geos_capi_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/../capi/*.h) # fix source_group issue
     add_library(geos-static STATIC ${geos_SOURCES} ${geos_c_SOURCES} ${geos_ALL_HEADERS} ${geos_capi_HEADERS})
 
