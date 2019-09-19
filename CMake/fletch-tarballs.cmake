@@ -365,9 +365,9 @@ endif()
 list(APPEND fletch_external_sources GDAL)
 
 # GEOS
-set(GEOS_version "3.6.2" )
+set(GEOS_version "3.7.2" )
 set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
-set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
+set(GEOS_md5 "8caa4d19d311c1a78feb2f57505dc0e3" )
 list(APPEND fletch_external_sources GEOS )
 
 # PDAL
