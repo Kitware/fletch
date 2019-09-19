@@ -407,9 +407,9 @@ list(APPEND fletch_external_sources PostgreSQL)
 # PostGIS
 # Currently it seems the this version of PostGIS will work with all provided PostgreSQL versions
 if(NOT WIN32)
-  set(PostGIS_version "2.4.3" )
+  set(PostGIS_version "2.5.3" )
   set(PostGIS_url "http://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
-  set(PostGIS_md5 "60395f3dc96505ca4e313449d6463c6a" )
+  set(PostGIS_md5 "475bca6249ee11f675b899de14fd3f42" )
   list(APPEND fletch_external_sources PostGIS )
 endif()
 
