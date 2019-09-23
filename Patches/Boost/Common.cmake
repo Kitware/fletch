@@ -57,7 +57,7 @@ else()
   message(FATAL_ERROR "Unsupported compiler ${CMAKE_CXX_COMPILER_ID} on ${CMAKE_SYSTEM_NAME}")
 endif()
 
-if(${BUILD_SHARED_LIBS})
+if(BUILD_SHARED_LIBS)
   list(APPEND B2_FLAVOR_ARGS link=shared)
 else()
   if( NOT DEFINED BOOST_CXX_ARGS )
