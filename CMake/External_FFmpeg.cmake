@@ -107,8 +107,6 @@ else ()
     CONFIGURE_COMMAND ${FFMPEG_CONFIGURE_COMMAND}
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
-    CMAKE_ARGS
-      -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     )
   fletch_external_project_force_install(PACKAGE FFmpeg)
 endif ()
