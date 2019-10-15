@@ -67,17 +67,20 @@ else ()
     set(FFMPEG_PATCH_COMMAND "")
   endif()
 
+  if(BUILD_SHARED_LIBS)
+    set(_shared_lib_params --enable-shared --disable-static)
+  else()
+    set(_shared_lib_params --disable-shared --enable-static)
+  endif()
   set(FFMPEG_CONFIGURE_COMMAND
     ${fletch_BUILD_PREFIX}/src/FFmpeg/configure
     --prefix=${fletch_BUILD_INSTALL_PREFIX}
-    --enable-shared
-    --disable-static
+    ${_shared_lib_params}
     --enable-runtime-cpudetect
     --enable-zlib
     ${_FFmpeg_yasm}
     --cc=${CMAKE_C_COMPILER}
     --cxx=${CMAKE_CXX_COMPILER}
-    # enable-rpath allows libavcodec to find libswresample
     --enable-rpath
     )
 
@@ -104,6 +107,8 @@ else ()
     CONFIGURE_COMMAND ${FFMPEG_CONFIGURE_COMMAND}
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
+    CMAKE_ARGS
+      -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     )
   fletch_external_project_force_install(PACKAGE FFmpeg)
 endif ()
