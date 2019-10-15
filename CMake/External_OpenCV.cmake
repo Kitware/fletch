@@ -310,7 +310,7 @@ ExternalProject_Add(OpenCV
     -DBUILD_opencv_java:BOOL=False
     -DBUILD_opencv_cudacodec=OFF
     -DBUILD_PERF_TESTS:BOOL=False
-    -DBUILD_SHARED_LIBS:BOOL=True
+    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DBUILD_TESTS:BOOL=False
     -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
     -DWITH_JASPER:BOOL=False
