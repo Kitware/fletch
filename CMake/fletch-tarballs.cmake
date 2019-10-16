@@ -413,6 +413,12 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources PostGIS )
 endif()
 
+# SQLite
+set(SQLite_version 3081101)
+set(SQLite_url "https://www.sqlite.org/2015/sqlite-amalgamation-${SQLite_version}.zip")
+set(SQLite_md5 "94907e831502e2080b76e281cfa24dde")
+list(APPEND fletch_external_sources SQLite)
+
 # CPPDB
 set(CppDB_version "0.3.0" )
 set(CppDB_url "http://downloads.sourceforge.net/project/cppcms/cppdb/${CppDB_version}/cppdb-${CppDB_version}.tar.bz2" )
