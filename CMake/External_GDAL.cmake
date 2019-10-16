@@ -77,13 +77,10 @@ else()
     set(_GDAL_ARGS_APPLE --without-libtool --with-netcdf=no --with-curl=no --with-local=/usr)
   endif()
 
-  if(fletch_ENABLE_SQLite)
+  if(fletch_ENABLE_SQLite3)
     #If we're building libz, then use it.
-    list(APPEND _GDAL_DEPENDS SQLite)
-    set(_GDAL_ARGS_SQLITE "--with-sqlite3=${SQLite_ROOT}")
-  elseif(REDHAT_5)
-    set(_GDAL_ARGS_SQLITE "--without-sqlite3")
-    message(WARNING "SQLite is not enabled, disabling its support in GDAL.")
+    list(APPEND _GDAL_DEPENDS SQLite3)
+    set(_GDAL_ARGS_SQLITE "--with-sqlite3=${SQLite3_ROOT}")
   endif()
 
   if(fletch_ENABLE_ZLib)

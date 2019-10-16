@@ -1,7 +1,20 @@
 
+# Version 6 requires sqlite now.
+if (PROJ4_SELECT_VERSION STRGREATER "6")
+  if(fletch_ENABLE_SQLite3)
+    #If we're building libz, then use it.
+    list(APPEND PROJ_DEPENDS SQLite3)
+    set(PROJ_ARGS_SQLITE3 -DSQLITE3_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/share/cmake)
+  else()
+    find_package(SQLite3 REQUIRED)
+    set(PROJ_ARGS_SQLITE3 -DSQLITE3_INCLUDE_DIR:PATH=${SQLi)
+  endif()
+endif()
+
 ExternalProject_Add(PROJ4
   URL ${PROJ4_file}
   URL_MD5 ${PROJ4_md5}
+  DEPENDS ${PROJ_DEPENDS}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS
