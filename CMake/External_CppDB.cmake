@@ -38,7 +38,7 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # CppDB
 ########################################
-set(CppDB_ROOT @CppDB_ROOT@)
+set(CppDB_ROOT \${fletch_ROOT})
 set(fletch_ENABLED_CppDB TRUE)
 ")
 
