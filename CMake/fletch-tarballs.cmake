@@ -334,9 +334,9 @@ endif()
 list(APPEND fletch_external_sources OpenCV)
 
 # SQLite3
-set(SQLite3_version 3081101)
-set(SQLite3_url "https://www.sqlite.org/2015/sqlite-amalgamation-${SQLite3_version}.zip")
-set(SQLite3_md5 "94907e831502e2080b76e281cfa24dde")
+set(SQLite3_version 3300100)
+set(SQLite3_url "https://www.sqlite.org/2019/sqlite-amalgamation-${SQLite3_version}.zip")
+set(SQLite3_md5 "679e8d5f73e26c6b85dd1f1de24355b6")
 list(APPEND fletch_external_sources SQLite3)
 
 # PROJ.4
