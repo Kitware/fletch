@@ -333,6 +333,12 @@ else()
 endif()
 list(APPEND fletch_external_sources OpenCV)
 
+# SQLite
+set(SQLite_version 3081101)
+set(SQLite_url "https://www.sqlite.org/2015/sqlite-amalgamation-${SQLite_version}.zip")
+set(SQLite_md5 "94907e831502e2080b76e281cfa24dde")
+list(APPEND fletch_external_sources SQLite)
+
 # PROJ.4
 if (fletch_ENABLE_PROJ4 OR fletch_ENABLE_ALL_PACKAGES)
   set(PROJ4_SELECT_VERSION 4.9.3 CACHE STRING "Select the major version of PROJ4 to build.")

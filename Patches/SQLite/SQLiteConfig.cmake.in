@@ -1,0 +1,9 @@
+# Config file used to import the SQLite build tree.
+set( SQLite_INCLUDE_DIR "@SQLite_SOURCE_DIR@/include" )
+set( SQLite_LIBRARY sqlite3 )
+set( SQLite_EXECUTABLE sqlite3_exe )
+
+set(SQLite_HAS_COLUMN_METADATA @SQLite_ENABLE_COLUMN_METADATA@)
+set(SQLite_HAS_RTREE           @SQLite_ENABLE_RTREE@)
+set(SQLite_HAS_LOAD_EXTENSIONS @SQLite_ENABLE_LOAD_EXTENSIONS@)
+
