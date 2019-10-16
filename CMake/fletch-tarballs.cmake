@@ -333,6 +333,12 @@ else()
 endif()
 list(APPEND fletch_external_sources OpenCV)
 
+# SQLite
+set(SQLite_version 3081101)
+set(SQLite_url "https://www.sqlite.org/2015/sqlite-amalgamation-${SQLite_version}.zip")
+set(SQLite_md5 "94907e831502e2080b76e281cfa24dde")
+list(APPEND fletch_external_sources SQLite)
+
 # PROJ.4
 set(PROJ4_version "4.9.3" )
 set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
@@ -412,12 +418,6 @@ if(NOT WIN32)
   set(PostGIS_md5 "60395f3dc96505ca4e313449d6463c6a" )
   list(APPEND fletch_external_sources PostGIS )
 endif()
-
-# SQLite
-set(SQLite_version 3081101)
-set(SQLite_url "https://www.sqlite.org/2015/sqlite-amalgamation-${SQLite_version}.zip")
-set(SQLite_md5 "94907e831502e2080b76e281cfa24dde")
-list(APPEND fletch_external_sources SQLite)
 
 # CPPDB
 set(CppDB_version "0.3.0" )
