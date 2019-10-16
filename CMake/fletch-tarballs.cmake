@@ -406,7 +406,7 @@ list(APPEND fletch_external_sources GeographicLib )
 
 # PostgreSQL
 if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
-  set(PostgreSQL_SELECT_VERSION 10.4 CACHE STRING "Select the major version of PostgreSQL to build.")
+  set(PostgreSQL_SELECT_VERSION 9.5.1 CACHE STRING "Select the major version of PostgreSQL to build.")
   set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "10.4")
   message(STATUS "PostgreSQL Select version: ${PostgreSQL_SELECT_VERSION}")
 
@@ -416,7 +416,7 @@ if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
     set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
     set(PostgreSQL_md5 "11e037afaa4bd0c90bb3c3d955e2b401")
   elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 10.4)
-    # PostgreSQL 10.9
+    # PostgreSQL 10.4
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
     set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
     set(PostgreSQL_md5 "8e8770c289b3e0bdb779b5b171593479")
