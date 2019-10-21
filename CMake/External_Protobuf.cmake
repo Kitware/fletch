@@ -24,6 +24,14 @@ else()
   set(Protobuf_PATCH_COMMAND "")
 endif()
 
+if(NOT BUILD_SHARED_LIBS)
+  set(_shared_lib_params --disable-shared
+                         --enable-static
+                         --enable-pic
+                         CFLAGS=-fPIC
+                         CXXFLAGS=-fPIC
+      )
+endif()
 
 Fletch_Require_Make()
 ExternalProject_Add(Protobuf
@@ -35,6 +43,7 @@ ExternalProject_Add(Protobuf
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ./configure
     --prefix=${fletch_BUILD_INSTALL_PREFIX}
+    ${_shared_lib_params}
   BUILD_COMMAND ${MAKE_EXECUTABLE}
   INSTALL_COMMAND ${MAKE_EXECUTABLE} install
 )
