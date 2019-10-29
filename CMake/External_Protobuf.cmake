@@ -1,15 +1,5 @@
 
 if (Protobuf_SELECT_VERSION STREQUAL "3.9.0")
-  # Check that python and protobuf versions are compatible
-  if(fletch_BUILD_WITH_PYTHON)
-    # Note the python protobuf wrapper is not installed here.
-    # Instead it must be installed via `pip install protobuf`
-    if (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
-      message(ERROR " Must use Python >= 3.x with Protobuf 3.x")
-    endif()
-  endif()
-
-
   ExternalProject_Add(Protobuf
 #    PREFIX protobuf
     URL ${Protobuf_url}
@@ -21,24 +11,13 @@ if (Protobuf_SELECT_VERSION STREQUAL "3.9.0")
 #        COMMAND ${CMAKE_COMMAND} -DPULSE_IL2CPP_PATCH=${PULSE_IL2CPP_PATCH} -Dprotobuf_source=${protobuf_SRC} -Dprotobuf_patch=${protobuf_Patch} -P ${protobuf_Patch}/Patch.cmake
     CMAKE_ARGS
        ${COMMON_CMAKE_ARGS}
-       -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
        -Dprotobuf_BUILD_TESTS:BOOL=OFF
        -Dprotobuf_BUILD_EXAMPLES:BOOL=OFF
-       -Dprotobuf_BUILD_SHARED_LIBS:BOOL=OFF
+       -Dprotobuf_BUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
        -Dprotobuf_MSVC_STATIC_RUNTIME:BOOL=OFF#Don't change MSVC runtime settings (/MD or /MT)
        -Dprotobuf_WITH_ZLIB:BOOL=OFF
     )
 elseif (NOT WIN32)
-
-  # Check that python and protobuf versions are compatible
-  if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Protobuf)
-    # Note the python protobuf wrapper is not installed here.
-    # Instead it must be installed via `pip install protobuf`
-    if (${Protobuf_version} LESS 3.0 AND fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
-      message(ERROR " You must use Protobuf >= 3.x with Python 3.x")
-    endif()
-  endif()
-
   set (Protobuf_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Protobuf/${Protobuf_SELECT_VERSION})
   if (EXISTS ${Protobuf_PATCH_DIR})
     set(Protobuf_PATCH_COMMAND ${CMAKE_COMMAND}
