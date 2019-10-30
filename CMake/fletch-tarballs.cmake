@@ -490,25 +490,22 @@ if(NOT WIN32)
 endif()
 
 # Protobuf
-if(NOT WIN32)
-  if (fletch_ENABLE_Protobuf OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-    set(Protobuf_SELECT_VERSION "3.9.0" CACHE STRING "Select the  version of ProtoBuf to build.")
-    set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.9.0")
-  endif()
-
-  set(Protobuf_version ${Protobuf_SELECT_VERSION})
-
-  if (Protobuf_version VERSION_EQUAL 2.5.0)
-    set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_version}/protobuf-${Protobuf_version}.tar.bz2" )
-    set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
-  elseif (Protobuf_version VERSION_EQUAL 3.9.0)
-    set(Protobuf_url "https://github.com/protocolbuffers/protobuf/releases/download/v${Protobuf_version}/protobuf-all-${Protobuf_version}.zip")
-    set(Protobuf_md5 "4f042c8b46823a69db3dcbc7381b73f4" )
-  elseif(Protobuf_version)
-    message(ERROR "Protobuf Version ${Protobuf_version} Not Supported")
-  endif()
-  list(APPEND fletch_external_sources Protobuf )
+# WIN32 only supports the CMake version, 3.9.0
+if (WIN32)
+  set(Protobuf_SELECT_VERSION "3.9.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+else()
+  set(Protobuf_SELECT_VERSION "3.9.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+  set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.9.0")
 endif()
+
+if (Protobuf_SELECT_VERSION VERSION_EQUAL 2.5.0)
+  set(Protobuf_url "https://github.com/google/protobuf/releases/download/v${Protobuf_SELECT_VERSION}/protobuf-${Protobuf_SELECT_VERSION}.tar.bz2" )
+  set(Protobuf_md5 "a72001a9067a4c2c4e0e836d0f92ece4" )
+elseif (Protobuf_SELECT_VERSION VERSION_EQUAL 3.9.0)
+  set(Protobuf_url "https://github.com/protocolbuffers/protobuf/releases/download/v${Protobuf_SELECT_VERSION}/protobuf-all-${Protobuf_SELECT_VERSION}.zip")
+  set(Protobuf_md5 "4f042c8b46823a69db3dcbc7381b73f4" )
+endif()
+list(APPEND fletch_external_sources Protobuf )
 
 # Caffe
 set(InternalCaffe True)
