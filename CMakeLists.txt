@@ -64,15 +64,15 @@ if (fletch_BUILD_CXX11)
 endif()
 
 #
-# Do we want to build in Python support where available
+# Do we want to build in Python support into packages where available
 #
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
 
-set(fletch_PYTHON_MAJOR_VERSION "2" CACHE STRING
+set(fletch_PYTHON_MAJOR_VERSION "3" CACHE STRING
   "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
 
-if (fletch_BUILD_WITH_PYTHON)
+if (fletch_BUILD_WITH_PYTHON AND NOT fletch_BUILD_CPYTHON)
   # If we change python versions re-find the bin, include, and libs
   if (NOT _prev_fletch_pymajor_version STREQUAL fletch_PYTHON_MAJOR_VERSION)
     # but dont clobber initial settings in the instance they are specified via
@@ -90,13 +90,13 @@ if (fletch_BUILD_WITH_PYTHON)
 
   # Choose python 2 or python 3
   if (fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
-      set(fletch_python2 False)
-      set(fletch_python3 True)
+    set(fletch_python2 False)
+    set(fletch_python3 True)
   elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
-      set(fletch_python2 True)
-      set(fletch_python3 False)
+    set(fletch_python2 True)
+    set(fletch_python3 False)
   else()
-      message("Unknown Python version")
+    message("Unknown Python version")
   endif()
   # If a library supports setting the install location of their python libraries (i.e. opencv)
   # This is where we would like it to go. (Not all libs support this... caffe...)
@@ -158,7 +158,6 @@ if (fletch_BUILD_WITH_PYTHON)
     message(STATUS "PYTHON_LIBRARY : ${PYTHON_LIBRARY}")
     message(STATUS "PYTHON_LIBRARY_DEBUG : ${PYTHON_LIBRARY_DEBUG}")
   endif()
-  
 endif()
 
 #
