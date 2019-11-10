@@ -72,7 +72,7 @@ set(fletch_PYTHON_MAJOR_VERSION "3" CACHE STRING
   "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
 
-if (fletch_BUILD_WITH_PYTHON AND NOT fletch_BUILD_CPYTHON)
+if (fletch_BUILD_WITH_PYTHON AND NOT fletch_ENABLE_CPython)
   # If we change python versions re-find the bin, include, and libs
   if (NOT _prev_fletch_pymajor_version STREQUAL fletch_PYTHON_MAJOR_VERSION)
     # but dont clobber initial settings in the instance they are specified via

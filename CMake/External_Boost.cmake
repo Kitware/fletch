@@ -22,6 +22,13 @@ set(_Boost_DIR_ARGS
 set(fletch_EXTRA_BOOST_LIBS "" CACHE STRING "Additional Boost libraries to install")
 
 if(fletch_BUILD_WITH_PYTHON)
+  if(fletch_ENABLE_CPython)
+    add_package_dependency(
+      PACKAGE Boost
+      PACKAGE_DEPENDENCY CPython
+    )
+  endif()
+
   set(fletch_EXTRA_BOOST_LIBS ${fletch_EXTRA_BOOST_LIBS} python)
 
   set(_Boost_PYTHON_ARGS
