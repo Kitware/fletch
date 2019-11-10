@@ -217,6 +217,12 @@ set(OpenCV_PYTHON_FLAGS
      -DBUILD_opencv_python3:BOOL=OFF
    )
 if(fletch_BUILD_WITH_PYTHON)
+  if(fletch_ENABLE_CPython)
+    add_package_dependency(
+      PACKAGE OpenCV
+      PACKAGE_DEPENDENCY CPython
+    )
+  endif()
   set(OpenCV_PYTHON_FLAGS
     -DBUILD_opencv_python:BOOL=${fletch_BUILD_WITH_PYTHON}
     -DBUILD_opencv_python2:BOOL=${fletch_python2}

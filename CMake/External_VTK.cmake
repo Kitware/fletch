@@ -186,11 +186,17 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DPNG_LIBRARY:FILEPATH=${PNG_LIBRARY}
   )
 
-# PYTHON
-if (fletch_BUILD_WITH_PYTHON AND NOT MSVC14 )
-  find_package(PythonInterp)
-  find_package(PythonLibs)
-
+# Python
+if (fletch_BUILD_WITH_PYTHON AND NOT MSVC14)
+  if (fletch_ENABLE_CPython)
+    add_package_dependency(
+      PACKAGE VTK
+      PACKAGE_DEPENDENCY CPython
+    )
+  else()
+    find_package(PythonInterp)
+    find_package(PythonLibs)
+  endif()
   if(PythonInterp_FOUND AND PythonLibs_FOUND)
     set(VTK_WRAP_PYTHON ON)
     message(STATUS "VTK building with python support")

@@ -1,5 +1,17 @@
 # --------------------------- PYTHON INTERPRETER -------------------------------
 
+if( fletch_ENABLE_ZLib )
+  add_package_dependency(
+    PACKAGE CPython
+    PACKAGE_DEPENDENCY ZLib
+    PACKAGE_DEPENDENCY_ALIAS ZLIB
+    )
+endif()
+
+set( BUILT_PYTHON_EXE     ${fletch_BUILD_INSTALL_PREFIX}/bin/python )
+set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include )
+set( BUILT_PYTHON_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/ )
+
 if( WIN32 )
   set( CPYTHON_BUILD_ARGS -e )
 
@@ -22,6 +34,15 @@ if( WIN32 )
     BUILD_COMMAND PCBuild\build.bat ${CPYTHON_BUILD_ARGS}
     INSTALL_COMMAND ""
   )
+
+  if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
+    set( LIBNAME libpython2.dll )
+  else()
+    set( LIBNAME libpython3.dll )
+  endif()
+
+  set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
+  set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIB}/bin/${LIBNAME} )
 else()
 
   set( CPYTHON_BUILD_ARGS
@@ -50,9 +71,12 @@ else()
     DEPENDEES install
   )
 
-  set( BUILT_PYTHON_EXE ${fletch_BUILD_INSTALL_PREFIX}/bin/python )
-  set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include )
-  set( BUILT_PYTHON_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/libpython3.6m.so )
+  if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
+    set( LIBNAME libpython2.so )
+  else()
+    set( LIBNAME libpython3.so )
+  endif()
+  set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIB}/lib/${LIBNAME} )
 endif()
 
 set( CPython_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE )
@@ -64,6 +88,9 @@ set( CPython_ROOT \${fletch_ROOT} )
 set( fletch_ENABLED_CPython TRUE)
 ")
 
+set( PYTHON_FOUND TRUE CACHE INTERNAL "Internal Python" )
+set( PYTHON_VERSION_MAJOR ${CPython_version_major} CACHE INTERNAL "Internal Python" )
+set( PYTHON_VERSION_MINOR ${CPython_version_minor} CACHE INTERNAL "Internal Python" )
 set( PYTHON_EXECUTABLE ${BUILT_PYTHON_EXE} CACHE PATH "Internal Python" )
 set( PYTHON_INCLUDE_DIR ${BUILT_PYTHON_INCLUDE} CACHE PATH "Internal Python" )
 set( PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY} CACHE PATH "Internal Python" )
