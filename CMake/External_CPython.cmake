@@ -44,23 +44,48 @@ if( WIN32 )
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
   set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIB}/bin/${LIBNAME} )
 else()
-
-  set( CPYTHON_BUILD_ARGS
-    --prefix=${fletch_BUILD_INSTALL_PREFIX}
-    --enable-shared
+  # Build CPython twice on Linux, once shared then again staticly
+  #
+  # This is because both shared and static libs can't be installed from
+  # the configuration currently, and we desire shared libs to be in the
+  # installation, but want our python interpreter to still be installed
+  # as a static exe for both speed optimizations and ease of use.
+  set( CPYTHON_BUILD_ARGS_STATIC
+       --prefix=${fletch_BUILD_INSTALL_PREFIX}
+       --enable-optimizations
   )
 
   if( CMAKE_BUILD_TYPE STREQUAL "Debug" )
-    set( CPYTHON_BUILD_ARGS ${CPYTHON_BUILD_ARGS} --with-pydebug )
+    set( CPYTHON_BUILD_ARGS_STATIC ${CPYTHON_BUILD_ARGS_STATIC} --with-pydebug )
   endif()
 
+  set( CPYTHON_BUILD_ARGS_SHARED ${CPYTHON_BUILD_ARGS_STATIC} --enable-shared )
+
+  if( fletch_ENABLE_ZLib )
+    add_package_dependency(
+      PACKAGE CPython-shared
+      PACKAGE_DEPENDENCY ZLib
+      PACKAGE_DEPENDENCY_ALIAS ZLIB
+    )
+  endif()
   Fletch_Require_Make()
-  ExternalProject_Add( CPython
+  ExternalProject_Add( CPython-shared
     URL ${CPython_url}
     URL_MD5 ${CPython_md5}
     ${COMMON_EP_ARGS}
     BUILD_IN_SOURCE 1
-    CONFIGURE_COMMAND ./configure ${CPYTHON_BUILD_ARGS}
+    CONFIGURE_COMMAND ./configure ${CPYTHON_BUILD_ARGS_SHARED}
+    BUILD_COMMAND ${MAKE_EXECUTABLE}
+    INSTALL_COMMAND ${MAKE_EXECUTABLE} install
+  )
+  Fletch_Require_Make()
+  ExternalProject_Add( CPython
+    DEPENDS CPython-shared
+    URL ${CPython_url}
+    URL_MD5 ${CPython_md5}
+    ${COMMON_EP_ARGS}
+    BUILD_IN_SOURCE 1
+    CONFIGURE_COMMAND ./configure ${CPYTHON_BUILD_ARGS_STATIC}
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
   )
@@ -79,15 +104,7 @@ else()
   set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIB}/lib/${LIBNAME} )
 endif()
 
-set( CPython_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE )
-file( APPEND ${fletch_CONFIG_INPUT} "
-################################
-# CPython
-################################
-set( CPython_ROOT \${fletch_ROOT} )
-set( fletch_ENABLED_CPython TRUE)
-")
-
+# For internal modules in fletch building against python
 set( PYTHON_FOUND TRUE CACHE INTERNAL "Internal Python" )
 set( PYTHON_VERSION_MAJOR ${CPython_version_major} CACHE INTERNAL "Internal Python" )
 set( PYTHON_VERSION_MINOR ${CPython_version_minor} CACHE INTERNAL "Internal Python" )
@@ -95,6 +112,20 @@ set( PYTHON_EXECUTABLE ${BUILT_PYTHON_EXE} CACHE PATH "Internal Python" )
 set( PYTHON_INCLUDE_DIR ${BUILT_PYTHON_INCLUDE} CACHE PATH "Internal Python" )
 set( PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY} CACHE PATH "Internal Python" )
 set( PYTHON_LIBRARY_DEBUG ${BUILT_PYTHON_LIBRARY} CACHE PATH "Internal Python" )
+
+# For external modules linking against fletch using python
+set( CPython_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE )
+file( APPEND ${fletch_CONFIG_INPUT} "
+################################
+# Python
+################################
+set( CPython_ROOT \${fletch_ROOT} )
+set( fletch_ENABLED_CPython TRUE )
+set( PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE} )
+set( PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_DIR} )
+set( PYTHON_LIBRARY ${PYTHON_LIBRARY} )
+set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
+")
 
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
