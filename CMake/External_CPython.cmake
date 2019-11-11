@@ -113,13 +113,13 @@ else()
 endif()
 
 # For internal modules in fletch building against python
-set( PYTHON_FOUND TRUE CACHE INTERNAL "Internal Python" )
-set( PYTHON_VERSION_MAJOR ${CPython_version_major} CACHE INTERNAL "Internal Python" )
-set( PYTHON_VERSION_MINOR ${CPython_version_minor} CACHE INTERNAL "Internal Python" )
-set( PYTHON_EXECUTABLE ${BUILT_PYTHON_EXE} CACHE PATH "Internal Python" )
-set( PYTHON_INCLUDE_DIR ${BUILT_PYTHON_INCLUDE} CACHE PATH "Internal Python" )
-set( PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY} CACHE PATH "Internal Python" )
-set( PYTHON_LIBRARY_DEBUG ${BUILT_PYTHON_LIBRARY} CACHE PATH "Internal Python" )
+set( PYTHON_FOUND TRUE CACHE INTERNAL "Forced" FORCE )
+set( PYTHON_VERSION_MAJOR ${CPython_version_major} CACHE INTERNAL "Forced" FORCE )
+set( PYTHON_VERSION_MINOR ${CPython_version_minor} CACHE INTERNAL "Forced" FORCE )
+set( PYTHON_EXECUTABLE ${BUILT_PYTHON_EXE} CACHE PATH "Forced" FORCE )
+set( PYTHON_INCLUDE_DIR ${BUILT_PYTHON_INCLUDE} CACHE PATH "Forced" FORCE )
+set( PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY} CACHE PATH "Forced" FORCE )
+set( PYTHON_LIBRARY_DEBUG ${BUILT_PYTHON_LIBRARY} CACHE PATH "Forced" FORCE )
 
 # For external modules linking against fletch using python
 set( CPython_ROOT "${fletch_BUILD_INSTALL_PREFIX}" CACHE PATH "" FORCE )
