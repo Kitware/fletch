@@ -43,12 +43,7 @@ if( WIN32 )
       -P ${fletch_SOURCE_DIR}/Patches/CPython/custom_install_windows.cmake
   )
   
-  if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
-    set( LIBNAME libpython2.dll )
-  else()
-    set( LIBNAME libpython3.dll )
-  endif()
-
+  set( LIBNAME libpython${CPython_version_major}.dll )
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
   set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/bin/${LIBNAME} )
 else()
@@ -76,6 +71,7 @@ else()
       PACKAGE_DEPENDENCY_ALIAS ZLIB
     )
   endif()
+
   Fletch_Require_Make()
   ExternalProject_Add( CPython-shared
     URL ${CPython_url}
@@ -99,16 +95,14 @@ else()
   )
   ExternalProject_Add_Step( CPython add-extra-symlinks
     COMMAND ${CMAKE_COMMAND} -E env
-      ln -sfn python3 ${fletch_BUILD_INSTALL_PREFIX}/bin/python &&
-      ln -sfn pip3 ${fletch_BUILD_INSTALL_PREFIX}/bin/pip
+      ln -sfn python${CPython_version_major}
+        ${fletch_BUILD_INSTALL_PREFIX}/bin/python &&
+      ln -sfn pip${CPython_version_major}
+        ${fletch_BUILD_INSTALL_PREFIX}/bin/pip
     DEPENDEES install
   )
 
-  if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
-    set( LIBNAME libpython2.so )
-  else()
-    set( LIBNAME libpython3.so )
-  endif()
+  set( LIBNAME libpython${CPython_version_major}.so )
   set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/lib/${LIBNAME} )
 endif()
 
