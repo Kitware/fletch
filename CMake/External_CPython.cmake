@@ -16,7 +16,7 @@ set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include )
 set( BUILT_PYTHON_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/ )
 
 if( WIN32 )
-  set( CPYTHON_BUILD_DIR ${fletch_BUILD_DIR}/build/src/CPython/PCbuild )
+  set( CPYTHON_DIR ${fletch_BUILD_DIR}/build/src/CPython )
   set( CPYTHON_BUILD_ARGS -e )
 
   if( CMAKE_SIZEOF_VOID_P GREATER_EQUAL 8 )
@@ -38,7 +38,7 @@ if( WIN32 )
     BUILD_COMMAND PCBuild/build.bat ${CPYTHON_BUILD_ARGS}
     INSTALL_COMMAND ${CMAKE_COMMAND}
       -Dfletch_BUILD_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-      -DCPYTHON_BUILD_LOC:PATH=${CPYTHON_BUILD_DIR}
+      -DCPYTHON_BUILD_LOC:PATH=${CPYTHON_DIR}
        -DPYTHON_BASEPATH:PATH=${PYTHON_BASEPATH}
       -P ${fletch_SOURCE_DIR}/Patches/CPython/custom_install_windows.cmake
   )
@@ -137,8 +137,8 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
-set( fletch_PYTHON_LIBS numpy matplotlib )
-set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" )
+set( fletch_PYTHON_LIBS numpy matplotlib wheel )
+set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" "wheel" )
 
 # ------------------------- LOOP OVER THE ABOVE --------------------------------
 
@@ -146,7 +146,7 @@ if( WIN32 )
   set( CUSTOM_PYTHONPATH
     ${PYTHON_BASEPATH}/site-packages;${PYTHON_BASEPATH}/dist-packages )
   set( CUSTOM_PATH
-    ${fletch_BUILD_INSTALL_PREFIX}/bin;$ENV{PATH} )
+    ${fletch_BUILD_INSTALL_PREFIX}/bin )
 
   string( REPLACE ";" "----" CUSTOM_PYTHONPATH "${CUSTOM_PYTHONPATH}" )
   string( REPLACE ";" "----" CUSTOM_PATH "${CUSTOM_PATH}" )
@@ -154,7 +154,7 @@ else()
   set( CUSTOM_PYTHONPATH
     ${PYTHON_BASEPATH}/site-packages:${PYTHON_BASEPATH}/dist-packages )
   set( CUSTOM_PATH
-    ${fletch_BUILD_INSTALL_PREFIX}/bin:$ENV{PATH} )
+    ${fletch_BUILD_INSTALL_PREFIX}/bin )
 endif()
 
 set( fletch_PYTHON_LIBS_DEPS CPython )
