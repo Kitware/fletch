@@ -51,6 +51,7 @@ else()
 endif()
 
 ExternalProject_Add(Boost
+  DEPENDS ${Boost_DEPENDS}
   URL ${Boost_file}
   URL_MD5 ${Boost_md5}
   ${COMMON_EP_ARGS}
