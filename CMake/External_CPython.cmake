@@ -94,8 +94,8 @@ else()
   )
   ExternalProject_Add_Step( CPython add-extra-symlinks
     COMMAND ${CMAKE_COMMAND} -E env
-      ln -sfn python3 ${fletch_BUILD_INSTALL_PREFIX}/bin/python &&
-      ln -sfn pip3 ${fletch_BUILD_INSTALL_PREFIX}/bin/pip
+      ln -sfn python${CPython_version_major} ${fletch_BUILD_INSTALL_PREFIX}/bin/python &&
+      ln -sfn pip${CPython_version_major} ${fletch_BUILD_INSTALL_PREFIX}/bin/pip
     DEPENDEES install
   )
 
@@ -124,6 +124,7 @@ file( APPEND ${fletch_CONFIG_INPUT} "
 ################################
 set( CPython_ROOT \${fletch_ROOT} )
 set( fletch_ENABLED_CPython TRUE )
+set( PYTHON_VERSION ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR} )
 set( PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE} )
 set( PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_DIR} )
 set( PYTHON_LIBRARY ${PYTHON_LIBRARY} )
