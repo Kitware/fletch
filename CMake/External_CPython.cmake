@@ -146,9 +146,11 @@ set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" )
 
 if( WIN32 )
   set( CUSTOM_PYTHONPATH
-    ${PYTHON_BASEPATH}:${PYTHON_BASEPATH}/site-packages;${PYTHON_BASEPATH}/dist-packages )
+    ${PYTHON_BASEPATH};${PYTHON_BASEPATH}/site-packages;${PYTHON_BASEPATH}/dist-packages )
   set( CUSTOM_PATH
     ${fletch_BUILD_INSTALL_PREFIX}/bin )
+
+  set( ENV{PYTHONPATH} "${CUSTOM_PYTHONPATH};ENV{PYTHONPATH}" )
 
   string( REPLACE ";" "----" CUSTOM_PYTHONPATH "${CUSTOM_PYTHONPATH}" )
   string( REPLACE ";" "----" CUSTOM_PATH "${CUSTOM_PATH}" )
@@ -158,8 +160,6 @@ else()
   set( CUSTOM_PATH
     ${fletch_BUILD_INSTALL_PREFIX}/bin )
 endif()
-
-set( ENV{PYTHONPATH} "${CUSTOM_PYTHONPATH}:ENV{PYTHONPATH}" )
 
 set( fletch_PYTHON_LIBS_DEPS CPython )
 
