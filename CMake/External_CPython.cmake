@@ -174,8 +174,10 @@ if( WIN32 )
                "PYTHONUSERBASE=${fletch_BUILD_INSTALL_PREFIX}"
       ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/extract_pip.py
     INSTALL_COMMAND ${CMAKE_COMMAND}
+      -DPYTHON_MAJOR:STRING=${PYTHON_VERSION_MAJOR}
+      -DPYTHON_MINOR:STRING=${PYTHON_VERSION_MINOR}
       -DSOURCE_DIRECTORY:PATH=${fletch_BUILD_DIR}/build/src/CPython-pip-build
-      -DINSTALL_DIRECTORY:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin
+      -DINSTALL_DIRECTORY:PATH=${fletch_BUILD_INSTALL_PREFIX}
       -P ${fletch_SOURCE_DIR}/Patches/CPython/install_pip_windows.cmake
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
     LIST_SEPARATOR "----"
