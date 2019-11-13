@@ -7,4 +7,7 @@ function( CopyFiles _inRegex _outDir )
   endif()
 endfunction()
 
-CopyFiles( ${SOURCE_DIRECTORY}/*.exe ${INSTALL_DIRECTORY} )
+set( OUTPUT_LIB_DIR ${INSTALL_DIRECTORY}/lib/python${PYTHON_MAJOR}.${PYTHON_MINOR}/site-packages
+
+CopyFiles( ${SOURCE_DIRECTORY}/Scripts/*.exe ${INSTALL_DIRECTORY}/bin )
+CopyFiles( ${SOURCE_DIRECTORY}/Lib/site-packages/* ${OUTPUT_LIB_DIR} )
