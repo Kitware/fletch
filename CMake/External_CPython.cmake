@@ -70,13 +70,6 @@ else()
 
   set( CPYTHON_BUILD_ARGS_SHARED ${CPYTHON_BUILD_ARGS_STATIC} --enable-shared )
 
-  if( fletch_ENABLE_ZLib )
-    add_package_dependency(
-      PACKAGE CPython-shared
-      PACKAGE_DEPENDENCY ZLib
-      PACKAGE_DEPENDENCY_ALIAS ZLIB
-    )
-  endif()
   Fletch_Require_Make()
   ExternalProject_Add( CPython-shared
     DEPENDS ${CPython_DEPENDS}
