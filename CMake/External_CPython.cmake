@@ -39,8 +39,8 @@ if( WIN32 )
     INSTALL_COMMAND ${CMAKE_COMMAND}
       -Dfletch_BUILD_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
       -DCPYTHON_BUILD_LOC:PATH=${CPYTHON_DIR}
-       -DPYTHON_BASEPATH:PATH=${PYTHON_BASEPATH}
-      -P ${fletch_SOURCE_DIR}/Patches/CPython/custom_install_windows.cmake
+      -DPYTHON_BASEPATH:PATH=${PYTHON_BASEPATH}
+      -P ${fletch_SOURCE_DIR}/Patches/CPython/install_python_windows.cmake
   )
   
   if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
@@ -137,14 +137,14 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
-set( fletch_PYTHON_LIBS numpy matplotlib wheel )
-set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" "wheel" )
+set( fletch_PYTHON_LIBS numpy matplotlib )
+set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" )
 
 # ------------------------- LOOP OVER THE ABOVE --------------------------------
 
 if( WIN32 )
   set( CUSTOM_PYTHONPATH
-    ${PYTHON_BASEPATH}/site-packages;${PYTHON_BASEPATH}/dist-packages )
+    ${PYTHON_BASEPATH}:${PYTHON_BASEPATH}/site-packages;${PYTHON_BASEPATH}/dist-packages )
   set( CUSTOM_PATH
     ${fletch_BUILD_INSTALL_PREFIX}/bin )
 
@@ -152,12 +152,35 @@ if( WIN32 )
   string( REPLACE ";" "----" CUSTOM_PATH "${CUSTOM_PATH}" )
 else()
   set( CUSTOM_PYTHONPATH
-    ${PYTHON_BASEPATH}/site-packages:${PYTHON_BASEPATH}/dist-packages )
+    ${PYTHON_BASEPATH}:${PYTHON_BASEPATH}/site-packages:${PYTHON_BASEPATH}/dist-packages )
   set( CUSTOM_PATH
     ${fletch_BUILD_INSTALL_PREFIX}/bin )
 endif()
 
 set( fletch_PYTHON_LIBS_DEPS CPython )
+
+if( WIN32 )
+  ExternalProject_Add( CPython-pip
+    DEPENDS ${fletch_PYTHON_LIBS_DEPS}
+    PREFIX ${fletch_BUILD_PREFIX}
+    SOURCE_DIR ${fletch_CMAKE_DIR}
+    USES_TERMINAL_BUILD 1
+    BUILD_IN_SOURCE 1
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND  ${CMAKE_COMMAND}
+        -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
+               "PATH=${CUSTOM_PATH}"
+               "PYTHONUSERBASE=${fletch_BUILD_INSTALL_PREFIX}"
+      ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/install_pip.py
+    INSTALL_COMMAND ${CMAKE_COMMAND}
+      -DSOURCE_DIRECTORY:PATH=${fletch_BUILD_DIR}/build/src/CPython-pip
+      -DINSTALL_DIRECTORY:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin
+      -P ${fletch_SOURCE_DIR}/Patches/CPython/install_pip_windows.cmake
+    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+    LIST_SEPARATOR "----"
+  )
+  set( fletch_PYTHON_LIBS_DEPS ${fletch_PYTHON_LIBS_DEPS} CPython-pip )
+endif()
 
 list( LENGTH fletch_PYTHON_LIBS DEP_COUNT )
 math( EXPR DEP_COUNT "${DEP_COUNT} - 1" )
