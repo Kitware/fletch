@@ -167,7 +167,6 @@ if( WIN32 )
     PREFIX ${fletch_BUILD_PREFIX}
     SOURCE_DIR ${fletch_CMAKE_DIR}
     USES_TERMINAL_BUILD 1
-    BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ""
     BUILD_COMMAND  ${CMAKE_COMMAND}
         -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
@@ -175,7 +174,7 @@ if( WIN32 )
                "PYTHONUSERBASE=${fletch_BUILD_INSTALL_PREFIX}"
       ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/extract_pip.py
     INSTALL_COMMAND ${CMAKE_COMMAND}
-      -DSOURCE_DIRECTORY:PATH=${fletch_BUILD_DIR}/build/src/CPython-pip
+      -DSOURCE_DIRECTORY:PATH=${fletch_BUILD_DIR}/build/src/CPython-pip-build
       -DINSTALL_DIRECTORY:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin
       -P ${fletch_SOURCE_DIR}/Patches/CPython/install_pip_windows.cmake
     INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
