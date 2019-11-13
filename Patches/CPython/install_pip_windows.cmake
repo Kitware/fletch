@@ -1,4 +1,4 @@
-message("Running CPython install")
+message("Running CPython-pip install")
 
 function( CopyFiles _inRegex _outDir )
   file( GLOB FILES_TO_COPY ${_inRegex} )

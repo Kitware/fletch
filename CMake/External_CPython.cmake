@@ -153,6 +153,8 @@ else()
     ${fletch_BUILD_INSTALL_PREFIX}/bin )
 endif()
 
+set( ENV{PYTHONPATH} "${CUSTOM_PYTHONPATH}:ENV{PYTHONPATH}" )
+
 set( fletch_PYTHON_LIBS_DEPS CPython )
 
 if( WIN32 )
