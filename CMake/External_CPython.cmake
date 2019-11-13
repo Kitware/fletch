@@ -30,6 +30,7 @@ if( WIN32 )
   endif()
 
   ExternalProject_Add( CPython
+    DEPENDS ${CPython_DEPENDS}
     URL ${CPython_url}
     URL_MD5 ${CPython_md5}
     ${COMMON_EP_ARGS}
@@ -78,6 +79,7 @@ else()
   endif()
   Fletch_Require_Make()
   ExternalProject_Add( CPython-shared
+    DEPENDS ${CPython_DEPENDS}
     URL ${CPython_url}
     URL_MD5 ${CPython_md5}
     ${COMMON_EP_ARGS}
@@ -171,7 +173,7 @@ if( WIN32 )
         -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
                "PATH=${CUSTOM_PATH}"
                "PYTHONUSERBASE=${fletch_BUILD_INSTALL_PREFIX}"
-      ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/install_pip.py
+      ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/extract_pip.py
     INSTALL_COMMAND ${CMAKE_COMMAND}
       -DSOURCE_DIRECTORY:PATH=${fletch_BUILD_DIR}/build/src/CPython-pip
       -DINSTALL_DIRECTORY:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin
