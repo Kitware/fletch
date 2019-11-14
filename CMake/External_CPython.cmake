@@ -44,7 +44,8 @@ if( WIN32 )
       -P ${fletch_SOURCE_DIR}/Patches/CPython/install_python_windows.cmake
   )
   
-  set( LIBNAME libpython${CPython_version_major}.dll )
+  set( LIBNAME python${CPython_version_major}.dll )
+
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
   set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/bin/${LIBNAME} )
 else()

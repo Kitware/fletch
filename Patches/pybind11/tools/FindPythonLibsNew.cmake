@@ -139,8 +139,10 @@ string(REGEX REPLACE "\\\\" "/" PYTHON_INCLUDE_DIR "${PYTHON_INCLUDE_DIR}")
 string(REGEX REPLACE "\\\\" "/" PYTHON_SITE_PACKAGES "${PYTHON_SITE_PACKAGES}")
 
 if(CMAKE_HOST_WIN32)
-    set(PYTHON_LIBRARY
+    if(NOT PYTHON_LIBRARY OR NOT EXISTS "${PYTHON_LIBRARY}")
+	  set(PYTHON_LIBRARY
         "${PYTHON_PREFIX}/libs/Python${PYTHON_LIBRARY_SUFFIX}.lib")
+    endif()
 
     # when run in a venv, PYTHON_PREFIX points to it. But the libraries remain in the
     # original python installation. They may be found relative to PYTHON_INCLUDE_DIR.
