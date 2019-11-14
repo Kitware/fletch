@@ -45,9 +45,9 @@ if( WIN32 )
   )
   
   if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
-    set( LIBNAME libpython2.dll )
+    set( LIBNAME python2.dll )
   else()
-    set( LIBNAME libpython3.dll )
+    set( LIBNAME python3.dll )
   endif()
 
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
