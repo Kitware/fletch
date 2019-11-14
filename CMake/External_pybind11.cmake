@@ -12,9 +12,9 @@ ExternalProject_Add(pybind11
   DOWNLOAD_NAME ${pybind11_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${CMAKE_COMMAND} -E copy
-    ${fletch_SOURCE_DIR}/Patches/pybind11/include/pybind11/pybind11.h
-    ${fletch_BUILD_PREFIX}/src/pybind11/include/pybind11/pybind11.h
+  PATCH_COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${fletch_SOURCE_DIR}/Patches/pybind11
+    ${fletch_BUILD_PREFIX}/src/pybind11
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     # PYTHON_EXECUTABLE addded to cover when it's installed in nonstandard loc.
