@@ -45,13 +45,13 @@ if( WIN32 )
   )
   
   if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
-    set( LIBNAME python2.dll )
+    set( LIBNAME python2.lib )
   else()
-    set( LIBNAME python3.dll )
+    set( LIBNAME python3.lib )
   endif()
 
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
-  set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/bin/${LIBNAME} )
+  set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/lib/${LIBNAME} )
 else()
   # Build CPython twice on Linux, once shared then again staticly
   #
