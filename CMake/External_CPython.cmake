@@ -44,10 +44,10 @@ if( WIN32 )
       -P ${fletch_SOURCE_DIR}/Patches/CPython/install_python_windows.cmake
   )
   
-  set( LIBNAME python${CPython_version_major}.dll )
+  set( LIBNAME python${CPython_version_major}.lib )
 
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
-  set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/bin/${LIBNAME} )
+  set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/lib/${LIBNAME} )
 else()
   # Build CPython twice on Linux, once shared then again staticly
   #
