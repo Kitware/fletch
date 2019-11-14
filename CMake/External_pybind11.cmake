@@ -3,7 +3,10 @@ if (NOT fletch_BUILD_CXX11)
 endif()
 
 if (PYTHON_EXECUTABLE)
-  set(pybind_PYTHON_ARGS -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE})
+  set(PYBIND_PYTHON_ARGS -DPYTHON_EXECUTABLE:PATH=${PYTHON_EXECUTABLE})
+  set(PYBIND_PYTHON_ARGS -DPYTHON_LIBRARY:PATH=${PYTHON_LIBRARY} ${PYBIND_PYTHON_ARGS})
+  set(PYBIND_PYTHON_ARGS -DPYTHON_LIBRARY_DEBUG:PATH=${PYTHON_LIBRARY_DEBUG} ${PYBIND_PYTHON_ARGS})
+  set(PYBIND_PYTHON_ARGS -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR} ${PYBIND_PYTHON_ARGS})
 endif()
 
 ExternalProject_Add(pybind11
@@ -19,7 +22,7 @@ ExternalProject_Add(pybind11
     ${COMMON_CMAKE_ARGS}
     # PYTHON_EXECUTABLE addded to cover when it's installed in nonstandard loc.
     # But don't pass if python isn't enabled. It will prevent pybind from finding it.
-    ${pybind_PYTHON_ARGS}
+    ${PYBIND_PYTHON_ARGS}
     -DPYBIND11_TEST:BOOL=OFF # To remove dependencies; build can still be tested manually
   )
 
