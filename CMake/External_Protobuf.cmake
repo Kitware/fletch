@@ -7,8 +7,6 @@ if (Protobuf_SELECT_VERSION STREQUAL "3.9.0")
     SOURCE_SUBDIR ./cmake
     ${COMMON_EP_ARGS}
     ${COMMON_CMAKE_EP_ARGS}
-#    UPDATE_COMMAND
-#        COMMAND ${CMAKE_COMMAND} -DPULSE_IL2CPP_PATCH=${PULSE_IL2CPP_PATCH} -Dprotobuf_source=${protobuf_SRC} -Dprotobuf_patch=${protobuf_Patch} -P ${protobuf_Patch}/Patch.cmake
     CMAKE_ARGS
        ${COMMON_CMAKE_ARGS}
        -Dprotobuf_BUILD_TESTS:BOOL=OFF
