@@ -130,6 +130,11 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 set( fletch_PYTHON_LIBS numpy matplotlib )
 set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" )
 
+if( NOT WIN32 )
+  set( fletch_PYTHON_LIBS wheel )
+  set( fletch_PYTHON_LIB_CMDS "wheel" )
+endif()
+
 # ------------------------- LOOP OVER THE ABOVE --------------------------------
 
 if( WIN32 )
