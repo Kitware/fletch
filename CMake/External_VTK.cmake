@@ -193,7 +193,6 @@ if (fletch_BUILD_WITH_PYTHON AND NOT MSVC14)
       PACKAGE VTK
       PACKAGE_DEPENDENCY CPython
     )
-    set(VTK_WRAP_PYTHON ON)
   else()
     find_package(PythonInterp)
     find_package(PythonLibs)
