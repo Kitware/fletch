@@ -127,8 +127,8 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
-set( fletch_PYTHON_LIBS numpy matplotlib )
-set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" )
+set( fletch_PYTHON_LIBS numpy matplotlib cython )
+set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" "Cython" )
 
 if( NOT WIN32 )
   set( fletch_PYTHON_LIBS wheel )
