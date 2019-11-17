@@ -131,8 +131,8 @@ set( fletch_PYTHON_LIBS numpy matplotlib cython pyyaml )
 set( fletch_PYTHON_LIB_CMDS "numpy" "matplotlib" "Cython" "pyyaml" )
 
 if( NOT WIN32 )
-  set( fletch_PYTHON_LIBS wheel )
-  set( fletch_PYTHON_LIB_CMDS "wheel" )
+  set( fletch_PYTHON_LIBS ${fletch_PYTHON_LIBS} wheel )
+  set( fletch_PYTHON_LIB_CMDS ${fletch_PYTHON_LIB_CMDS} "wheel" )
 endif()
 
 # ------------------------- LOOP OVER THE ABOVE --------------------------------
