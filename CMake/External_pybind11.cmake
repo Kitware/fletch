@@ -2,6 +2,13 @@ if (NOT fletch_BUILD_CXX11)
   message(FATAL_ERROR "CXX11 must be enabled to use pybind11")
 endif()
 
+if (fletch_ENABLE_CPython)
+  add_package_dependency(
+    PACKAGE pybind11
+    PACKAGE_DEPENDENCY CPython
+  )
+endif()
+
 if (PYTHON_EXECUTABLE)
   set(PYBIND_PYTHON_ARGS -DPYTHON_EXECUTABLE:PATH=${PYTHON_EXECUTABLE})
   set(PYBIND_PYTHON_ARGS -DPYTHON_LIBRARY:PATH=${PYTHON_LIBRARY} ${PYBIND_PYTHON_ARGS})
@@ -10,6 +17,7 @@ if (PYTHON_EXECUTABLE)
 endif()
 
 ExternalProject_Add(pybind11
+  DEPENDS ${pybind11_DEPENDS}
   URL ${pybind11_url}
   URL_MD5 ${pybind11_md5}
   DOWNLOAD_NAME ${pybind11_dlname}
