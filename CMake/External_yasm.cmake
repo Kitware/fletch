@@ -23,9 +23,17 @@ elseif(NOT yasm_PYTHON_EXECUTABLE)
   set(yasm_PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE})
 endif()
 
+if (fletch_ENABLE_CPYTHON)
+  add_package_dependency(
+    PACKAGE yasm
+    PACKAGE_DEPENDENCY CPython
+  )
+endif()
+
 if (NOT _external_yasm_include)
   set(_external_yasm_include TRUE)
   ExternalProject_Add(yasm
+    DEPENDS ${yasm_DEPENDS}
     URL ${yasm_url}
     URL_MD5 ${yasm_md5}
     ${COMMON_EP_ARGS}
