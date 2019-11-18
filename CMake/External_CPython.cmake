@@ -60,6 +60,16 @@ else()
        --enable-optimizations
   )
 
+  execute_process( COMMAND lsb_release -cs
+    OUTPUT_VARIABLE RELEASE_CODENAME
+    OUTPUT_STRIP_TRAILING_WHITESPACE )
+
+  if( "${RELEASE_CODENAME}" MATCHES "xenial" OR
+      "${RELEASE_CODENAME}" MATCHES "trusty" OR
+      "${RELEASE_CODENAME}" MATCHES "bionic" )
+    set( CPYTHON_BUILD_ARGS_STATIC ${CPYTHON_BUILD_ARGS_STATIC} --with-fpectl )
+  endif()
+
   if( CMAKE_BUILD_TYPE STREQUAL "Debug" )
     set( CPYTHON_BUILD_ARGS_STATIC ${CPYTHON_BUILD_ARGS_STATIC} --with-pydebug )
   endif()
