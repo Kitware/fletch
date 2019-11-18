@@ -189,6 +189,8 @@ set(vtk_cmake_args ${vtk_cmake_args}
 # PYTHON
 if(fletch_BUILD_WITH_PYTHON AND NOT MSVC14 )
   option(fletch_ENABLE_VTK_PYTHON "Enable Python wrappings for VTK" ON)
+  mark_as_advanced(fletch_ENABLE_VTK_PYTHON)
+
   find_package(PythonInterp)
   find_package(PythonLibs)
 
