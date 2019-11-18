@@ -107,11 +107,7 @@ else()
     DEPENDEES install
   )
 
-  if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
-    set( LIBNAME libpython${CPython_version_major}.${CPython_version_minor}.so )
-  else()
-    set( LIBNAME libpython${CPython_version_major}.${CPython_version_minor}m.so )
-  endif()
+  set( LIBNAME libpython${CPython_version}${CPython_version_modifier}.so )
 
   set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/lib/${LIBNAME} )
 endif()
