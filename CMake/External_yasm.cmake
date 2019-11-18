@@ -23,7 +23,7 @@ elseif(NOT yasm_PYTHON_EXECUTABLE)
   set(yasm_PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE})
 endif()
 
-if (fletch_ENABLE_CPYTHON)
+if (fletch_ENABLE_CPython)
   add_package_dependency(
     PACKAGE yasm
     PACKAGE_DEPENDENCY CPython
