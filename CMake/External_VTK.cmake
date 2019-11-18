@@ -213,6 +213,7 @@ if(fletch_BUILD_WITH_PYTHON AND NOT MSVC14 )
         message(WARNING "VTK building without python support. Python NOT found.")
     endif()
   endif()
+endif()
 
 elseif(fletch_BUILD_WITH_PYTHON AND MSVC14)
   message(WARNING "VTK Python will not build correctly on Visual Studio 2015. VTK 7.0 of higher is required.")
