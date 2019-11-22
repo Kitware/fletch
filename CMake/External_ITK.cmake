@@ -42,13 +42,6 @@ if (fletch_ENABLE_PNG)
 endif()
 
 # Python
-if (fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_CPython)
-  add_package_dependency(
-    PACKAGE ITK
-    PACKAGE_DEPENDENCY CPython
-  )
-endif()
-
 list (APPEND itk_cmake_args
   -DITK_LEGACY_SILENT:BOOL=ON
   -DBUILD_TESTING:BOOL=OFF
@@ -62,6 +55,12 @@ if (fletch_BUILD_WITH_PYTHON)
     list (APPEND itk_cmake_args
       -DITK_WRAP_PYTHON:BOOL=ON
       )
+    if (fletch_ENABLE_CPython)
+      add_package_dependency(
+        PACKAGE ITK
+        PACKAGE_DEPENDENCY CPython
+      )
+    endif()
   else()
     list (APPEND itk_cmake_args
       -DITK_WRAP_PYTHON:BOOL=OFF
