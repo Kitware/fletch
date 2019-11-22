@@ -44,11 +44,7 @@ if( WIN32 )
       -P ${fletch_SOURCE_DIR}/Patches/CPython/install_python_windows.cmake
   )
   
-  if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
-    set( LIBNAME python2.lib )
-  else()
-    set( LIBNAME python3.lib )
-  endif()
+  set( LIBNAME python${CPython_version_major}.lib )
 
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
   set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/lib/${LIBNAME} )
@@ -104,16 +100,15 @@ else()
   )
   ExternalProject_Add_Step( CPython add-extra-symlinks
     COMMAND ${CMAKE_COMMAND} -E env
-      ln -sfn python${CPython_version_major} ${fletch_BUILD_INSTALL_PREFIX}/bin/python &&
-      ln -sfn pip${CPython_version_major} ${fletch_BUILD_INSTALL_PREFIX}/bin/pip
+      ln -sfn python${CPython_version_major}
+        ${fletch_BUILD_INSTALL_PREFIX}/bin/python &&
+      ln -sfn pip${CPython_version_major}
+        ${fletch_BUILD_INSTALL_PREFIX}/bin/pip
     DEPENDEES install
   )
 
-  if( fletch_PYTHON_MAJOR_VERSION STREQUAL "2" )
-    set( LIBNAME libpython2.7.so )
-  else()
-    set( LIBNAME libpython3.6m.so )
-  endif()
+  set( LIBNAME libpython${CPython_version}${CPython_version_modifier}.so )
+
   set( BUILT_PYTHON_LIBRARY ${BUILT_PYTHON_LIBRARY}/lib/${LIBNAME} )
 endif()
 

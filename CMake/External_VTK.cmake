@@ -190,28 +190,27 @@ set(vtk_cmake_args ${vtk_cmake_args}
 if(fletch_BUILD_WITH_PYTHON AND NOT MSVC14 )
   option(fletch_ENABLE_VTK_PYTHON "Enable Python wrappings for VTK" ON)
 
-  if (fletch_ENABLE_CPython)
-    if(fletch_ENABLE_VTK_PYTHON)
+  if(fletch_ENABLE_VTK_PYTHON)
+    if(fletch_ENABLE_CPython)
       add_package_dependency(
         PACKAGE VTK
         PACKAGE_DEPENDENCY CPython
       )
       set(VTK_WRAP_PYTHON ON)
     else()
-      set(VTK_WRAP_PYTHON OFF)
+      find_package(PythonInterp)
+      find_package(PythonLibs)
+
+      if(PythonInterp_FOUND AND PythonLibs_FOUND)
+        set(VTK_WRAP_PYTHON ON)
+        message(STATUS "VTK building with python support")
+      else()
+        set(VTK_WRAP_PYTHON OFF)
+        message(WARNING "VTK building without python support. Python NOT found.")
+      endif()
     endif()
   else()
-    find_package(PythonInterp)
-    find_package(PythonLibs)
-
-    if(PythonInterp_FOUND AND PythonLibs_FOUND AND fletch_ENABLE_VTK_PYTHON)
-      set(VTK_WRAP_PYTHON ON)
-      message(STATUS "VTK building with python support")
-    else()
-      set(VTK_WRAP_PYTHON OFF)
-      if(fletch_ENABLE_VTK_PYTHON)
-        message(WARNING "VTK building without python support. Python NOT found.")
-    endif()
+    set(VTK_WRAP_PYTHON OFF)
   endif()
 endif()
 
