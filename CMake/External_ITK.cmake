@@ -2,9 +2,6 @@
 
 include(${fletch_CMAKE_DIR}/Utils.cmake)
 
-
-
-
 # ZLIB
 if (fletch_ENABLE_ZLib)
   add_package_dependency(
@@ -53,10 +50,28 @@ if (fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_CPython)
 endif()
 
 list (APPEND itk_cmake_args
-  -DITK_WRAP_PYTHON:BOOL=${fletch_BUILD_WITH_PYTHON}
   -DITK_LEGACY_SILENT:BOOL=ON
   -DBUILD_TESTING:BOOL=OFF
   )
+
+if (fletch_BUILD_WITH_PYTHON)
+  option(fletch_ENABLE_ITK_PYTHON "Enable Python wrappings for ITK" ON)
+  mark_as_advanced(fletch_ENABLE_ITK_PYTHON)
+
+  if (fletch_ENABLE_ITK_PYTHON)
+    list (APPEND itk_cmake_args
+      -DITK_WRAP_PYTHON:BOOL=ON
+      )
+  else()
+    list (APPEND itk_cmake_args
+      -DITK_WRAP_PYTHON:BOOL=OFF
+      )
+  endif()
+else()
+  list (APPEND itk_cmake_args
+    -DITK_WRAP_PYTHON:BOOL=OFF
+    )
+endif()
 
 if (fletch_ENABLE_VXL)
   list (APPEND itk_cmake_args
