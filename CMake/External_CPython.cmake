@@ -15,6 +15,14 @@ set( BUILT_PYTHON_EXE     ${fletch_BUILD_INSTALL_PREFIX}/bin/python )
 set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include )
 set( BUILT_PYTHON_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/ )
 
+if( fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*" )
+  set( CPYTHON_PATCH_CMD ${CMAKE_COMMAND} -E copy_directory
+      ${fletch_SOURCE_DIR}/Patches/CPython/python36
+      ${fletch_BUILD_PREFIX}/src/CPython )
+else()
+  set( CPYTHON_PATCH_CMD "" )
+endif()
+
 if( WIN32 )
   set( CPYTHON_DIR ${fletch_BUILD_DIR}/build/src/CPython )
   set( CPYTHON_BUILD_ARGS -e )
@@ -35,6 +43,7 @@ if( WIN32 )
     URL_MD5 ${CPython_md5}
     ${COMMON_EP_ARGS}
     BUILD_IN_SOURCE 1
+    PATCH_COMMAND ${CPYTHON_PATCH_CMD}
     CONFIGURE_COMMAND ""
     BUILD_COMMAND PCBuild/build.bat ${CPYTHON_BUILD_ARGS}
     INSTALL_COMMAND ${CMAKE_COMMAND}
@@ -94,6 +103,7 @@ else()
     URL_MD5 ${CPython_md5}
     ${COMMON_EP_ARGS}
     BUILD_IN_SOURCE 1
+    PATCH_COMMAND ${CPYTHON_PATCH_CMD}
     CONFIGURE_COMMAND ./configure ${CPYTHON_BUILD_ARGS_STATIC}
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
