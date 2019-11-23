@@ -172,19 +172,19 @@ static BOOL notify(int code, char *fmt, ...);
 /* Note: If scheme.prefix is nonempty, it must end with a '\'! */
 /* Note: purelib must be the FIRST entry! */
 SCHEME old_scheme[] = {
-    { "PURELIB", "" },
-    { "PLATLIB", "" },
-    { "HEADERS", "" }, /* 'Include/dist_name' part already in archive */
-    { "SCRIPTS", "Scripts\\" },
+    { "PURELIB", "lib\\python3.6\\site-packages\\" },
+    { "PLATLIB", "lib\\python3.6\\site-packages\\" },
+    { "HEADERS", "include\\python3.6\\" },
+    { "SCRIPTS", "bin\\" },
     { "DATA", "" },
     { NULL, NULL },
 };
 
 SCHEME new_scheme[] = {
-    { "PURELIB", "..\\lib\\python3.6\\site-packages\\" },
-    { "PLATLIB", "..\\lib\\python3.6\\site-packages\\" },
-    { "HEADERS", "..\\include\\python3.6\\" },
-    { "SCRIPTS", "..\\bin\\" },
+    { "PURELIB", "lib\\python3.6\\site-packages\\" },
+    { "PLATLIB", "lib\\python3.6\\site-packages\\" },
+    { "HEADERS", "include\\python3.6\\" },
+    { "SCRIPTS", "bin\\" },
     { "DATA", "" },
     { NULL, NULL },
 };
