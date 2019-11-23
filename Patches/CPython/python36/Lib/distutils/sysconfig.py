@@ -101,7 +101,7 @@ def get_python_inc(plat_specific=0, prefix=None):
         python_dir = 'python' + get_python_version() + build_flags
         return os.path.join(prefix, "include", python_dir)
     elif os.name == "nt":
-        return os.path.join(prefix, "..", "include")
+        return os.path.join(prefix, "include")
     else:
         raise DistutilsPlatformError(
             "I don't know where Python installs its C header files "
