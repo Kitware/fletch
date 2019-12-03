@@ -30,7 +30,7 @@ else()
   set (zlib_library_name "libzlib.so")
 endif()
 
-if(NOT JPEG_FOUND)
+if(libtiff_WITH_libjpeg-turbo AND NOT JPEG_FOUND)
   set(JPEG_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
   set(JPEG_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/lib/${jpeg_lib_name})
 endif()
@@ -39,7 +39,7 @@ list(APPEND libtiff_args
   -DJPEG_LIBRARY=${JPEG_LIBRARY}
   )
 
-if(NOT ZLIB_FOUND)
+if(libtiff_WITH_ZLIB AND NOT ZLIB_FOUND)
   set(ZLIB_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
   set(ZLIB_LIBRARY_DEBUG ${fletch_BUILD_INSTALL_PREFIX}/lib/${zlib_library_name})
 endif()
