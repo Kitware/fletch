@@ -72,6 +72,7 @@ set(fletch_PYTHON_MAJOR_VERSION "3" CACHE STRING
   "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
 
+# Find python if using an external python and not the internal version
 if (fletch_BUILD_WITH_PYTHON AND NOT fletch_ENABLE_CPython)
   # If we change python versions re-find the bin, include, and libs
   if (NOT _prev_fletch_pymajor_version STREQUAL fletch_PYTHON_MAJOR_VERSION)
@@ -87,20 +88,6 @@ if (fletch_BUILD_WITH_PYTHON AND NOT fletch_ENABLE_CPython)
       unset(PYTHON_LIBRARY_DEBUG CACHE)
     endif()
   endif()
-
-  # Choose python 2 or python 3
-  if (fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
-    set(fletch_python2 False)
-    set(fletch_python3 True)
-  elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
-    set(fletch_python2 True)
-    set(fletch_python3 False)
-  else()
-    message("Unknown Python version")
-  endif()
-  # If a library supports setting the install location of their python libraries (i.e. opencv)
-  # This is where we would like it to go. (Not all libs support this... caffe...)
-  set(fletch_python_install ${fletch_BUILD_INSTALL_PREFIX}/lib/python${PYTHON_VERSION}/site-packages)
 
   # Make a copy so we can determine if the user changes python versions
   set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
@@ -121,6 +108,7 @@ if (fletch_BUILD_WITH_PYTHON AND NOT fletch_ENABLE_CPython)
   if(NOT ${_exitcode} EQUAL 0)
     message(FATAL_ERROR "Python command to get version failed with error code: ${_exitcode}")
   endif()
+
   # Remove supurflous newlines (artifacts of print)
   string(STRIP "${_python_version}" _python_version)
 
@@ -157,6 +145,31 @@ if (fletch_BUILD_WITH_PYTHON AND NOT fletch_ENABLE_CPython)
     endforeach()
     message(STATUS "PYTHON_LIBRARY : ${PYTHON_LIBRARY}")
     message(STATUS "PYTHON_LIBRARY_DEBUG : ${PYTHON_LIBRARY_DEBUG}")
+  endif()
+endif()
+
+# Set up universal python paths used across the build
+if(fletch_BUILD_WITH_PYTHON)
+  # Default fletch python package install location
+  #
+  # If a library supports setting the install location of their python libraries (i.e. opencv)
+  # This is where we would like it to go. (Not all libs support this)
+  if(fletch_ENABLE_CPython)
+    set(fletch_PYTHON_LIB_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/python${CPython_version})
+  else()
+    set(fletch_PYTHON_LIB_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/python${PYTHON_VERSION})
+  endif()
+  set(fletch_PYTHON_PACKAGES_DIR ${fletch_PYTHON_LIB_DIR}/site-packages)
+
+  # Enable flags for python 2 or 3
+  if(fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
+    set(fletch_ENABLE_PYTHON2 False)
+    set(fletch_ENABLE_PYTHON3 True)
+  elseif(fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
+    set(fletch_ENABLE_PYTHON2 True)
+    set(fletch_ENABLE_PYTHON3 False)
+  else()
+    message("Unknown Python version")
   endif()
 endif()
 
