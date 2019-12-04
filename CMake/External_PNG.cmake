@@ -8,12 +8,14 @@ add_package_dependency(
 )
 if(NOT ZLIB_FOUND)
   set(ZLIB_INCLUDE_DIRS ${fletch_BUILD_INSTALL_PREFIX}/include)
-  get_system_library_name(zlib zlib_lib)
+  get_system_library_name(z zlib_lib)
   set(ZLIB_LIBRARIES ${fletch_BUILD_INSTALL_PREFIX}/lib/${zlib_lib})
 endif()
 set(png_cmake_args ${png_cmake_args}
   -DZLIB_INCLUDE_DIR:PATH=${ZLIB_INCLUDE_DIRS}
   -DZLIB_LIBRARY:PATH=${ZLIB_LIBRARIES}
+  -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+  -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
   )
 
 

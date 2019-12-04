@@ -61,6 +61,8 @@ else()
       --prefix=${fletch_BUILD_INSTALL_PREFIX}
       ${_libjpeg-turbo_ARGS_APPLE}
       NASM=${fletch_YASM}
+      CFLAGS=-fPIC
+      CXXFLAGS=-fPIC
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
   )
