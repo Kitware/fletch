@@ -138,31 +138,6 @@ if (fletch_BUILD_WITH_PYTHON AND NOT fletch_ENABLE_CPython)
   endif()
 endif()
 
-# Set up universal python paths used across the build
-if(fletch_BUILD_WITH_PYTHON)
-  # Default fletch python package install location
-  #
-  # If a library supports setting the install location of their python libraries (i.e. opencv)
-  # This is where we would like it to go. (Not all libs support this)
-  if(fletch_ENABLE_CPython)
-    set(fletch_PYTHON_LIB_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/python${CPython_version})
-  else()
-    set(fletch_PYTHON_LIB_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/python${PYTHON_VERSION})
-  endif()
-  set(fletch_PYTHON_PACKAGES_DIR ${fletch_PYTHON_LIB_DIR}/site-packages)
-
-  # Enable flags for python 2 or 3
-  if(fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
-    set(fletch_ENABLE_PYTHON2 False)
-    set(fletch_ENABLE_PYTHON3 True)
-  elseif(fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
-    set(fletch_ENABLE_PYTHON2 True)
-    set(fletch_ENABLE_PYTHON3 False)
-  else()
-    message("Unknown Python version")
-  endif()
-endif()
-
 #
 # Convenience Option for Dashboards to turn on ALL available Packages
 #
@@ -273,7 +248,39 @@ elseif(fletch_BUILD_WITH_CUDNN)
   message(WARNING "Disabling fletch_BUILD_WITH_CUDNN, You must have fletch_BUILD_WITH_CUDA enabled for this to be enabled")
 endif()
 
+#
+# Include external project identifiers and version numbers
+#
 include(fletch-tarballs)
+
+# Set up universal python paths used across the build
+if(fletch_BUILD_WITH_PYTHON OR fletch_ENABLE_CPython)
+  # Default fletch python package install location
+  #
+  # If a library supports setting the install location of their python libraries (i.e. opencv)
+  # This is where we would like it to go. (Not all libs support this)
+  if(fletch_ENABLE_CPython)
+    set(fletch_PYTHON_LIB_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/python${CPython_version})
+  else()
+    set(fletch_PYTHON_LIB_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/python${PYTHON_VERSION})
+  endif()
+  set(fletch_PYTHON_PACKAGES_DIR ${fletch_PYTHON_LIB_DIR}/site-packages)
+
+  # Enable flags for python 2 or 3
+  if(fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
+    set(fletch_ENABLE_PYTHON2 False)
+    set(fletch_ENABLE_PYTHON3 True)
+  elseif(fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
+    set(fletch_ENABLE_PYTHON2 True)
+    set(fletch_ENABLE_PYTHON3 False)
+  else()
+    message("Unknown Python version")
+  endif()
+endif()
+
+#
+# Include external project add cmake command used for all projects
+#
 include(ExternalProject)
 
 #+
