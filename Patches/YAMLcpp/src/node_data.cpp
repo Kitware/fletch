@@ -1,5 +1,7 @@
 #include <assert.h>
 #include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/next_prior.hpp>
+
 #include <sstream>
 
 #include "yaml-cpp/exceptions.h"
