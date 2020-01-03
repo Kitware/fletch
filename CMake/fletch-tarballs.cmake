@@ -24,8 +24,8 @@
 # Boost
 # Support 1.55.0 (Default) and 1.65.1 optionally
 if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
-  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
+  set(Boost_SELECT_VERSION 1.72.0 CACHE STRING "Select the major version of Boost to build.")
+  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.72.0" "1.65.1")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
   if(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
@@ -33,11 +33,16 @@ if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPEN
     set(Boost_major_version 1)
     set(Boost_minor_version 65)
     set(Boost_patch_version 1)
-    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
     set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
+  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.72.0)
+    set(Boost_major_version 1)
+    set(Boost_minor_version 72)
+    set(Boost_patch_version 0)
+    set(Boost_md5 "cb40943d2a2cb8ce08d42bc48b0f84f0")
   else()
     message(STATUS "Boost_SELECT_VERSION: Not supported")
   endif()
+  set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
 endif()
 list(APPEND fletch_external_sources Boost)
 
