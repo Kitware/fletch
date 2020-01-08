@@ -492,7 +492,7 @@ endif()
 # Protobuf
 if(NOT WIN32)
   if (fletch_ENABLE_Protobuf OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-    set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+    set(Protobuf_SELECT_VERSION "3.4.1" CACHE STRING "Select the  version of ProtoBuf to build.")
     set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
   endif()
 
