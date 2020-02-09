@@ -168,8 +168,8 @@ endif()
 
 # EIGEN
 set(Eigen_version 3.3.4)
-set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
+set(Eigen_url "https://gitlab.com/libeigen/eigen/-/archive/${Eigen_version}/eigen-${Eigen_version}.tar.gz")
+set(Eigen_md5 "7bff43034070a626687d901f4c8f54a0")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
@@ -512,7 +512,7 @@ endif()
 # Protobuf
 if(NOT WIN32)
   if (fletch_ENABLE_Protobuf OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-    set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+    set(Protobuf_SELECT_VERSION "3.4.1" CACHE STRING "Select the  version of ProtoBuf to build.")
     set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
   endif()
 
