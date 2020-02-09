@@ -262,7 +262,7 @@ else()
   unset(fletch_ENABLE_OpenCV_Qt CACHE)
 endif()
 
-if (fletch_ENABLE_OpenCV_Qt)
+if (FALSE)
   if (Qt_version VERSION_LESS 5.0.0)
     list(APPEND OpenCV_EXTRA_BUILD_FLAGS
       -DWITH_QT:BOOL=4
