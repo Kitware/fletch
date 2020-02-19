@@ -24,9 +24,9 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES SunPro)
   set(BOOST_TOOLSET sun)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-    set(BOOST_CXX_STANDARD "cxxflags=-std=c++98")
+    set(BOOST_CXX_ARGS "cxxflags=-std=c++98")
   else()
-    set(BOOST_CXX_STANDARD "cxxflags=-std=c++11")
+    set(BOOST_CXX_ARGS "cxxflags=-std=c++11")
   endif()
   set(BOOST_TOOLSET gcc)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES PGI)
@@ -57,7 +57,16 @@ else()
   message(FATAL_ERROR "Unsupported compiler ${CMAKE_CXX_COMPILER_ID} on ${CMAKE_SYSTEM_NAME}")
 endif()
 
-list(APPEND B2_FLAVOR_ARGS link=shared)
+if(BUILD_SHARED_LIBS)
+  list(APPEND B2_FLAVOR_ARGS link=shared)
+else()
+  if( NOT DEFINED BOOST_CXX_ARGS )
+    set( BOOST_CXX_ARGS "cxxflags=-fPIC" )
+  else()
+    string(APPEND BOOST_CXX_ARGS " -fPIC" )
+  endif()
+  list(APPEND B2_FLAVOR_ARGS link=static)
+endif()
 
 # 32 or 64 bit
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
@@ -80,7 +89,7 @@ endif()
 # Compile the complete list of B2 args
 set(B2_ARGS
   --abbreviate-paths -j${NCPU} --toolset=${BOOST_TOOLSET} --disable-icu ${_fletch_boost_python_arg}
-  -sNO_BZIP2=1 ${BOOST_CXX_STANDARD}
+  -sNO_BZIP2=1 ${BOOST_CXX_ARGS}
   ${B2_FLAVOR_ARGS}
 )
 
