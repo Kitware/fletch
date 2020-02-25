@@ -85,8 +85,8 @@ list(APPEND fletch_external_sources openjpeg)
 
 # YASM for building jpeg-turbo, not third party library
 set(yasm_version "1.3.0")
-set(yasm_url "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz")
-set(yasm_md5 "fc9e586751ff789b34b1f21d572d96af")
+set(yasm_url "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz")
+set(yasm_md5 "38802696efbc27554d75d93a84a23183")
 
 # FFmpeg
 set(_FFmpeg_supported TRUE)
@@ -148,8 +148,8 @@ endif()
 
 # EIGEN
 set(Eigen_version 3.3.4)
-set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
+set(Eigen_url "https://gitlab.com/libeigen/eigen/-/archive/${Eigen_version}/eigen-${Eigen_version}.tar.gz")
+set(Eigen_md5 "7bff43034070a626687d901f4c8f54a0")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
@@ -174,25 +174,28 @@ set(GLog_md5 "5df6d78b81e51b90ac0ecd7ed932b0d4")
 set(GLog_dlname "glog-${GLog_version}.tar.gz")
 list(APPEND fletch_external_sources GLog)
 
-set(GTest_version "1.8.0")
+set(GTest_version "1.8.1")
 set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_version}.tar.gz")
-set(GTest_md5 "16877098823401d1bf2ed7891d7dce36")
+set(GTest_md5 "2e6fbeb6a91310a16efe181886c59596")
 set(GTest_dlname "gtest-${GTest_version}.tar.gz")
 list(APPEND fletch_external_sources GTest)
 
 #OpenBLAS
 if(NOT WIN32)
-  #set(OpenBLAS_version "0.2.15")
-  set(OpenBLAS_version "0.2.20")
-  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
+  set(OpenBLAS_SELECT_VERSION 0.3.6 CACHE STRING "Select the version of OpenBLAS to build.")
+  set_property(CACHE OpenBLAS_SELECT_VERSION PROPERTY STRINGS "0.3.6" "0.2.20")
 
+  set (OpenBLAS_version ${OpenBLAS_SELECT_VERSION})
   if (OpenBLAS_version VERSION_EQUAL 0.2.20)
     set(OpenBLAS_md5 "48637eb29f5b492b91459175dcc574b1")
-  elseif (OpenBLAS_version VERSION_EQUAL 0.2.15)
-    set(OpenBLAS_md5 "b1190f3d3471685f17cfd1ec1d252ac9")
+  elseif (OpenBLAS_version VERSION_EQUAL 0.3.6)
+    set(OpenBLAS_md5 "8a110a25b819a4b94e8a9580702b6495")
   else()
     message("Unknown OpenBLAS version = ${OpenBLAS_version}")
   endif()
+#  set(OpenBLAS_version "0.3.6")
+  set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
+#  set(OpenBLAS_md5 "8a110a25b819a4b94e8a9580702b6495")
   set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.zip")
   list(APPEND fletch_external_sources OpenBLAS)
 endif()
@@ -489,7 +492,7 @@ endif()
 # Protobuf
 if(NOT WIN32)
   if (fletch_ENABLE_Protobuf OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-    set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+    set(Protobuf_SELECT_VERSION "3.4.1" CACHE STRING "Select the  version of ProtoBuf to build.")
     set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
   endif()
 
@@ -564,10 +567,10 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20190517gita911d919")
-set(qtExtensions_tag "a911d919bc8f01c6f3af067dc95a654b2f27cf16")
+set(qtExtensions_version "20190905git873c0676")
+set(qtExtensions_tag "873c06769a2d76e2323152efc40ad910717ce648")
 set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
-set(qtExtensions_md5 "b4be0f7cf4b3bde943fc1d47061fa82a")
+set(qtExtensions_md5 "f7b617250040e2e4bffa0e2a0bd93c89")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
 list(APPEND fletch_external_sources qtExtensions)
 
