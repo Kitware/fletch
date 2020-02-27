@@ -511,9 +511,12 @@ if(NOT WIN32)
 endif()
 
 # Caffe
-set(InternalCaffe True)
+set(Caffe_SELECT_VERSION "2" CACHE STRING "Select the  version of Caffe to build.")
+set_property(CACHE Caffe_SELECT_VERSION PROPERTY STRINGS "1" "2")
 
-if(InternalCaffe)
+set(Caffe_version ${Caffe_SELECT_VERSION})
+
+if (Caffe_version VERSION_EQUAL 2)
   # Use the internal kitware hosted Caffe, which contain additional
   # functionality that has not been merged into the BVLC version.
   # This is the recommended option.
@@ -527,7 +530,6 @@ if(InternalCaffe)
     set(Caffe_md5 "29b5ddbd6e2f47836cee5e55c88e098f")
   endif()
 else()
-  # The original BVLC Caffe does not currently contain required functionality.
   set(Caffe_version "1.0")
   set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
   set(Caffe_md5 "5fbb0e32e7cd8de3de46e6fe6e4cd2b5")
