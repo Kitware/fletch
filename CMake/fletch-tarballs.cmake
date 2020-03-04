@@ -522,12 +522,12 @@ if (Caffe_version VERSION_EQUAL 2)
   # This is the recommended option.
   if(WIN32)
     set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Fwindows/archive.zip")
-    set(Caffe_md5 "a8376d867d87b6340313b82d87743bc7")
+    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/windows/caffe-fletch-windows.zip")
+    set(Caffe_md5 "4f3f8c56f9bf8f0e7a5534a1080d4ef1")
   else()
     set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Flinux/archive.zip")
-    set(Caffe_md5 "29b5ddbd6e2f47836cee5e55c88e098f")
+    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/linux/caffe-fletch-linux.zip")
+    set(Caffe_md5 "8eda68aa96d0bbdd446e2125553f46de")
   endif()
 else()
   set(Caffe_version "1.0")
@@ -549,8 +549,8 @@ endif()
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/repository/fletch%2Fmaster/archive.zip")
-set(Darknet_md5 "d206b6da7af1f43340a217d6b05db5e3")
+set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/-/archive/master/darknet-master.zip")
+set(Darknet_md5 "5dd51e1965848b5186c08ddab2414489")
 set(Darnet_dlname "darknent-d206b6da7af1f4.zip")
 list(APPEND fletch_external_sources Darknet)
 
