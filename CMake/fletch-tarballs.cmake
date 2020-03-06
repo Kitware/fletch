@@ -305,7 +305,7 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   set(Qt_release_location archive) # official_releases or archive
 
   if (Qt_version VERSION_EQUAL 5.11.2)
-    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
+    set(Qt_url "https://data.kitware.com/api/v1/item/5e62b6d0af2e2eed3506dcc3/download")
     set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
     set(Qt_release_location archive)
