@@ -21,3 +21,15 @@ file(COPY
   DESTINATION
   ${Caffe_source}/cmake/
   )
+
+file(COPY
+  ${Caffe_patch}/cmake/Misc.cmake
+  DESTINATION
+  ${Caffe_source}/cmake/
+  )
+
+file(COPY
+  ${Caffe_patch}/cmake/Dependencies.cmake
+  DESTINATION
+  ${Caffe_source}/cmake/
+  )
