@@ -217,20 +217,26 @@ else()
   )
 endif()
 
-if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
+if (fletch_BUILD_WITH_PYTHON AND
+    fletch_PYTHON_MAJOR_VERSION STREQUAL "3" AND
+    MSVC_VERSION  AND MSVC_VERSION STRGREATER_EQUAL 1900)
+  message(WARNING "Cannot use pycaffe with python 3 and Visual Studio >= 2017.")
+  set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
+elseif(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   if(Boost_Do_BCP_Name_Mangling)
     message(FATAL_ERROR "Cannot have Boost mangling enabled and use pycaffe.")
   endif()
   find_package(NumPy 1.7 REQUIRED)
   set(PYTHON_ARGS
-      -DBUILD_python:BOOL=ON
-      -DBUILD_python_layer:BOOL=ON
-      -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
-      -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
-      -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
-      -DNUMPY_INCLUDE_DIR=${NUMPY_INCLUDE_DIR}
-      -DNUMPY_VERSION=${NUMPY_VERSION}
-      )
+    -DBUILD_python:BOOL=ON
+    -DBUILD_python_layer:BOOL=ON
+    -Dpython_version=${fletch_PYTHON_MAJOR_VERSION}
+    -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+    -DPYTHON_LIBRARY=${PYTHON_LIBRARY}
+    -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
+    -DNUMPY_INCLUDE_DIR=${NUMPY_INCLUDE_DIR}
+    -DNUMPY_VERSION=${NUMPY_VERSION}
+    )
 else()
   set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
 endif()
