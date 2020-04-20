@@ -14,10 +14,16 @@ elseif(Qt_version VERSION_LESS 5.12 AND
 else()
   if(BUILD_Qt_MINIMAL)
     set(Qt_args_package -skip qtwebengine -no-qml-debug)
+    if(APPLE)
+        #version of Qt being built has a build error in bluetooth on current OS X 10.15
+        #current we do not need qtconnectivity
+        list(APPEND Qt_args_package -skip qtconnectivity)
+    endif()
   else()
     set(Qt_args_package )
   endif()
 endif()
+
 
 if(CMAKE_BUILD_TYPE)
   string(TOLOWER "${CMAKE_BUILD_TYPE}" QT_BUILD_TYPE)
