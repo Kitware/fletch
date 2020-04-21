@@ -32,3 +32,7 @@ file(COPY ${VTK_PATCH_DIR}/Interaction/Widgets/vtkSeedWidget.h
 file(COPY ${VTK_PATCH_DIR}/Interaction/Widgets/vtkSeedWidget.cxx
   DESTINATION ${VTK_SOURCE_DIR}/Interaction/Widgets/
 )
+
+file(COPY ${VTK_PATCH_DIR}/Wrapping/PythonCore/vtkPythonArgs.cxx
+  DESTINATION ${VTK_SOURCE_DIR}/Wrapping/PythonCore/
+)

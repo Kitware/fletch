@@ -101,7 +101,10 @@ bool vtkPythonGetStringValue(PyObject *o, T *&a, const char *exctext)
 #ifdef Py_USING_UNICODE
   else if (PyUnicode_Check(o))
   {
-#if PY_VERSION_HEX >= 0x03030000
+#if PY_VERSION_HEX >= 0x03070000
+    a = const_cast<T*>(PyUnicode_AsUTF8(o));
+    return true;
+#elif PY_VERSION_HEX >= 0x03030000
     a = PyUnicode_AsUTF8(o);
     return true;
 #else
