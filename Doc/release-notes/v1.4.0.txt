@@ -9,10 +9,6 @@ There are many other changes in this release. These are detailed in the change l
 Updates since v1.3.0
 --------------------
 
-New Packages
-
-Package Upgrades
-
 - Update GTest to 1.8.1 to fix gcc 9.1 build error
 
 - Update OpenBLAS to 0.3.6 to fix gcc 9.1 build error

@@ -85,7 +85,7 @@ Pull the image from Dockerhub::
 
  "docker pull kitware/fletch:latest" (master)
                 or
- "docker pull kitware/fletch:v1.3.0" (release version)
+ "docker pull kitware/fletch:v1.4.0" (release version)
 
 (`https://hub.docker.com/r/kitware/fletch <https://hub.docker.com/r/kitware/fletch>`_)
 
