@@ -530,12 +530,9 @@ if(NOT WIN32)
 endif()
 
 # Caffe
-set(InternalCaffe True)
+set(InternalCaffe False)
 
 if(InternalCaffe)
-  # Use the internal kitware hosted Caffe, which contain additional
-  # functionality that has not been merged into the BVLC version.
-  # This is the recommended option.
   if(WIN32)
     set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
     set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Fwindows/archive.zip")
@@ -546,10 +543,15 @@ if(InternalCaffe)
     set(Caffe_md5 "29b5ddbd6e2f47836cee5e55c88e098f")
   endif()
 else()
-  # The original BVLC Caffe does not currently contain required functionality.
-  set(Caffe_version "1.0")
-  set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
-  set(Caffe_md5 "5fbb0e32e7cd8de3de46e6fe6e4cd2b5")
+  if(WIN32)
+    set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
+    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Fwindows/archive.zip")
+    set(Caffe_md5 "a8376d867d87b6340313b82d87743bc7")
+  else()
+    set(Caffe_version "master")
+    set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
+    set(Caffe_md5 "ced51467a3923cdf7c24873fe43bda80")
+  endif()
 endif()
 list(APPEND fletch_external_sources Caffe)
 
