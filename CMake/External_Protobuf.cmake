@@ -10,6 +10,12 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Protobuf)
   if (${Protobuf_version} LESS 3.0 AND fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
     message(ERROR " Must use Protobuf >= 3.x with Python 3.x")
   endif()
+  if(fletch_ENABLE_CPython)
+    add_package_dependency(
+      PACKAGE Protobuf
+      PACKAGE_DEPENDENCY CPython
+    )
+  endif()
 endif()
 
 

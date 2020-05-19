@@ -14,7 +14,7 @@ endif()
 if(USE_PREBUILT_DEPENDENCIES)
     # Determine the python version
     if(BUILD_python)
-        if(NOT PYTHONINTERP_FOUND)
+        if(NOT PYTHONINTERP_FOUND AND NOT fletch_ENABLE_CPython)
             if(NOT "${python_version}" VERSION_LESS "3.0.0")
                 find_package(PythonInterp 3.5)
             else()

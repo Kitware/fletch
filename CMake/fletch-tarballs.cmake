@@ -21,9 +21,36 @@
 #   External_foo.cmake files for examples)
 #-
 
+# ZLib
+set(ZLib_version 1.2.9)
+set(ZLib_url "https://github.com/madler/zlib/archive/v${ZLib_version}.zip")
+set(zlib_md5 "d71ee9e2998abd2fdfb6a40c8f3c7bd7")
+set(zlib_dlname "zlib-${ZLib_version}.zip")
+list(APPEND fletch_external_sources ZLib)
+
+# CPython
+if(fletch_PYTHON_MAJOR_VERSION STREQUAL "2")
+  set(CPython_version_major 2)
+  set(CPython_version_minor 7)
+  set(CPython_version_modifier )
+  set(CPython_version ${CPython_version_major}.${CPython_version_minor})
+  set(CPython_url "https://github.com/python/cpython/archive/${CPython_version}.zip")
+  set(CPython_md5 "3c1b1e1511e8b026f06c29c4cb7bc5aa")
+else()
+  set(CPython_version_major 3)
+  set(CPython_version_minor 6)
+  set(CPython_version_patch 9)
+  set(CPython_version_modifier m)
+  set(CPython_version ${CPython_version_major}.${CPython_version_minor})
+  set(CPython_full_version ${CPython_version}.${CPython_version_patch})
+  set(CPython_url "https://github.com/python/cpython/archive/v${CPython_full_version}.zip")
+  set(CPython_md5 "70fd4923d7102a1a97ebd081071d5969")
+endif()
+list(APPEND fletch_external_sources CPython)
+
 # Boost
 # Support 1.55.0 (Default) and 1.65.1 optionally
-if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
+if(fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
   set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
@@ -40,13 +67,6 @@ if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPEN
   endif()
 endif()
 list(APPEND fletch_external_sources Boost)
-
-# ZLib
-set(ZLib_version 1.2.9)
-set(ZLib_url "https://github.com/madler/zlib/archive/v${ZLib_version}.zip")
-set(zlib_md5 "d71ee9e2998abd2fdfb6a40c8f3c7bd7")
-set(zlib_dlname "zlib-${ZLib_version}.zip")
-list(APPEND fletch_external_sources ZLib)
 
 # libjpeg-turbo
 set(libjpeg-turbo_version "1.4.0")
