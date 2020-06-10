@@ -180,7 +180,11 @@ else()
     list(APPEND Qt_configure
       -skip qtconnectivity -skip qtgamepad -skip qtlocation -skip qtmultimedia -skip qtsensors -skip qtserialport -skip qtwayland -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -nomake examples -nomake tests -no-dbus -no-openssl)
     list(APPEND Qt_configure
-      -qt-libjpeg -qt-pcre -system-zlib -qt-xcb -system-libpng -fontconfig -xkbcommon)
+      -qt-libjpeg -qt-pcre -system-zlib -system-libpng)
+    if (UNIX AND NOT APPLE)
+      list(APPEND Qt_configure
+        -qt-xcb -fontconfig -xkbcommon)
+    endif()
   endif()
 
   if(APPLE)
