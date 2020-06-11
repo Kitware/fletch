@@ -176,6 +176,17 @@ else()
   set(Qt_install_cmd ${MAKE_EXECUTABLE} install)
   set(Qt_args_other -no-cups -optimized-qmake)
 
+  if (Qt_version VERSION_GREATER 5.12)
+    list(APPEND Qt_configure
+      -skip qtconnectivity -skip qtgamepad -skip qtlocation -skip qtmultimedia -skip qtsensors -skip qtserialport -skip qtwayland -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -nomake examples -nomake tests -no-dbus -no-openssl)
+    list(APPEND Qt_configure
+      -qt-libjpeg -qt-pcre -system-zlib -system-libpng)
+    if (UNIX AND NOT APPLE)
+      list(APPEND Qt_configure
+        -qt-xcb -fontconfig -xkbcommon)
+    endif()
+  endif()
+
   if(APPLE)
     if (Qt_version VERSION_LESS 5.0.0)
       #Qt does not allow pure debug builds with frameworks.
