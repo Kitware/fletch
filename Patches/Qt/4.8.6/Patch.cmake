@@ -28,6 +28,12 @@ file(COPY ${Qt_patch}/messagemodel.cpp
   DESTINATION ${Qt_source}/tools/linguist/linguist/
   )
 
+# Patch for gcc 9 build issues
+# Taken from https://aur.archlinux.org/cgit/aur.git/tree/qt4-gcc9.patch?h=qt4
+file(COPY ${Qt_patch}/qglobal.h
+  DESTINATION ${Qt_source}/src/corelib/global/
+  )
+
 # Currently disabled as it seems to generate illegal opcodes with gcc44 on
 # SandyBridge CPUs and RHEL5
 # Allow *nix qmake to consume the CFLAGS and CXXFLAGS environment variables
