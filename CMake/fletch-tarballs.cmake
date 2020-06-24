@@ -352,6 +352,12 @@ set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${li
 set(libgeotiff_md5 "a7c7e11e301b7c17e44ea3107cd86e4e")
 list(APPEND fletch_external_sources libgeotiff)
 
+# GEOS
+set(GEOS_version "3.6.2" )
+set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
+set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
+list(APPEND fletch_external_sources GEOS )
+
 # GDAL
 if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
   set(GDAL_SELECT_VERSION 2.3.2 CACHE STRING "Select the major version of GDAL to build.")
@@ -370,12 +376,6 @@ if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
   endif()
 endif()
 list(APPEND fletch_external_sources GDAL)
-
-# GEOS
-set(GEOS_version "3.6.2" )
-set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
-set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
-list(APPEND fletch_external_sources GEOS )
 
 # PDAL
 set(PDAL_version 1.7.2)
