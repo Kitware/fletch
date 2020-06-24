@@ -74,8 +74,20 @@ else()
     # from macports.  GDAL's '--with-libiconv-prefix' option looks like it should handle
     # this but in fact seems to do nothing.
     #
-    set(_GDAL_ARGS_APPLE --without-libtool --with-netcdf=no --with-curl=no --with-local=/usr)
+    # Note: previously this var disabled curl and netcdf which are no handled
+    # by _GDAL_ARGS_UNSUPPORTED
+    set(_GDAL_ARGS_APPLE --without-libtool --with-local=/usr)
   endif()
+
+  # GDAL uses a configure based build system, so its important to disable
+  # anything that is not explicitly built or provided through fletch. If these
+  # are not disabled then it may find a system version of these libs. If the
+  # system also includes a conflicting version of another library provided by
+  # fletch, that can cause errors. For example, if you have a conda environment
+  # with curl and proj, just by adding curl to the include search paths, GDAL
+  # will ignore the fletch version of proj (even though we do specify it
+  # explicitly here) and use the conda version.
+  set(_GDAL_ARGS_UNSUPPORTED --with-curl=no --with-netcdf=no --with-kea=no)
 
   if(fletch_ENABLE_ZLib)
     #If we're building libz, then use it.
@@ -118,6 +130,15 @@ else()
     set(_GDAL_ARGS_XML2 "--with-xml2=${LIBXML2_ROOT}/bin/xml2-config")
   endif()
 
+  if(fletch_ENABLE_GEOS)
+    list(APPEND _GDAL_DEPENDS GEOS)
+    set( _GDAL_GEOS_ARGS "--with-geos=${GEOS_ROOT}")
+    message(STATUS "GEOS_ROOT = ${GEOS_ROOT}")
+  else()
+    # TODO / FIXME: allow use of system geos? What is the best way to add that option?
+    set(_GDAL_GEOS_ARGS --with-geos=no)
+  endif()
+
   # GDAL has a tendency to pick up old libkml versions and fail.
   #   Thus, disable GDAL with libkml.
   set(_GDAL_ARGS_libKML "--with-libkml=no")
@@ -143,7 +164,8 @@ else()
   set (GDAL_PKG_ARGS
     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
     ${_GDAL_ARGS_PROJ4} ${_GDAL_ARGS_XML2} ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE}
-    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG} ${_GDAL_ARGS_libKML} --without-jasper
+    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG} ${_GDAL_ARGS_libKML}
+    ${_GDAL_GEOS_ARGS} ${_GDAL_ARGS_UNSUPPORTED} --without-jasper
     )
 
 
