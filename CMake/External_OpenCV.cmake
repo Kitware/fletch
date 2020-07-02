@@ -219,22 +219,21 @@ if(fletch_BUILD_WITH_PYTHON)
   message(STATUS "Configuring OpenCV Python : ${OpenCV_PYTHON_FLAGS}")
 endif()
 
-# Qt
-add_package_dependency(
-  PACKAGE OpenCV
-  PACKAGE_DEPENDENCY Qt
-  PACKAGE_DEPENDENCY_ALIAS Qt4
-  OPTIONAL
-)
-
 if ( fletch_ENABLE_Qt )
-  option(fletch_ENABLE_OpenCV_Qt "Build OpenCV with FFMPEG support" TRUE )
+  option(fletch_ENABLE_OpenCV_Qt "Build OpenCV with FFMPEG support" FALSE )
   mark_as_advanced(fletch_ENABLE_OpenCV_Qt)
 else()
   unset(fletch_ENABLE_OpenCV_Qt CACHE)
 endif()
 
 if (fletch_ENABLE_OpenCV_Qt)
+  # Qt
+  add_package_dependency(
+    PACKAGE OpenCV
+    PACKAGE_DEPENDENCY Qt
+    PACKAGE_DEPENDENCY_ALIAS Qt4
+    OPTIONAL
+    )
   if (Qt_version VERSION_LESS 5.0.0)
     list(APPEND OpenCV_EXTRA_BUILD_FLAGS
       -DWITH_QT:BOOL=4
