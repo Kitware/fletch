@@ -9,6 +9,9 @@ There are many other changes in this release. These are detailed in the change l
 Updates since v1.4.0
 --------------------
 
+ * Updated Ceres Solver from v1.13 to v1.14.
+
+
 Fixes since v1.4.0
 ------------------
 
