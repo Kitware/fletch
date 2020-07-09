@@ -3,4 +3,4 @@
 # External_Zlib.cmake
 #-
 
-file(COPY ${zlib_patch}/CMakeLists.txt	DESTINATION ${zlib_source})
+file(COPY ${ZLib_patch}/CMakeLists.txt	DESTINATION ${ZLib_source})
