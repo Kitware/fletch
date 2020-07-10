@@ -12,6 +12,7 @@ ExternalProject_Add(Eigen
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DEIGEN_BUILD_PKGCONFIG:BOOL=False
+    -DBUILD_TESTING:BOOL=OFF
 )
 
 fletch_external_project_force_install(PACKAGE Eigen)
