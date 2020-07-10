@@ -42,9 +42,9 @@ endif()
 list(APPEND fletch_external_sources Boost)
 
 # ZLib
-set(ZLib_version 1.2.9)
+set(ZLib_version 1.2.11)
 set(ZLib_url "https://github.com/madler/zlib/archive/v${ZLib_version}.zip")
-set(zlib_md5 "d71ee9e2998abd2fdfb6a40c8f3c7bd7")
+set(zlib_md5 "9d6a627693163bbbf3f26403a3a0b0b1")
 set(zlib_dlname "zlib-${ZLib_version}.zip")
 list(APPEND fletch_external_sources ZLib)
 
