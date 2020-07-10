@@ -116,7 +116,11 @@ endif()
 
 add_subdirectory( include )
 add_subdirectory( src )
-add_subdirectory( examples )
+
+option( BUILD_EXAMPLES "Build Darknet Examples"  FALSE )
+if( BUILD_EXAMPLES )
+  add_subdirectory( examples )
+endif()
 
 if( WIN32 )
   add_subdirectory( 3rdparty )
