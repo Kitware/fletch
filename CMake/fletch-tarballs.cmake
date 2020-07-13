@@ -55,9 +55,9 @@ set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
 
 # libtiff
-set(libtiff_version "4.0.6")
+set(libtiff_version "4.1.0")
 set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
-set(libtiff_md5 "d1d2e940dea0b5ad435f21f03d96dd72")
+set(libtiff_md5 "2165e7aba557463acc0664e71a3ed424")
 list(APPEND fletch_external_sources libtiff)
 
 # PNG
