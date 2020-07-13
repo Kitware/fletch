@@ -2,6 +2,21 @@
 include(External_yasm)
 list(APPEND libjpeg-turbo_DEPENDS yasm)
 
+# We need some special Apple treatment
+if(APPLE)
+  if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(_libjpeg-turbo_ARGS_APPLE --host x86_64-apple-darwin )
+  endif()
+  if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    # Need to investigate/apply the following command-line options for 32-bit when required.
+    # Configure commandline comes from the BUILDING.txt file in libjpeg-turbo source
+    # "--host i686-apple-darwin CFLAGS='-isysroot /Developer/SDKs/MacOSX10.5.sdk
+    # -mmacosx-version-min=10.5 -O3 -m32' LDFLAGS='-isysroot
+    # /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5 -m32'")
+
+  endif()
+endif()
+
 ExternalProject_Add(libjpeg-turbo
   URL ${libjpeg-turbo_url}
   URL_MD5 ${libjpeg-turbo_md5}
