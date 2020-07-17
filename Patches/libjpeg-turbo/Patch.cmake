@@ -6,15 +6,15 @@
 # The purpose of this is to add CMake build to libsvm
 message("Patching libjpeg-turbo ${libjpeg-turbo_patch} AND ${libjpeg-turbo_source}")
 
-if (WIN32)
-  file(COPY
-    ${libjpeg-turbo_patch}/simd/CMakeLists.txt
-    DESTINATION ${libjpeg-turbo_source}/simd/
-    )
-endif()
+#if (WIN32 )
+#   file(COPY
+#     ${libjpeg-turbo_patch}/simd/CMakeLists.txt
+#     DESTINATION ${libjpeg-turbo_source}/simd/
+#     )
+# endif()
 
-# Patch config.guess for arm boards.
-file(COPY
-  ${libjpeg-turbo_patch}/config.guess
-  DESTINATION ${libjpeg-turbo_source}/
-  )
+# # Patch config.guess for arm boards.
+# file(COPY
+#   ${libjpeg-turbo_patch}/config.guess
+#   DESTINATION ${libjpeg-turbo_source}/
+#   )
