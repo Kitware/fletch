@@ -15,32 +15,12 @@ ExternalProject_Add(ZLib
     -DBUILD_SHARED_LIBS:BOOL=ON
 )
 
-if(WIN32)
-  # Copy zlib to zdll for Qt
-  ExternalProject_Add_Step(ZLib fixup-install
-    COMMAND ${CMAKE_COMMAND} -E copy
-      ${fletch_BUILD_INSTALL_PREFIX}/lib/zlib.lib
-      ${fletch_BUILD_INSTALL_PREFIX}/lib/zdll.lib
-    DEPENDEES install
-    )
-elseif(NOT APPLE)
-  # For Linux machines
-  ExternalProject_Add_Step(ZLib fixup-install
-    COMMAND ${CMAKE_COMMAND} -E copy
-      ${fletch_BUILD_INSTALL_PREFIX}/lib/libz.so
-      ${fletch_BUILD_INSTALL_PREFIX}/lib/libzlib.so
-    DEPENDEES install
-    )
-else()
-  # APPLE
-  ExternalProject_Add_Step(ZLib fixup-install
-    COMMAND ${CMAKE_COMMAND} -E copy
-      ${fletch_BUILD_INSTALL_PREFIX}/lib/libz.dylib
-      ${fletch_BUILD_INSTALL_PREFIX}/lib/libzlib.dylib
-    DEPENDEES install
-    )
-endif()
-
+ExternalProject_Add_Step(ZLib fixup-install
+  COMMAND ${CMAKE_COMMAND}
+    -Dfletch_BUILD_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+    -P ${fletch_SOURCE_DIR}/Patches/ZLib/fixup-install.cmake
+  DEPENDEES install
+)
 fletch_external_project_force_install(PACKAGE ZLib STEP_NAMES install fixup-install)
 
 set(ZLIB_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
