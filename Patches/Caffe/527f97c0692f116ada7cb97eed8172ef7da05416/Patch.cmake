@@ -32,6 +32,24 @@ if(WIN32)
     ${Caffe_source}/cmake/
     )
 
+  file(COPY
+    ${Caffe_patch}/caffe.proto
+    DESTINATION
+    ${Caffe_source}/src/caffe/proto/
+    )
+
+  file(COPY
+    ${Caffe_patch}/net.cpp
+    DESTINATION
+    ${Caffe_source}/src/caffe/
+    )
+
+  file(COPY
+    ${Caffe_patch}/upgrade_proto.cpp
+    DESTINATION
+    ${Caffe_source}/src/caffe/util/
+    )
+
 else()
   message(FATAL_ERROR "This caffe patch is only for windows")
 endif()
