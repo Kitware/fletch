@@ -295,9 +295,9 @@ message ParamSpec {
   optional DimCheckMode share_mode = 2;
   enum DimCheckMode {
     // STRICT (default) requires that num, channels, height, width each match.
-    STRICT = 0;
+    STRICT_ = 0;
     // PERMISSIVE requires only the count (num*channels*height*width) to match.
-    PERMISSIVE = 1;
+    PERMISSIVE_ = 1;
   }
 
   // The multiplier on the global learning rate for this parameter.
@@ -1261,8 +1261,8 @@ message V1LayerParameter {
   repeated string param = 1001;
   repeated DimCheckMode blob_share_mode = 1002;
   enum DimCheckMode {
-    STRICT = 0;
-    PERMISSIVE = 1;
+    STRICT_ = 0;
+    PERMISSIVE_ = 1;
   }
   repeated float blobs_lr = 7;
   repeated float weight_decay = 8;

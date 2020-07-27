@@ -473,7 +473,7 @@ void Net<Dtype>::AppendParam(const NetParameter& param, const int layer_id,
         layers_[owner_layer_id]->blobs()[owner_param_id].get();
     const int param_size = layer_param.param_size();
     if (param_size > param_id && (layer_param.param(param_id).share_mode() ==
-                                  ParamSpec_DimCheckMode_PERMISSIVE)) {
+                                  ParamSpec_DimCheckMode_PERMISSIVE_)) {
       // Permissive dimension checking -- only check counts are the same.
       CHECK_EQ(this_blob->count(), owner_blob->count())
           << "Cannot share param '" << param_name << "' owned by layer '"
