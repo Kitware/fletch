@@ -15,6 +15,7 @@ Updates since v1.4.0
  * Update libtiff from 4.0.6 to 4.1.0
  * Update ZLib from 1.2.9 to 1.2.11
  * Update Eigen from 3.3.4 to 3.3.7
+ * Add optional Boost version 1.72.0 to allow VS 2019 builds
 
 Fixes since v1.4.0
 ------------------
