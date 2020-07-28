@@ -13,3 +13,7 @@ file(COPY ${Boost_patch}/copy_path.cpp
 file(COPY ${Boost_patch}/builtin_converters.cpp
   DESTINATION ${Boost_source}/libs/python/src/converter/
   )
+
+file(COPY ${Boost_patch}/msvc.jam
+  DESTINATION ${Boost_source}/tools/build/src/tools/
+  )
