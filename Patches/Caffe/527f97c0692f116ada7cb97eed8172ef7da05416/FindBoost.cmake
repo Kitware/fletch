@@ -247,8 +247,14 @@ include(FindPackageHandleStandardArgs)
 
 # Save project's policies
 cmake_policy(PUSH)
-cmake_policy(SET CMP0057 NEW) # if IN_LIST
-cmake_policy(SET CMP0102 NEW) # if mark_as_advanced(non_cache_var)
+
+if(POLICY CMP0057)
+  cmake_policy(SET CMP0057 NEW) # if IN_LIST
+endif()
+
+if(POLICY CMP0102)
+  cmake_policy(SET CMP0102 NEW) # if mark_as_advanced(non_cache_var)
+endif()
 
 function(_boost_get_existing_target component target_var)
   set(names "${component}")
