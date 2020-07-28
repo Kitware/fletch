@@ -24,20 +24,32 @@
 # Boost
 # Support 1.55.0 (Default) and 1.65.1 optionally
 if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
-  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
-  message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
+  set(Boost_VERSION_LIST "1.72.0")
+  if (MSVC_VERSION VERSION_LESS 1920)
+    # Visual Studio 2017 and less will still default to Boost 1.65.1 until the new version is vetted.
+    list( APPEND Boost_VERSION_LIST "1.65.1")
+    set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
+  else()
+    # Visual Studio 2019 requires Boost 1.72.0
+    set(Boost_SELECT_VERSION 1.72.0 CACHE STRING "Select the major version of Boost to build.")
+  endif()
+  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "${Boost_VERSION_LIST}")
 
   if(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
     # Boost 1.65.1
     set(Boost_major_version 1)
     set(Boost_minor_version 65)
     set(Boost_patch_version 1)
-    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
     set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
+  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.72.0)
+    set(Boost_major_version 1)
+    set(Boost_minor_version 72)
+    set(Boost_patch_version 0)
+    set(Boost_md5 "cb40943d2a2cb8ce08d42bc48b0f84f0")
   else()
     message(STATUS "Boost_SELECT_VERSION: Not supported")
   endif()
+  set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
 endif()
 list(APPEND fletch_external_sources Boost)
 
@@ -553,10 +565,15 @@ endif()
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/-/archive/master/darknet-master.zip")
-set(Darknet_md5 "5dd51e1965848b5186c08ddab2414489")
-set(Darnet_dlname "darknent-d206b6da7af1f4.zip")
-list(APPEND fletch_external_sources Darknet)
+if (MSVC AND MSVC_VERSION VERSION_GREATER 1919)
+  # Darknet doesn't correctly find OpenCV in Visual Studio 2019.
+  message(WARN " Darknet currently doesn't build correctly with Visual Studio 2019. Hiding the option.")
+else()
+  set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/-/archive/master/darknet-master.zip")
+  set(Darknet_md5 "5dd51e1965848b5186c08ddab2414489")
+  set(Darnet_dlname "darknent-d206b6da7af1f4.zip")
+  list(APPEND fletch_external_sources Darknet)
+endif()
 
 # pybind11
 set(pybind11_version "2.2.1")

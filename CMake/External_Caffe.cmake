@@ -136,8 +136,7 @@ if(fletch_ENABLE_LevelDB)
     )
 else()
   set( CAFFE_LevelDB_ARGS
-    -DLevelDB_INCLUDE:PATH=${LevelDB_INCLUDE_DIR}
-    -DLevelDB_LIBRARY:PATH=${LevelDB_LIBRARY}
+    -DUSE_LEVELDB:BOOL=FALSE
     )
 endif()
 
@@ -302,6 +301,7 @@ if(WIN32)
       ${CAFFE_GFlags_ARGS}
       ${CAFFE_GLog_ARGS}
       ${CAFFE_HDF5_ARGS}
+      ${CAFFE_LevelDB_ARGS}
       ${CAFFE_OPENCV_ARGS}
     )
 else()
