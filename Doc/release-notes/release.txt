@@ -7,3 +7,5 @@ Fixes since v1.4.0
 ------------------
 
  * Patched Boost 1.65 to build on MSVC 2019.
+ * Patched OpenCV 3.4 to build on MSVC 2019.
+
