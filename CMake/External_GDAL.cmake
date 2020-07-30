@@ -27,22 +27,29 @@ endif()
 if (WIN32)
   if(fletch_ENABLE_PNG)
     set(_GDAL_ARGS_PNG)
-    set(_GDAL_ARGS_PNG PNGDIR=${fletch_BUILD_INSTALL_PREFIX}/include PNG_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.lib)
+    set(_GDAL_ARGS_PNG PNGDIR=${fletch_BUILD_INSTALL_PREFIX}/include PNG_LIB=${PNG_LIBRARY})
     list(APPEND _GDAL_DEPENDS PNG)
   endif()
 
   if(fletch_ENABLE_libtiff)
     list(APPEND _GDAL_DEPENDS libtiff)
-    set( _GDAL_TIFF_ARGS TIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include TIFF_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/tiff.lib)
+    set( _GDAL_TIFF_ARGS TIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include TIFF_LIB=${TIFF_LIBRARY})
   endif()
 
   if(fletch_ENABLE_libgeotiff)
     list(APPEND _GDAL_DEPENDS libgeotiff)
-    set( _GDAL_GEOTIFF_ARGS GEOTIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOTIFF_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/geotiff_i.lib)
+    set( _GDAL_GEOTIFF_ARGS GEOTIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOTIFF_LIB=${libgeotiff_LIBRARY})
+  endif()
+
+  if(fletch_ENABLE_GEOS)
+    list(APPEND _GDAL_DEPENDS libgeos)
+    set( _GDAL_GEOS_ARGS GEOS_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOS_LIB=${GEOS_C_LIBRARY}))
   endif()
 
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
-  set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG} ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS})
+  set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG}
+                      ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS}
+                      ${_GDAL_GEOS_ARGS})
   file(TO_NATIVE_PATH ${fletch_BUILD_INSTALL_PREFIX} _gdal_native_fletch_BUILD_INSTALL_PREFIX)
   set (GDAL_ARGS MSVC_VER=${MSVC_VERSION}
     DATADIR=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}\\share\\gdal
@@ -74,7 +81,7 @@ else()
     # from macports.  GDAL's '--with-libiconv-prefix' option looks like it should handle
     # this but in fact seems to do nothing.
     #
-    # Note: previously this var disabled curl and netcdf which are no handled
+    # Note: previously this var disabled curl and netcdf which are now handled
     # by _GDAL_ARGS_UNSUPPORTED
     set(_GDAL_ARGS_APPLE --without-libtool --with-local=/usr)
   endif()
@@ -133,9 +140,8 @@ else()
   if(fletch_ENABLE_GEOS)
     list(APPEND _GDAL_DEPENDS GEOS)
     set( _GDAL_GEOS_ARGS "--with-geos=${GEOS_ROOT}")
-    message(STATUS "GEOS_ROOT = ${GEOS_ROOT}")
   else()
-    # TODO / FIXME: allow use of system geos? What is the best way to add that option?
+    # TODO: should we allow use of system geos?
     set(_GDAL_GEOS_ARGS --with-geos=no)
   endif()
 
