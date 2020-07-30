@@ -24,7 +24,7 @@ file(COPY ${OpenCV_patch}/FindCUDA.cmake
 )
 
 # Patch to allow support for MSVC 2019
-file(COPY ${OpenCV_patch}/OpenCVDetectCXXCompiler.cmake
+file(COPY ${OpenCV_patch}/cmake/OpenCVDetectCXXCompiler.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
 
