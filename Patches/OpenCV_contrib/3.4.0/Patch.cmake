@@ -17,3 +17,7 @@ file(COPY ${OpenCV_contrib_patch}/modules/freetype/CMakeLists.txt
 file(COPY ${OpenCV_contrib_patch}/modules/stereo/src/descriptor.cpp
   DESTINATION ${OpenCV_contrib_source}/modules/stereo/src/
 )
+
+file(COPY ${OpenCV_contrib_patch}/modules/cvv/src//util/observer_ptr.hpp
+  DESTINATION ${OpenCV_contrib_source}/modules/cvv/src/util/
+)
