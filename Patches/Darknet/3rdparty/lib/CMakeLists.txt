@@ -1,6 +1,6 @@
 
-if( NOT "${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)" )
-  add_subdirectory( x86 )
-else()
+if("${Darknet_PLATFORM}" MATCHES "(x64|ARM64)")
   add_subdirectory( x64 )
+else()
+  add_subdirectory( x86 )
 endif()

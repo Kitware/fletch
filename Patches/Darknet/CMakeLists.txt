@@ -104,10 +104,19 @@ if( USE_OPENCV )
 endif()
 
 if( WIN32 )
-  if( NOT "${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)" )
-    link_directories( ${CMAKE_SOURCE_DIR}/3rdparty/lib/x86 )
-  else()
+  # Use CMAKE_GENERATOR_PLATFORM to determine specified architecture
+  # If the user didn't specify it, use the CMAKE_VS_PLATFORM_NAME_DEFAULT which is what CMake uses to initialize CMAKE_GENERATOR_PLATFORM
+  # See: https://cmake.org/cmake/help/latest/variable/CMAKE_VS_PLATFORM_NAME_DEFAULT.html#variable:CMAKE_VS_PLATFORM_NAME_DEFAULT
+  # "...for VS 2017 and below this is always Win32. For VS 2019 and above this is based on the host platform"
+  set (Darknet_PLATFORM ${CMAKE_GENERATOR_PLATFORM})
+  if (NOT CMAKE_GENERATOR_PLATFORM)
+    set (Darknet_PLATFORM ${CMAKE_VS_PLATFORM_NAME_DEFAULT})
+  endif()
+
+  if("${Darknet_PLATFORM}" MATCHES "(x64|ARM64)")
     link_directories( ${CMAKE_SOURCE_DIR}/3rdparty/lib/x64 )
+  else()
+    link_directories( ${CMAKE_SOURCE_DIR}/3rdparty/lib/x86 )
   endif()
   list( APPEND DARKNET_LINKED_LIBS pthreadVC2 )
 else()
