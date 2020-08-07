@@ -24,7 +24,7 @@ endif()
 # can still detect after the change)
 #-
 set(fletch_VERSION_MAJOR 1)
-set(fletch_VERSION_MINOR 3)
+set(fletch_VERSION_MINOR 4)
 set(fletch_VERSION_PATCH 0)
 
 set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VERSION_PATCH}")
@@ -68,7 +68,7 @@ endif()
 #
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
 
-set(fletch_PYTHON_MAJOR_VERSION "2" CACHE STRING
+set(fletch_PYTHON_MAJOR_VERSION "3" CACHE STRING
   "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
 
@@ -95,6 +95,7 @@ if (fletch_BUILD_WITH_PYTHON)
   elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
       set(fletch_python2 True)
       set(fletch_python3 False)
+      message( WARNING "Python 2 is at end of life. Please upgrade to Python 3")
   else()
       message("Unknown Python version")
   endif()

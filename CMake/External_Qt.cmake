@@ -14,10 +14,16 @@ elseif(Qt_version VERSION_LESS 5.12 AND
 else()
   if(BUILD_Qt_MINIMAL)
     set(Qt_args_package -skip qtwebengine -no-qml-debug)
+    if(APPLE)
+        #version of Qt being built has a build error in bluetooth on current OS X 10.15
+        #current we do not need qtconnectivity
+        list(APPEND Qt_args_package -skip qtconnectivity)
+    endif()
   else()
     set(Qt_args_package )
   endif()
 endif()
+
 
 if(CMAKE_BUILD_TYPE)
   string(TOLOWER "${CMAKE_BUILD_TYPE}" QT_BUILD_TYPE)
@@ -169,6 +175,17 @@ else()
   set(Qt_build ${env} ${build_env_var} ${MAKE_EXECUTABLE})
   set(Qt_install_cmd ${MAKE_EXECUTABLE} install)
   set(Qt_args_other -no-cups -optimized-qmake)
+
+  if (Qt_version VERSION_GREATER 5.12)
+    list(APPEND Qt_configure
+      -skip qtconnectivity -skip qtgamepad -skip qtlocation -skip qtmultimedia -skip qtsensors -skip qtserialport -skip qtwayland -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -nomake examples -nomake tests -no-dbus -no-openssl)
+    list(APPEND Qt_configure
+      -qt-libjpeg -qt-pcre -system-zlib -system-libpng)
+    if (UNIX AND NOT APPLE)
+      list(APPEND Qt_configure
+        -qt-xcb -fontconfig -xkbcommon)
+    endif()
+  endif()
 
   if(APPLE)
     if (Qt_version VERSION_LESS 5.0.0)

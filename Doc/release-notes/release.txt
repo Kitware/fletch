@@ -1,8 +1,11 @@
-Fletch v1.3.1 Release Notes
+Fletch v1.4.1 Release Notes
 ===========================
 
-This is a patch release of Fletch that provides fixes over the previous v1.3.0 release.
+This is a patch release of Fletch that provides fixes over the previous v1.4.0 release.
 
-Fixes since v1.3.0
+Fixes since v1.4.0
 ------------------
- 
+
+ * Patched Boost 1.65 to build on MSVC 2019.
+ * Patched OpenCV 3.4 to build on MSVC 2019.
+

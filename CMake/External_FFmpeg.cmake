@@ -89,6 +89,10 @@ else ()
     list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-outdev=sdl)
   endif()
 
+  if(APPLE)
+    list(APPEND FFMPEG_CONFIGURE_COMMAND --sysroot=${CMAKE_OSX_SYSROOT} --disable-doc)
+  endif()
+
 
   Fletch_Require_Make()
   ExternalProject_Add(FFmpeg
