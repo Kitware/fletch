@@ -5,12 +5,12 @@
 
 message("Patching libtiff in ${libtiff_source}")
 
-file(COPY
-  ${libtiff_patch}/CMakeLists.txt
-  DESTINATION ${libtiff_source}
-)
+# file(COPY
+#   ${libtiff_patch}/CMakeLists.txt
+#   DESTINATION ${libtiff_source}
+# )
 
-file(COPY
-  ${libtiff_patch}/libtiff/CMakeLists.txt
-  DESTINATION ${libtiff_source}/libtiff
-)
+# file(COPY
+#   ${libtiff_patch}/libtiff/CMakeLists.txt
+#   DESTINATION ${libtiff_source}/libtiff
+# )

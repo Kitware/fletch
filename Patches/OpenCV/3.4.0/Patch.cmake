@@ -23,6 +23,15 @@ file(COPY ${OpenCV_patch}/FindCUDA.cmake
   DESTINATION ${OpenCV_source}/cmake
 )
 
+# Patch to allow support for MSVC 2019
+file(COPY ${OpenCV_patch}/cmake/OpenCVDetectCXXCompiler.cmake
+  DESTINATION ${OpenCV_source}/cmake
+)
+file(COPY ${OpenCV_patch}/cmake/templates/OpenCVConfig.root-WIN32.cmake.in
+  DESTINATION ${OpenCV_source}/cmake/templates/
+)
+
+
 # Patch the generating file to use the correct location when using MSVC 2017 and later
 file(COPY ${OpenCV_patch}/run_nvcc.cmake
   DESTINATION ${OpenCV_source}/cmake/FindCUDA

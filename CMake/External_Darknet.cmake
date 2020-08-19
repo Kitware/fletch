@@ -56,6 +56,10 @@ ExternalProject_Add(Darknet
   DOWNLOAD_NAME ${Darnet_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+     -DDarknet_Patch=${fletch_SOURCE_DIR}/Patches/Darknet
+     -DDarknet_Source=${fletch_BUILD_PREFIX}/src/Darknet
+     -P ${fletch_SOURCE_DIR}/Patches/Darknet/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}

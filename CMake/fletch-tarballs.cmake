@@ -75,9 +75,9 @@ set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
 
 # libtiff
-set(libtiff_version "4.0.6")
+set(libtiff_version "4.1.0")
 set(libtiff_url "http://download.osgeo.org/libtiff/tiff-${libtiff_version}.tar.gz")
-set(libtiff_md5 "d1d2e940dea0b5ad435f21f03d96dd72")
+set(libtiff_md5 "2165e7aba557463acc0664e71a3ed424")
 list(APPEND fletch_external_sources libtiff)
 
 # PNG
@@ -167,9 +167,9 @@ if(_FFmpeg_supported)
 endif()
 
 # EIGEN
-set(Eigen_version 3.3.4)
+set(Eigen_version 3.3.7)
 set(Eigen_url "https://gitlab.com/libeigen/eigen/-/archive/${Eigen_version}/eigen-${Eigen_version}.tar.gz")
-set(Eigen_md5 "7bff43034070a626687d901f4c8f54a0")
+set(Eigen_md5 "9e30f67e8531477de4117506fe44669b")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
@@ -227,9 +227,9 @@ set(SuiteSparse_md5 "a2926c27f8a5285e4a10265cc68bbc18")
 list(APPEND fletch_external_sources SuiteSparse)
 
 # Ceres Solver
-set(Ceres_version 1.13.0)
+set(Ceres_version 1.14.0)
 set(Ceres_url "http://ceres-solver.org/ceres-solver-${Ceres_version}.tar.gz")
-set(Ceres_md5 "cd568707571c92af3d69c1eb28d63d72")
+set(Ceres_md5 "fd9b4eba8850f0f2ede416cd821aafa5")
 set(Ceres_dlname "ceres-${Ceres_version}.tar.gz")
 list(APPEND fletch_external_sources Ceres)
 
@@ -295,7 +295,7 @@ list(APPEND fletch_external_sources libkml)
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
   set(Qt_SELECT_VERSION 5.11.2 CACHE STRING "Select the version of Qt to build.")
-  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2")
+  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2" "5.12.8")
 
   set(Qt_version ${Qt_SELECT_VERSION})
   string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
@@ -307,6 +307,10 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   if (Qt_version VERSION_EQUAL 5.11.2)
     set(Qt_url "https://download.qt.io/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
     set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
+  elseif (Qt_version VERSION_EQUAL 5.12.8)
+    set(Qt_release_location archive) # official_releases or new_archive
+    set(Qt_url "https://download.qt.io/${Qt_release_location}/qt/5.12/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
+    set(Qt_md5 "8ec2a0458f3b8e9c995b03df05e006e4")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
     set(Qt_release_location new_archive)
     set(Qt_url "https://download.qt.io/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
@@ -427,9 +431,9 @@ list(APPEND fletch_external_sources PostgreSQL)
 # PostGIS
 # Currently it seems the this version of PostGIS will work with all provided PostgreSQL versions
 if(NOT WIN32)
-  set(PostGIS_version "2.4.3" )
+  set(PostGIS_version "2.5.3" )
   set(PostGIS_url "http://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
-  set(PostGIS_md5 "60395f3dc96505ca4e313449d6463c6a" )
+  set(PostGIS_md5 "475bca6249ee11f675b899de14fd3f42" )
   list(APPEND fletch_external_sources PostGIS )
 endif()
 

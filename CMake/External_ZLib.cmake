@@ -6,6 +6,10 @@ ExternalProject_Add(ZLib
   DOWNLOAD_NAME ${zlib_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+     -DZLib_patch=${fletch_SOURCE_DIR}/Patches/ZLib
+     -DZLib_source=${fletch_BUILD_PREFIX}/src/ZLib
+     -P ${fletch_SOURCE_DIR}/Patches/ZLib/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=ON

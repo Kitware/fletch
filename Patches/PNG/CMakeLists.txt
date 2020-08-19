@@ -324,6 +324,8 @@ endif()
 if(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL )
   install(FILES ${libpng_public_hdrs}   DESTINATION include)
   install(FILES ${libpng_public_hdrs}   DESTINATION include/${PNG_LIB_NAME})
+  # qt5 looks for this
+  install(FILES ${libpng_public_hdrs}   DESTINATION include/lib${PNG_LIB_NAME}16)
 endif()
 if(NOT SKIP_INSTALL_EXECUTABLES AND NOT SKIP_INSTALL_ALL )
   if(NOT WIN32 OR CYGWIN OR MINGW)
