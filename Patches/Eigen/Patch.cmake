@@ -18,3 +18,8 @@ configure_file(
   ${Eigen_source}/cmake/
   COPYONLY
 )
+
+configure_file(
+  ${Eigen_patch}/src/LU/arch/Inverse_SSE.h
+  ${Eigen_source}/Eigen/src/LU/arch/Inverse_SSE.h
+  COPYONLY )

@@ -208,7 +208,12 @@ else()
     )
 endif()
 
-if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
+if (fletch_BUILD_WITH_PYTHON AND
+    fletch_PYTHON_MAJOR_VERSION STREQUAL "3" AND
+    MSVC_VERSION  AND MSVC_VERSION STRGREATER_EQUAL 1900)
+  message(WARNING "Cannot use pycaffe with python 3 and Visual Studio >= 2017.")
+  set(PYTHON_ARGS -DBUILD_python:BOOL=OFF -DBUILD_python_layer:BOOL=OFF)
+elseif(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_Boost)
   if(Boost_Do_BCP_Name_Mangling)
     message(FATAL_ERROR "Cannot have Boost mangling enabled and use pycaffe.")
   endif()

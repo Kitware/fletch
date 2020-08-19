@@ -168,8 +168,8 @@ endif()
 
 # EIGEN
 set(Eigen_version 3.3.4)
-set(Eigen_url "http://bitbucket.org/eigen/eigen/get/${Eigen_version}.tar.gz")
-set(Eigen_md5 "1a47e78efe365a97de0c022d127607c3")
+set(Eigen_url "https://gitlab.com/libeigen/eigen/-/archive/${Eigen_version}/eigen-${Eigen_version}.tar.gz")
+set(Eigen_md5 "7bff43034070a626687d901f4c8f54a0")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
@@ -302,14 +302,14 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   list(GET Qt_VERSION_LIST 0 Qt_version_major)
   list(GET Qt_VERSION_LIST 1 Qt_version_minor)
   list(GET Qt_VERSION_LIST 2 Qt_version_patch)
-  set(Qt_release_location archive) # official_releases or archive
+  set(Qt_release_location new_archive) # official_releases or new_archive
 
   if (Qt_version VERSION_EQUAL 5.11.2)
-    set(Qt_url "https://data.kitware.com/api/v1/item/5e62b6d0af2e2eed3506dcc3/download")
+    set(Qt_url "https://download.qt.io/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
     set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
-    set(Qt_release_location archive)
-    set(Qt_url "http://download.qt-project.org/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
+    set(Qt_release_location new_archive)
+    set(Qt_url "https://download.qt.io/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
     set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
   else()
     message(ERROR "Qt Version \"${Qt_version}\" Not Supported")
@@ -511,7 +511,7 @@ list(APPEND fletch_external_sources ITK)
 # Protobuf
 if(NOT WIN32)
   if (fletch_ENABLE_Protobuf OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-    set(Protobuf_SELECT_VERSION "2.5.0" CACHE STRING "Select the  version of ProtoBuf to build.")
+    set(Protobuf_SELECT_VERSION "3.4.1" CACHE STRING "Select the  version of ProtoBuf to build.")
     set_property(CACHE Protobuf_SELECT_VERSION PROPERTY STRINGS "2.5.0" "3.4.1")
   endif()
 
@@ -530,28 +530,28 @@ if(NOT WIN32)
 endif()
 
 # Caffe
-set(InternalCaffe False)
+set(Caffe_SELECT_VERSION "1" CACHE STRING "Select the  version of Caffe to build.")
+set_property(CACHE Caffe_SELECT_VERSION PROPERTY STRINGS "1" "2")
 
-if(InternalCaffe)
+set(Caffe_version ${Caffe_SELECT_VERSION})
+
+if (Caffe_version VERSION_EQUAL 2)
+  # Use the internal kitware hosted Caffe, which contain additional
+  # functionality that has not been merged into the BVLC version.
+  # This is the recommended option.
   if(WIN32)
     set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Fwindows/archive.zip")
-    set(Caffe_md5 "a8376d867d87b6340313b82d87743bc7")
+    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/windows/caffe-fletch-windows.zip")
+    set(Caffe_md5 "4f3f8c56f9bf8f0e7a5534a1080d4ef1")
   else()
     set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Flinux/archive.zip")
-    set(Caffe_md5 "29b5ddbd6e2f47836cee5e55c88e098f")
+    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/linux/caffe-fletch-linux.zip")
+    set(Caffe_md5 "8eda68aa96d0bbdd446e2125553f46de")
   endif()
 else()
-  if(WIN32)
-    set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Fwindows/archive.zip")
-    set(Caffe_md5 "a8376d867d87b6340313b82d87743bc7")
-  else()
-    set(Caffe_version "master")
-    set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
-    set(Caffe_md5 "ced51467a3923cdf7c24873fe43bda80")
-  endif()
+  set(Caffe_version "1.0")
+  set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
+  set(Caffe_md5 "5fbb0e32e7cd8de3de46e6fe6e4cd2b5")
 endif()
 list(APPEND fletch_external_sources Caffe)
 
@@ -568,8 +568,8 @@ endif()
 
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
-set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/repository/fletch%2Fmaster/archive.zip")
-set(Darknet_md5 "d206b6da7af1f43340a217d6b05db5e3")
+set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/-/archive/master/darknet-master.zip")
+set(Darknet_md5 "5dd51e1965848b5186c08ddab2414489")
 set(Darnet_dlname "darknent-d206b6da7af1f4.zip")
 list(APPEND fletch_external_sources Darknet)
 
@@ -588,10 +588,10 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20190905git873c0676")
-set(qtExtensions_tag "873c06769a2d76e2323152efc40ad910717ce648")
+set(qtExtensions_version "20200330gitb2848e06")
+set(qtExtensions_tag "b2848e06ebba4c39dc63caa2363abc50db75f9d9")
 set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
-set(qtExtensions_md5 "f7b617250040e2e4bffa0e2a0bd93c89")
+set(qtExtensions_md5 "24bef5cdaac9d9f0615564b6188a07e5")
 set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
 list(APPEND fletch_external_sources qtExtensions)
 
