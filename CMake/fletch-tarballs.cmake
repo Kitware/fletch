@@ -50,7 +50,7 @@ list(APPEND fletch_external_sources ZLib)
 
 # libjpeg-turbo
 set(libjpeg-turbo_version "1.4.0")
-set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
+set(libjpeg-turbo_url "http://sourceforge.net/projects/libjpeg-turbo/files/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
 set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
 
@@ -234,7 +234,7 @@ set(libjson_version_major 7)
 set(libjson_version_minor 6)
 set(libjson_version_patch 1)
 set(libjson_version "${libjson_version_major}.${libjson_version_minor}.${libjson_version_patch}")
-set(libjson_url "http://downloads.sourceforge.net/libjson/libjson_${libjson_version}.zip")
+set(libjson_url "http://sourceforge.net/projects/libjson/files/libjson_${libjson_version}.zip")
 set(libjson_md5 "82f3fcbf9f8cf3c4e25e1bdd77d65164")
 list(APPEND fletch_external_sources libjson)
 
@@ -248,7 +248,7 @@ list(APPEND fletch_external_sources shapelib)
 set(TinyXML1_version_major "2")
 set(TinyXML1_version_minor "6")
 set(TinyXML1_version_patch "2")
-set(TinyXML1_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML1_version_major}_${TinyXML1_version_minor}_${TinyXML1_version_patch}.zip")
+set(TinyXML1_url "http://sourceforge.net/projects/tinyxml/files/tinyxml_${TinyXML1_version_major}_${TinyXML1_version_minor}_${TinyXML1_version_patch}.zip")
 set(TinyXML1_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
 set(TinyXML1_dlname "tinyXML1.zip")
 list(APPEND fletch_external_sources TinyXML1)
@@ -378,7 +378,7 @@ list(APPEND fletch_external_sources PDAL)
 
 # GeographicLib
 set(GeographicLib_version "1.49" )
-set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
+set(GeographicLib_url "http://sourceforge.net/projects/geographiclib/files/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
 set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
 list(APPEND fletch_external_sources GeographicLib )
 
@@ -415,7 +415,7 @@ endif()
 
 # CPPDB
 set(CppDB_version "0.3.0" )
-set(CppDB_url "http://downloads.sourceforge.net/project/cppcms/cppdb/${CppDB_version}/cppdb-${CppDB_version}.tar.bz2" )
+set(CppDB_url "https://sourceforge.net/projects/cppcms/files/cppdb/${CppDB_version}/cppdb-${CppDB_version}.tar.bz2" )
 set(CppDB_md5 "091d1959e70d82d62a04118827732dfe")
 list(APPEND fletch_external_sources CppDB)
 
