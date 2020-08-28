@@ -10,3 +10,4 @@ Fixes since v1.4.0
  * Patched OpenCV 3.4 to build on MSVC 2019.
  * Patched Darknet CMakeLists.txt to disable examples
  * Patched Darknet pthread install to use CMAKE_GENERATOR_PLATFORM instead of CMAKE_GENERATOR to x64 check.
+ * Updated old style sourceforge URLs.
