@@ -74,6 +74,12 @@ fletch_external_project_force_install(PACKAGE Boost)
 
 set(BOOST_ROOT ${fletch_BUILD_INSTALL_PREFIX})
 
+if(BUILD_SHARED_LIBS)
+  set(BOOST_STATIC_LIBS OFF)
+else()
+  set(BOOST_STATIC_LIBS ON)
+endif()
+
 file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # Boost
@@ -85,7 +91,7 @@ if(MSVC AND (NOT MSVC_VERSION LESS 1910))
     message(FATAL_ERROR \"CMake 3.8.0 is the minimum version required to use Boost with Visual Studio 2017 or greater\")
   endif()
 endif()
-
+set(Boost_USE_STATIC_LIBS @BOOST_STATIC_LIBS@)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 if(WIN32)
