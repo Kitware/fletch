@@ -20,6 +20,7 @@
 #include <iosfwd>
 #include <cstddef>
 #include <vcl_compiler.h>
+#include <stdint.h>
 
 //: simple 2D array
 template <class T>
@@ -152,7 +153,8 @@ class vbl_array_2d
   void construct(size_type m, size_type n) {
     num_rows_ = m;
     num_cols_ = n;
-    if (m && n) {
+    if (m != 0 && n != 0 && n < SIZE_MAX &&
+        m < SIZE_MAX && m < SIZE_MAX/n) {
       rows_ = new T * [m];
       T* p = new T[m * n];
       for (size_type i = 0; i < m; ++i)
