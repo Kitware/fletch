@@ -70,7 +70,7 @@ list(APPEND fletch_external_sources Boost)
 
 # libjpeg-turbo
 set(libjpeg-turbo_version "1.4.0")
-set(libjpeg-turbo_url "http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
+set(libjpeg-turbo_url "http://sourceforge.net/projects/libjpeg-turbo/files/libjpeg-turbo-${libjpeg-turbo_version}.tar.gz")
 set(libjpeg-turbo_md5 "039153dabe61e1ac8d9323b5522b56b0")
 list(APPEND fletch_external_sources libjpeg-turbo)
 
@@ -202,21 +202,21 @@ list(APPEND fletch_external_sources GTest)
 
 #OpenBLAS
 if(NOT WIN32)
-  set(OpenBLAS_SELECT_VERSION 0.3.6 CACHE STRING "Select the version of OpenBLAS to build.")
-  set_property(CACHE OpenBLAS_SELECT_VERSION PROPERTY STRINGS "0.3.6" "0.2.20")
+  set(OpenBLAS_SELECT_VERSION 0.3.10 CACHE STRING "Select the version of OpenBLAS to build.")
+  set_property(CACHE OpenBLAS_SELECT_VERSION PROPERTY STRINGS "0.3.10" "0.3.6")
 
   set (OpenBLAS_version ${OpenBLAS_SELECT_VERSION})
-  if (OpenBLAS_version VERSION_EQUAL 0.2.20)
-    set(OpenBLAS_md5 "48637eb29f5b492b91459175dcc574b1")
-  elseif (OpenBLAS_version VERSION_EQUAL 0.3.6)
+  if (OpenBLAS_version VERSION_EQUAL 0.3.6)
     set(OpenBLAS_md5 "8a110a25b819a4b94e8a9580702b6495")
+  elseif (OpenBLAS_version VERSION_EQUAL 0.3.10)
+    set(OpenBLAS_md5 "4727a1333a380b67c8d7c7787a3d9c9a")
   else()
     message("Unknown OpenBLAS version = ${OpenBLAS_version}")
   endif()
 #  set(OpenBLAS_version "0.3.6")
   set(OpenBLAS_url "https://github.com/xianyi/OpenBLAS/archive/v${OpenBLAS_version}.tar.gz")
 #  set(OpenBLAS_md5 "8a110a25b819a4b94e8a9580702b6495")
-  set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.zip")
+  set(OpenBLAS_dlname "openblas-${OpenBLAS_version}.tar.gz")
   list(APPEND fletch_external_sources OpenBLAS)
 endif()
 
@@ -254,7 +254,7 @@ set(libjson_version_major 7)
 set(libjson_version_minor 6)
 set(libjson_version_patch 1)
 set(libjson_version "${libjson_version_major}.${libjson_version_minor}.${libjson_version_patch}")
-set(libjson_url "http://downloads.sourceforge.net/libjson/libjson_${libjson_version}.zip")
+set(libjson_url "http://sourceforge.net/projects/libjson/files/libjson_${libjson_version}.zip")
 set(libjson_md5 "82f3fcbf9f8cf3c4e25e1bdd77d65164")
 list(APPEND fletch_external_sources libjson)
 
@@ -268,7 +268,7 @@ list(APPEND fletch_external_sources shapelib)
 set(TinyXML1_version_major "2")
 set(TinyXML1_version_minor "6")
 set(TinyXML1_version_patch "2")
-set(TinyXML1_url "http://downloads.sourceforge.net/tinyxml/tinyxml_${TinyXML1_version_major}_${TinyXML1_version_minor}_${TinyXML1_version_patch}.zip")
+set(TinyXML1_url "http://sourceforge.net/projects/tinyxml/files/tinyxml_${TinyXML1_version_major}_${TinyXML1_version_minor}_${TinyXML1_version_patch}.zip")
 set(TinyXML1_md5 "2a0aaf609c9e670ec9748cd01ed52dae")
 set(TinyXML1_dlname "tinyXML1.zip")
 list(APPEND fletch_external_sources TinyXML1)
@@ -402,7 +402,7 @@ list(APPEND fletch_external_sources PDAL)
 
 # GeographicLib
 set(GeographicLib_version "1.49" )
-set(GeographicLib_url "http://downloads.sourceforge.net/geographiclib/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
+set(GeographicLib_url "http://sourceforge.net/projects/geographiclib/files/distrib/GeographicLib-${GeographicLib_version}.tar.gz" )
 set(GeographicLib_md5 "11300e88b4a38692b6a8712d5eafd4d7" )
 list(APPEND fletch_external_sources GeographicLib )
 
@@ -439,7 +439,7 @@ endif()
 
 # CPPDB
 set(CppDB_version "0.3.0" )
-set(CppDB_url "http://downloads.sourceforge.net/project/cppcms/cppdb/${CppDB_version}/cppdb-${CppDB_version}.tar.bz2" )
+set(CppDB_url "https://sourceforge.net/projects/cppcms/files/cppdb/${CppDB_version}/cppdb-${CppDB_version}.tar.bz2" )
 set(CppDB_md5 "091d1959e70d82d62a04118827732dfe")
 list(APPEND fletch_external_sources CppDB)
 
