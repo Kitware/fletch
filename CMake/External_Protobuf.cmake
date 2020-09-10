@@ -25,11 +25,13 @@ else()
 endif()
 
 if(NOT BUILD_SHARED_LIBS)
+  set(c_flags "${CMAKE_C_FLAGS} -fpic")
+  set(cxx_flags "${CMAKE_CXX_FLAGS} -fpic")
   set(_shared_lib_params --disable-shared
                          --enable-static
                          --enable-pic
-                         CFLAGS=-fPIC
-                         CXXFLAGS=-fPIC
+                         CFLAGS=${c_flags}
+                         CXXFLAGS=${cxx_flags}
       )
 endif()
 
