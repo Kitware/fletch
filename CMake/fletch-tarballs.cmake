@@ -154,9 +154,9 @@ set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
 # log4cplus
-set(log4cplus_version "1.2.x")
-set(log4cplus_url "https://github.com/Kitware/log4cplus/archive/1.2.x.zip")
-set(log4cplus_md5 "4c0973becab54c8492204258260dcf06")
+set(log4cplus_version "2.0.x")
+set(log4cplus_url "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/2.0.4/log4cplus-2.0.4.zip")
+set(log4cplus_md5 "cb075cd19ce561273b1c74907cc66b6a")
 set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
 list(APPEND fletch_external_sources log4cplus)
 
