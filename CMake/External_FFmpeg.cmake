@@ -54,9 +54,6 @@ else ()
   # Currently it uses the system version.
   if (fletch_ENABLE_Zlib)
     list(APPEND ffmpeg_DEPENDS ZLib)
-    set(_FFmpeg_zlib --disable-zlib)
-  else()
-    set(_FFmpeg_zlib --enable-zlib)
   endif()
 
   set (FFmpeg_patch ${fletch_SOURCE_DIR}/Patches/FFmpeg/${_FFmpeg_version})
