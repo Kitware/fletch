@@ -52,9 +52,9 @@ else ()
 
   # Should we try to point ffmpeg at zlib if we are building it?
   # Currently it uses the system version.
-  #if (fletch_ENABLE_Zlib)
-  #  list(APPEND ffmpeg_DEPENDS ZLib)
-  #endif()
+  if (fletch_ENABLE_Zlib)
+    list(APPEND ffmpeg_DEPENDS ZLib)
+  endif()
 
   set (FFmpeg_patch ${fletch_SOURCE_DIR}/Patches/FFmpeg/${_FFmpeg_version})
   if (EXISTS ${FFmpeg_patch})
@@ -67,17 +67,25 @@ else ()
     set(FFMPEG_PATCH_COMMAND "")
   endif()
 
+  if (BUILD_SHARED_LIBS)
+    set(_shared_lib_params --enable-shared --disable-static)
+  else()
+    set(_shared_lib_params --disable-shared
+                           --enable-static
+                           --enable-pic
+                           --extra-cflags=-fPIC
+                           --extra-cxxflags=-fPIC
+       )
+  endif()
   set(FFMPEG_CONFIGURE_COMMAND
     ${fletch_BUILD_PREFIX}/src/FFmpeg/configure
     --prefix=${fletch_BUILD_INSTALL_PREFIX}
-    --enable-shared
-    --disable-static
     --enable-runtime-cpudetect
-    --enable-zlib
     ${_FFmpeg_yasm}
+    ${_FFmpeg_zlib}
+    ${_shared_lib_params}
     --cc=${CMAKE_C_COMPILER}
     --cxx=${CMAKE_CXX_COMPILER}
-    # enable-rpath allows libavcodec to find libswresample
     --enable-rpath
     )
 

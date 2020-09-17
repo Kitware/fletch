@@ -206,7 +206,7 @@ set(OpenCV_PYTHON_FLAGS
      -DBUILD_opencv_python2:BOOL=OFF
      -DBUILD_opencv_python3:BOOL=OFF
    )
-if(fletch_BUILD_WITH_PYTHON)
+ if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
   set(OpenCV_PYTHON_FLAGS
     -DBUILD_opencv_python2:BOOL=${fletch_python2}
     -DBUILD_opencv_python3:BOOL=${fletch_python3}
