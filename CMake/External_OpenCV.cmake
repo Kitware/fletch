@@ -273,8 +273,8 @@ if (fletch_ENABLE_OpenCV_contrib)
 
 endif()
 
-# In newer GCC we need to disable precompiled headers.
-if (CMAKE_COMPILER_IS_GNUCC AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5)
+# In GCC we need to disable precompiled headers.
+if (CMAKE_COMPILER_IS_GNUCC)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_PRECOMPILED_HEADERS:BOOL=OFF)
 endif()
 
