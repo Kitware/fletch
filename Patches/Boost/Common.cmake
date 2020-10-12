@@ -89,7 +89,7 @@ endif()
 # Compile the complete list of B2 args
 set(B2_ARGS
   --abbreviate-paths -j${NCPU} --toolset=${BOOST_TOOLSET} --disable-icu ${_fletch_boost_python_arg}
-  -sNO_BZIP2=1 ${BOOST_CXX_ARGS}
+  -sNO_BZIP2=1 ${BOOST_CXX_ARGS} --ignore-site-config
   ${B2_FLAVOR_ARGS}
 )
 

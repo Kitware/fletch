@@ -23,3 +23,4 @@ Fixes since v1.4.0
  * Change the default flag that provides Qt to the OpenCV build to False.
  * Patch the ZLib CMakeLists.txt to elimate the 'd' suffix on the library name on WIN32.
  * Disable the 'examples' build for Darknet. It was causing a build failure on WIN32.
+ * When building Boost in Fletch, always ignore the systemsite-config. That is the config from an installed version and will conflict with our build.
