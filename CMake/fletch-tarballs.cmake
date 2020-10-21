@@ -429,7 +429,7 @@ list(APPEND fletch_external_sources CppDB)
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   set(VTK_SELECT_VERSION 8.2 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.2)
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 8.0 8.2)
 endif()
 
 if (VTK_SELECT_VERSION VERSION_EQUAL 8.2)
@@ -438,10 +438,6 @@ if (VTK_SELECT_VERSION VERSION_EQUAL 8.2)
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
   set(VTK_version 8.0.1)
   set(VTK_md5 "c248dbe8ffd9b74c6f41199e66d6c690")  # v8.0.1
-elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
-  # TODO: Remove when we remove support for OpenCV < 3.2
-  set(VTK_version 6.2.0)
-  set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
 elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
 endif()
