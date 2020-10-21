@@ -434,14 +434,14 @@ endif()
 
 if (VTK_SELECT_VERSION VERSION_EQUAL 8.2)
   set(VTK_version 8.2.0)
-  set(VTK_md5 "94ba8959b56dcfa6bac996158669ac36")
+  set(VTK_md5 "8af3307da0fc2ef8cafe4a312b821111")
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
   set(VTK_version 8.0.1)
-  set(VTK_md5 "c248dbe8ffd9b74c6f41199e66d6c690")  # v8.0.1
+  set(VTK_md5 "692d09ae8fadc97b59d35cab429b261a")  # v8.0.1
 elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
 endif()
-set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
+set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.tar.gz")
 list(APPEND fletch_external_sources VTK)
 
 # VXL
