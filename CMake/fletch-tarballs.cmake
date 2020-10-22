@@ -415,7 +415,7 @@ if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
   elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 12.3)
     # PostgreSQL 12.3
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
-    set(PostgreSQL_md5 "80ebbf0e55193b123760e5f8e48c6cff")
+    set(PostgreSQL_md5 "a30c023dd7088e44d73be71af2ef404a")
   else()
     message(STATUS "PostgreSQL_SELECT_VERSION: Not supported")
   endif()
