@@ -6,4 +6,6 @@
 #-
 message("Patching geos")
 
+# This patch removes the GEOS doc directory
+# since it references tests which are disabled
 file(COPY ${GEOS_patch}/CMakeLists.txt DESTINATION ${GEOS_source}/)
