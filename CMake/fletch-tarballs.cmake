@@ -341,9 +341,22 @@ endif()
 list(APPEND fletch_external_sources OpenCV)
 
 # PROJ.4
-set(PROJ4_version "4.9.3" )
-set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
-set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
+if (fletch_ENABLE_PROJ4 OR fletch_ENABLE_ALL_PACKAGES)
+  set(PROJ4_SELECT_VERSION 6.2.1 CACHE STRING "Select the major version of PROJ4 to build.")
+  set_property(CACHE PROJ4_SELECT_VERSION PROPERTY STRINGS "4.9.3" "6.2.1")
+  message(STATUS "PROJ4 Select version: ${PROJ4_SELECT_VERSION}")
+  if (PROJ4_SELECT_VERSION VERSION_EQUAL 4.9.3)
+    set(PROJ4_version "4.9.3" )
+    set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
+    set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
+  elseif(PROJ4_SELECT_VERSION VERSION_EQUAL 6.2.1)
+    set(PROJ4_version "6.1.1" )
+    set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
+    set(PROJ4_md5 "9a82a3174cacf319d94360a759fbcc8a" )
+  else()
+    message(STATUS "PROJ4_SELECT_VERSION ${PROJ4_SELECT_VERSION}: Not supported")
+  endif()
+endif()
 list(APPEND fletch_external_sources PROJ4 )
 
 # libgeotiff
@@ -372,9 +385,9 @@ endif()
 list(APPEND fletch_external_sources GDAL)
 
 # GEOS
-set(GEOS_version "3.6.2" )
+set(GEOS_version "3.8.1" )
 set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
-set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
+set(GEOS_md5 "9d25df02a2c4fcc5a59ac2fb3f0bd977" )
 list(APPEND fletch_external_sources GEOS )
 
 # PDAL
@@ -391,32 +404,31 @@ list(APPEND fletch_external_sources GeographicLib )
 
 # PostgreSQL
 if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
-  set(PostgreSQL_SELECT_VERSION 9.5.1 CACHE STRING "Select the major version of PostgreSQL to build.")
-  set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "10.2")
+  set(PostgreSQL_SELECT_VERSION 12.3 CACHE STRING "Select the major version of PostgreSQL to build.")
+  set_property(CACHE PostgreSQL_SELECT_VERSION PROPERTY STRINGS "9.5.1" "12.3")
   message(STATUS "PostgreSQL Select version: ${PostgreSQL_SELECT_VERSION}")
 
   if (PostgreSQL_SELECT_VERSION VERSION_EQUAL 9.5.1)
     # PostgreSQL 9.5
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
-    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
     set(PostgreSQL_md5 "11e037afaa4bd0c90bb3c3d955e2b401")
-  elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 10.2)
-    # PostgreSQL 9.4
+  elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 12.3)
+    # PostgreSQL 12.3
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
-    set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
-    set(PostgreSQL_md5 "e97c3cc72bdf661441f29069299b260a")
+    set(PostgreSQL_md5 "a30c023dd7088e44d73be71af2ef404a")
   else()
     message(STATUS "PostgreSQL_SELECT_VERSION: Not supported")
   endif()
+  set(PostgreSQL_url "http://ftp.PostgreSQL.org/pub/source/v${PostgreSQL_version}/postgresql-${PostgreSQL_version}.tar.bz2")
 endif()
 list(APPEND fletch_external_sources PostgreSQL)
 
 # PostGIS
 # Currently it seems the this version of PostGIS will work with all provided PostgreSQL versions
 if(NOT WIN32)
-  set(PostGIS_version "2.5.3" )
-  set(PostGIS_url "http://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
-  set(PostGIS_md5 "475bca6249ee11f675b899de14fd3f42" )
+  set(PostGIS_version "3.0.1" )
+  set(PostGIS_url "https://download.osgeo.org/postgis/source/postgis-${PostGIS_version}.tar.gz" )
+  set(PostGIS_md5 "93f26f162a3961d08caf3b37a3d5fe5d" )
   list(APPEND fletch_external_sources PostGIS )
 endif()
 

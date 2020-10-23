@@ -37,21 +37,21 @@ else()
 endif()
 
 #Always try the patch, it contains the WIN32 logic
-set(_PostgreSQL_PATCH_ARG PATCH_COMMAND
-  ${CMAKE_COMMAND}
-    -DPostgreSQL_patch:PATH=${fletch_SOURCE_DIR}/Patches/PostgreSQL
+set (PostgreSQL_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/PostgreSQL/${PostgreSQL_SELECT_VERSION})
+if(EXISTS ${PostgreSQL_PATCH_DIR})
+set(PostgreSQL_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DPostgreSQL_patch:PATH=${PostgreSQL_PATCH_DIR}
     -DPostgreSQL_source:PATH=${fletch_BUILD_PREFIX}/src/PostgreSQL
-    -DPostgreSQL_SELECT_VERSION:STRING=${PostgreSQL_SELECT_VERSION}
-    -DBUILD_POSTGRESQL_CONTRIB:BOOL=${BUILD_POSTGRESQL_CONTRIB}
-    -P ${fletch_SOURCE_DIR}/Patches/PostgreSQL/Patch.cmake
+    -P ${PostgreSQL_PATCH_DIR}/Patch.cmake
 )
+endif()
 
 ExternalProject_Add(PostgreSQL
   URL ${PostgreSQL_url}
   URL_MD5 ${PostgreSQL_md5}
   ${COMMON_EP_ARGS}
   ${_PostgreSQL_BUILD_IN_SOURCE_ARG}
-  ${_PostgreSQL_PATCH_ARG}
+  PATCH_COMMAND ${PostgreSQL_PATCH_COMMAND}
   ${_PostgreSQL_CONFIGURE_ARG}
   ${_PostgreSQL_BUILD_INSTALL_ARG}
   ${ARG}
