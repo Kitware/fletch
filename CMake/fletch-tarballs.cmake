@@ -305,7 +305,7 @@ list(APPEND fletch_external_sources Qt)
 # Support 2.4.13, 3.4, and 4.2 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.0" "4.2.0")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
   set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
@@ -329,8 +329,6 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   elseif (OpenCV_version VERSION_EQUAL 3.4.0)
     set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
     set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
-  elseif (OpenCV_version VERSION_EQUAL 2.4.13)
-    set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
   else()
     message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
   endif()

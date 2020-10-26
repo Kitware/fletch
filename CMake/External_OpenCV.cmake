@@ -56,10 +56,6 @@ set(fletch_ENABLE_OpenCV_VTK FALSE)
 # Set VTK dependency if we're locally building it
 if(fletch_ENABLE_OpenCV_VTK)
   message(STATUS "OpenCV depending on fletch VTK")
-
-  if (OpenCV_version VERSION_LESS 3.2.0 AND NOT VTK_version VERSION_LESS 7.0)
-    message(FATAL_ERRROR "OpenCV versions before 3.2 can only handle pre 7.0 VTK versions")
-  endif()
   list(APPEND OpenCV_DEPENDS VTK)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_VTK:BOOL=TRUE
     -DVTK_DIR:PATH=${VTK_DIR}
