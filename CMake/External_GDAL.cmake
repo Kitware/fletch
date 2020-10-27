@@ -42,7 +42,7 @@ if (WIN32)
   endif()
 
   if(fletch_ENABLE_GEOS)
-    list(APPEND _GDAL_DEPENDS libgeos)
+    list(APPEND _GDAL_DEPENDS GEOS)
     set( _GDAL_GEOS_ARGS GEOS_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOS_LIB=${GEOS_C_LIBRARY})
   endif()
 
