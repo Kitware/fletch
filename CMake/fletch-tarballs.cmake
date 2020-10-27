@@ -174,9 +174,9 @@ set(GLog_md5 "5df6d78b81e51b90ac0ecd7ed932b0d4")
 set(GLog_dlname "glog-${GLog_version}.tar.gz")
 list(APPEND fletch_external_sources GLog)
 
-set(GTest_version "1.8.1")
+set(GTest_version "1.10.0")
 set(GTest_url "https://github.com/google/googletest/archive/release-${GTest_version}.tar.gz")
-set(GTest_md5 "2e6fbeb6a91310a16efe181886c59596")
+set(GTest_md5 "ecd1fa65e7de707cd5c00bdac56022cd")
 set(GTest_dlname "gtest-${GTest_version}.tar.gz")
 list(APPEND fletch_external_sources GTest)
 
