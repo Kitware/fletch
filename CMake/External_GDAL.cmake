@@ -43,7 +43,7 @@ if (WIN32)
 
   if(fletch_ENABLE_GEOS)
     list(APPEND _GDAL_DEPENDS libgeos)
-    set( _GDAL_GEOS_ARGS GEOS_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOS_LIB=${GEOS_C_LIBRARY}))
+    set( _GDAL_GEOS_ARGS GEOS_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOS_LIB=${GEOS_C_LIBRARY})
   endif()
 
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
