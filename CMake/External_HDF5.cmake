@@ -7,21 +7,31 @@ add_package_dependency(
 
 if(fletch_ENABLE_ZLib)
   get_system_library_name( zlib zlib_libname )
-  set( HDF5_ZLIB_ARGS "-DZLIB_LIBRARY_RELEASE:PATH=${ZLIB_ROOT}/lib/${zlib_libname}"
+  set(HDF5_ZLIB_ARGS
+    "-DZLIB_LIBRARY_RELEASE:PATH=${ZLIB_ROOT}/lib/${zlib_libname}"
     "-DZLIB_INCLUDE_DIR:PATH=${ZLIB_ROOT}/include")
+endif()
 
+set (HDF5_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/HDF5/${HDF5_SELECT_VERSION})
+if(EXISTS ${HDF5_PATCH_DIR})
+  set(HDF5_PATCH_COMMAND
+    ${CMAKE_COMMAND}
+    -DHDF5_patch:PATH=${HDF5_PATCH_DIR}
+    -DHDF5_source:PATH=${fletch_BUILD_PREFIX}/src/HDF5
+    -P ${HDF5_PATCH_DIR}/Patch.cmake
+    )
+else()
+  set(HDF5_PATCH_COMMAND "")
 endif()
 
 ExternalProject_Add(HDF5
   URL ${HDF5_url}
   URL_MD5 ${HDF5_md5}
   DEPENDS ${HDF5_DEPENDS}
+  DOWNLOAD_NAME ${HDF5_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DHDF5_patch:PATH=${fletch_SOURCE_DIR}/Patches/HDF5
-    -DHDF5_source:PATH=${fletch_BUILD_PREFIX}/src/HDF5
-    -P ${fletch_SOURCE_DIR}/Patches/HDF5/Patch.cmake
+  PATCH_COMMAND ${HDF5_PATCH_COMMAND}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
