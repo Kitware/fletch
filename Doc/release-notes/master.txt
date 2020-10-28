@@ -15,6 +15,7 @@ Updates since v1.4.0
  * Update libtiff from 4.0.6 to 4.1.0
  * Update ZLib from 1.2.9 to 1.2.11
  * Update Eigen from 3.3.4 to 3.3.7
+ * Remove support for OpenCV 2
  * Add VTK version 9.0.1
 
 Fixes since v1.4.0
