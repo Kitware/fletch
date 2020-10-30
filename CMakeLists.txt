@@ -2,8 +2,16 @@ cmake_minimum_required(VERSION 3.3.0)
 project(fletch)
 
 # Policy to address @foo@ variable expansion
+# https://cmake.org/cmake/help/git-stage/policy/CMP0053.html
 if(POLICY CMP0053)
   cmake_policy(SET CMP0053 NEW)
+endif()
+
+# Policy CMP0074 allows CMake to search
+# "prefixes specified by the <PackageName>_ROOT in find_package"
+# https://cmake.org/cmake/help/git-stage/policy/CMP0074.html
+if(POLICY CMP0074)
+  cmake_policy(SET CMP0074 NEW)
 endif()
 
 #+
