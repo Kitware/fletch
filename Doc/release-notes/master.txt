@@ -27,3 +27,4 @@ Fixes since v1.4.0
  * Disable the 'examples' build for Darknet. It was causing a build failure on WIN32.
  * When building Boost in Fletch, always ignore the systemsite-config. That is the config from an installed version and will conflict with our build.
  * Force PDAL to ignore libjson. It can't use the Fletch package nor can it use similar system packages.
+ * Set cmake_policy CMP0074 to NEW.
