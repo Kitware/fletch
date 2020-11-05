@@ -156,6 +156,10 @@ else()
     set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
   endif()
 
+  if (GDAL_SELECT_VERSION VERSION_LESS 2.0)
+    list( APPEND _GDAL_ARGS_UNSUPPORTED --with-libjson-c=internal )
+  endif()
+
   # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
   # OpenJPEG support is not valid for GDAL 1, it requires an older version than we provide.
   if (fletch_ENABLE_openjpeg AND NOT fletch_LTIDSDK_ROOT AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
