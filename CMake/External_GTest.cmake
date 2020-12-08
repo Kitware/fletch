@@ -13,10 +13,6 @@ ExternalProject_Add(GTest
   DOWNLOAD_NAME ${GTest_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DGTest_patch:PATH=${fletch_SOURCE_DIR}/Patches/GTest
-    -DGTest_source:PATH=${fletch_BUILD_PREFIX}/src/GTest
-    -P ${fletch_SOURCE_DIR}/Patches/GTest/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${Gtest_CXX_STANDARD_ARGS}
