@@ -50,6 +50,7 @@ ExternalProject_Add(Boost
   PATCH_COMMAND
     ${Boost_PATCH_COMMAND}
   CONFIGURE_COMMAND ${CMAKE_COMMAND}
+    -DCMAKE_BUILD_TYPE=$<CONFIGURATION>
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
     -DBoost_EXTRA_LIBS=${fletch_EXTRA_BOOST_LIBS}
     ${_Boost_DIR_ARGS}

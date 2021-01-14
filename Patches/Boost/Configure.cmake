@@ -39,6 +39,12 @@ execute_command_wrapper(
   ${BOOTSTRAP} ${BOOTSTRAP_ARGS}
 )
 
+string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE STREQUAL "debug") # adjust for relwithdebinfo
+  set(CMAKE_BUILD_TYPE "release")
+endif()
+message("Boost.Configure.BCP.Build: Using variant=${CMAKE_BUILD_TYPE}")
+
 # Note: BCP has known issues with some msvc release builds so we always build
 # it in debug.
 execute_command_wrapper(
