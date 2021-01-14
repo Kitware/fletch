@@ -45,7 +45,7 @@ execute_command_wrapper(
   "Boost.Configure.BCP.Build"
   ${Boost_SOURCE_DIR}/tools/bcp
   ${Boost_SOURCE_DIR}/b2${CMAKE_EXECUTABLE_SUFFIX}
-  variant=debug ${B2_ARGS}
+  variant=${CMAKE_BUILD_TYPE} ${B2_ARGS}
 )
 
 execute_command_wrapper(
