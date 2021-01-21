@@ -305,7 +305,7 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   set(Qt_release_location new_archive) # official_releases or new_archive
 
   if (Qt_version VERSION_EQUAL 5.11.2)
-    set(Qt_url "https://download.qt.io/${Qt_release_location}/qt/5.11/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
+    set(Qt_url "https://data.kitware.com/api/v1/item/5e62b6d0af2e2eed3506dcc3/download")
     set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
   elseif (Qt_version VERSION_EQUAL 5.12.8)
     set(Qt_release_location archive) # official_releases or new_archive
@@ -313,7 +313,7 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     set(Qt_md5 "8ec2a0458f3b8e9c995b03df05e006e4")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
     set(Qt_release_location new_archive)
-    set(Qt_url "https://download.qt.io/${Qt_release_location}/qt/4.8/${Qt_version}/qt-everywhere-opensource-src-${Qt_version}.tar.gz")
+    set(Qt_url "https://data.kitware.com/api/v1/item/600701c42fa25629b9fcd844/download")
     set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
   else()
     message(ERROR "Qt Version \"${Qt_version}\" Not Supported")
