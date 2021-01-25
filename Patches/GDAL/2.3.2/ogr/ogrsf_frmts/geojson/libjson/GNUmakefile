@@ -21,9 +21,14 @@ CPPFLAGS := $(CPPFLAGS)
 
 default:	$(O_OBJ:.o=.$(OBJ_EXT))
 
-# -D_XOPEN_SOURCE=500 to enable strdup() definition in C11 mode
-# ...actually, needs to be -->600<-- to get strdup; per https://bugs.launchpad.net/libvterm/+bug/1638205
+#ifdef __APPLE__
+# ...actually, needs to be -->600<-- to get strdup;
+# per https://bugs.launchpad.net/libvterm/+bug/1638205
 CPPFLAGS := -D_XOPEN_SOURCE=600 $(CPPFLAGS)
+#else
+# -D_XOPEN_SOURCE=500 to enable strdup() definition in C11 mode
+CPPFLAGS := -D_XOPEN_SOURCE=500 $(CPPFLAGS)
+#endif
 
 ../../o/%.$(OBJ_EXT):	%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
