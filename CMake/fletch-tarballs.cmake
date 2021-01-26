@@ -376,7 +376,7 @@ endif()
 list(APPEND fletch_external_sources GDAL)
 
 # PDAL
-set(PDAL_SELECT_VERSION 1.7.2 CACHE STRING "Select the version of PDAL to build.")
+set(PDAL_SELECT_VERSION 2.2.0 CACHE STRING "Select the version of PDAL to build.")
 set_property(CACHE PDAL_SELECT_VERSION PROPERTY STRINGS "1.7.2" "2.2.0")
 
 set(PDAL_version ${PDAL_SELECT_VERSION})
