@@ -376,9 +376,16 @@ endif()
 list(APPEND fletch_external_sources GDAL)
 
 # PDAL
-set(PDAL_version 1.7.2)
+set(PDAL_SELECT_VERSION 1.7.2 CACHE STRING "Select the version of PDAL to build.")
+set_property(CACHE PDAL_SELECT_VERSION PROPERTY STRINGS "1.7.2" "2.2.0")
+
+set(PDAL_version ${PDAL_SELECT_VERSION})
 set(PDAL_url "https://github.com/PDAL/PDAL/releases/download/${PDAL_version}/PDAL-${PDAL_version}-src.tar.gz")
-set(PDAL_md5 "a89710005fd54e6d2436955e2e542838")
+if (PDAL_version VERSION_EQUAL 1.7.2)
+  set(PDAL_md5 "a89710005fd54e6d2436955e2e542838")
+else()
+  set(PDAL_md5 "52d84c5b64b7cd30770a225e3d13fce3")
+endif()
 list(APPEND fletch_external_sources PDAL)
 
 # GeographicLib
