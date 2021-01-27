@@ -182,12 +182,12 @@ list(APPEND fletch_external_sources GTest)
 
 #OpenBLAS
 if(NOT WIN32)
-  set(OpenBLAS_SELECT_VERSION 0.3.10 CACHE STRING "Select the version of OpenBLAS to build.")
-  set_property(CACHE OpenBLAS_SELECT_VERSION PROPERTY STRINGS "0.3.10" "0.3.6")
+  set(OpenBLAS_SELECT_VERSION 0.3.13 CACHE STRING "Select the version of OpenBLAS to build.")
+  set_property(CACHE OpenBLAS_SELECT_VERSION PROPERTY STRINGS "0.3.10" "0.3.13")
 
   set (OpenBLAS_version ${OpenBLAS_SELECT_VERSION})
-  if (OpenBLAS_version VERSION_EQUAL 0.3.6)
-    set(OpenBLAS_md5 "8a110a25b819a4b94e8a9580702b6495")
+  if (OpenBLAS_version VERSION_EQUAL 0.3.13)
+    set(OpenBLAS_md5 "2ca05b9cee97f0d1a8ab15bd6ea2b747")
   elseif (OpenBLAS_version VERSION_EQUAL 0.3.10)
     set(OpenBLAS_md5 "4727a1333a380b67c8d7c7787a3d9c9a")
   else()
