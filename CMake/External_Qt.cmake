@@ -176,14 +176,17 @@ else()
   set(Qt_install_cmd ${MAKE_EXECUTABLE} install)
   set(Qt_args_other -no-cups -optimized-qmake)
 
-  if (Qt_version VERSION_GREATER 5.12)
+  if (Qt_version VERSION_GREATER_EQUAL 5.12)
     list(APPEND Qt_configure
-      -skip qtconnectivity -skip qtgamepad -skip qtlocation -skip qtmultimedia -skip qtsensors -skip qtserialport -skip qtwayland -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -nomake examples -nomake tests -no-dbus -no-openssl)
+      -skip qtconnectivity -skip qtgamepad -skip qtlocation -skip qtmultimedia
+      -skip qtsensors -skip qtserialport -skip qtwayland -skip qtwebchannel
+      -skip qtwebengine -skip qtwebsockets -nomake examples -nomake tests
+      -no-dbus -no-openssl)
     list(APPEND Qt_configure
-      -qt-libjpeg -qt-pcre -system-zlib -system-libpng)
+      -qt-pcre)
     if (UNIX AND NOT APPLE)
       list(APPEND Qt_configure
-        -qt-xcb -fontconfig -xkbcommon)
+        -fontconfig)
     endif()
   endif()
 
