@@ -18,6 +18,7 @@ Updates since v1.4.0
  * Remove support for OpenCV 2
  * Add VTK version 9.0.1
  * Update PyBind11 from 2.2.1 to 2.5.0
+ * Update OpenBLAS from 0.3.10 to 0.3.13
 
 Fixes since v1.4.0
 ------------------
