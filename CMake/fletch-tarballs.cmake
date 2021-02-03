@@ -342,7 +342,7 @@ list(APPEND fletch_external_sources OpenCV)
 
 # PROJ.4
 if (fletch_ENABLE_PROJ4 OR fletch_ENABLE_ALL_PACKAGES)
-  set(PROJ4_SELECT_VERSION 6.2.1 CACHE STRING "Select the major version of PROJ4 to build.")
+  set(PROJ4_SELECT_VERSION 4.9.3 CACHE STRING "Select the major version of PROJ4 to build.")
   set_property(CACHE PROJ4_SELECT_VERSION PROPERTY STRINGS "4.9.3" "6.2.1")
   message(STATUS "PROJ4 Select version: ${PROJ4_SELECT_VERSION}")
   if (PROJ4_SELECT_VERSION VERSION_EQUAL 4.9.3)
