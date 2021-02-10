@@ -235,10 +235,12 @@ Troubleshooting
 ============
 
 1. MSVC users may experience build issues with Boost after upgrading their version of Visual Studio.
-   The symptoms of this issue will involve compiler output of `'cl' is not recognized as an internal or external command,
-   operable program or batch file`. The issue comes from Boost caching its version of b2_msvc_*_vcvars*.cmd. To resolve this issue,
-   you will need to delete those files which are typically located in C:\Users\%USERNAME%\AppData\Local\Temp. Any file named b2_msvc*
-   should be moved out of the way so Boost can generate a new version based on the updated Visual Studio version.
+   When a Boost build fails, one will find the file ``Boost.Configure.BCP.Build_out.txt`` in the build directory.
+   The symptoms of this issue involve output in that file like ``'cl' is not recognized as an internal or external command,
+   operable program or batch file``. The issue comes from Boost caching its version of b2_msvc_*_vcvars*.cmd.
+   To resolve this issue, you will need to delete those files which are typically located in ``C:\Users\%USERNAME%\AppData\Local\Temp``.
+   Any file named b2_msvc* should be moved out of the way so Boost can generate a new version based on the updated Visual Studio version.
+   Once those files have regenerated and Boost successfully builds, it is safe to delete those files.
 
 
 
