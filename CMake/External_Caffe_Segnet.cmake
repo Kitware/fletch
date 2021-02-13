@@ -246,6 +246,11 @@ endif()
 
 if(fletch_BUILD_WITH_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
+  if(MSVC)
+    # MSVC uses variables within this path, like $(VCInstallDir), which
+    # are improperly handled in ExternalProject_Add.
+    list(FILTER CUDA_BUILD_FLAGS EXCLUDE REGEX "CUDA_HOST_COMPILER")
+  endif()
   set( CAFFE_SEGNET_GPU_ARGS
     ${CUDA_BUILD_FLAGS}
     -DCPU_ONLY:BOOL=OFF
