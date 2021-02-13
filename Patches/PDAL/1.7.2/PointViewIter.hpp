@@ -137,17 +137,17 @@ public:
     difference_type operator-(const PointViewIter& i) const
         { return m_id - i.m_id; }
 
-    bool operator==(const PointViewIter& i)
+    bool operator==(const PointViewIter& i) const
         { return m_id == i.m_id; }
-    bool operator!=(const PointViewIter& i)
+    bool operator!=(const PointViewIter& i) const
         { return m_id != i.m_id; }
-    bool operator<=(const PointViewIter& i)
+    bool operator<=(const PointViewIter& i) const
         { return m_id <= i.m_id; }
-    bool operator>=(const PointViewIter& i)
+    bool operator>=(const PointViewIter& i) const
         { return m_id >= i.m_id; }
-    bool operator<(const PointViewIter& i)
+    bool operator<(const PointViewIter& i) const
         { return m_id < i.m_id; }
-    bool operator>(const PointViewIter& i)
+    bool operator>(const PointViewIter& i) const
         { return m_id > i.m_id; }
 
     PointIdxRef operator*() const
