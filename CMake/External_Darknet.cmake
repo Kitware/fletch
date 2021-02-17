@@ -7,6 +7,10 @@ else()
   unset(fletch_ENABLE_Darknet_OpenCV CACHE)
 endif()
 if(fletch_ENABLE_Darknet_OpenCV)
+  if(OpenCV_SELECT_VERSION VERSION_GREATER_EQUAL 4.0)
+    MESSAGE(FATAL_ERROR "Darknet requires OpenCV version less than 4.0 "
+                        "but ${OpenCV_SELECT_VERSION} is selected")
+  endif()
   set(DARKNET_OPENCV_ARGS -DUSE_OPENCV:BOOL=ON)
   add_package_dependency(
     PACKAGE Darknet
