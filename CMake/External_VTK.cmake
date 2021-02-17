@@ -91,16 +91,22 @@ else()
     -DVTK_QT_VERSION:STRING=5
   )
 endif()
-set(vtk_cmake_args ${vtk_cmake_args}
-  -DVTK_Group_Qt:BOOL=OFF
-  -DModule_vtkGUISupportQt:BOOL=ON
-  -DModule_vtkGUISupportQtOpenGL:BOOL=ON
-  -DModule_vtkGUISupportQtSQL:BOOL=ON
-  -DModule_vtkGUISupportQtWebkit:BOOL=${BUILD_QT_WEBKIT}
-  -DModule_vtkRenderingQt:BOOL=ON
-  -DModule_vtkViewsQt:BOOL=ON
-  -DVTK_QT_VERSION:STRING=${Qt_version_major}
-)
+if(VTK_SELECT_VERSION VERSION_LESS 9.0)
+  set(vtk_cmake_args ${vtk_cmake_args}
+    -DVTK_Group_Qt:BOOL=OFF
+    -DModule_vtkGUISupportQt:BOOL=ON
+    -DModule_vtkGUISupportQtOpenGL:BOOL=ON
+    -DModule_vtkGUISupportQtSQL:BOOL=ON
+    -DModule_vtkGUISupportQtWebkit:BOOL=${BUILD_QT_WEBKIT}
+    -DModule_vtkRenderingQt:BOOL=ON
+    -DModule_vtkViewsQt:BOOL=ON
+    -DVTK_QT_VERSION:STRING=${Qt_version_major}
+  )
+else()
+  set(vtk_cmake_args ${vtk_cmake_args}
+    -DVTK_GROUP_ENABLE_Qt:STRING=YES
+  )
+endif()
 
 # PostgreSQL
 add_package_dependency(
