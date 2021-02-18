@@ -103,6 +103,10 @@ else()
 endif()
 
 if(fletch_ENABLE_OpenCV)
+  if(OpenCV_SELECT_VERSION VERSION_GREATER_EQUAL 4.0)
+    MESSAGE(FATAL_ERROR "Caffe requires OpenCV version less than 4.0 "
+                        "but ${OpenCV_SELECT_VERSION} is selected")
+  endif()
   set( CAFFE_OPENCV_ARGS
     -DOpenCV_DIR:PATH=${fletch_BUILD_PREFIX}/src/OpenCV-build
     -DOpenCV_LIB_PATH:PATH=${OpenCV_ROOT}/lib
