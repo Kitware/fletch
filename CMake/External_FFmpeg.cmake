@@ -50,6 +50,9 @@ else ()
   set(_FFmpeg_yasm --yasmexe=${fletch_YASM})
   list(APPEND ffmpeg_DEPENDS yasm)
 
+  option(fletch_ENABLE_FFmpeg_libx264 "Build ffmpeg with libx264" OFF)
+  mark_as_advanced(fletch_ENABLE_FFmpeg_libx264)
+
   # Should we try to point ffmpeg at zlib if we are building it?
   # Currently it uses the system version.
   if (fletch_ENABLE_Zlib)
@@ -89,12 +92,17 @@ else ()
     --enable-rpath
     )
 
-  if (_FFmpeg_version VERSION_LESS 3.3.0)
+  if(_FFmpeg_version VERSION_LESS 3.3.0)
     # memalign-hack is only needed for windows and older versions of ffmpeg
     list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-memalign-hack)
     # bzlib errors if not found in newer versions (previously it did not)
     list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-bzlib)
     list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-outdev=sdl)
+  endif()
+
+  if(fletch_ENABLE_FFmpeg_libx264)
+    list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-gpl)
+    list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-libx264)
   endif()
 
   if(APPLE)
