@@ -8,3 +8,6 @@
 message("Copying ${GDAL_patch}/data/nitf_spec.xml to ${GDAL_source}/data/nitf_spec.xml")
 file(COPY ${GDAL_patch}/data/nitf_spec.xml DESTINATION ${GDAL_source}/data/)
 
+message("Copying ${GDAL_patch}/ogr/ogrsf_frmts/geojson/libjson/GNUmakefile to ${GDAL_source}/ogr/ogrsf_frmts/geojson/libjson/GNUmakefile")
+file(COPY ${GDAL_patch}/ogr/ogrsf_frmts/geojson/libjson/GNUmakefile DESTINATION ${GDAL_source}/ogr/ogrsf_frmts/geojson/libjson/)
+
