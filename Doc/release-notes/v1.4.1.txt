@@ -16,3 +16,4 @@ Fixes since v1.4.0
  * Add documentation regarding a Boost failure caused by MSVC version upgrades.
  * Fixed an issue with broken CUDA_HOST_COMPILER path in some projects using MSVC.
  * Fixed an issue with enabling VTK Python bindings in MSVC.
+ * Patched GDAL missing strdup prototype on OSX
