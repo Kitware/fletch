@@ -341,11 +341,15 @@ else()
 endif()
 list(APPEND fletch_external_sources OpenCV)
 
-# PROJ.4
-set(PROJ4_version "4.9.3" )
-set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
-set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
-list(APPEND fletch_external_sources PROJ4 )
+# PROJ
+if (fletch_ENABLE_PROJ4)
+  message(WARNING "The package name PROJ4 is deprecated. Use PROJ instead.")
+  set(fletch_ENABLE_PROJ ON)
+endif()
+set(PROJ_version "5.2.0" )
+set(PROJ_url "http://download.osgeo.org/proj/proj-${PROJ_version}.tar.gz" )
+set(PROJ_md5 "ad285c7d03cbb138d9246e10e1f3191c" )
+list(APPEND fletch_external_sources PROJ )
 
 # libgeotiff
 set(libgeotiff_version "1.4.2")

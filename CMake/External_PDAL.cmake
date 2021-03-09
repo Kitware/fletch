@@ -45,11 +45,11 @@ else()
 endif()
 
 # Set Proj.4 dependency
-if (fletch_ENABLE_PROJ4)
-  message(STATUS "PDAL depending on internal PROJ4")
-  list(APPEND PDAL_DEPENDS PROJ4)
+if (fletch_ENABLE_PROJ)
+  message(STATUS "PDAL depending on internal PROJ")
+  list(APPEND PDAL_DEPENDS PROJ)
 else()
-  message(FATAL_ERROR "PROJ4 is required for PDAL, please enable")
+  find_package(PROJ4 REQUIRED)
 endif()
 
 # Set libxml2 dependency

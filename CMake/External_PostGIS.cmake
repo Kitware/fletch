@@ -2,9 +2,9 @@ if(WIN32)
   message(FATAL_ERROR "PostGIS build is not currently support on Windows")
 endif()
 
-if(fletch_ENABLE_PROJ4)
-  set(_PostGIS_ARGS_PROJ4 --with-projdir=${PROJ4_ROOT})
-  list(APPEND _PostGIS_DEPENDS PROJ4)
+if(fletch_ENABLE_PROJ)
+  set(_PostGIS_ARGS_PROJ --with-projdir=${PROJ_ROOT})
+  list(APPEND _PostGIS_DEPENDS PROJ)
 else()
   find_package(PROJ4 REQUIRED)
 endif()
@@ -59,7 +59,7 @@ endif()
 set(_PostGIS_CONFIGURE_COMMAND
   ./configure
   --prefix=${fletch_BUILD_INSTALL_PREFIX}
-  ${_PostGIS_ARGS_PROJ4}
+  ${_PostGIS_ARGS_PROJ}
   ${_PostGIS_ARGS_GEOS}
   ${_PostGIS_ARGS_PostgreSQL}
   ${_PostGIS_ARGS_GDAL}
