@@ -33,7 +33,7 @@ endif()
 #-
 set(fletch_VERSION_MAJOR 1)
 set(fletch_VERSION_MINOR 4)
-set(fletch_VERSION_PATCH 0)
+set(fletch_VERSION_PATCH 1)
 
 set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VERSION_PATCH}")
 
