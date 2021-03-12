@@ -58,6 +58,7 @@ RUN mkdir -p /fletch/build /opt/kitware/fletch \
   && cd /fletch/build \
   && cmake -DCMAKE_BUILD_TYPE=Release \
     -Dfletch_ENABLE_ALL_PACKAGES=ON \
+    -DGDAL_SELECT_VERSION=1.11.5 \
     -Dfletch_BUILD_WITH_PYTHON=ON \
     -Dfletch_BUILD_WITH_CUDA=${ENABLE_CUDA} \
     -Dfletch_PYTHON_MAJOR_VERSION=${PY_MAJOR_VERSION} \
