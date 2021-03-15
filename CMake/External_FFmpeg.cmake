@@ -75,6 +75,7 @@ else ()
                            --enable-pic
                            --extra-cflags=-fPIC
                            --extra-cxxflags=-fPIC
+                           --disable-asm
        )
   endif()
   set(FFMPEG_CONFIGURE_COMMAND
