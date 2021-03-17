@@ -21,3 +21,8 @@ file(COPY ${VTK_PATCH_DIR}/ThirdParty/exodusII/vtkexodusII/src/ex_create_par.c
 file(COPY ${VTK_PATCH_DIR}/ThirdParty/exodusII/vtkexodusII/src/ex_open_par.c
   DESTINATION ${VTK_SOURCE_DIR}/ThirdParty/exodusII/vtkexodusII/src
 )
+
+# Patch to allow VTK 8.2 to build correctly with gcc 10.2
+file(COPY ${VTK_PATCH_DIR}/CMake/VTKGenerateExportHeader.cmake
+  DESTINATION ${VTK_SOURCE_DIR}/CMake
+)
