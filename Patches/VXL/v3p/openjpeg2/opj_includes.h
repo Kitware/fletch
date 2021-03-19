@@ -100,21 +100,6 @@ static INLINE long lrintf(float f){
 
   return i;
 }
-#else
-static INLINE long lrintf(float x){
-  long r;
-  if (x>=0.f)
-  {
-     x+=0.5f;
-  }
-  else
-  {
-     x-=0.5f;
-  }
-  r = (long)(x);
-  if ( x != (float)(r) ) return r;
-  return 2*(r/2);
-}
 #endif
 
 #endif
