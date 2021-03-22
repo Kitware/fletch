@@ -13,6 +13,8 @@ ExternalProject_Add(PROJ
     -DBUILD_LIBPROJ_SHARED:BOOL=ON
     -DBUILD_TESTING:BOOL=OFF
     -DPROJ_TESTS:BOOL=OFF
+    -DBUILD_GMOCK:BOOL=OFF
+    -DBUILD_GTEST:BOOL=OFF
   )
 
 fletch_external_project_force_install(PACKAGE PROJ)
