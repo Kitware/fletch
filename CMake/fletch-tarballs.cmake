@@ -341,6 +341,12 @@ else()
 endif()
 list(APPEND fletch_external_sources OpenCV)
 
+# SQLite3
+set(SQLite3_version 3350200)
+set(SQLite3_url "https://www.sqlite.org/2021/sqlite-amalgamation-${SQLite3_version}.zip")
+set(SQLite3_md5 "732c5d0758a2a2fb9e5b9d6224141a01")
+list(APPEND fletch_external_sources SQLite3)
+
 # PROJ
 if (fletch_ENABLE_PROJ4)
   message(WARNING "The package name PROJ4 is deprecated. Use PROJ instead.")
