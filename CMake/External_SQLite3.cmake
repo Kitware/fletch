@@ -29,4 +29,5 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 # SQLite3
 ########################################
 set(SQLite3_ROOT \${fletch_ROOT})
+set(SQLite3_DIR \${fletch_ROOT}/share/cmake)
 ")
