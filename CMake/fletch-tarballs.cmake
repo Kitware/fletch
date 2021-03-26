@@ -352,9 +352,9 @@ if (fletch_ENABLE_PROJ4)
   message(WARNING "The package name PROJ4 is deprecated. Use PROJ instead.")
   set(fletch_ENABLE_PROJ ON)
 endif()
-set(PROJ_version "5.2.0" )
+set(PROJ_version "6.3.2" )
 set(PROJ_url "http://download.osgeo.org/proj/proj-${PROJ_version}.tar.gz" )
-set(PROJ_md5 "ad285c7d03cbb138d9246e10e1f3191c" )
+set(PROJ_md5 "2ca6366e12cd9d34d73b4602049ee480" )
 list(APPEND fletch_external_sources PROJ )
 
 # libgeotiff
