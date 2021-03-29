@@ -210,7 +210,7 @@ list(APPEND fletch_external_sources SuiteSparse)
 set(Ceres_version 1.14.0)
 set(Ceres_url "http://ceres-solver.org/ceres-solver-${Ceres_version}.tar.gz")
 set(Ceres_md5 "fd9b4eba8850f0f2ede416cd821aafa5")
-set(Ceres_dlname "ceres-${Ceres_version}.tar.gz")
+set(Ceres_dlname "ceres-solver-${Ceres_version}.tar.gz")
 list(APPEND fletch_external_sources Ceres)
 
 if(NOT WIN32)
