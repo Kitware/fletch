@@ -1,8 +1,8 @@
 
 if(fletch_ENABLE_SQLite3)
-  get_system_library_name(sqlite3 sqlite_libname)
   set(PROJ_ARGS_SQLite3
     -DSQLite3_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/share/cmake
+    -DEXE_SQLITE3:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin/sqlite3_exe
     )
   list(APPEND PROJ_DEPENDS SQLite3)
 else()

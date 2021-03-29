@@ -1,8 +1,8 @@
 # Config file used to import the SQLite3 build tree.
-set( SQLite3_INCLUDE_DIR "@SQLite3_SOURCE_DIR@/include" )
+set( SQLite3_INCLUDE_DIR "@CMAKE_INSTALL_PREFIX@/include" )
 set( SQLite3_LIBRARY sqlite3 )
-set( SQLite3_EXECUTABLE sqlite3_exe )
-set( EXE_SQLITE3 sqlite3_exe )
+set( SQLite3_EXECUTABLE "@CMAKE_INSTALL_PREFIX@/sqlite3_exe" )
+set( EXE_SQLITE3 "@CMAKE_INSTALL_PREFIX@/bin/sqlite3_exe" )
 
 set(SQLite3_HAS_COLUMN_METADATA @SQLite3_ENABLE_COLUMN_METADATA@)
 set(SQLite3_HAS_RTREE           @SQLite3_ENABLE_RTREE@)
