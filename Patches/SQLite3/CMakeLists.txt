@@ -1,15 +1,17 @@
 project ( SQLite3 )
 cmake_minimum_required(VERSION 3.3.0)
 
+include(GNUInstallDirs)
+
 # Build output paths
 if( NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY )
-  set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SQLite3_BINARY_DIR}/lib )
+  set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_FULL_LIBDIR} )
 endif()
 if( NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY )
-  set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SQLite3_BINARY_DIR}/lib )
+  set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_FULL_LIBDIR} )
 endif()
 if( NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY )
-  set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SQLite3_BINARY_DIR}/bin )
+  set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_INSTALL_FULL_BINDIR} )
 endif()
 
 # Default to building shared
@@ -28,8 +30,7 @@ string( REGEX REPLACE
 )
 
 option(SQLite3_ENABLE_THREADSAFE "Build a thread-safe library" ON)
-option(SQLite3_ENABLE_COLUMN_METADATA "Additional APIs that provide convenient
-access to meta-data" ON)
+option(SQLite3_ENABLE_COLUMN_METADATA "Additional APIs that provide convenient access to meta-data" ON)
 option(SQLite3_ENABLE_RTREE "Support for R*Tree indexes" ON)
 option(SQLite3_ENABLE_LOAD_EXTENSIONS "Support loadable extensions" ON)
 option(SQLite3_ENABLE_EXECUTABLE "Build the sqlite (static) executable" OFF)
@@ -71,11 +72,11 @@ if(SQLite3_ENABLE_EXECUTABLE)
 endif()
 
 install(TARGETS ${SQLite3_TARGETS}
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-install(DIRECTORY . DESTINATION include FILES_MATCHING PATTERN "*.h" )
+install(DIRECTORY . DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} FILES_MATCHING PATTERN "*.h" )
 
 # Configure the module config
 configure_file(
