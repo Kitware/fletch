@@ -17,10 +17,8 @@ endif()
 # Default to building shared
 option(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
 
-# We need -fPIC when building statically
-if( UNIX AND NOT BUILD_SHARED_LIBS)
-  set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
-endif()
+# We need -fPIC when building statically. May as well always have it.
+set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
 # Determine the SQLite3 version getting built
 file( READ sqlite3.h SQLite3_INCLUDE_FILE )
