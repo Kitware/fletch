@@ -63,7 +63,6 @@ set_target_properties( sqlite3 PROPERTIES
 )
 list(APPEND SQLite3_TARGETS sqlite3)
 if(SQLite3_ENABLE_EXECUTABLE)
-  set(BUILD_SHARED_LIBS OFF) # The sqlite_exe is always build statically
   add_executable(sqlite3_exe ${sqlite_sources} shell.c sqlite3.def)
   target_link_libraries(sqlite3_exe ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT})
   list(APPEND SQLite3_TARGETS sqlite3_exe)
