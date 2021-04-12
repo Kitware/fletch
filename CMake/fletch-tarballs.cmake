@@ -341,14 +341,20 @@ else()
 endif()
 list(APPEND fletch_external_sources OpenCV)
 
+# SQLite3
+set(SQLite3_version 3350200)
+set(SQLite3_url "https://www.sqlite.org/2021/sqlite-amalgamation-${SQLite3_version}.zip")
+set(SQLite3_md5 "732c5d0758a2a2fb9e5b9d6224141a01")
+list(APPEND fletch_external_sources SQLite3)
+
 # PROJ
 if (fletch_ENABLE_PROJ4)
   message(WARNING "The package name PROJ4 is deprecated. Use PROJ instead.")
   set(fletch_ENABLE_PROJ ON)
 endif()
-set(PROJ_version "5.2.0" )
+set(PROJ_version "6.3.2" )
 set(PROJ_url "http://download.osgeo.org/proj/proj-${PROJ_version}.tar.gz" )
-set(PROJ_md5 "ad285c7d03cbb138d9246e10e1f3191c" )
+set(PROJ_md5 "2ca6366e12cd9d34d73b4602049ee480" )
 list(APPEND fletch_external_sources PROJ )
 
 # libgeotiff

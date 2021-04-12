@@ -1,11 +1,23 @@
 
+if(fletch_ENABLE_SQLite3)
+  set(PROJ_ARGS_SQLite3
+    -DSQLite3_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/share/cmake
+    -DEXE_SQLITE3:PATH=${fletch_BUILD_INSTALL_PREFIX}/bin/sqlite3_exe
+    )
+  list(APPEND PROJ_DEPENDS SQLite3)
+else()
+  find_package(SQLite3 REQUIRED)
+endif()
+
 ExternalProject_Add(PROJ
+  DEPENDS ${PROJ_DEPENDS}
   URL ${PROJ_file}
   URL_MD5 ${PROJ_md5}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
+    ${PROJ_ARGS_SQLite3}
     -DPROJ_LIB_SUBDIR:STRING=lib
     -DPROJ_INCLUDE_SUBDIR:STRING=include
     -DDATADIR:STRING=share/proj
