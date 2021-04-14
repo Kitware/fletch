@@ -23,3 +23,11 @@ file(
   DESTINATION
   ${Darknet_Source}/3rdparty/lib
   )
+
+# Add #include <sys/time.h> to the MAC section as well
+file(
+  COPY
+  ${Darknet_Patch}/utils.c
+  DESTINATION
+  ${Darknet_Source}/
+  )
