@@ -14,6 +14,7 @@
   #include <Windows.h>
   #pragma warning(disable: 4996)
 #elif MAC
+#include <unistd.h>
 #include <sys/time.h>
 #else
  #include <unistd.h>
