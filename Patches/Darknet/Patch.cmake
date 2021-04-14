@@ -29,5 +29,5 @@ file(
   COPY
   ${Darknet_Patch}/utils.c
   DESTINATION
-  ${Darknet_Source}/
+  ${Darknet_Source}/src
   )
