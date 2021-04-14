@@ -4,9 +4,9 @@ if(WIN32)
 elseif(APPLE)
   # Add more general paths to the Frameworks path to FindVecLib
   file(COPY
-    ${Caffe_patch}/Modules/FindvecLib.cmake
+    ${Caffe_Segnet_patch}/cmake/Modules/FindvecLib.cmake
     DESTINATION
-    ${Caffe_source}/cmake/Modules
+    ${Caffe_Segnet_source}/cmake/Modules
     )
 else()
   file(COPY ${Caffe_Segnet_patch}/cmake/Dependencies.cmake
