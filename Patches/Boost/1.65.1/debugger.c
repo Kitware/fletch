@@ -12,6 +12,7 @@
 #include "cwd.h"
 #include "function.h"
 #include <assert.h>
+#include <ctype.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,6 +27,7 @@
 #else
 #include <errno.h>
 #include <sys/wait.h>
+#include <unistd.h>
 #endif
 
 #undef debug_on_enter_function

@@ -36,8 +36,10 @@
 #ifdef OPT_HEADER_CACHE_EXT
 # include "hcache.h"
 #endif
+#include "execcmd.h"
 #include "headers.h"
 #include "lists.h"
+#include "output.h"
 #include "object.h"
 #include "parse.h"
 #include "rules.h"

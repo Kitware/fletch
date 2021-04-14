@@ -40,6 +40,8 @@
 #include <stdio.h>
 #include <sys/stat.h>  /* needed for mkdir() */
 
+int file_collect_archive_content_( file_archive_info_t * const archive );
+
 #if defined( sun ) || defined( __sun ) || defined( linux )
 # include <unistd.h>  /* needed for read and close prototype */
 #endif

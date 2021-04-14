@@ -105,6 +105,7 @@
 #include "compile.h"
 #include "constants.h"
 #include "debugger.h"
+#include "execcmd.h"
 #include "filesys.h"
 #include "function.h"
 #include "hcache.h"

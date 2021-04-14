@@ -5,6 +5,7 @@
  */
 
 #include "../constants.h"
+#include "../filesys.h"
 #include "../frames.h"
 #include "../lists.h"
 #include "../native.h"

@@ -64,6 +64,7 @@ typedef void (*scanback)( void * closure, OBJECT * path, int found,
     timestamp const * const );
 
 
+int filelist_empty( FILELIST * list );
 void file_archscan( char const * arch, scanback func, void * closure );
 void file_archivescan( OBJECT * path, archive_scanback func, void * closure );
 void file_build1( PATHNAME * const f, string * file ) ;
