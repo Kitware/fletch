@@ -181,7 +181,7 @@ The recommended CMake configuration is to enable all packages and, if desired, p
 
 If you are using ``ccmake`` or the CMake GUI,
 * Set the source and build locations
-* Check the option for ``fletch_ENABLE_ALL_PACKAGES`` and, if desired, ``fletch_ENABLE_PYTHON``
+* Check the option for ``fletch_ENABLE_ALL_PACKAGES`` and, if desired, ``fletch_BUILD_WITH_PYTHON``
 * Configure
 * Generate the build files
 
@@ -200,7 +200,7 @@ Running from a shell or cmd window::
   # Note you need to provide cmake the source directory at the end (relative or absolute)
   # Run CMake (it will use the system default compiler if you don't provide options or use the CMake GUI)
   # Also, if using visual studio, you do no need to provide the build type
-  cmake -DCMAKE_BUILD_TYPE=Release -Dfletch_ENABLE_ALL_PACKAGES=ON -Dfletch_ENABLE_PYTHON=ON ../../src
+  cmake -DCMAKE_BUILD_TYPE=Release -Dfletch_ENABLE_ALL_PACKAGES=ON -Dfletch_BUILD_WITH_PYTHON=ON ../../src
 
   # Again, python is very popular option, but is optional
 
