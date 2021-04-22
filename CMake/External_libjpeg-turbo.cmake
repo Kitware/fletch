@@ -19,7 +19,7 @@ if(WIN32)
       -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
       -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
       -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-      -DNASM:FILEPATH=${fletch_YASM} -g vc8
+      -DNASM:FILEPATH=${fletch_YASM}
     )
 
   ExternalProject_Add_Step(libjpeg-turbo fixup-install
