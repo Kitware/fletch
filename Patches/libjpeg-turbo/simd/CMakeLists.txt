@@ -18,10 +18,10 @@ set(NAFLAGS ${NAFLAGS} -I${CMAKE_SOURCE_DIR}/win/ -I${CMAKE_CURRENT_SOURCE_DIR}/
 # when building in the IDE, it's clearly not critical for now.
 # This only works if building from the command line.  There is currently no way
 # to set a variable's value based on the build type when using the MSVC IDE.
-#if(CMAKE_BUILD_TYPE STREQUAL "Debug"
-#  OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-#  set(NAFLAGS ${NAFLAGS} -g)
-#endif()
+if(CMAKE_BUILD_TYPE STREQUAL "Debug"
+ OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+ set(NAFLAGS ${NAFLAGS} -g v8)
+endif()
 
 if(SIMD_X86_64)
   set(SIMD_BASENAMES jfdctflt-sse-64 jccolor-sse2-64 jcgray-sse2-64
