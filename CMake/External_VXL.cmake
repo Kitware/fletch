@@ -90,6 +90,16 @@ elseif(WIN32)
     )
 endif()
 
+# If a patch file exists, apply it
+set (VXL_patch ${fletch_SOURCE_DIR}/Patches/VXL)
+if (EXISTS ${VXL_patch})
+  set(VXL_PATCH_COMMAND ${CMAKE_COMMAND}
+      -DVXL_PATCH_DIR:PATH=${VXL_patch}
+      -DVXL_SOURCE_DIR:PATH=${fletch_BUILD_PREFIX}/src/VXL
+      -P ${VXL_patch}/Patch.cmake
+    )
+endif()
+
 ExternalProject_Add(VXL
   DEPENDS ${VXL_DEPENDS}
   URL ${VXL_url}
@@ -97,6 +107,7 @@ ExternalProject_Add(VXL
   DOWNLOAD_NAME ${VXL_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  PATCH_COMMAND ${VXL_PATCH_COMMAND}
   CMAKE_ARGS
     ${KWIVER_ARGS_COMMON}
     ${VXL_ARGS_GUI}
