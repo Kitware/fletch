@@ -14,6 +14,17 @@ if(POLICY CMP0074)
   cmake_policy(SET CMP0074 NEW)
 endif()
 
+# Policy CMP0114
+# "allows CMake ExternalProject step targets to fully adopt their steps."
+# The need for this policy comes from our
+# fletch_external_project_force_install(PACKAGE pkg)
+# We're setting to OLD for now because we're not ready to remove
+# fletch_external_project_force_install before a release. Once we
+# remove fletch_external_project_force_install, we can set this to NEW or remove.
+if(POLICY CMP0114)
+  cmake_policy(SET CMP0114 OLD)
+endif()
+
 #+
 # A word about Fletch versioning:
 #
