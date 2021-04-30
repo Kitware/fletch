@@ -10,3 +10,12 @@ file(COPY ${Qt_patch}/qtconnectivity/src/bluetooth/qbluetoothservicediscoveryage
   DESTINATION ${Qt_source}/qtconnectivity/src/bluetooth/
   )
 
+
+# Fix a build issues with gcc 11. Headers need to include <limits>
+file(COPY ${Qt_patch}/qtbase/src/corelib/tools/qbytearraymatcher.h
+  DESTINATION ${Qt_source}/qtbase/src/corelib/tools/
+  )
+
+file(COPY ${Qt_patch}/qtbase/src/corelib/global/qendian.h
+  DESTINATION ${Qt_source}/qtbase/src/corelib/global/
+  )
