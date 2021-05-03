@@ -47,6 +47,7 @@
 // include stdlib.h and hope that it defines __GLIBC__ for glibc-based systems
 #include <stdlib.h>
 #include <string.h>
+#include <limits>
 
 #ifdef min // MSVC
 #undef min
