@@ -36,3 +36,10 @@ file(COPY ${VTK_PATCH_DIR}/Interaction/Widgets/vtkSeedWidget.cxx
 file(COPY ${VTK_PATCH_DIR}/Wrapping/PythonCore/vtkPythonArgs.cxx
   DESTINATION ${VTK_SOURCE_DIR}/Wrapping/PythonCore/
 )
+
+# Fix for GCC with 2-digit version numbers.
+# Patch fixes the regex assumption that we're looking for version gcc 3-9
+# Patch taken from https://723374.bugs.gentoo.org/attachment.cgi?id=641488
+file(COPY ${VTK_PATCH_DIR}/CMake/VTKGenerateExportHeader.cmake
+  DESTINATION ${VTK_SOURCE_DIR}/CMake
+)
