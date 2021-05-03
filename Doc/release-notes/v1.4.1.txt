@@ -17,3 +17,5 @@ Fixes since v1.4.0
  * Fixed an issue with broken CUDA_HOST_COMPILER path in some projects using MSVC.
  * Fixed an issue with enabling VTK Python bindings in MSVC.
  * Patched GDAL missing strdup prototype on OSX
+ * Patch VTK 8.0 and 8.2 to support gcc versions with double digits.
+ * Patch VTK 9.0, GDAL 2.3.2, Qt 5.11.2 and Qt 5.12.8 to add #include <limits> where missing.
