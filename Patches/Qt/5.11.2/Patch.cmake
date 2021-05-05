@@ -27,3 +27,8 @@ if (NOT WIN32)
     DESTINATION ${Qt_source}/qtserialbus/src/plugins/canbus/socketcan/
     )
 endif()
+
+# Fix a build issues with gcc 11. Headers need to include <limits>
+file(COPY ${Qt_patch}/qtbase/src/corelib/tools/qbytearraymatcher.h
+  DESTINATION ${Qt_source}/qtbase/src/corelib/tools/
+  )
