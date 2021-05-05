@@ -171,25 +171,21 @@ endmacro()
 macro(_vtk_test_compiler_hidden_visibility)
 
   if(CMAKE_COMPILER_IS_GNUCXX)
-    # The following process is written to make sure our gcc compiler is
-    # gcc >= 4.2. The code breaks with gcc 10.2 and was removed from VTK 9.
-    # Currently Fletch doesn't support such old compilers anyway so,
-    # the best thing is just to remove the check.
-    # execute_process(COMMAND ${CMAKE_C_COMPILER} --version
-    #   OUTPUT_VARIABLE _gcc_version_info
-    #   ERROR_VARIABLE _gcc_version_info)
-    # string(REGEX MATCH "[3-9]\\.[0-9]\\.[0-9]*"
-    #   _gcc_version "${_gcc_version_info}")
-    # # gcc on mac just reports: "gcc (GCC) 3.3 20030304 ..." without the
-    # # patch level, handle this here:
-    # if(NOT _gcc_version)
-    #   string(REGEX REPLACE ".*\\(GCC\\).*([34]\\.[0-9]).*" "\\1.0"
-    #     _gcc_version "${_gcc_version_info}")
-    # endif()
+    execute_process(COMMAND ${CMAKE_C_COMPILER} --version
+      OUTPUT_VARIABLE _gcc_version_info
+      ERROR_VARIABLE _gcc_version_info)
+    string(REGEX MATCH "[1-9][0-9]\\.[0-9]\\.[0-9]*"
+      _gcc_version "${_gcc_version_info}")
+    # gcc on mac just reports: "gcc (GCC) 3.3 20030304 ..." without the
+    # patch level, handle this here:
+    if(NOT _gcc_version)
+      string(REGEX MATCH "[3-9]\\.[0-9]\\.[0-9]*"
+        _gcc_version "${_gcc_version_info}")
+    endif()
 
-    # if(_gcc_version VERSION_LESS "4.2")
-    #   set(GCC_TOO_OLD TRUE)
-    # endif()
+    if(_gcc_version VERSION_LESS "4.2")
+      set(GCC_TOO_OLD TRUE)
+    endif()
   endif()
 
   if(CMAKE_CXX_COMPILER_ID MATCHES "Intel")
