@@ -1,13 +1,13 @@
 
-# Use the expat library that comes with Unix systems, else go ahead and build
-# it on windows.
-if(WIN32)
+# Find expat if missing, go ahead and build it.
+find_package(EXPAT)
+if (EXPAT_FOUND)
   set(libkml_use_external_expat
-    -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=OFF
+    -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=ON
     )
 else()
   set(libkml_use_external_expat
-    -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=ON
+    -DLIBKML_USE_EXTERNAL_EXPAT:BOOL=OFF
     )
 endif()
 
