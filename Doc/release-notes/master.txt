@@ -12,7 +12,7 @@ Updates since v1.4.1
 
  * Patch VTK 8.2 to fix a compilation issue with gcc 10 in ThridParty/exoduxII
  * Patch VTK 8.x to fix a compilation issue with gcc 10.2 where the regex fails to detect the gcc version correctly.
-
+ * Update VXL to 51558266cc28ffb522ae72eebc883a88124a4b6c and patch to fix a WIN32 link error.
 
 Updates since v1.4.0
 --------------------
