@@ -2,8 +2,8 @@
 
 set(vnl_io_sources
   vnl_io_nonlinear_minimizer.cxx  vnl_io_nonlinear_minimizer.h
-  vnl_io_real_npolynomial.cxx     vnl_io_real_npolynomial.h
-  vnl_io_real_polynomial.cxx      vnl_io_real_polynomial.h
+#  vnl_io_real_npolynomial.cxx     vnl_io_real_npolynomial.h
+#  vnl_io_real_polynomial.cxx      vnl_io_real_polynomial.h
   vnl_io_rational.cxx             vnl_io_rational.h
   vnl_io_bignum.cxx               vnl_io_bignum.h
 

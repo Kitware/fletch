@@ -12,3 +12,10 @@ file(COPY ${VXL_PATCH_DIR}/core/vbl/vbl_array_2d.h
 file(COPY ${VXL_PATCH_DIR}/v3p/openjpeg2/opj_includes.h
   DESTINATION ${VXL_SOURCE_DIR}/v3p/openjpeg2/
   )
+
+# fixes an issue with duplicate definition of lrintf() on Windows
+if (WIN32)
+  file(COPY ${VXL_PATCH_DIR}/core/vnl/io/CMakeLists.txt
+    DESTINATION ${VXL_SOURCE_DIR}/core/vnl/io/
+    )
+endif()
