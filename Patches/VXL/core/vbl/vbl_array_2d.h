@@ -1,9 +1,6 @@
 // This is core/vbl/vbl_array_2d.h
 #ifndef vbl_array_2d_h_
 #define vbl_array_2d_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Contains class for a templated 2d array
@@ -19,8 +16,10 @@
 
 #include <iosfwd>
 #include <cstddef>
-#include <vcl_compiler.h>
 #include <stdint.h>
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //: simple 2D array
 template <class T>
@@ -145,7 +144,7 @@ class vbl_array_2d
 
  private:
   void construct() {
-    rows_ = VXL_NULLPTR;
+    rows_ = nullptr;
     num_rows_ = 0;
     num_cols_ = 0;
   }
@@ -161,7 +160,7 @@ class vbl_array_2d
         rows_[i] = p + i * n;
     }
     else {
-      rows_ = VXL_NULLPTR;
+      rows_ = nullptr;
     }
   }
 
@@ -173,7 +172,7 @@ class vbl_array_2d
   }
 };
 
-VCL_TEMPLATE_EXPORT template <class T>
+template <class T>
 std::ostream& operator<<(std::ostream &, vbl_array_2d<T> const &);
 
 #define VBL_ARRAY_2D_INSTANTIATE \
