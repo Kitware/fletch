@@ -13,4 +13,7 @@ if (WIN32)
   file(COPY ${VXL_PATCH_DIR}/core/vnl/io/CMakeLists.txt
     DESTINATION ${VXL_SOURCE_DIR}/core/vnl/io/
     )
+  file(COPY ${VXL_PATCH_DIR}/core/vsl/Templates/vsl_vector_io+char-.cxx
+    DESTINATION ${VXL_SOURCE_DIR}/core/vsl/Templates/
+    )
 endif()
