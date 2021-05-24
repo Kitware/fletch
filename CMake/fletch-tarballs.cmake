@@ -459,9 +459,9 @@ set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_ve
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_version "0bb0ca92867408caec298cef05412ed85c6d56b7")
+set(VXL_version "51558266cc28ffb522ae72eebc883a88124a4b6c")
 set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
-set(VXL_md5 "287536149942081666a2f9a3be87a666")
+set(VXL_md5 "400e55c3687666784597376f1ff4a6f0")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
