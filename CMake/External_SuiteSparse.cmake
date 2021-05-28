@@ -29,19 +29,31 @@ if (BUILD_CXSPARSE_ONLY)
     )
 
 elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
-
-  find_package(LAPACK)
+  find_package(LAPACK QUIET)
   if (NOT LAPACK_FOUND)
-    list (APPEND MISSING_DEPS "lapack")
-  endif()
+    if(fletch_ENABLE_OpenBLAS)
+      # If we are building OpenBLAS, make sure we have a fortran compiler.
+      enable_language(Fortran)
+      add_package_dependency(
+        PACKAGE SuiteSparse
+        PACKAGE_DEPENDENCY OpenBLAS
+        PACKAGE_DEPENDENCY_ALIAS OpenBLAS
+        )
+      get_system_library_name(openblas openblas_libname)
+      set(BLAS_LIBRARIES ${fletch_BUILD_INSTALL_PREFIX}/lib/${openblas_libname})
+      set(env ${CMAKE_COMMAND} -E env)
+      message("env = ${env}")
+      set(env_var LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${fletch_BUILD_INSTALL_PREFIX}/lib)
+      message("env_var = ${env_var}")
+      set(ENV_CMD ${env} ${env_var})
 
-  find_package(BLAS)
-  if (NOT BLAS_FOUND)
-    add_package_dependency(
-      PACKAGE SuiteSparse
-      PACKAGE_DEPENDENCY OpenBLAS
-      PACKAGE_DEPENDENCY_ALIAS OpenBLAS
-      )
+    else()
+      find_package(BLAS QUIET)
+      if (NOT BLAS_FOUND)
+        message(FATAL_ERROR "Building SuiteSparse requires LAPACK or BLAS. \
+                Please install or enable OpenBLAS in the Fletch CMake config.")
+      endif()
+    endif()
   endif()
 
   if (MISSING_DEPS)
@@ -89,7 +101,7 @@ elseif (NOT WIN32 AND NOT BUILD_CXSPARSE_ONLY)
       -P ${fletch_SOURCE_DIR}/Patches/SuiteSparse/Patch.cmake
 
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND ${MAKE_EXECUTABLE} -j1
+    BUILD_COMMAND ${ENV_CMD} ${MAKE_EXECUTABLE} -j1
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
     )
 
