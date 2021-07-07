@@ -459,17 +459,16 @@ set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_ve
 list(APPEND fletch_external_sources VTK)
 
 # VXL
-set(VXL_version "0bb0ca92867408caec298cef05412ed85c6d56b7")
+set(VXL_version "ecc0202f4f9eccaffa89b061e9567a20597fd10e")
 set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
-set(VXL_md5 "287536149942081666a2f9a3be87a666")
+set(VXL_md5 "43f59314889597ad5e84da9d023f0ee7")
 set(VXL_dlname "vxl-${VXL_version}.zip")
 list(APPEND fletch_external_sources VXL)
 
 # ITK
-set(ITK_version 5.0)
-set(ITK_minor b01)
-set(ITK_url "https://github.com/InsightSoftwareConsortium/ITK/archive/v${ITK_version}${ITK_minor}.zip")
-set(ITK_md5 "3a93ba69d3bf05258054806fab742611")
+set(ITK_version "fc688e7a2c89967e3d6cbb779f87ec37a4e4750b")
+set(ITK_url "https://github.com/InsightSoftwareConsortium/ITK/archive/${ITK_version}.tar.gz")
+set(ITK_md5 "8f0965e5ac7828a273dfff8d3b81ff9a")
 set(ITK_experimental TRUE)
 list(APPEND fletch_external_sources ITK)
 

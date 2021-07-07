@@ -73,6 +73,14 @@ if (fletch_ENABLE_VXL)
   list(APPEND ITK_DEPENDS VXL)
 endif()
 
+if (fletch_ENABLE_OpenCV)
+  list (APPEND itk_cmake_args
+    -DModule_ITKVideoBridgeOpenCV:BOOL=ON
+    -DOpenCV_DIR:PATH=${OpenCV_ROOT}
+    )
+  list(APPEND ITK_DEPENDS OpenCV)
+endif()
+
 ExternalProject_Add(ITK
   DEPENDS ${ITK_DEPENDS}
   URL ${ITK_file}
@@ -83,6 +91,8 @@ ExternalProject_Add(ITK
     ${COMMON_CMAKE_ARGS}
     ${ITK_IMG_ARGS}
     ${itk_cmake_args}
+    -DModule_PhaseSymmetry:BOOL=ON
+    -DModule_AnisotropicDiffusionLBR:BOOL=ON
 )
 
 fletch_external_project_force_install(PACKAGE ITK)
