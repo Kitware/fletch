@@ -1,10 +1,3 @@
-# If we're building Boost, use that one.
-if(fletch_ENABLE_Boost)
-  set(_YAMLCPP_DEPENDS ${_YAMLCPP_DEPENDS} Boost)
-else()
-  message(FATAL_ERROR "YAMLcpp requires the Boost library.")
-endif()
-
 # YAMLcpp has some sort of odd build error (with clang, at least)
 # if you build the tools.
 
@@ -15,15 +8,11 @@ ExternalProject_Add(YAMLcpp
   DOWNLOAD_NAME ${YAMLcpp_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DYAMLcpp_patch:PATH=${fletch_SOURCE_DIR}/Patches/YAMLcpp
-    -DYAMLcpp_source:PATH=${fletch_BUILD_PREFIX}/src/YAMLcpp
-    -P ${fletch_SOURCE_DIR}/Patches/YAMLcpp/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
-    -DBOOST_ROOT:PATH=${BOOST_ROOT}
     -DYAML_CPP_BUILD_CONTRIB:BOOL=OFF
+    -DYAML_CPP_BUILD_TESTS:BOOL=OFF
     -DYAML_CPP_BUILD_TOOLS:BOOL=OFF
 )
 
