@@ -595,10 +595,10 @@ set(pybind11_dlname "pybind11-${pybind11_version}.tar.gz")
 list(APPEND fletch_external_sources pybind11)
 
 # YAMLcpp
-set(YAMLcpp_version "0.5.3")
-set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/release-${YAMLcpp_version}.tar.gz")
-set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
-set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
+set(YAMLcpp_version "0.6.0")
+set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/refs/tags/yaml-cpp-${YAMLcpp_version}.tar.gz")
+set(YAMLcpp_md5 "8adc0ae6c2698a61ab086606cc7cf562")
+set(YAMLcpp_dlname "yaml-cpp-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
