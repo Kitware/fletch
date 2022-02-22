@@ -29,9 +29,9 @@ ExternalProject_Add(PNG
   URL_MD5 ${PNG_md5}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${CMAKE_COMMAND} -E copy
-    ${fletch_SOURCE_DIR}/Patches/PNG/CMakeLists.txt
-    ${fletch_BUILD_PREFIX}/src/PNG/CMakeLists.txt
+#  PATCH_COMMAND ${CMAKE_COMMAND} -E copy
+#    ${fletch_SOURCE_DIR}/Patches/PNG/CMakeLists.txt
+#    ${fletch_BUILD_PREFIX}/src/PNG/CMakeLists.txt
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${png_cmake_args}
