@@ -308,8 +308,19 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0" "4.5.1")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
-  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
-  set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+  # Pulling from pypi for version 4.5.1 since it is SWAP approved
+  if (OpenCV_SELECT_VERSION VERSION_EQUAL 4.5.1)
+    if (fletch_USE_PYPI_OPENCV)
+      set(OpenCV_url "https://files.pythonhosted.org/packages/bb/08/9dbc183a3ac6baa95fabf749ddb531bd26256edfff5b6c2195eca26258e9/opencv-python-${OpenCV_version}.48.tar.gz")
+      set(OpenCV_dlname "opencv-python-${OpenCV_version}.48.tar.gz")
+    else()
+      set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+      set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+    endif()
+  else()
+    set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
+    set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+  endif()
 
   # Expose optional contrib repo when enabling OpenCV version >= 3.x
   if (NOT OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
@@ -324,7 +335,11 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
 
   # Paired contrib repo information
   if (OpenCV_version VERSION_EQUAL 4.5.1)
-    set(OpenCV_md5 "cc13d83c3bf989b0487bb3798375ee08")
+    if (fletch_USE_PYPI_OPENCV)
+      set(OpenCV_md5 "0e178bd601b25a0a1ee0cd1e8c81bec0")
+    else()
+      set(OpenCV_md5 "cc13d83c3bf989b0487bb3798375ee08")
+    endif()
     set(OpenCV_contrib_md5 "ddb4f64d6cf31d589a8104655d39c99b")
   elseif (OpenCV_version VERSION_EQUAL 4.2.0)
     set(OpenCV_md5 "b02b54115f1f99cb9e885d1e5988ff70")
