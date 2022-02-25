@@ -92,7 +92,7 @@ set(yasm_md5 "38802696efbc27554d75d93a84a23183")
 set(_FFmpeg_supported TRUE)
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
-  set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
+  set(FFmpeg_SELECT_VERSION 4.4.1 CACHE STRING "Select the version of FFmpeg to build.")
   set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3" "4.4.1")
   mark_as_advanced(FFmpeg_SELECT_VERSION)
 
@@ -373,7 +373,7 @@ list(APPEND fletch_external_sources GEOS )
 
 # GDAL
 if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
-  set(GDAL_SELECT_VERSION 2.3.2 CACHE STRING "Select the major version of GDAL to build.")
+  set(GDAL_SELECT_VERSION 2.4.4 CACHE STRING "Select the major version of GDAL to build.")
   set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.4.4" "2.3.2" "1.11.5")
   message(STATUS "GDAL Select version: ${GDAL_SELECT_VERSION}")
   if (GDAL_SELECT_VERSION VERSION_EQUAL 2.4.4)
