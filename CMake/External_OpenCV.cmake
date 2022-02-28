@@ -26,7 +26,7 @@ endif()
 
 # Use the pypi tarball for the opencv source code
 if (OpenCV_version VERSION_EQUAL 4.5.1)
-  option(fletch_USE_PYPI_OPENCV "Use PyPI tarball for OpenCV source" OFF)
+  option(fletch_USE_PYPI_OPENCV "Use PyPI tarball for OpenCV source" ON)
   mark_as_advanced(fletch_USE_PYPI_OPENCV)
 endif()
 

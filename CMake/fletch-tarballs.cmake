@@ -304,7 +304,7 @@ list(APPEND fletch_external_sources Qt)
 # OpenCV
 # Support 3.4, 4.2, and 4.5.1 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
+  set(OpenCV_SELECT_VERSION 4.5.1 CACHE STRING "Select the  version of OpenCV to build.")
   set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0" "4.5.1")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
