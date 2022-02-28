@@ -371,7 +371,7 @@ list(APPEND fletch_external_sources GEOS )
 
 # GDAL
 if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
-  set(GDAL_SELECT_VERSION 2.3.2 CACHE STRING "Select the major version of GDAL to build.")
+  set(GDAL_SELECT_VERSION 2.4.4 CACHE STRING "Select the major version of GDAL to build.")
   set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.4.4" "2.3.2" "1.11.5")
   message(STATUS "GDAL Select version: ${GDAL_SELECT_VERSION}")
   if (GDAL_SELECT_VERSION VERSION_EQUAL 2.4.4)
