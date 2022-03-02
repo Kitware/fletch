@@ -147,9 +147,9 @@ if(_FFmpeg_supported)
 endif()
 
 # EIGEN
-set(Eigen_version 3.3.7)
+set(Eigen_version 3.3.9)
 set(Eigen_url "https://gitlab.com/libeigen/eigen/-/archive/${Eigen_version}/eigen-${Eigen_version}.tar.gz")
-set(Eigen_md5 "9e30f67e8531477de4117506fe44669b")
+set(Eigen_md5 "609286804b0f79be622ccf7f9ff2b660")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
