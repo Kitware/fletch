@@ -8,4 +8,5 @@ There are many other changes in this release. These are detailed in the change l
 Updates since v1.5.0
 --------------------
 
+* Update Eigen from 3.3.7 to 3.3.9
 * Added option for GDAL 2.4.4
