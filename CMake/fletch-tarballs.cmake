@@ -113,7 +113,12 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     # On windows download prebuilt binaries and shared libraries
     # dev contains headers .lib, .def, and mingw .dll.a files
     # shared contains dll and exe files.
-    if (_FFmpeg_version VERSION_EQUAL 3.3.3)
+    if (_FFmpeg_version VERSION_EQUAL 4.4.1)
+      set(FFmpeg_dev_md5 "7b74e3ed31b6b60f6e7cddbcb31cdf13")
+      set(FFmpeg_shared_md5 "c22a945f42510974e41c91eccde6de2f")
+      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/621f02394acac99f429c28dd/download/ffmpeg-4.4.1-full_build.7z")
+      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/621f021a4acac99f429c274b/download/ffmpeg-4.4.1-full_build-shared.7z")
+    elseif (_FFmpeg_version VERSION_EQUAL 3.3.3)
       set(FFmpeg_dev_md5 "2788ff871ba1c1b91b6f0e91633bef2a")
       set(FFmpeg_shared_md5 "beb39d523cdb032b59f81db80b020f31")
       set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/5c520afc8d777f072b212cca/download/ffmpeg-3.3.3-win64-dev.zip")
