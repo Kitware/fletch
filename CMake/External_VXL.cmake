@@ -58,7 +58,7 @@ set(VXL_ARGS_CONTRIB
 list(APPEND VXL_ARGS_VIDL
   -DBUILD_CORE_VIDEO:BOOL=ON
   )
-if(fletch_ENABLE_FFmpeg)
+if(fletch_ENABLE_FFmpeg AND _FFmpeg_version VERSION_LESS 4)
   add_package_dependency(
     PACKAGE VXL
     PACKAGE_DEPENDENCY FFmpeg
