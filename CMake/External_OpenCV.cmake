@@ -24,6 +24,12 @@ else()
   unset(fletch_ENABLE_OpenCV_FFmpeg CACHE)
 endif()
 
+# Use the pypi tarball for the opencv source code
+if (OpenCV_version VERSION_EQUAL 4.5.1)
+  option(fletch_USE_PYPI_OPENCV "Use PyPI tarball for OpenCV source" OFF)
+  mark_as_advanced(fletch_USE_PYPI_OPENCV)
+endif()
+
 # Note:
 # Some other libraries built by fletch could be used by OpenCV
 # these are: Ceres, Qt. Should these dependencies be added?
@@ -293,6 +299,13 @@ if (CMAKE_CXX_COMPILER MATCHES ".*ccache*" AND
     "You are using ccache as your compiler and CUDA support is enabled. This configuration is known to fail with nvcc. Make sure you pass -DCUDA_HOST_COMPILER=/usr/bin/cc as an argument to cmake. Adjust the path to match your actual C compiler's location")
 endif()
 
+# Fix source directory for 4.5.1 since it is built from opencv-python
+if (OpenCV_SELECT_VERSION VERSION_EQUAL 4.5.1 AND fletch_USE_PYPI_OPENCV)
+  set(OpenCV_SOURCE_DIR ./opencv)
+else()
+  set(OpenCV_SOURCE_DIR ./)
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
@@ -300,6 +313,7 @@ ExternalProject_Add(OpenCV
   DOWNLOAD_NAME ${OpenCV_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  SOURCE_SUBDIR ${OpenCV_SOURCE_DIR}
 
   PATCH_COMMAND ${OPENCV_PATCH_COMMAND}
 
