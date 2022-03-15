@@ -106,10 +106,10 @@ object BOOST_PYTHON_DECL exec_file(char const *filename, object global, object l
   char *f = const_cast<char *>(filename);
   // Let python open the file to avoid potential binary incompatibilities.
 #if PY_VERSION_HEX >= 0x03040000
-  FILE *fs = _Py_fopen(f, "r");
+  FILE *fs = fopen(f, "r");
 #elif PY_VERSION_HEX >= 0x03000000
   PyObject *fo = Py_BuildValue("s", f);
-  FILE *fs = _Py_fopen(fo, "r");
+  FILE *fs = fopen(fo, "r");
   Py_DECREF(fo);
 #else
   PyObject *pyfile = PyFile_FromString(f, const_cast<char*>("r"));
