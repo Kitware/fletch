@@ -45,3 +45,8 @@ file(COPY ${Boost_patch}/make.c
 file(COPY ${Boost_patch}/path.c
   DESTINATION ${Boost_source}/tools/build/src/engine/modules/
   )
+
+# Path to fix Boost with Python 3.10
+file(COPY ${Boost_patch}/exec.cpp
+  DESTINATION ${Boost_source}/libs/python/src/
+  )
