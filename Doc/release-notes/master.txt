@@ -13,5 +13,5 @@ Updates since v1.5.0
 * Patched FFmpeg to write KLV metadata in compliance with MISB standards
 * Update GDAL from 2.3.2 to 2.4.4
 * Added option to get OpenCV source for version 4.5.1 from PyPI
-* Add option to use VTK 9.1.0
+* Added option to use VTK 9.1.0 and made 9.1 the default
 
