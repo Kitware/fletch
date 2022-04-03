@@ -17,7 +17,7 @@ set( BUILT_PYTHON_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/ )
 
 if( fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*" )
   set( CPYTHON_PATCH_CMD ${CMAKE_COMMAND} -E copy_directory
-      ${fletch_SOURCE_DIR}/Patches/CPython/python36
+      ${fletch_SOURCE_DIR}/Patches/CPython/python310
       ${fletch_BUILD_PREFIX}/src/CPython )
 else()
   set( CPYTHON_PATCH_CMD "" )
