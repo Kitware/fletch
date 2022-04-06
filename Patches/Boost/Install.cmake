@@ -13,20 +13,6 @@ foreach(SUFFIX lib so a dylib)
   )
 endforeach()
 
-if (fletch_BUILD_WITH_PYTHON)
-  file(COPY ${Boost_source}/boost/python/raw_function.hpp
-    DESTINATION ${Boost_INSTALL_DIR}/include/boost/python
-    USE_SOURCE_PERMISSIONS
-    )
-  if( NOT WIN32
-      AND NOT EXISTS ${Boost_INSTALL_DIR}/lib/libboost_python.so
-      AND EXISTS ${Boost_INSTALL_DIR}/lib/libboost_python3.so )
-    execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink
-      ${Boost_INSTALL_DIR}/lib/libboost_python3.so
-      ${Boost_INSTALL_DIR}/lib/libboost_python.so )
-  endif()
-endif()
-
 if(WIN32)
   message("Boost.Install: Installing runtime libraries")
   file(COPY ${Boost_BUILD_DIR}/stage/lib/
