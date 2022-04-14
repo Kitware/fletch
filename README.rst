@@ -249,5 +249,5 @@ Troubleshooting
 
 .. _CMake: http://www.cmake.org/
 .. _`KWIVER Project`: http://www.kwiver.org/
-.. _KWIVER: https://github.com/Kitware/kwiver
+.. _KWIVER: https://github.com/Kitware/kwiver/
 .. _Kitware: http://www.kitware.com/
