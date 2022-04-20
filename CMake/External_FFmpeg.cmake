@@ -41,8 +41,14 @@ if(fletch_ENABLE_x264)
   else()
     include(External_x264)
     list(APPEND ffmpeg_DEPENDS x264)
-    set(_FFmpeg_x264 --enable-libx264 --enable-gpl)
+    set(_FFmpeg_x264 --enable-gpl --enable-libx264)
   endif()
+endif()
+
+if(fletch_ENABLE_x265)
+  include(External_x265)
+  list(APPEND ffmpeg_DEPENDS x265)
+  set(_FFmpeg_x265 --enable-gpl --enable-libx265)
 endif()
 
 set(FFMPEG_PKGCONFIG_PATH ${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig)
@@ -55,31 +61,33 @@ if(WIN32)
 
   # We have to transform the path from C:/... to /c/...
   # because : is treated as a delimiter
-  execute_process(
-    COMMAND ${mingw_prefix} ${msys_bash} -c "cygpath ${FFMPEG_PKGCONFIG_PATH}"
-    OUTPUT_VARIABLE FFMPEG_PKGCONFIG_PATH OUTPUT_STRIP_TRAILING_WHITESPACE)
-
+  set(inner_cmd "env\
+	PKG_CONFIG_PATH=`cygpath ${FFMPEG_PKGCONFIG_PATH}`\
+    ${fletch_BUILD_PREFIX}/src/FFmpeg/configure\
+    --prefix=${fletch_BUILD_INSTALL_PREFIX}\
+    --enable-runtime-cpudetect\
+    ${_FFmpeg_x264}\
+    ${_FFmpeg_x265}\
+    ${_FFmpeg_zlib}\
+    ${_shared_lib_params}\
+    --enable-rpath\
+    --disable-programs\
+    --disable-asm")
+  string(REPLACE ";" " " inner_cmd "${inner_cmd}")
   set(FFMPEG_CONFIGURE_COMMAND
-    ${mingw_prefix} PKG_CONFIG_PATH=${FFMPEG_PKGCONFIG_PATH} ${msys_bash}
-    ${fletch_BUILD_PREFIX}/src/FFmpeg/configure
-    --prefix=${fletch_BUILD_INSTALL_PREFIX}
-    --enable-runtime-cpudetect
-    ${_FFmpeg_x264}
-    ${_FFmpeg_zlib}
-    ${_shared_lib_params}
-    --enable-rpath
-    --disable-programs
-    --disable-asm
+    ${FFMPEG_COMMAND_PREFIX} -x -c ${inner_cmd}
     )
 else()
   Fletch_Require_Make()
   set(FFMPEG_BUILD_COMMAND ${MAKE_EXECUTABLE})
   set(FFMPEG_INSTALL_COMMAND ${MAKE_EXECUTABLE} install )
   set(FFMPEG_CONFIGURE_COMMAND
+    env PKG_CONFIG_PATH=${FFMPEG_PKGCONFIG_PATH}
     ${fletch_BUILD_PREFIX}/src/FFmpeg/configure
     --prefix=${fletch_BUILD_INSTALL_PREFIX}
     --enable-runtime-cpudetect
     ${_FFmpeg_x264}
+    ${_FFmpeg_x265}
     ${_FFmpeg_yasm}
     ${_FFmpeg_zlib}
     ${_shared_lib_params}
