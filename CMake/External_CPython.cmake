@@ -202,8 +202,12 @@ if( WIN32 )
   set( fletch_PYTHON_LIBS_DEPS ${fletch_PYTHON_LIBS_DEPS} CPython-pip )
 endif()
 
-list( LENGTH fletch_PYTHON_LIBS DEP_COUNT )
-math( EXPR DEP_COUNT "${DEP_COUNT} - 1" )
+if( fletch_PYTHON_LIBS )
+  list( LENGTH fletch_PYTHON_LIBS DEP_COUNT )
+  math( EXPR DEP_COUNT "${DEP_COUNT} - 1" )
+else()
+  set( DEP_COUNT 0 )
+endif()
 
 foreach( ID RANGE ${DEP_COUNT} )
 
