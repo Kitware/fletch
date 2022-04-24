@@ -205,36 +205,34 @@ endif()
 if( fletch_PYTHON_LIBS )
   list( LENGTH fletch_PYTHON_LIBS DEP_COUNT )
   math( EXPR DEP_COUNT "${DEP_COUNT} - 1" )
-else()
-  set( DEP_COUNT 0 )
+
+  foreach( ID RANGE ${DEP_COUNT} )
+
+    list( GET fletch_PYTHON_LIBS ${ID} DEP )
+    list( GET fletch_PYTHON_LIB_CMDS ${ID} CMD )
+
+    set( fletch_PROJECT_LIST ${fletch_PROJECT_LIST} ${DEP} )
+
+    set( PYTHON_DEP_PIP_CMD pip install --user ${CMD} )
+    string( REPLACE " " ";" PYTHON_DEP_PIP_CMD "${PYTHON_DEP_PIP_CMD}" )
+
+    set( PYTHON_DEP_INSTALL
+      ${CMAKE_COMMAND} -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
+                              "PATH=${CUSTOM_PATH}"
+                              "PYTHONUSERBASE=${fletch_BUILD_INSTALL_PREFIX}"
+        ${PYTHON_EXECUTABLE} -m ${PYTHON_DEP_PIP_CMD}
+      )
+
+    ExternalProject_Add( ${DEP}
+      DEPENDS ${fletch_PYTHON_LIBS_DEPS}
+      PREFIX ${fletch_BUILD_PREFIX}
+      SOURCE_DIR ${fletch_CMAKE_DIR}
+      USES_TERMINAL_BUILD 1
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ${PYTHON_DEP_INSTALL}
+      INSTALL_COMMAND ""
+      INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
+      LIST_SEPARATOR "----"
+      )
+  endforeach()
 endif()
-
-foreach( ID RANGE ${DEP_COUNT} )
-
-  list( GET fletch_PYTHON_LIBS ${ID} DEP )
-  list( GET fletch_PYTHON_LIB_CMDS ${ID} CMD )
-
-  set( fletch_PROJECT_LIST ${fletch_PROJECT_LIST} ${DEP} )
-
-  set( PYTHON_DEP_PIP_CMD pip install --user ${CMD} )
-  string( REPLACE " " ";" PYTHON_DEP_PIP_CMD "${PYTHON_DEP_PIP_CMD}" )
-
-  set( PYTHON_DEP_INSTALL
-    ${CMAKE_COMMAND} -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
-                            "PATH=${CUSTOM_PATH}"
-                            "PYTHONUSERBASE=${fletch_BUILD_INSTALL_PREFIX}"
-      ${PYTHON_EXECUTABLE} -m ${PYTHON_DEP_PIP_CMD}
-    )
-
-  ExternalProject_Add( ${DEP}
-    DEPENDS ${fletch_PYTHON_LIBS_DEPS}
-    PREFIX ${fletch_BUILD_PREFIX}
-    SOURCE_DIR ${fletch_CMAKE_DIR}
-    USES_TERMINAL_BUILD 1
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND ${PYTHON_DEP_INSTALL}
-    INSTALL_COMMAND ""
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-    LIST_SEPARATOR "----"
-    )
-endforeach()
