@@ -163,17 +163,22 @@ if( WIN32 )
     ${PYTHON_BASEPATH};${PYTHON_BASEPATH}/site-packages;${PYTHON_BASEPATH}/dist-packages )
   set( CUSTOM_PATH
     ${fletch_BUILD_INSTALL_PREFIX}/bin )
+  set( CUSTOM_PYTHONHOME
+    ${fletch_BUILD_INSTALL_PREFIX} )
 
   set( ENV{PYTHONPATH} "${CUSTOM_PYTHONPATH}" )
-  set( ENV{PYTHONHOME} "${fletch_BUILD_INSTALL_PREFIX}" )
+  set( ENV{PYTHONHOME} "${CUSTOM_PYTHONHOME}" )
 
   string( REPLACE ";" "----" CUSTOM_PYTHONPATH "${CUSTOM_PYTHONPATH}" )
   string( REPLACE ";" "----" CUSTOM_PATH "${CUSTOM_PATH}" )
+  string( REPLACE "/" "\\" CUSTOM_PYTHONHOME "${CUSTOM_PYTHONHOME}" )
 else()
   set( CUSTOM_PYTHONPATH
     ${PYTHON_BASEPATH}:${PYTHON_BASEPATH}/site-packages:${PYTHON_BASEPATH}/dist-packages )
   set( CUSTOM_PATH
     ${fletch_BUILD_INSTALL_PREFIX}/bin )
+  set( CUSTOM_PYTHONHOME
+    ${fletch_BUILD_INSTALL_PREFIX} )
 endif()
 
 set( fletch_PYTHON_LIBS_DEPS CPython )
@@ -188,7 +193,7 @@ if( WIN32 )
     BUILD_COMMAND  ${CMAKE_COMMAND}
         -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
                "PATH=${CUSTOM_PATH}"
-               "PYTHONUSERBASE=${fletch_BUILD_INSTALL_PREFIX}"
+               "PYTHONUSERBASE=${CUSTOM_PYTHONHOME}"
       ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/extract_pip.py
     INSTALL_COMMAND ${CMAKE_COMMAND}
       -DPYTHON_MAJOR:STRING=${PYTHON_VERSION_MAJOR}
@@ -219,7 +224,7 @@ if( fletch_PYTHON_LIBS )
     set( PYTHON_DEP_INSTALL
       ${CMAKE_COMMAND} -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
                               "PATH=${CUSTOM_PATH}"
-                              "PYTHONUSERBASE=${fletch_BUILD_INSTALL_PREFIX}"
+                              "PYTHONUSERBASE=${CUSTOM_PYTHONHOME}"
         ${PYTHON_EXECUTABLE} -m ${PYTHON_DEP_PIP_CMD}
       )
 
