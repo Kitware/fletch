@@ -2,8 +2,27 @@ cmake_minimum_required(VERSION 3.3.0)
 project(fletch)
 
 # Policy to address @foo@ variable expansion
+# https://cmake.org/cmake/help/git-stage/policy/CMP0053.html
 if(POLICY CMP0053)
   cmake_policy(SET CMP0053 NEW)
+endif()
+
+# Policy CMP0074 allows CMake to search
+# "prefixes specified by the <PackageName>_ROOT in find_package"
+# https://cmake.org/cmake/help/git-stage/policy/CMP0074.html
+if(POLICY CMP0074)
+  cmake_policy(SET CMP0074 NEW)
+endif()
+
+# Policy CMP0114
+# "allows CMake ExternalProject step targets to fully adopt their steps."
+# The need for this policy comes from our
+# fletch_external_project_force_install(PACKAGE pkg)
+# We're setting to OLD for now because we're not ready to remove
+# fletch_external_project_force_install before a release. Once we
+# remove fletch_external_project_force_install, we can set this to NEW or remove.
+if(POLICY CMP0114)
+  cmake_policy(SET CMP0114 OLD)
 endif()
 
 #+
@@ -25,7 +44,7 @@ endif()
 #-
 set(fletch_VERSION_MAJOR 1)
 set(fletch_VERSION_MINOR 4)
-set(fletch_VERSION_PATCH 0)
+set(fletch_VERSION_PATCH 1)
 
 set(fletch_VERSION "${fletch_VERSION_MAJOR}.${fletch_VERSION_MINOR}.${fletch_VERSION_PATCH}")
 

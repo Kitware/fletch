@@ -23,9 +23,6 @@ file(APPEND ${fletch_CONFIG_INPUT} "
 ########################################
 # EIGEN
 ########################################
-set(EIGEN_ROOT    \${fletch_ROOT})
-set(EIGEN3_ROOT   \${fletch_ROOT})
-set(EIGEN_INCLUDE_DIR \${fletch_ROOT}/include/eigen3)
-set(EIGEN3_INCLUDE_DIR \${fletch_ROOT}/include/eigen3)
+set(Eigen3_DIR \${fletch_ROOT}/share/eigen3/cmake)
 set(fletch_ENABLED_Eigen TRUE)
 ")

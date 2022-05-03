@@ -27,22 +27,29 @@ endif()
 if (WIN32)
   if(fletch_ENABLE_PNG)
     set(_GDAL_ARGS_PNG)
-    set(_GDAL_ARGS_PNG PNGDIR=${fletch_BUILD_INSTALL_PREFIX}/include PNG_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/libpng.lib)
+    set(_GDAL_ARGS_PNG PNGDIR=${fletch_BUILD_INSTALL_PREFIX}/include PNG_LIB=${PNG_LIBRARY})
     list(APPEND _GDAL_DEPENDS PNG)
   endif()
 
   if(fletch_ENABLE_libtiff)
     list(APPEND _GDAL_DEPENDS libtiff)
-    set( _GDAL_TIFF_ARGS TIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include TIFF_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/tiff.lib)
+    set( _GDAL_TIFF_ARGS TIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include TIFF_LIB=${TIFF_LIBRARY})
   endif()
 
   if(fletch_ENABLE_libgeotiff)
     list(APPEND _GDAL_DEPENDS libgeotiff)
-    set( _GDAL_GEOTIFF_ARGS GEOTIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOTIFF_LIB=${fletch_BUILD_INSTALL_PREFIX}/lib/geotiff_i.lib)
+    set( _GDAL_GEOTIFF_ARGS GEOTIFF_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOTIFF_LIB=${libgeotiff_LIBRARY})
+  endif()
+
+  if(fletch_ENABLE_GEOS)
+    list(APPEND _GDAL_DEPENDS GEOS)
+    set( _GDAL_GEOS_ARGS GEOS_INC=-I${fletch_BUILD_INSTALL_PREFIX}/include GEOS_LIB=${GEOS_C_LIBRARY})
   endif()
 
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
-  set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG} ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS})
+  set (GDAL_PKG_ARGS  ${_GDAL_MSVC_ARGS_LTISDK} ${_GDAL_ARGS_PNG}
+                      ${_GDAL_TIFF_ARGS} ${_GDAL_GEOTIFF_ARGS}
+                      ${_GDAL_GEOS_ARGS})
   file(TO_NATIVE_PATH ${fletch_BUILD_INSTALL_PREFIX} _gdal_native_fletch_BUILD_INSTALL_PREFIX)
   set (GDAL_ARGS MSVC_VER=${MSVC_VERSION}
     DATADIR=${_gdal_native_fletch_BUILD_INSTALL_PREFIX}\\share\\gdal
@@ -74,8 +81,20 @@ else()
     # from macports.  GDAL's '--with-libiconv-prefix' option looks like it should handle
     # this but in fact seems to do nothing.
     #
-    set(_GDAL_ARGS_APPLE --without-libtool --with-netcdf=no --with-curl=no --with-local=/usr)
+    # Note: previously this var disabled curl and netcdf which are now handled
+    # by _GDAL_ARGS_UNSUPPORTED
+    set(_GDAL_ARGS_APPLE --without-libtool --with-local=/usr)
   endif()
+
+  # GDAL uses a configure based build system, so its important to disable
+  # anything that is not explicitly built or provided through fletch. If these
+  # are not disabled then it may find a system version of these libs. If the
+  # system also includes a conflicting version of another library provided by
+  # fletch, that can cause errors. For example, if you have a conda environment
+  # with curl and proj, just by adding curl to the include search paths, GDAL
+  # will ignore the fletch version of proj (even though we do specify it
+  # explicitly here) and use the conda version.
+  set(_GDAL_ARGS_UNSUPPORTED --with-curl=no --with-netcdf=no --with-kea=no)
 
   if(fletch_ENABLE_ZLib)
     #If we're building libz, then use it.
@@ -83,10 +102,10 @@ else()
     set(_GDAL_ARGS_ZLIB "--with-libz=${ZLIB_ROOT}")
   endif()
 
-  if(fletch_ENABLE_PROJ4)
+  if(fletch_ENABLE_PROJ)
     #If we're building libproj, then use it.
-    list(APPEND _GDAL_DEPENDS PROJ4 )
-    set(_GDAL_ARGS_PROJ4 "--with-proj=${PROJ4_ROOT}")
+    list(APPEND _GDAL_DEPENDS PROJ )
+    set(_GDAL_ARGS_PROJ "--with-proj=${PROJ_ROOT}")
   endif()
 
   # For now, I don't see the need for postgresql support in GDAL. If it is required, just add
@@ -118,6 +137,14 @@ else()
     set(_GDAL_ARGS_XML2 "--with-xml2=${LIBXML2_ROOT}/bin/xml2-config")
   endif()
 
+  if(fletch_ENABLE_GEOS)
+    list(APPEND _GDAL_DEPENDS GEOS)
+    set( _GDAL_GEOS_ARGS "--with-geos=${GEOS_ROOT}")
+  else()
+    # TODO: should we allow use of system geos?
+    set(_GDAL_GEOS_ARGS --with-geos=no)
+  endif()
+
   # GDAL has a tendency to pick up old libkml versions and fail.
   #   Thus, disable GDAL with libkml.
   set(_GDAL_ARGS_libKML "--with-libkml=no")
@@ -130,6 +157,10 @@ else()
       list(APPEND _GDAL_DEPENDS CPython)
     endif()
     set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
+  endif()
+
+  if (GDAL_SELECT_VERSION VERSION_LESS 2.0)
+    list( APPEND _GDAL_ARGS_UNSUPPORTED --with-libjson-c=internal )
   endif()
 
   # If we're not using LTIDSDK and we are building openjpeg, use that for jpeg2k decoding
@@ -145,8 +176,9 @@ else()
   # Here is where you add any new package related args for tiff, so we don't keep repeating them below.
   set (GDAL_PKG_ARGS
     ${_GDAL_ARGS_PYTHON} ${_GDAL_PNG_ARGS} ${_GDAL_GEOTIFF_ARGS} ${_GDAL_ARGS_PG}
-    ${_GDAL_ARGS_PROJ4} ${_GDAL_ARGS_XML2} ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE}
-    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG} ${_GDAL_ARGS_libKML} --without-jasper
+    ${_GDAL_ARGS_PROJ} ${_GDAL_ARGS_XML2} ${_GDAL_TIFF_ARGS} ${_GDAL_ARGS_SQLITE}
+    ${_GDAL_ARGS_ZLIB} ${_GDAL_ARGS_LTIDSDK} ${JPEG_ARG} ${_GDAL_ARGS_libKML}
+    ${_GDAL_GEOS_ARGS} ${_GDAL_ARGS_UNSUPPORTED} --without-jasper
     )
 
 

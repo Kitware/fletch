@@ -65,42 +65,50 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # Qt
-if(Qt_version_major EQUAL 4)
-  add_package_dependency(
-    PACKAGE VTK
-    PACKAGE_DEPENDENCY Qt
-    PACKAGE_DEPENDENCY_ALIAS Qt4
-  )
-  if(QT_QMAKE_EXECUTABLE)
-    set(BUILD_QT_WEBKIT ${QT_QTWEBKIT_FOUND})
+if(QT_FOUND)
+  if(Qt_version_major EQUAL 4)
+    add_package_dependency(
+      PACKAGE VTK
+      PACKAGE_DEPENDENCY Qt
+      PACKAGE_DEPENDENCY_ALIAS Qt4
+    )
+    if(QT_QMAKE_EXECUTABLE)
+      set(BUILD_QT_WEBKIT ${QT_QTWEBKIT_FOUND})
+      set(vtk_cmake_args ${vtk_cmake_args}
+        -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
+        -DVTK_QT_VERSION:STRING=4
+      )
+    endif()
+  else()
+    add_package_dependency(
+      PACKAGE VTK
+      PACKAGE_DEPENDENCY Qt
+      PACKAGE_DEPENDENCY_ALIAS Qt5
+      PACKAGE_DEPENDENCY_COMPONENTS
+        Core Gui Widgets OpenGL Designer UiPlugin
+    )
     set(vtk_cmake_args ${vtk_cmake_args}
-      -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
-      -DVTK_QT_VERSION:STRING=4
+      -DQt5_DIR:PATH=${Qt5_DIR}
+      -DVTK_QT_VERSION:STRING=5
     )
   endif()
-else()
-  add_package_dependency(
-    PACKAGE VTK
-    PACKAGE_DEPENDENCY Qt
-    PACKAGE_DEPENDENCY_ALIAS Qt5
-    PACKAGE_DEPENDENCY_COMPONENTS
-      Core Gui Widgets OpenGL Designer UiPlugin
-  )
-  set(vtk_cmake_args ${vtk_cmake_args}
-    -DQt5_DIR:PATH=${Qt5_DIR}
-    -DVTK_QT_VERSION:STRING=5
-  )
+  if(VTK_SELECT_VERSION VERSION_LESS 9.0)
+    set(vtk_cmake_args ${vtk_cmake_args}
+      -DVTK_Group_Qt:BOOL=OFF
+      -DModule_vtkGUISupportQt:BOOL=ON
+      -DModule_vtkGUISupportQtOpenGL:BOOL=ON
+      -DModule_vtkGUISupportQtSQL:BOOL=ON
+      -DModule_vtkGUISupportQtWebkit:BOOL=${BUILD_QT_WEBKIT}
+      -DModule_vtkRenderingQt:BOOL=ON
+      -DModule_vtkViewsQt:BOOL=ON
+      -DVTK_QT_VERSION:STRING=${Qt_version_major}
+    )
+  else()
+    set(vtk_cmake_args ${vtk_cmake_args}
+      -DVTK_GROUP_ENABLE_Qt:STRING=YES
+    )
+  endif()
 endif()
-set(vtk_cmake_args ${vtk_cmake_args}
-  -DVTK_Group_Qt:BOOL=OFF
-  -DModule_vtkGUISupportQt:BOOL=ON
-  -DModule_vtkGUISupportQtOpenGL:BOOL=ON
-  -DModule_vtkGUISupportQtSQL:BOOL=ON
-  -DModule_vtkGUISupportQtWebkit:BOOL=${BUILD_QT_WEBKIT}
-  -DModule_vtkRenderingQt:BOOL=ON
-  -DModule_vtkViewsQt:BOOL=ON
-  -DVTK_QT_VERSION:STRING=${Qt_version_major}
-)
 
 # PostgreSQL
 add_package_dependency(
@@ -125,11 +133,11 @@ if(VTK_WITH_PostgreSQL)
 endif()
 
 # Proj4
-# VTK doesn't accept PROJ4 that have include files that are called differently
+# VTK doesn't accept PROJ that have include files that are called differently
 # than lib_proj.h.
-if(fletch_ENABLE_PROJ4)
-  message(STATUS "VTK will not build against this project PROJ4. "
-    "VTK doesn't accept PROJ4 that have include files that are named differently "
+if(fletch_ENABLE_PROJ)
+  message(STATUS "VTK will not build against this project PROJ. "
+    "VTK doesn't accept PROJ that have include files that are named differently "
     "than lib_proj.h.")
 endif()
 set(vtk_cmake_args ${vtk_cmake_args}
@@ -187,7 +195,7 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # PYTHON
-if(fletch_BUILD_WITH_PYTHON AND NOT MSVC14)
+if(fletch_BUILD_WITH_PYTHON AND MSVC_VERSION VERSION_GREATER_EQUAL 1910)
   option(fletch_ENABLE_VTK_PYTHON "Enable Python wrappings for VTK" ON)
 
   if(fletch_ENABLE_VTK_PYTHON)
@@ -214,7 +222,7 @@ if(fletch_BUILD_WITH_PYTHON AND NOT MSVC14)
   endif()
 elseif(MSVC14)
   message(WARNING "VTK Python will not build correctly on Visual Studio 2015. "
-                  "VTK 7.0 of higher is required.")
+                  "VTK 7.0 of higher is required if python support is desired.")
 endif()
 
 if(fletch_ENABLE_VTK AND VTK_WRAP_PYTHON AND VTK_SELECT_VERSION VERSION_LESS 7.0.0)

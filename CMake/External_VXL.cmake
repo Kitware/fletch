@@ -73,7 +73,7 @@ set(VXL_ARGS_CONTRIB
 list(APPEND VXL_ARGS_VIDL
   -DVXL_BUILD_CORE_VIDEO:BOOL=ON
   )
-if(fletch_ENABLE_FFmpeg)
+if(fletch_ENABLE_FFmpeg AND _FFmpeg_version VERSION_LESS 4)
   add_package_dependency(
     PACKAGE VXL
     PACKAGE_DEPENDENCY FFmpeg
@@ -105,6 +105,16 @@ elseif(WIN32)
     )
 endif()
 
+# If a patch file exists, apply it
+set (VXL_patch ${fletch_SOURCE_DIR}/Patches/VXL)
+if (EXISTS ${VXL_patch})
+  set(VXL_PATCH_COMMAND ${CMAKE_COMMAND}
+      -DVXL_PATCH_DIR:PATH=${VXL_patch}
+      -DVXL_SOURCE_DIR:PATH=${fletch_BUILD_PREFIX}/src/VXL
+      -P ${VXL_patch}/Patch.cmake
+    )
+endif()
+
 ExternalProject_Add(VXL
   DEPENDS ${VXL_DEPENDS}
   URL ${VXL_url}
@@ -112,10 +122,7 @@ ExternalProject_Add(VXL
   DOWNLOAD_NAME ${VXL_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-    -DVXL_patch:PATH=${fletch_SOURCE_DIR}/Patches/VXL
-    -DVXL_source:PATH=${fletch_BUILD_PREFIX}/src/VXL
-    -P ${fletch_SOURCE_DIR}/Patches/VXL/Patch.cmake
+  PATCH_COMMAND ${VXL_PATCH_COMMAND}
   CMAKE_ARGS
     ${KWIVER_ARGS_COMMON}
     ${VXL_ARGS_GUI}

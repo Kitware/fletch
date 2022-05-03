@@ -36,3 +36,7 @@ file(COPY ${VTK_PATCH_DIR}/Interaction/Widgets/vtkSeedWidget.cxx
 file(COPY ${VTK_PATCH_DIR}/Wrapping/PythonCore/vtkPythonArgs.cxx
   DESTINATION ${VTK_SOURCE_DIR}/Wrapping/PythonCore/
 )
+
+file(COPY ${VTK_PATCH_DIR}/CMake/VTKGenerateExportHeader.cmake
+  DESTINATION ${VTK_SOURCE_DIR}/CMake/
+)

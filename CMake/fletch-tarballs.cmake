@@ -121,7 +121,7 @@ set(_FFmpeg_supported TRUE)
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
   set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
-  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3")
+  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3" "4.4.1")
   mark_as_advanced(FFmpeg_SELECT_VERSION)
 
   if(WIN32)
@@ -141,7 +141,12 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     # On windows download prebuilt binaries and shared libraries
     # dev contains headers .lib, .def, and mingw .dll.a files
     # shared contains dll and exe files.
-    if (_FFmpeg_version VERSION_EQUAL 3.3.3)
+    if (_FFmpeg_version VERSION_EQUAL 4.4.1)
+      set(FFmpeg_dev_md5 "7b74e3ed31b6b60f6e7cddbcb31cdf13")
+      set(FFmpeg_shared_md5 "c22a945f42510974e41c91eccde6de2f")
+      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/621f02394acac99f429c28dd/download/ffmpeg-4.4.1-full_build.7z")
+      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/621f021a4acac99f429c274b/download/ffmpeg-4.4.1-full_build-shared.7z")
+    elseif (_FFmpeg_version VERSION_EQUAL 3.3.3)
       set(FFmpeg_dev_md5 "2788ff871ba1c1b91b6f0e91633bef2a")
       set(FFmpeg_shared_md5 "beb39d523cdb032b59f81db80b020f31")
       set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/5c520afc8d777f072b212cca/download/ffmpeg-3.3.3-win64-dev.zip")
@@ -160,7 +165,9 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
     set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
 
-    if (_FFmpeg_version VERSION_EQUAL 3.3.3)
+    if (_FFmpeg_version VERSION_EQUAL 4.4.1)
+      set(FFmpeg_md5 "493da4b6a946b569fc65775ecde404ea")
+    elseif (_FFmpeg_version VERSION_EQUAL 3.3.3)
       set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
     elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
       set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
@@ -175,16 +182,16 @@ if(_FFmpeg_supported)
 endif()
 
 # EIGEN
-set(Eigen_version 3.3.7)
-set(Eigen_url "https://data.kitware.com/api/v1/item/6158ffb62fa25629b96f839c/download")
-set(Eigen_md5 "9e30f67e8531477de4117506fe44669b")
+set(Eigen_version 3.3.9)
+set(Eigen_url "https://gitlab.com/libeigen/eigen/-/archive/${Eigen_version}/eigen-${Eigen_version}.tar.gz")
+set(Eigen_md5 "609286804b0f79be622ccf7f9ff2b660")
 set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
 # log4cplus
-set(log4cplus_version "1.2.x")
-set(log4cplus_url "https://github.com/Kitware/log4cplus/archive/1.2.x.zip")
-set(log4cplus_md5 "4c0973becab54c8492204258260dcf06")
+set(log4cplus_version "2.0.x")
+set(log4cplus_url "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/2.0.4/log4cplus-2.0.4.zip")
+set(log4cplus_md5 "cb075cd19ce561273b1c74907cc66b6a")
 set(log4cplus_dlname "log4cplus-${log4cplus_version}.zip")
 list(APPEND fletch_external_sources log4cplus)
 
@@ -238,7 +245,7 @@ list(APPEND fletch_external_sources SuiteSparse)
 set(Ceres_version 1.14.0)
 set(Ceres_url "http://ceres-solver.org/ceres-solver-${Ceres_version}.tar.gz")
 set(Ceres_md5 "fd9b4eba8850f0f2ede416cd821aafa5")
-set(Ceres_dlname "ceres-${Ceres_version}.tar.gz")
+set(Ceres_dlname "ceres-solver-${Ceres_version}.tar.gz")
 list(APPEND fletch_external_sources Ceres)
 
 if(NOT WIN32)
@@ -313,7 +320,7 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
   set(Qt_release_location new_archive) # official_releases or new_archive
 
   if (Qt_version VERSION_EQUAL 5.11.2)
-    set(Qt_url "https://data.kitware.com/api/v1/item/5e62b6d0af2e2eed3506dcc3/download")
+    set(Qt_url "https://data.kitware.com/api/v1/file/600f0f492fa25629b91171ed/download/qt-everywhere-src-5.11.2.tar.xz")
     set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
   elseif (Qt_version VERSION_EQUAL 5.12.8)
     set(Qt_release_location archive) # official_releases or new_archive
@@ -321,7 +328,7 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     set(Qt_md5 "8ec2a0458f3b8e9c995b03df05e006e4")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
     set(Qt_release_location new_archive)
-    set(Qt_url "https://data.kitware.com/api/v1/item/600701c42fa25629b9fcd844/download")
+    set(Qt_url "https://data.kitware.com/api/v1/file/600f20782fa25629b9119696/download/qt-everywhere-opensource-src-4.8.6.tar.gz")
     set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
   else()
     message(ERROR "Qt Version \"${Qt_version}\" Not Supported")
@@ -330,14 +337,20 @@ endif()
 list(APPEND fletch_external_sources Qt)
 
 # OpenCV
-# Support 2.4.13 and 3.4 optionally
+# Support 3.4, 4.2, and 4.5.1 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "2.4.13" "3.4.0")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0" "4.5.1")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
-  set(OpenCV_url "http://github.com/Itseez/opencv/archive/${OpenCV_version}.zip")
-  set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+  # Pulling from pypi for version 4.5.1
+  if (OpenCV_SELECT_VERSION VERSION_EQUAL 4.5.1 AND fletch_USE_PYPI_OPENCV)
+    set(OpenCV_url "https://files.pythonhosted.org/packages/bb/08/9dbc183a3ac6baa95fabf749ddb531bd26256edfff5b6c2195eca26258e9/opencv-python-4.5.1.48.tar.gz")
+    set(OpenCV_dlname "opencv-python-4.5.1.48.tar.gz")
+  else()
+    set(OpenCV_url "https://github.com/opencv/opencv/archive/${OpenCV_version}.zip")
+    set(OpenCV_dlname "opencv-${OpenCV_version}.zip")
+  endif()
 
   # Expose optional contrib repo when enabling OpenCV version >= 3.x
   if (NOT OpenCV_SELECT_VERSION VERSION_LESS 3.0.0 )
@@ -351,11 +364,19 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   endif()
 
   # Paired contrib repo information
-  if (OpenCV_version VERSION_EQUAL 3.4.0)
+  if (OpenCV_version VERSION_EQUAL 4.5.1)
+    if (fletch_USE_PYPI_OPENCV)
+      set(OpenCV_md5 "0e178bd601b25a0a1ee0cd1e8c81bec0")
+    else()
+      set(OpenCV_md5 "cc13d83c3bf989b0487bb3798375ee08")
+    endif()
+    set(OpenCV_contrib_md5 "ddb4f64d6cf31d589a8104655d39c99b")
+  elseif (OpenCV_version VERSION_EQUAL 4.2.0)
+    set(OpenCV_md5 "b02b54115f1f99cb9e885d1e5988ff70")
+    set(OpenCV_contrib_md5 "4776354662667c85a91bcd19f6a13da7")
+  elseif (OpenCV_version VERSION_EQUAL 3.4.0)
     set(OpenCV_md5 "ed60f8bbe7a448f325d0a0f58fcf2063")
     set(OpenCV_contrib_md5 "92c09ce6c837329f05802a8d17136148")
-  elseif (OpenCV_version VERSION_EQUAL 2.4.13)
-    set(OpenCV_md5 "886b0c511209b2f3129649928135967c")
   else()
     message(ERROR " OpenCV Version \"${OpenCV_version}\" Not Supported")
   endif()
@@ -365,24 +386,44 @@ else()
 endif()
 list(APPEND fletch_external_sources OpenCV)
 
-# PROJ.4
-set(PROJ4_version "4.9.3" )
-set(PROJ4_url "http://download.osgeo.org/proj/proj-${PROJ4_version}.tar.gz" )
-set(PROJ4_md5 "d598336ca834742735137c5674b214a1" )
-list(APPEND fletch_external_sources PROJ4 )
+# SQLite3
+set(SQLite3_version 3350200)
+set(SQLite3_url "https://www.sqlite.org/2021/sqlite-amalgamation-${SQLite3_version}.zip")
+set(SQLite3_md5 "732c5d0758a2a2fb9e5b9d6224141a01")
+list(APPEND fletch_external_sources SQLite3)
+
+# PROJ
+if (fletch_ENABLE_PROJ4)
+  message(WARNING "The package name PROJ4 is deprecated. Use PROJ instead.")
+  set(fletch_ENABLE_PROJ ON)
+endif()
+set(PROJ_version "6.3.2" )
+set(PROJ_url "http://download.osgeo.org/proj/proj-${PROJ_version}.tar.gz" )
+set(PROJ_md5 "2ca6366e12cd9d34d73b4602049ee480" )
+list(APPEND fletch_external_sources PROJ )
 
 # libgeotiff
-set(libgeotiff_version "1.4.2")
+set(libgeotiff_version "1.6.0")
 set(libgeotiff_url "http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-${libgeotiff_version}.zip")
-set(libgeotiff_md5 "a7c7e11e301b7c17e44ea3107cd86e4e")
+set(libgeotiff_md5 "c72c682c5972a5cf8c3f655567761a17")
 list(APPEND fletch_external_sources libgeotiff)
+
+# GEOS
+set(GEOS_version "3.6.2" )
+set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
+set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
+list(APPEND fletch_external_sources GEOS )
 
 # GDAL
 if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
-  set(GDAL_SELECT_VERSION 2.3.2 CACHE STRING "Select the major version of GDAL to build.")
-  set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.3.2" "1.11.5")
+  set(GDAL_SELECT_VERSION 2.4.4 CACHE STRING "Select the major version of GDAL to build.")
+  set_property(CACHE GDAL_SELECT_VERSION PROPERTY STRINGS "2.4.4" "2.3.2" "1.11.5")
   message(STATUS "GDAL Select version: ${GDAL_SELECT_VERSION}")
-  if (GDAL_SELECT_VERSION VERSION_EQUAL 2.3.2)
+  if (GDAL_SELECT_VERSION VERSION_EQUAL 2.4.4)
+    set(GDAL_version "2.4.4")
+    set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
+    set(GDAL_md5 "dc676d06eda38fb1006dcf5490128a1d")
+  elseif (GDAL_SELECT_VERSION VERSION_EQUAL 2.3.2)
     set(GDAL_version "2.3.2")
     set(GDAL_url "http://download.osgeo.org/gdal/${GDAL_version}/gdal-${GDAL_version}.tar.gz")
     set(GDAL_md5 "221e4bfe3e8e9443fd33f8fe46f8bf60")
@@ -395,12 +436,6 @@ if (fletch_ENABLE_GDAL OR fletch_ENABLE_ALL_PACKAGES)
   endif()
 endif()
 list(APPEND fletch_external_sources GDAL)
-
-# GEOS
-set(GEOS_version "3.6.2" )
-set(GEOS_url "http://download.osgeo.org/geos/geos-${GEOS_version}.tar.bz2" )
-set(GEOS_md5 "a32142343c93d3bf151f73db3baa651f" )
-list(APPEND fletch_external_sources GEOS )
 
 # PDAL
 set(PDAL_version 1.7.2)
@@ -453,24 +488,26 @@ list(APPEND fletch_external_sources CppDB)
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
-  set(VTK_SELECT_VERSION 8.2 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 6.2 8.0 8.2)
+  set(VTK_SELECT_VERSION 9.1 CACHE STRING "Select the version of VTK to build.")
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 8.0 8.2 9.0 9.1)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 8.2)
+if (VTK_SELECT_VERSION VERSION_EQUAL 9.1)
+  set(VTK_version 9.1.0)
+  set(VTK_md5 "96508e51d7c3764cd5aba06fffd9864e")
+elseif (VTK_SELECT_VERSION VERSION_EQUAL 9.0)
+  set(VTK_version 9.0.1)
+  set(VTK_md5 "b3ba14d616c3b23583c42cffb585deac")
+elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.2)
   set(VTK_version 8.2.0)
-  set(VTK_md5 "94ba8959b56dcfa6bac996158669ac36")
+  set(VTK_md5 "8af3307da0fc2ef8cafe4a312b821111")
 elseif (VTK_SELECT_VERSION VERSION_EQUAL 8.0)
   set(VTK_version 8.0.1)
-  set(VTK_md5 "c248dbe8ffd9b74c6f41199e66d6c690")  # v8.0.1
-elseif (VTK_SELECT_VERSION VERSION_EQUAL 6.2)
-  # TODO: Remove when we remove support for OpenCV < 3.2
-  set(VTK_version 6.2.0)
-  set(VTK_md5 "2363432e25e6a2377e1c241cd2954f00")  # v6.2
+  set(VTK_md5 "692d09ae8fadc97b59d35cab429b261a")  # v8.0.1
 elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
   message(ERROR "VTK Version ${VTK_SELECT_VERSION} Not Supported")
 endif()
-set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.zip")
+set(VTK_url "http://www.vtk.org/files/release/${VTK_SELECT_VERSION}/VTK-${VTK_version}.tar.gz")
 list(APPEND fletch_external_sources VTK)
 
 # VXL
@@ -489,11 +526,27 @@ if(NOT WIN32)
 endif()
 
 # HDF5
-set(HDF5_major "1.8")
-set(HDF5_rev "17")
-set(HDF5_version "${HDF5_major}.${HDF5_rev}")
-set(HDF5_url "https://support.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-${HDF5_major}/hdf5-${HDF5_version}/src/hdf5-${HDF5_version}.tar")
-set(HDF5_md5 "bdf0fc3d648679eeb5d7b4b78f92a83f")
+if (fletch_ENABLE_HDF5 OR fletch_ENABLE_ALL_PACKAGES)
+  set(HDF5_SELECT_VERSION 1.12.0 CACHE STRING "Select the major version of HDF5 to build.")
+  set_property(CACHE HDF5_SELECT_VERSION PROPERTY STRINGS "1.12.0" "1.8.17")
+  if (HDF5_SELECT_VERSION VERSION_EQUAL 1.12.0)
+    set(HDF5_major "1")
+    set(HDF5_minor "12")
+    set(HDF5_rev "0")
+    set(HDF5_version_string "${HDF5_major}_${HDF5_minor}_${HDF5_rev}")
+    set(HDF5_md5 "7181d12d1940b725248046077a849f54")
+  elseif(HDF5_SELECT_VERSION VERSION_EQUAL 1.8.17)
+    set(HDF5_major "1")
+    set(HDF5_minor "8")
+    set(HDF5_rev "17")
+    set(HDF5_version_string "${HDF5_major}_${HDF5_minor}_${HDF5_rev}")
+    set(HDF5_md5 "3ff8830763b0356408e1d454628fa25e")
+  else()
+    message(ERROR "HDF5 Version ${HDF5_SELECT_VERSION} Not Supported")
+  endif()
+  set(HDF5_url "https://github.com/HDFGroup/hdf5/archive/hdf5-${HDF5_version_string}.tar.gz")
+  set(HDF5_dlname "hdf5-${HDF5_version_string}.tar.gz")
+endif()
 list(APPEND fletch_external_sources HDF5)
 
 # SNAPPY
@@ -606,11 +659,28 @@ set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 
 # qtExtensions
-set(qtExtensions_version "20190905git873c0676")
-set(qtExtensions_tag "873c06769a2d76e2323152efc40ad910717ce648")
-set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
-set(qtExtensions_md5 "f7b617250040e2e4bffa0e2a0bd93c89")
-set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
+set(qtExtensions_SELECT_VERSION "20190905" CACHE STRING "Select the version of qtExtensions to build.")
+set_property(CACHE qtExtensions_SELECT_VERSION PROPERTY STRINGS "20190905" "20200330" "latest")
+if(fletch_ENABLE_qtExtensions OR fletch_ENABLE_ALL_PACKAGES)
+  if(qtExtensions_SELECT_VERSION STREQUAL "latest")
+    if (Qt_version VERSION_LESS 5.10)
+      message(ERROR "qtExtensions 'latest' does not support Qt Version \"${Qt_version}\"")
+    endif()
+    set(qtExtensions_version "20210309git0ff5b486")
+    set(qtExtensions_tag "0ff5b486f08435c8cdfbc9f05d2f104f63b16aed")
+    set(qtExtensions_md5 "772d97e455961fb0462d658411ef8be6")
+  elseif(qtExtensions_SELECT_VERSION STREQUAL "20200330")
+    set(qtExtensions_version "20200330gitb2848e06")
+    set(qtExtensions_tag "b2848e06ebba4c39dc63caa2363abc50db75f9d9")
+    set(qtExtensions_md5 "24bef5cdaac9d9f0615564b6188a07e5")
+  else()
+    set(qtExtensions_version "20190905git873c0676")
+    set(qtExtensions_tag "873c06769a2d76e2323152efc40ad910717ce648")
+    set(qtExtensions_md5 "f7b617250040e2e4bffa0e2a0bd93c89")
+  endif()
+  set(qtExtensions_url "https://github.com/Kitware/qtextensions/archive/${qtExtensions_tag}.tar.gz")
+  set(qtExtensions_dlname "qtExtensions-${qtExtensions_version}.tar.gz")
+endif()
 list(APPEND fletch_external_sources qtExtensions)
 
 # ZeroMQ

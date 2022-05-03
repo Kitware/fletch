@@ -45,11 +45,11 @@ else()
 endif()
 
 # Set Proj.4 dependency
-if (fletch_ENABLE_PROJ4)
-  message(STATUS "PDAL depending on internal PROJ4")
-  list(APPEND PDAL_DEPENDS PROJ4)
+if (fletch_ENABLE_PROJ)
+  message(STATUS "PDAL depending on internal PROJ")
+  list(APPEND PDAL_DEPENDS PROJ)
 else()
-  message(FATAL_ERROR "PROJ4 is required for PDAL, please enable")
+  find_package(PROJ4 REQUIRED)
 endif()
 
 # Set libxml2 dependency
@@ -89,6 +89,11 @@ if(WIN32)
   )
 endif()
 
+set(JSON_ARGS
+  -DJSONCPP_INCLUDE_DIR:PATH=IGNORE
+  -DJSONCPP_LIBRARY:FILEPATH=IGNORE
+  )
+
 ExternalProject_Add(PDAL
   DEPENDS ${PDAL_DEPENDS}
   URL ${PDAL_file}
@@ -97,7 +102,9 @@ ExternalProject_Add(PDAL
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${PDAL_PATCH_COMMAND}
   CMAKE_ARGS
+    ${JSON_ARGS}
     ${COMMON_CMAKE_ARGS}
+    -DWITH_TESTS:BOOL=OFF
     -DBUILD_SHARED_LIBS:BOOL=ON
     ${PDAL_EXTRA_BUILD_FLAGS}
   )

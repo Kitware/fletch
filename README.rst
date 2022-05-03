@@ -85,7 +85,7 @@ Pull the image from Dockerhub::
 
  "docker pull kitware/fletch:latest" (master)
                 or
- "docker pull kitware/fletch:v1.4.0" (release version)
+ "docker pull kitware/fletch:v1.4.1" (release version)
 
 (`https://hub.docker.com/r/kitware/fletch <https://hub.docker.com/r/kitware/fletch>`_)
 
@@ -181,7 +181,7 @@ The recommended CMake configuration is to enable all packages and, if desired, p
 
 If you are using ``ccmake`` or the CMake GUI,
 * Set the source and build locations
-* Check the option for ``fletch_ENABLE_ALL_PACKAGES`` and, if desired, ``fletch_ENABLE_PYTHON``
+* Check the option for ``fletch_ENABLE_ALL_PACKAGES`` and, if desired, ``fletch_BUILD_WITH_PYTHON``
 * Configure
 * Generate the build files
 
@@ -200,7 +200,7 @@ Running from a shell or cmd window::
   # Note you need to provide cmake the source directory at the end (relative or absolute)
   # Run CMake (it will use the system default compiler if you don't provide options or use the CMake GUI)
   # Also, if using visual studio, you do no need to provide the build type
-  cmake -DCMAKE_BUILD_TYPE=Release -Dfletch_ENABLE_ALL_PACKAGES=ON -Dfletch_ENABLE_PYTHON=ON ../../src
+  cmake -DCMAKE_BUILD_TYPE=Release -Dfletch_ENABLE_ALL_PACKAGES=ON -Dfletch_BUILD_WITH_PYTHON=ON ../../src
 
   # Again, python is very popular option, but is optional
 
@@ -229,6 +229,19 @@ If you experience a build failure, please create an issue on
 3. The CMake version you are using.
 4. The complete build log, preferably run with a single core after the build has failed.
 5. Details of exactly which CMake options were changed from the default.
+
+
+Troubleshooting
+============
+
+1. MSVC users may experience build issues with Boost after upgrading their version of Visual Studio.
+   When a Boost build fails, one will find the file ``Boost.Configure.BCP.Build_out.txt`` in the build directory.
+   The symptoms of this issue involve output in that file like ``'cl' is not recognized as an internal or external command,
+   operable program or batch file``. The issue comes from Boost caching its version of b2_msvc_*_vcvars*.cmd.
+   To resolve this issue, you will need to delete those files which are typically located in ``C:\Users\%USERNAME%\AppData\Local\Temp``.
+   Any file named b2_msvc* should be moved out of the way so Boost can generate a new version based on the updated Visual Studio version.
+   Once those files have regenerated and Boost successfully builds, it is safe to delete those files.
+
 
 
 .. Appendix I: References

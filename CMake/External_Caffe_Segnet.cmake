@@ -104,6 +104,10 @@ else()
 endif()
 
 if(fletch_ENABLE_OpenCV)
+  if(OpenCV_SELECT_VERSION VERSION_GREATER_EQUAL 4.0)
+    MESSAGE(FATAL_ERROR "Segnet requires OpenCV version less than 4.0 "
+                        "but ${OpenCV_SELECT_VERSION} is selected")
+  endif()
   set( CAFFE_SEGNET_OPENCV_ARGS
     -DOpenCV_DIR:PATH=${fletch_BUILD_PREFIX}/src/OpenCV-build
     -DOpenCV_LIB_PATH:PATH=${OpenCV_ROOT}/lib
@@ -246,6 +250,11 @@ endif()
 
 if(fletch_BUILD_WITH_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
+  if(MSVC)
+    # MSVC uses variables within this path, like $(VCInstallDir), which
+    # are improperly handled in ExternalProject_Add.
+    list(FILTER CUDA_BUILD_FLAGS EXCLUDE REGEX "CUDA_HOST_COMPILER")
+  endif()
   set( CAFFE_SEGNET_GPU_ARGS
     ${CUDA_BUILD_FLAGS}
     -DCPU_ONLY:BOOL=OFF

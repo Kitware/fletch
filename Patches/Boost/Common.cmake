@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.10)
+cmake_minimum_required(VERSION 3.3.0)
 
 # Retrieve the list of CMAKE variables
 include("${CMAKE_VARS_FILE}")

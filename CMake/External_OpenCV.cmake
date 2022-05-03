@@ -24,6 +24,12 @@ else()
   unset(fletch_ENABLE_OpenCV_FFmpeg CACHE)
 endif()
 
+# Use the pypi tarball for the opencv source code
+if (OpenCV_version VERSION_EQUAL 4.5.1)
+  option(fletch_USE_PYPI_OPENCV "Use PyPI tarball for OpenCV source" OFF)
+  mark_as_advanced(fletch_USE_PYPI_OPENCV)
+endif()
+
 # Note:
 # Some other libraries built by fletch could be used by OpenCV
 # these are: Ceres, Qt. Should these dependencies be added?
@@ -56,10 +62,6 @@ set(fletch_ENABLE_OpenCV_VTK FALSE)
 # Set VTK dependency if we're locally building it
 if(fletch_ENABLE_OpenCV_VTK)
   message(STATUS "OpenCV depending on fletch VTK")
-
-  if (OpenCV_version VERSION_LESS 3.2.0 AND NOT VTK_version VERSION_LESS 7.0)
-    message(FATAL_ERRROR "OpenCV versions before 3.2 can only handle pre 7.0 VTK versions")
-  endif()
   list(APPEND OpenCV_DEPENDS VTK)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_VTK:BOOL=TRUE
     -DVTK_DIR:PATH=${VTK_DIR}
@@ -84,6 +86,11 @@ endif()
 # Handle GPU disable flag
 if(fletch_ENABLE_OpenCV_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
+  if(MSVC)
+    # MSVC uses variables within this path, like $(VCInstallDir), which
+    # are improperly handled in ExternalProject_Add.
+    list(FILTER CUDA_BUILD_FLAGS EXCLUDE REGEX "CUDA_HOST_COMPILER")
+  endif()
   format_passdowns("CUDNN" CUDNN_BUILD_FLAGS)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS
     ${CUDA_BUILD_FLAGS}
@@ -216,13 +223,14 @@ set(OpenCV_PYTHON_FLAGS
      -DBUILD_opencv_python2:BOOL=OFF
      -DBUILD_opencv_python3:BOOL=OFF
    )
-if(fletch_BUILD_WITH_PYTHON)
-  if(fletch_ENABLE_CPython)
-    add_package_dependency(
-      PACKAGE OpenCV
-      PACKAGE_DEPENDENCY CPython
-    )
-  endif()
+
+if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_CPython)
+  add_package_dependency(
+    PACKAGE OpenCV
+    PACKAGE_DEPENDENCY CPython
+  )
+endif()
+if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
   set(OpenCV_PYTHON_FLAGS
     -DBUILD_opencv_python:BOOL=${fletch_BUILD_WITH_PYTHON}
     -DBUILD_opencv_python2:BOOL=${fletch_ENABLE_PYTHON2}
@@ -322,6 +330,13 @@ if (CMAKE_CXX_COMPILER MATCHES ".*ccache*" AND
     "You are using ccache as your compiler and CUDA support is enabled. This configuration is known to fail with nvcc. Make sure you pass -DCUDA_HOST_COMPILER=/usr/bin/cc as an argument to cmake. Adjust the path to match your actual C compiler's location")
 endif()
 
+# Fix source directory for 4.5.1 since it is built from opencv-python
+if (OpenCV_SELECT_VERSION VERSION_EQUAL 4.5.1 AND fletch_USE_PYPI_OPENCV)
+  set(OpenCV_SOURCE_DIR ./opencv)
+else()
+  set(OpenCV_SOURCE_DIR ./)
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
@@ -329,6 +344,7 @@ ExternalProject_Add(OpenCV
   DOWNLOAD_NAME ${OpenCV_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  SOURCE_SUBDIR ${OpenCV_SOURCE_DIR}
 
   PATCH_COMMAND ${OPENCV_PATCH_COMMAND}
 
@@ -340,11 +356,12 @@ ExternalProject_Add(OpenCV
     -DBUILD_opencv_java:BOOL=False
     -DBUILD_opencv_cudacodec=OFF
     -DBUILD_PERF_TESTS:BOOL=False
-    -DBUILD_SHARED_LIBS:BOOL=True
+    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DBUILD_TESTS:BOOL=False
     -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
     -DWITH_JASPER:BOOL=False
     -DWITH_GTK:BOOL=False
+    -DWITH_PROTOBUF:BOOL=False
     ${OpenCV_EXTRA_BUILD_FLAGS}
     ${OpenCV_PYTHON_FLAGS}
   )

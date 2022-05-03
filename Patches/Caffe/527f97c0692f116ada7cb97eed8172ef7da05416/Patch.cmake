@@ -31,7 +31,11 @@ if(WIN32)
     DESTINATION
     ${Caffe_source}/cmake/
     )
-
+  file(COPY
+    ${Caffe_patch}/cmake/Dependencies.cmake
+    DESTINATION
+    ${Caffe_source}/cmake/
+    )
 else()
   message(FATAL_ERROR "This caffe patch is only for windows")
 endif()

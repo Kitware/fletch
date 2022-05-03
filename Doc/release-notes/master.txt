@@ -1,25 +1,17 @@
-Fletch v1.5.0 Release Notes
+Fletch v1.6.0 Release Notes
 ===========================
 
-This is a minor release of Fletch that provides both new functionality and fixes over
-the previous v1.4.0 release.
+This is a minor release of Fletch that provides both new functionality and fixes over the previous v1.5.0 release.
 
 There are many other changes in this release. These are detailed in the change log below.
 
-Updates since v1.4.0
+Updates since v1.5.0
 --------------------
 
- * Updated Ceres Solver from v1.13 to v1.14.
- * Add an optional Qt update to version 5.12.8
- * Update PostGIS from 2.4.3 to 2.5.3
- * Update libtiff from 4.0.6 to 4.1.0
- * Update ZLib from 1.2.9 to 1.2.11
- * Update Eigen from 3.3.4 to 3.3.7
+* Update Eigen from 3.3.7 to 3.3.9
+* Added option to use FFMpeg 4.4.1
+* Patched FFmpeg to write KLV metadata in compliance with MISB standards
+* Update GDAL from 2.3.2 to 2.4.4
+* Added option to get OpenCV source for version 4.5.1 from PyPI
+* Added option to use VTK 9.1.0 and made 9.1 the default
 
-Fixes since v1.4.0
-------------------
-
- * Provide Raster capability to PostGIS by adding GDAL to its build.
- * Change the default flag that provides Qt to the OpenCV build to False.
- * Patch the ZLib CMakeLists.txt to elimate the 'd' suffix on the library name on WIN32.
- * Disable the 'examples' build for Darknet. It was causing a build failure on WIN32.

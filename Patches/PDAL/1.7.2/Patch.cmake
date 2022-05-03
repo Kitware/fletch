@@ -16,3 +16,8 @@ file(COPY ${PDAL_patch}/CMakeLists.txt
   DESTINATION ${PDAL_source}/
 )
 
+# Some operators need to be const to compile with newer compilers
+file(COPY ${PDAL_patch}/PointViewIter.hpp
+  DESTINATION ${PDAL_source}/pdal/
+)
+

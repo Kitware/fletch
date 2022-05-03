@@ -1,0 +1,24 @@
+# Config file used to import the SQLite3 build tree.
+set( SQLite3_EXECUTABLE "@CMAKE_INSTALL_FULL_BINDIR@/sqlite3_exe" )
+set( EXE_SQLITE3 "@CMAKE_INSTALL_FULL_BINDIR@/sqlite3_exe" )
+
+find_library(
+  SQLite3_LIBRARY
+  NAMES sqlite3 sqlite
+  PATHS "@CMAKE_INSTALL_FULL_LIBDIR@"
+  )
+
+find_path(
+  SQLite3_INCLUDE_DIR
+  NAMES sqlite3.h
+  PATHS "@CMAKE_INSTALL_FULL_INCLUDEDIR@"
+  )
+
+# Set both variables for PROJ and other oddball packages that use all caps
+set(SQLITE3_LIBRARY ${SQLite3_LIBRARY})
+set(SQLITE3_INCLUDE_DIR ${SQLite3_INCLUDE_DIR})
+
+set(SQLite3_HAS_COLUMN_METADATA @SQLite3_ENABLE_COLUMN_METADATA@)
+set(SQLite3_HAS_RTREE           @SQLite3_ENABLE_RTREE@)
+set(SQLite3_HAS_LOAD_EXTENSIONS @SQLite3_ENABLE_LOAD_EXTENSIONS@)
+

@@ -26,8 +26,13 @@ elseif (APPLE)
   set (jpeg_lib_name "libjpeg.dylib")
   set (zlib_library_name "libzlib.dylib")
 else()
-  set (jpeg_lib_name "libjpeg.so")
-  set (zlib_library_name "libzlib.so")
+  if(BUILD_SHARED_LIBS)
+    set (jpeg_lib_name "libjpeg.so")
+    set (zlib_library_name "libzlib.so")
+  else()
+    set (jpeg_lib_name "libjpeg.a")
+    set (zlib_library_name "libz.a")
+  endif()
 endif()
 
 if(libtiff_WITH_libjpeg-turbo AND NOT JPEG_FOUND)
@@ -61,7 +66,8 @@ ExternalProject_Add(libtiff
     -P ${fletch_SOURCE_DIR}/Patches/libtiff/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
-    -DBUILD_SHARED_LIBS:BOOL=TRUE
+    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
     ${libtiff_args}
   )
 
