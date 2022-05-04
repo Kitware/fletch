@@ -1,7 +1,7 @@
 message("Running CPython-pip install")
 
 function( CopyFiles _inFolder _inRegex _outDir )
-  if( EXISTS _inFolder )
+  if( EXISTS "${_inFolder}" )
     file( GLOB FILES_TO_COPY ${_inFolder}/${_inRegex} )
     if( FILES_TO_COPY )
       file( COPY ${FILES_TO_COPY} DESTINATION ${_outDir} )
