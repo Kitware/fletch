@@ -53,8 +53,9 @@ if(fletch_ENABLE_CPython)
     message(FATAL_ERROR "Unsupported CPython version")
   endif()
 
-  set(CPython_version ${CPython_version_major}.${CPython_version_minor}.${CPython_version_patch})
-  set(CPython_url "https://github.com/python/cpython/archive/v${CPython_version}.zip")
+  set(CPython_version ${CPython_version_major}.${CPython_version_minor})
+  set(CPython_full_version ${CPython_version}.${CPython_version_patch})
+  set(CPython_url "https://github.com/python/cpython/archive/v${CPython_full_version}.zip")
 endif()
 list(APPEND fletch_external_sources CPython)
 
