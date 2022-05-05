@@ -2065,7 +2065,7 @@ FinishedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             SetDlgItemText(hwnd, IDC_TITLE,
                             "Please wait while running postinstall script...");
             strcpy(fname, python_dir);
-            strcat(fname, "\\Scripts\\");
+            strcat(fname, "\\bin\\");
             strcat(fname, install_script);
 
             if (logfile)
