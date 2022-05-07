@@ -27,3 +27,8 @@ file(COPY ${VXL_patch}//vnl_io_matrix.hxx
 file(COPY ${VXL_patch}//vcl/CMakeLists.txt
   DESTINATION ${VXL_source}/vcl/
 )
+
+# fixes an issue with duplicate definition of lrintf() on Windows
+file(COPY ${VXL_patch}/v3p/openjpeg2/opj_includes.h
+  DESTINATION ${VXL_source}/v3p/openjpeg2/
+)
