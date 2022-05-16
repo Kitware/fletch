@@ -112,10 +112,16 @@ set(openjpeg_md5 "6a1f8aaa1fe55d2088e3a9c942e0f698")
 set(openjpeg_dlname "openjpeg-v${openjpeg_version}.tar.gz")
 list(APPEND fletch_external_sources openjpeg)
 
-# YASM for building jpeg-turbo, not third party library
+# YASM for building jpeg-turbo or x264, not third party library
 set(yasm_version "1.3.0")
 set(yasm_url "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz")
 set(yasm_md5 "38802696efbc27554d75d93a84a23183")
+
+# x264 video library and codec
+set(x264_version "8c297425")
+set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.zip")
+set(x264_md5 "fcfb16d13b3ca540aefeae36c37c4edd")
+list(APPEND fletch_external_sources x264)
 
 # FFmpeg
 set(_FFmpeg_supported TRUE)

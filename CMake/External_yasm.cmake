@@ -46,9 +46,10 @@ if (NOT _external_yasm_include)
     -DBUILD_SHARED_LIBS=OFF
     )
 
+    set(fletch_YASM_DIR ${fletch_BUILD_PREFIX}/src/yasm-build)
     if (WIN32)
-        set(fletch_YASM ${fletch_BUILD_PREFIX}/src/yasm-build/${CMAKE_CFG_INTDIR}/yasm.exe)
+        set(fletch_YASM ${fletch_YASM_DIR}/${CMAKE_CFG_INTDIR}/yasm.exe)
     else()
-        set(fletch_YASM ${fletch_BUILD_PREFIX}/src/yasm-build/yasm)
+        set(fletch_YASM ${fletch_YASM_DIR}/yasm)
     endif()
 endif()
