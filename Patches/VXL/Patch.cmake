@@ -17,6 +17,10 @@ file(COPY ${VXL_patch}//vnl_transpose.h
   DESTINATION ${VXL_source}/core/vnl/
 )
 
+file(COPY ${VXL_patch}//vnl_bignum.cxx
+  DESTINATION ${VXL_source}/core/vnl/
+)
+
 file(COPY ${VXL_patch}//vnl_io_matrix.hxx
   DESTINATION ${VXL_source}/core/vnl/io/
 )
