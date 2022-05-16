@@ -46,7 +46,6 @@ if (WIN32)
 
 else ()
   include(External_yasm)
-  set(fletch_YASM ${fletch_BUILD_PREFIX}/src/yasm-build/yasm)
   set(_FFmpeg_yasm --yasmexe=${fletch_YASM})
   list(APPEND ffmpeg_DEPENDS yasm)
 
@@ -57,6 +56,10 @@ else ()
   # Currently it uses the system version.
   if (fletch_ENABLE_Zlib)
     list(APPEND ffmpeg_DEPENDS ZLib)
+  endif()
+
+  if (fletch_ENABLE_x264)
+    list(APPEND ffmpeg_DEPENDS x264)
   endif()
 
   set (FFmpeg_patch ${fletch_SOURCE_DIR}/Patches/FFmpeg/${_FFmpeg_version})
@@ -118,7 +121,11 @@ else ()
     URL_MD5 ${FFmpeg_md5}
     ${COMMON_EP_ARGS}
     PATCH_COMMAND ${FFMPEG_PATCH_COMMAND}
-    CONFIGURE_COMMAND ${FFMPEG_CONFIGURE_COMMAND}
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env
+      "PATH=${fletch_BUILD_INSTALL_PREFIX}/bin:$ENV{PATH}"
+      "CPPFLAGS=-I${fletch_BUILD_INSTALL_PREFIX}/include"
+      "LDFLAGS=-L${fletch_BUILD_INSTALL_PREFIX}/lib"
+      ${FFMPEG_CONFIGURE_COMMAND}
     BUILD_COMMAND ${MAKE_EXECUTABLE}
     INSTALL_COMMAND ${MAKE_EXECUTABLE} install
     )

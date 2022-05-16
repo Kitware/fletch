@@ -15,7 +15,9 @@ else()
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env
       "PATH=${fletch_YASM_DIR}:$ENV{PATH}"
       ./configure
-      --prefix=${fletch_BUILD_INSTALL_PREFIX}
+      --prefix="${fletch_BUILD_INSTALL_PREFIX}"
+      --exec-prefix="${fletch_BUILD_INSTALL_PREFIX}"
+      --enable-shared
     BUILD_COMMAND ${CMAKE_COMMAND} -E env
       "PATH=${fletch_YASM_DIR}:$ENV{PATH}"
       ${MAKE_EXECUTABLE}
