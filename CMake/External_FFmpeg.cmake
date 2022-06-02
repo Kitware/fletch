@@ -51,6 +51,20 @@ if(fletch_ENABLE_x265)
   set(_FFmpeg_x265 --enable-gpl --enable-libx265)
 endif()
 
+if(fletch_BUILD_WITH_CUDA)
+  if(fletch_ENABLE_ffnvcodec)
+    include(External_ffnvcodec)
+    list(APPEND ffmpeg_DEPENDS ffnvcodec)
+    set(_FFmpeg_cuda
+      "--enable-cuda\
+      --enable-cuvid\
+      --enable-nvenc"
+      )
+  else()
+    message(WARNING "FFmpeg will not build NVidia/CUDA hardware-accelerated codecs (fletch_ENABLE_ffnvcodec)")
+  endif()
+endif()
+
 set(FFMPEG_PKGCONFIG_PATH ${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig)
 if(WIN32)
   include(External_msys2)
@@ -69,6 +83,7 @@ if(WIN32)
     ${_FFmpeg_x264}\
     ${_FFmpeg_x265}\
     ${_FFmpeg_zlib}\
+    ${_FFmpeg_cuda}\
     ${_shared_lib_params}\
     --enable-rpath\
     --disable-programs\
@@ -90,6 +105,7 @@ else()
     ${_FFmpeg_x265}
     ${_FFmpeg_yasm}
     ${_FFmpeg_zlib}
+    ${_FFmpeg_cuda}
     ${_shared_lib_params}
     --cc=${CMAKE_C_COMPILER}
     --cxx=${CMAKE_CXX_COMPILER}
