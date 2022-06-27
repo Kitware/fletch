@@ -13,21 +13,13 @@ if(WIN32)
 	  PATCH_COMMAND
 	  ${mingw_prefix} ${msys_bash} -c "sed -i 's|\"\${postinst}\"$|& \\&>/dev/null|g' /etc/profile"
 	  CONFIGURE_COMMAND
-	  ${mingw_prefix} ${msys_bash} -l -c "pacman -Syuq --noconfirm"
+	  ${mingw_prefix} ${msys_bash} -l -c "pacman -Syyuq --noconfirm"
 	  BUILD_COMMAND ""
-	  ${mingw_prefix} ${msys_bash} -l -c "pacman -Sq --noconfirm make gcc diffutils yasm nasm git pkgconf mingw-w64-x86_64-nasm mingw-w64-x86_64-gcc mingw-w64-x86_64-SDL2 mingw-w64-x86_64-binutils"
+	  ${mingw_prefix} ${msys_bash} -l -c "pacman -Syyq --noconfirm make gcc diffutils yasm nasm git pkgconf mingw-w64-x86_64-nasm mingw-w64-x86_64-gcc mingw-w64-x86_64-SDL2 mingw-w64-x86_64-binutils"
 	  INSTALL_COMMAND
 	  ${mingw_prefix} ${msys_bash} -l -c "cp /mingw64/bin/*.dll ${fletch_BUILD_INSTALL_PREFIX}/bin"
   )
   fletch_external_project_force_install(PACKAGE msys2)
 
   set(msys2_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
-
-  file(APPEND ${fletch_CONFIG_INPUT} "
-  #######################################
-  # msys2
-  #######################################
-  set(msys2_ROOT \${fletch_ROOT})
-  set(fletch_ENABLED_msys2 TRUE)
-  ")
 endif()

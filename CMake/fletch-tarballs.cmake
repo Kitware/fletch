@@ -93,16 +93,12 @@ if(WIN32)
   set(msys2_version "20220128")
   set(msys2_url "https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-${msys2_version}.tar.xz")
   set(msys2_md5 "45b3be3d1e30d01e0d95d5bd8e75244a")
-  set(msys2_dlname "msys2-${msys2_version}.tar.xz")
-  list(APPEND fletch_external_sources msys2)
 endif()
 
 # x264
 set(x264_version "bfc87b7a330f75f5c9a21e56081e4b20344f139e")
 set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.tar.bz2")
 set(x264_md5 "fd71fead6422ccb5094207c9d2ad70bd")
-set(x264_dlname "x264-${x264_version}.tar.bz2")
-list(APPEND fletch_external_sources x264)
 
 # FFmpeg
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
@@ -125,6 +121,8 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   endif()
 
   list(APPEND fletch_external_sources FFmpeg)
+
+  set(fletch_ENABLE_x264 ON CACHE BOOL "Include x264")
 endif()
 
 # EIGEN

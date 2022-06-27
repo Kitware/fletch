@@ -13,12 +13,14 @@ else()
 endif()
 
 if(WIN32)
+  include(External_msys2)
   list(APPEND x264_DEPENDS msys2)
   set(X264_COMMAND_PREFIX ${mingw_prefix} ${msys_bash})
   set(_win32_config_params --host=x86_64-w64-mingw32)
   set(X264_BUILD_COMMAND ${X264_COMMAND_PREFIX} -c "make -j 8")
   set(X264_INSTALL_COMMAND ${X264_COMMAND_PREFIX} -c "make install")
 else()
+  include(External_yasm)
   list(APPEND x264_DEPENDS yasm)
   Fletch_Require_Make()
   set(X264_BUILD_COMMAND ${MAKE_EXECUTABLE})
@@ -37,7 +39,7 @@ set(X264_CONFIGURE_COMMAND
   )
 
 ExternalProject_Add(x264
-  URL ${x264_file}
+  URL ${x264_url}
   DEPENDS ${x264_DEPENDS}
   URL_MD5 ${x264_md5}
   ${COMMON_EP_ARGS}
@@ -49,11 +51,3 @@ ExternalProject_Add(x264
 fletch_external_project_force_install(PACKAGE x264)
 
 set(x264_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
-
-file(APPEND ${fletch_CONFIG_INPUT} "
-#######################################
-# x264
-#######################################
-set(x264_ROOT \${fletch_ROOT})
-set(fletch_ENABLED_x264 TRUE)
-")
