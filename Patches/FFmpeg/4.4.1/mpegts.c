@@ -1992,6 +1992,8 @@ int ff_parse_mpeg2_descriptor(AVFormatContext *fc, AVStream *st, int stream_type
             mpegts_find_stream_type(st, st->codecpar->codec_tag, REGD_types);
             if (st->codecpar->codec_tag == MKTAG('B', 'S', 'S', 'D'))
                 st->internal->request_probe = 50;
+            if (st->codecpar->codec_tag == MKTAG('K', 'L', 'V', 'A'))
+                st->codecpar->profile = FF_PROFILE_KLVA_ASYNC;
         }
         break;
     case 0x52: /* stream identifier descriptor */
@@ -2002,8 +2004,11 @@ int ff_parse_mpeg2_descriptor(AVFormatContext *fc, AVStream *st, int stream_type
             *pp += 4;
         if (get8(pp, desc_end) == 0xFF) {
             st->codecpar->codec_tag = bytestream_get_le32(pp);
-            if (st->codecpar->codec_id == AV_CODEC_ID_NONE)
+            if (st->codecpar->codec_id == AV_CODEC_ID_NONE) {
                 mpegts_find_stream_type(st, st->codecpar->codec_tag, METADATA_types);
+                if (st->codecpar->codec_tag == MKTAG('K', 'L', 'V', 'A'))
+                    st->codecpar->profile = FF_PROFILE_KLVA_SYNC;
+            }
         }
         break;
     case 0x7f: /* DVB extension descriptor */
