@@ -14,7 +14,7 @@ if(WIN32)
 	  ${mingw_prefix} ${msys_bash} -c "sed -i 's|\"\${postinst}\"$|& \\&>/dev/null|g' /etc/profile"
 	  CONFIGURE_COMMAND
 	  ${mingw_prefix} ${msys_bash} -l -c "pacman -Syyuq --noconfirm"
-	  BUILD_COMMAND ""
+	  BUILD_COMMAND
 	  ${mingw_prefix} ${msys_bash} -l -c "pacman -Syyq --noconfirm make gcc diffutils yasm nasm git pkgconf mingw-w64-x86_64-nasm mingw-w64-x86_64-gcc mingw-w64-x86_64-SDL2 mingw-w64-x86_64-binutils"
 	  INSTALL_COMMAND
 	  ${mingw_prefix} ${msys_bash} -l -c "cp /mingw64/bin/*.dll ${fletch_BUILD_INSTALL_PREFIX}/bin"
