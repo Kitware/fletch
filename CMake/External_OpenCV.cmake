@@ -330,6 +330,7 @@ ExternalProject_Add(OpenCV
     -DWITH_EIGEN:BOOL=${fletch_ENABLE_EIGEN}
     -DWITH_JASPER:BOOL=False
     -DWITH_PROTOBUF:BOOL=False
+    -DWITH_LAPACK:BOOL=False
     ${OpenCV_EXTRA_BUILD_FLAGS}
     ${OpenCV_PYTHON_FLAGS}
   )
