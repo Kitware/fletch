@@ -545,43 +545,6 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources Protobuf )
 endif()
 
-# Caffe
-set(Caffe_SELECT_VERSION "2" CACHE STRING "Select the  version of Caffe to build.")
-set_property(CACHE Caffe_SELECT_VERSION PROPERTY STRINGS "1" "2")
-
-set(Caffe_version ${Caffe_SELECT_VERSION})
-
-if (Caffe_version VERSION_EQUAL 2)
-  # Use the internal kitware hosted Caffe, which contain additional
-  # functionality that has not been merged into the BVLC version.
-  # This is the recommended option.
-  if(WIN32)
-    set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/windows/caffe-fletch-windows.zip")
-    set(Caffe_md5 "4f3f8c56f9bf8f0e7a5534a1080d4ef1")
-  else()
-    set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/linux/caffe-fletch-linux.zip")
-    set(Caffe_md5 "8eda68aa96d0bbdd446e2125553f46de")
-  endif()
-else()
-  set(Caffe_version "1.0")
-  set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
-  set(Caffe_md5 "5fbb0e32e7cd8de3de46e6fe6e4cd2b5")
-endif()
-list(APPEND fletch_external_sources Caffe)
-
-# Caffe-Segnet
-# This segnet code is based on caffe, and calls itself caffe, but much different than caffe
-if(NOT WIN32)
-  set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
-  set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
-  set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
-
-  #Move this out when windows is supported
-  list(APPEND fletch_external_sources Caffe_Segnet)
-endif()
-
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
 set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/-/archive/master/darknet-master.zip")
