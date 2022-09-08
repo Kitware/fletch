@@ -105,6 +105,10 @@ set(x265_version "3.4")
 set(x265_url "https://github.com/videolan/x265/archive/refs/tags/${x265_version}.tar.gz")
 set(x265_md5 "d867c3a7e19852974cf402c6f6aeaaf3")
 
+# FFmpeg NVidia codec headers
+set(ffnvcodec_version "n11.1.5.1")
+set(ffnvcodec_url "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git")
+
 # FFmpeg
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
@@ -129,6 +133,7 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
 
   set(fletch_ENABLE_x264 ON CACHE BOOL "Include x264")
   set(fletch_ENABLE_x265 ON CACHE BOOL "Include x265")
+  set(fletch_ENABLE_ffnvcodec ON CACHE BOOL "Include FFmpeg NVidia codec headers")
 endif()
 
 # EIGEN
