@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 if(WIN32)
   set (msys_patch "${fletch_SOURCE_DIR}/Patches/msys2")
 
