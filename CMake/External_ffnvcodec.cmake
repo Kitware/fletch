@@ -7,7 +7,7 @@ if(WIN32)
   include(External_msys2)
   list(APPEND ffnvcodec_depends msys2)
   set(ffnvcodec_build_command ${mingw_prefix} ${mingw_bash} -c "${ffnvcodec_build_command}")
-  set(ffnvcodec_install_command ${mingw_prefix} ${mingw_bash} -c "${ffnvcodec_install_command")
+  set(ffnvcodec_install_command ${mingw_prefix} ${mingw_bash} -c "${ffnvcodec_install_command}")
 endif()
 
 ExternalProject_Add(ffnvcodec
