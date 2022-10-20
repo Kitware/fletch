@@ -15,6 +15,11 @@ file(COPY ${Qt_patch}/qtscript/src/3rdparty/javascriptcore/JavaScriptCore/jit/JI
   DESTINATION ${Qt_source}/qtscript/src/3rdparty/javascriptcore/JavaScriptCore/jit/
   )
 
+# Fix build issue on Mac
+file(RENAME ${Qt_source}/qtscript/src/3rdparty/javascriptcore/VERSION
+  ${Qt_source}/qtscript/src/3rdparty/javascriptcore/VERSION.txt
+  )
+
 # Patch for gcc 9.1.
 file(COPY ${Qt_patch}/qtbase/src/corelib/global/qrandom.cpp
   DESTINATION ${Qt_source}/qtbase/src/corelib/global/

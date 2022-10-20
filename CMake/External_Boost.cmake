@@ -66,6 +66,8 @@ ExternalProject_Add(Boost
     ${_Boost_DIR_ARGS}
     -DBoost_source=${fletch_BUILD_PREFIX}/src/Boost
     -Dfletch_BUILD_WITH_PYTHON=${fletch_BUILD_WITH_PYTHON}
+    -DPYTHON_VERSION_MAJOR=${PYTHON_VERSION_MAJOR}
+    -DPYTHON_VERSION_MINOR=${PYTHON_VERSION_MINOR}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Install.cmake
 )
 add_dependencies(Download Boost-download)
