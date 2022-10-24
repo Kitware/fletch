@@ -1,13 +1,15 @@
 # FFmpeg NVidia (CUDA/CUVID/NVENC) codec headers
 
-set(ffnvcodec_build_command make)
-set(ffnvcodec_install_command make install PREFIX=${fletch_BUILD_INSTALL_PREFIX})
-
 if(WIN32)
   include(External_msys2)
   list(APPEND ffnvcodec_depends msys2)
-  set(ffnvcodec_build_command ${mingw_prefix} ${mingw_bash} -c "${ffnvcodec_build_command}")
-  set(ffnvcodec_install_command ${mingw_prefix} ${mingw_bash} -c "${ffnvcodec_install_command}")
+  set(ffnvcodec_build_command
+      ${mingw_prefix} ${msys_bash} -c "make")
+  set(ffnvcodec_install_command
+      ${mingw_prefix} ${msys_bash} -c "make install PREFIX=${fletch_BUILD_INSTALL_PREFIX}")
+else()
+  set(fnvcodec_build_command make)
+  set(ffnvcfodec_install_command make install PREFIX=${fletch_BUILD_INSTALL_PREFIX})
 endif()
 
 ExternalProject_Add(ffnvcodec
