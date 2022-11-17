@@ -8,8 +8,8 @@ if(WIN32)
   set(ffnvcodec_install_command
       ${mingw_prefix} ${msys_bash} -c "make install PREFIX=${fletch_BUILD_INSTALL_PREFIX}")
 else()
-  set(fnvcodec_build_command make)
-  set(ffnvcfodec_install_command make install PREFIX=${fletch_BUILD_INSTALL_PREFIX})
+  set(ffnvcodec_build_command make)
+  set(ffnvcodec_install_command make install PREFIX=${fletch_BUILD_INSTALL_PREFIX})
 endif()
 
 ExternalProject_Add(ffnvcodec
