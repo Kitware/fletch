@@ -58,19 +58,20 @@ endif()
 list(APPEND fletch_external_sources CPython)
 
 # Boost
-# Support 1.55.0 (Default) and 1.65.1 optionally
-if(fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
-  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
+
+# Support 1.78.0 (Default) and 1.65.1 optionally
+if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
+  set(Boost_SELECT_VERSION 1.78.0 CACHE STRING "Select the major version of Boost to build.")
+  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.78.0" "1.65.1")
+  string(REGEX REPLACE "\\\." "_" Boost_version_underscore ${Boost_SELECT_VERSION})
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
   if(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
-    # Boost 1.65.1
-    set(Boost_major_version 1)
-    set(Boost_minor_version 65)
-    set(Boost_patch_version 1)
-    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
+    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_version_underscore}.tar.bz2")
     set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
+  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.78.0)
+    set(Boost_url "https://boostorg.jfrog.io/artifactory/main/release/${Boost_SELECT_VERSION}/source/boost_${Boost_version_underscore}.tar.gz")
+    set(Boost_md5 "c2f6428ac52b0e5a3c9b2e1d8cc832b5")
   else()
     message(STATUS "Boost_SELECT_VERSION: Not supported")
   endif()
@@ -117,75 +118,52 @@ set(yasm_version "1.3.0")
 set(yasm_url "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz")
 set(yasm_md5 "38802696efbc27554d75d93a84a23183")
 
-# x264 video library and codec
-set(x264_version "8c297425")
-set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.zip")
-set(x264_md5 "fcfb16d13b3ca540aefeae36c37c4edd")
-list(APPEND fletch_external_sources x264)
+# msys2
+if(WIN32)
+  set(msys2_version "20220128")
+  set(msys2_url "https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-${msys2_version}.tar.xz")
+  set(msys2_md5 "45b3be3d1e30d01e0d95d5bd8e75244a")
+endif()
+
+# x264
+set(x264_version "bfc87b7a330f75f5c9a21e56081e4b20344f139e")
+set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.tar.bz2")
+set(x264_md5 "fd71fead6422ccb5094207c9d2ad70bd")
+
+# x265
+set(x265_version "3.4")
+set(x265_url "https://github.com/videolan/x265/archive/refs/tags/${x265_version}.tar.gz")
+set(x265_md5 "d867c3a7e19852974cf402c6f6aeaaf3")
+
+# FFmpeg NVidia codec headers
+set(ffnvcodec_version "n11.1.5.1")
+set(ffnvcodec_url "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git")
 
 # FFmpeg
-set(_FFmpeg_supported TRUE)
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
   set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
   set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3" "4.4.1")
   mark_as_advanced(FFmpeg_SELECT_VERSION)
 
-  if(WIN32)
-    # The windows 2.6 version is git-c089e72 (2015-03-05)
-    # follows: n2.6-dev (2014-12-03)
-    # precedes: n2.6 (2015-03-06) - n2.7-dev (2015-03-06)
-    set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
+  set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
+  set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
 
-    if (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 3.1 )
-      message(FATAL_ERROR "CMake ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} is too old to support the 7z extension of FFmpeg")
-    endif()
-    include(CheckTypeSize)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 Bits
-      set(bitness 32)
-      message(FATAL_ERROR "Fletch does NOT support FFMPEG 32 bit. Please use 64 bit.")
-    endif()
-    # On windows download prebuilt binaries and shared libraries
-    # dev contains headers .lib, .def, and mingw .dll.a files
-    # shared contains dll and exe files.
-    if (_FFmpeg_version VERSION_EQUAL 4.4.1)
-      set(FFmpeg_dev_md5 "7b74e3ed31b6b60f6e7cddbcb31cdf13")
-      set(FFmpeg_shared_md5 "c22a945f42510974e41c91eccde6de2f")
-      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/621f02394acac99f429c28dd/download/ffmpeg-4.4.1-full_build.7z")
-      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/621f021a4acac99f429c274b/download/ffmpeg-4.4.1-full_build-shared.7z")
-    elseif (_FFmpeg_version VERSION_EQUAL 3.3.3)
-      set(FFmpeg_dev_md5 "2788ff871ba1c1b91b6f0e91633bef2a")
-      set(FFmpeg_shared_md5 "beb39d523cdb032b59f81db80b020f31")
-      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/5c520afc8d777f072b212cca/download/ffmpeg-3.3.3-win64-dev.zip")
-      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/5c520b068d777f072b212cd4/download/ffmpeg-3.3.3-win64-shared.zip")
-    elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
-      set(FFmpeg_dev_md5 "748d5300316990c6a40a23bbfc3abff4")
-      set(FFmpeg_shared_md5 "33dbda4fdcb5ec402520528da7369585")
-      set(FFmpeg_dev_url    "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb8/download/ffmpeg_dev_win64.7z")
-      set(FFmpeg_shared_url "https://data.kitware.com/api/v1/file/591a0e258d777f16d01e0cb5/download/ffmpeg_shared_win64.7z")
-    else (_FFmpeg_supported AND _FFmpeg_version)
-      message("Unsupported FFmpeg version ${_FFmpeg_version}")
-    endif()
-  else()
-    #set(_FFmpeg_version 3.3.3) # (2017-07-29)
-    #set(_FFmpeg_version 2.6.2) # (2015-04-10)
-    set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
-    set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
-
-    if (_FFmpeg_version VERSION_EQUAL 4.4.1)
-      set(FFmpeg_md5 "493da4b6a946b569fc65775ecde404ea")
-    elseif (_FFmpeg_version VERSION_EQUAL 3.3.3)
-      set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
-    elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
-      set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
-    elseif (_FFmpeg_supported AND _FFmpeg_version)
-      message("Unsupported FFmpeg version ${_FFmpeg_version}")
-    endif()
-
+  if (_FFmpeg_version VERSION_EQUAL 4.4.1)
+    set(FFmpeg_md5 "493da4b6a946b569fc65775ecde404ea")
+  elseif (_FFmpeg_version VERSION_EQUAL 3.3.3)
+    set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
+  elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
+    set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
+  elseif (_FFmpeg_supported AND _FFmpeg_version)
+    message("Unsupported FFmpeg version ${_FFmpeg_version}")
   endif()
-endif()
-if(_FFmpeg_supported)
+
   list(APPEND fletch_external_sources FFmpeg)
+
+  set(fletch_ENABLE_x264 ON CACHE BOOL "Include x264")
+  set(fletch_ENABLE_x265 ON CACHE BOOL "Include x265")
+  set(fletch_ENABLE_ffnvcodec ON CACHE BOOL "Include FFmpeg NVidia codec headers")
 endif()
 
 # EIGEN
@@ -601,49 +579,6 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources Protobuf )
 endif()
 
-# Caffe
-set(Caffe_SELECT_VERSION "1" CACHE STRING "Select the  version of Caffe to build.")
-set_property(CACHE Caffe_SELECT_VERSION PROPERTY STRINGS "1" "2")
-
-set(Caffe_version ${Caffe_SELECT_VERSION})
-
-if (Caffe_version VERSION_EQUAL 2)
-  # Use the internal kitware hosted Caffe, which contain additional
-  # functionality that has not been merged into the BVLC version.
-  # This is the recommended option.
-  if(WIN32)
-    set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/windows/caffe-fletch-windows.zip")
-    set(Caffe_md5 "4f3f8c56f9bf8f0e7a5534a1080d4ef1")
-  else()
-    set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/linux/caffe-fletch-linux.zip")
-    set(Caffe_md5 "8eda68aa96d0bbdd446e2125553f46de")
-  endif()
-else()
-  if(WIN32)
-    set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/repository/fletch%2Fwindows/archive.zip")
-    set(Caffe_md5 "a8376d867d87b6340313b82d87743bc7")
-  else()
-    set(Caffe_version "master")
-    set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
-    set(Caffe_md5 "ced51467a3923cdf7c24873fe43bda80")
-  endif()
-endif()
-list(APPEND fletch_external_sources Caffe)
-
-# Caffe-Segnet
-# This segnet code is based on caffe, and calls itself caffe, but much different than caffe
-if(NOT WIN32)
-  set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
-  set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
-  set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
-
-  #Move this out when windows is supported
-  list(APPEND fletch_external_sources Caffe_Segnet)
-endif()
-
 # Darknet
 # The Darket package used is a fork maintained by kitware that uses CMake and supports building/running on windows
 set(Darknet_url "https://gitlab.kitware.com/kwiver/darknet/-/archive/master/darknet-master.zip")
@@ -659,9 +594,9 @@ set(pybind11_dlname "pybind11-${pybind11_version}.tar.gz")
 list(APPEND fletch_external_sources pybind11)
 
 # YAMLcpp
-set(YAMLcpp_version "0.5.3")
-set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/release-${YAMLcpp_version}.tar.gz")
-set(YAMLcpp_md5 "e2507c3645fc2bec29ba9a1838fb3951")
+set(YAMLcpp_version "0.7.0")
+set(YAMLcpp_url "https://github.com/jbeder/yaml-cpp/archive/yaml-cpp-${YAMLcpp_version}.tar.gz")
+set(YAMLcpp_md5 "74d646a3cc1b5d519829441db96744f0")
 set(YAMLcpp_dlname "yaml-cpp-release-${YAMLcpp_version}.tar.gz")
 list(APPEND fletch_external_sources YAMLcpp)
 

@@ -21,3 +21,7 @@ file(COPY ${PDAL_patch}/PointViewIter.hpp
   DESTINATION ${PDAL_source}/pdal/
 )
 
+# std::istream::streampos does not exist with newer compilers
+file(COPY ${PDAL_patch}/PlyReader.hpp
+  DESTINATION ${PDAL_source}/io/
+)
