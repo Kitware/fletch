@@ -125,20 +125,6 @@ if(WIN32)
   set(msys2_md5 "45b3be3d1e30d01e0d95d5bd8e75244a")
 endif()
 
-# x264
-set(x264_version "bfc87b7a330f75f5c9a21e56081e4b20344f139e")
-set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.tar.bz2")
-set(x264_md5 "fd71fead6422ccb5094207c9d2ad70bd")
-
-# x265
-set(x265_version "3.4")
-set(x265_url "https://github.com/videolan/x265/archive/refs/tags/${x265_version}.tar.gz")
-set(x265_md5 "d867c3a7e19852974cf402c6f6aeaaf3")
-
-# FFmpeg NVidia codec headers
-set(ffnvcodec_version "n11.1.5.1")
-set(ffnvcodec_url "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git")
-
 # FFmpeg
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
@@ -161,6 +147,26 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
 
   list(APPEND fletch_external_sources FFmpeg)
 endif()
+
+# x264
+if(_FFmpeg_version VERSION_LESS 4.0.0)
+  set(x264_version "8c297425")
+  set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.zip")
+  set(x264_md5 "fcfb16d13b3ca540aefeae36c37c4edd")
+else()
+  set(x264_version "bfc87b7a330f75f5c9a21e56081e4b20344f139e")
+  set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.tar.bz2")
+  set(x264_md5 "fd71fead6422ccb5094207c9d2ad70bd")
+endif()
+
+# x265
+set(x265_version "3.4")
+set(x265_url "https://github.com/videolan/x265/archive/refs/tags/${x265_version}.tar.gz")
+set(x265_md5 "d867c3a7e19852974cf402c6f6aeaaf3")
+
+# FFmpeg NVidia codec headers
+set(ffnvcodec_version "n11.1.5.1")
+set(ffnvcodec_url "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git")
 
 # EIGEN
 set(Eigen_version 3.3.9)
