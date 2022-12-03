@@ -5,3 +5,7 @@
 file(COPY ${CppDB_patch}/CMakeLists.txt ${CppDB_patch}/FindSQLite.cmake
   DESTINATION ${CppDB_source}
 )
+
+file(COPY ${CppDB_patch}/cppdb/frontend.h
+  DESTINATION ${CppDB_source}/cppdb
+)
