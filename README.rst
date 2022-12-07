@@ -13,7 +13,6 @@ across platforms: Linux, MacOS, and Windows.
 
 Some of the bigger projects that Fletch builds are
 
- - Caffe
  - OpenCV
  - VXL
  - VTK
