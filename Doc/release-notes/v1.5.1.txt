@@ -1,0 +1,9 @@
+Fletch v1.5.1 Release Notes
+===========================
+
+This is a patch release of Fletch that provides fixes over the previous v1.5.0 release.
+
+Fixes since v1.5.0
+------------------
+
+ * Corrected Fletch CMake package version from 1.4.0 to 1.5.1.
