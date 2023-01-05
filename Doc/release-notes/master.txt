@@ -14,4 +14,9 @@ Updates since v1.5.0
 * Update GDAL from 2.3.2 to 2.4.4
 * Added option to get OpenCV source for version 4.5.1 from PyPI
 * Added option to use VTK 9.1.0 and made 9.1 the default
-
+* Added option to enable C++17 which is on by default
+* Change fallback C++ standard to C++11 from C++98
+* Update CMake minumum required version to 3.10
+* Update Ceres from 1.14.0 to 2.1.0
+* Update GLog from 0.3.5 to 0.6.0
+* Update SuiteSparse from 4.4.5 to 4.5.6
