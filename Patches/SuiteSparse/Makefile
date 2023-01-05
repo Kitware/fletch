@@ -12,23 +12,23 @@ include SuiteSparse_config/SuiteSparse_config.mk
 # Compile the default rules for each package
 go: metis
 	( cd SuiteSparse_config && $(MAKE) )
-	( cd AMD && $(MAKE) )
-	( cd BTF && $(MAKE) )
-	( cd CAMD && $(MAKE) )
-	( cd CCOLAMD && $(MAKE) )
-	( cd COLAMD && $(MAKE) )
-	( cd CHOLMOD && $(MAKE) )
-	( cd CSparse && $(MAKE) )
-	( cd CXSparse && $(MAKE) )
-	( cd LDL && $(MAKE) )
-	( cd KLU && $(MAKE) )
-	( cd UMFPACK && $(MAKE) )
-	( cd RBio && $(MAKE) )
+	( cd AMD && $(MAKE) library )
+	( cd BTF && $(MAKE) library )
+	( cd CAMD && $(MAKE) library )
+	( cd CCOLAMD && $(MAKE) library )
+	( cd COLAMD && $(MAKE) library )
+	( cd CHOLMOD && $(MAKE) library )
+	( cd CSparse && $(MAKE) library )
+	( cd CXSparse && $(MAKE) library )
+	( cd LDL && $(MAKE) library )
+	( cd KLU && $(MAKE) library )
+	( cd UMFPACK && $(MAKE) library )
+	( cd RBio && $(MAKE) library )
 ifneq ($(GPU_CONFIG),)
 	( cd SuiteSparse_GPURuntime && $(MAKE) )
 	( cd GPUQREngine && $(MAKE) )
 endif
-	( cd SPQR && $(MAKE) )
+	( cd SPQR && $(MAKE) library )
 #	( cd PIRO_BAND && $(MAKE) )
 #	( cd SKYLINE_SVD && $(MAKE) )
 
@@ -67,7 +67,7 @@ ifeq (,$(MY_METIS_LIB))
 	- $(CP) metis-5.1.0/manual/manual.pdf $(INSTALL_DOC)/METIS_manual.pdf
 	- $(CP) metis-5.1.0/README.txt $(INSTALL_DOC)/METIS_README.txt
         # the following is needed only on the Mac, so *.dylib is hardcoded:
-	$(SO_INSTALL_NAME) $(INSTALL_LIB)/libmetis.dylib $(INSTALL_LIB)/libmetis.dylib
+	- $(SO_INSTALL_NAME) $(INSTALL_LIB)/libmetis.dylib $(INSTALL_LIB)/libmetis.dylib
 	- $(CP) include/metis.h $(INSTALL_INCLUDE)
 	chmod 755 $(INSTALL_LIB)/libmetis.*
 	chmod 644 $(INSTALL_INCLUDE)/metis.h

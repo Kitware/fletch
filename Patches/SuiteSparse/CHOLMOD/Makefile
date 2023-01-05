@@ -33,6 +33,7 @@ library:
 #-------------------------------------------------------------------------------
 
 I = -I../../AMD/Include -I../../AMD/Source -I../../COLAMD/Include \
+	-I../../CCOLAMD/Include -I../../CAMD/Include \
 	$(I_WITH_PARTITION) -I../Include -I../../SuiteSparse_config \
 	$(CUDA_INC)
 
