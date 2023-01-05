@@ -1,7 +1,3 @@
-if (NOT fletch_BUILD_CXX11)
-  message(FATAL_ERROR "CXX11 must be enabled to use pybind11")
-endif()
-
 if (PYTHON_EXECUTABLE)
   set(pybind_PYTHON_ARGS -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE})
 endif()

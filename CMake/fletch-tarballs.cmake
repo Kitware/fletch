@@ -159,9 +159,9 @@ set(GFlags_dlname "gflags-${GFlags_version}.tar.gz")
 list(APPEND fletch_external_sources GFlags)
 
 # GLog
-set(GLog_version "0.3.5")
+set(GLog_version "0.6.0")
 set(GLog_url "https://github.com/google/glog/archive/v${GLog_version}.tar.gz")
-set(GLog_md5 "5df6d78b81e51b90ac0ecd7ed932b0d4")
+set(GLog_md5 "c98a6068bc9b8ad9cebaca625ca73aa2")
 set(GLog_dlname "glog-${GLog_version}.tar.gz")
 list(APPEND fletch_external_sources GLog)
 
@@ -192,15 +192,15 @@ if(NOT WIN32)
 endif()
 
 #SuiteSparse
-set(SuiteSparse_version 4.4.5)
+set(SuiteSparse_version 4.5.6)
 set(SuiteSparse_url "http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-${SuiteSparse_version}.tar.gz")
-set(SuiteSparse_md5 "a2926c27f8a5285e4a10265cc68bbc18")
+set(SuiteSparse_md5 "eeb87a842a9b3b0425cf08d97fb3c5ec")
 list(APPEND fletch_external_sources SuiteSparse)
 
 # Ceres Solver
-set(Ceres_version 1.14.0)
+set(Ceres_version 2.1.0)
 set(Ceres_url "http://ceres-solver.org/ceres-solver-${Ceres_version}.tar.gz")
-set(Ceres_md5 "fd9b4eba8850f0f2ede416cd821aafa5")
+set(Ceres_md5 "b75911efa91f7f1c03345fe8504be48e")
 set(Ceres_dlname "ceres-solver-${Ceres_version}.tar.gz")
 list(APPEND fletch_external_sources Ceres)
 

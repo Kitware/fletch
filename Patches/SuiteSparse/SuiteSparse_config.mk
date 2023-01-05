@@ -97,6 +97,12 @@ F77LIB =
 # For "make install"
 INSTALL_LIB = @fletch_BUILD_INSTALL_PREFIX@/lib
 INSTALL_INCLUDE = @fletch_BUILD_INSTALL_PREFIX@/include
+INSTALL_DOC = @fletch_BUILD_INSTALL_PREFIX@/doc
+
+SO_TARGET = $(LIBRARY).so.$(VERSION)
+SO_PLAIN  = $(LIBRARY).so
+SO_MAIN   = $(LIBRARY).so.$(SO_VERSION)
+SO_OPTS   = -shared -Wl,-soname -Wl,$(SO_MAIN)
 
 # Which version of MAKE you are using (default is "make")
 # MAKE = make

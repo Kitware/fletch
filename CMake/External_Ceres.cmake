@@ -1,3 +1,6 @@
+if (NOT fletch_BUILD_CXX17)
+  message(FATAL_ERROR "Ceres requires C++17 support, please enable fletch_BUILD_CXX17")
+endif()
 
 # Set Eigen dependency
 if (fletch_ENABLE_Eigen)
@@ -84,6 +87,8 @@ if(WIN32)
 else()
   set(Ceres_DIR \${fletch_ROOT}/lib/cmake/Ceres)
 endif()
+
+find_package(Ceres @Ceres_version@ REQUIRED)
 
 set(fletch_ENABLED_Ceres TRUE)
 ")

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.10.0)
 project(fletch)
 
 # Policy to address @foo@ variable expansion
@@ -75,11 +75,11 @@ include(${fletch_CMAKE_DIR}/Utils.cmake)
 add_custom_target(Download)
 add_custom_target(fletch-build-install)
 
-# Include CXX11 support
-set(fletch_CXX_STANDARD_VERSION "98")
-option(fletch_BUILD_CXX11 "" TRUE)
-if (fletch_BUILD_CXX11)
-  set(fletch_CXX_STANDARD_VERSION "11")
+set(fletch_CXX_STANDARD_VERSION "11")
+# Include CXX17 support
+option(fletch_BUILD_CXX17 "Enable C++17 standard" TRUE)
+if (fletch_BUILD_CXX17)
+  set(fletch_CXX_STANDARD_VERSION "17")
 endif()
 
 #
