@@ -37,23 +37,12 @@ if (fletch_ENABLE_GFlags)
       )
 endif()
 
-set (Ceres_PATCH_DIR ${fletch_SOURCE_DIR}/Patches/Ceres/${Ceres_version})
-if (EXISTS ${Ceres_PATCH_DIR})
-  set (Ceres_PATCH_COMMAND ${CMAKE_COMMAND}
-    -DCeres_patch=${Ceres_PATCH_DIR}
-    -DCeres_source=${fletch_BUILD_PREFIX}/src/Ceres
-    -P ${Ceres_PATCH_DIR}/Patch.cmake)
-else()
-  set (Ceres_PATCH_COMMAND "")
-endif()
-
 ExternalProject_Add(Ceres
   DEPENDS ${Ceres_DEPENDS}
   URL ${Ceres_file}
   URL_MD5 ${Ceres_md5}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${Ceres_PATCH_COMMAND}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DBUILD_SHARED_LIBS:BOOL=ON
