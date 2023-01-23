@@ -10,6 +10,13 @@ configure_file(
   COPYONLY
 )
 
+# Add patch to read KLV profile from descriptors.
+configure_file(
+  ${FFmpeg_patch}/mpegts.c
+  ${FFmpeg_source}/libavformat/
+  COPYONLY
+ )
+
 # Add patch to write unregistered SEI user data.
 configure_file(
   ${FFmpeg_patch}/libx264.c
