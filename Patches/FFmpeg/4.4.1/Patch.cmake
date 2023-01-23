@@ -15,4 +15,26 @@ configure_file(
   ${FFmpeg_patch}/mpegts.c
   ${FFmpeg_source}/libavformat/
   COPYONLY
+ )
+
+# Add patch to write unregistered SEI user data.
+configure_file(
+  ${FFmpeg_patch}/libx264.c
+  ${FFmpeg_source}/libavcodec/
+  COPYONLY
+)
+configure_file(
+  ${FFmpeg_patch}/libx265.c
+  ${FFmpeg_source}/libavcodec/
+  COPYONLY
+)
+configure_file(
+  ${FFmpeg_patch}/nvenc.c
+  ${FFmpeg_source}/libavcodec/
+  COPYONLY
+)
+configure_file(
+  ${FFmpeg_patch}/nvenc.h
+  ${FFmpeg_source}/libavcodec/
+  COPYONLY
 )

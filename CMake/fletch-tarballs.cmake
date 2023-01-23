@@ -22,19 +22,20 @@
 #-
 
 # Boost
-# Support 1.55.0 (Default) and 1.65.1 optionally
-if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(Boost_SELECT_VERSION 1.65.1 CACHE STRING "Select the major version of Boost to build.")
-  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.55.0" "1.65.1")
+
+# Support 1.78.0 (Default) and 1.65.1 optionally
+if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
+  set(Boost_SELECT_VERSION 1.78.0 CACHE STRING "Select the major version of Boost to build.")
+  set_property(CACHE Boost_SELECT_VERSION PROPERTY STRINGS "1.78.0" "1.65.1")
+  string(REGEX REPLACE "\\\." "_" Boost_version_underscore ${Boost_SELECT_VERSION})
   message(STATUS "Boost Select version: ${Boost_SELECT_VERSION}")
 
   if(Boost_SELECT_VERSION VERSION_EQUAL 1.65.1)
-    # Boost 1.65.1
-    set(Boost_major_version 1)
-    set(Boost_minor_version 65)
-    set(Boost_patch_version 1)
-    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_major_version}_${Boost_minor_version}_${Boost_patch_version}.tar.bz2")
+    set(Boost_url "http://sourceforge.net/projects/boost/files/boost/${Boost_SELECT_VERSION}/boost_${Boost_version_underscore}.tar.bz2")
     set(Boost_md5 "41d7542ce40e171f3f7982aff008ff0d")
+  elseif(Boost_SELECT_VERSION VERSION_EQUAL 1.78.0)
+    set(Boost_url "https://boostorg.jfrog.io/artifactory/main/release/${Boost_SELECT_VERSION}/source/boost_${Boost_version_underscore}.tar.gz")
+    set(Boost_md5 "c2f6428ac52b0e5a3c9b2e1d8cc832b5")
   else()
     message(STATUS "Boost_SELECT_VERSION: Not supported")
   endif()
@@ -100,6 +101,15 @@ set(x264_version "bfc87b7a330f75f5c9a21e56081e4b20344f139e")
 set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.tar.bz2")
 set(x264_md5 "fd71fead6422ccb5094207c9d2ad70bd")
 
+# x265
+set(x265_version "3.4")
+set(x265_url "https://github.com/videolan/x265/archive/refs/tags/${x265_version}.tar.gz")
+set(x265_md5 "d867c3a7e19852974cf402c6f6aeaaf3")
+
+# FFmpeg NVidia codec headers
+set(ffnvcodec_version "n11.1.5.1")
+set(ffnvcodec_url "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git")
+
 # FFmpeg
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
@@ -123,6 +133,8 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   list(APPEND fletch_external_sources FFmpeg)
 
   set(fletch_ENABLE_x264 ON CACHE BOOL "Include x264")
+  set(fletch_ENABLE_x265 ON CACHE BOOL "Include x265")
+  set(fletch_ENABLE_ffnvcodec ON CACHE BOOL "Include FFmpeg NVidia codec headers")
 endif()
 
 # EIGEN
@@ -537,43 +549,6 @@ if(NOT WIN32)
     message(ERROR "Protobuf Version ${Protobuf_version} Not Supported")
   endif()
   list(APPEND fletch_external_sources Protobuf )
-endif()
-
-# Caffe
-set(Caffe_SELECT_VERSION "2" CACHE STRING "Select the  version of Caffe to build.")
-set_property(CACHE Caffe_SELECT_VERSION PROPERTY STRINGS "1" "2")
-
-set(Caffe_version ${Caffe_SELECT_VERSION})
-
-if (Caffe_version VERSION_EQUAL 2)
-  # Use the internal kitware hosted Caffe, which contain additional
-  # functionality that has not been merged into the BVLC version.
-  # This is the recommended option.
-  if(WIN32)
-    set(Caffe_version "527f97c0692f116ada7cb97eed8172ef7da05416")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/windows/caffe-fletch-windows.zip")
-    set(Caffe_md5 "4f3f8c56f9bf8f0e7a5534a1080d4ef1")
-  else()
-    set(Caffe_version "7f5cea3b2986a7d2c913b716eb524c27b6b2ba7b")
-    set(Caffe_url "https://gitlab.kitware.com/kwiver/caffe/-/archive/fletch/linux/caffe-fletch-linux.zip")
-    set(Caffe_md5 "8eda68aa96d0bbdd446e2125553f46de")
-  endif()
-else()
-  set(Caffe_version "1.0")
-  set(Caffe_url "https://github.com/BVLC/caffe/archive/${Caffe_version}.tar.gz")
-  set(Caffe_md5 "5fbb0e32e7cd8de3de46e6fe6e4cd2b5")
-endif()
-list(APPEND fletch_external_sources Caffe)
-
-# Caffe-Segnet
-# This segnet code is based on caffe, and calls itself caffe, but much different than caffe
-if(NOT WIN32)
-  set(Caffe_Segnet_version "abcf30dca449245e101bf4ced519f716177f0885")
-  set(Caffe_Segnet_url "https://data.kitware.com/api/v1/file/59de95548d777f31ac641dbb/download/caffe-segnet-abcf30d.zip")
-  set(Caffe_Segnet_md5 "73780d2a1e9761711d4f7b806dd497ef")
-
-  #Move this out when windows is supported
-  list(APPEND fletch_external_sources Caffe_Segnet)
 endif()
 
 # Darknet

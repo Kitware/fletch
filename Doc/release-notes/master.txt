@@ -11,7 +11,7 @@ Updates since v1.5.0
 * Update Eigen from 3.3.7 to 3.3.9
 * Added option to use FFMpeg 4.4.1
 * Patched FFmpeg to write KLV metadata in compliance with MISB standards
+* Patched FFmpeg to write unregistered SEI user data
 * Update GDAL from 2.3.2 to 2.4.4
 * Added option to get OpenCV source for version 4.5.1 from PyPI
 * Added option to use VTK 9.1.0 and made 9.1 the default
-

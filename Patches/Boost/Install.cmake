@@ -18,13 +18,15 @@ if (fletch_BUILD_WITH_PYTHON)
     DESTINATION ${Boost_INSTALL_DIR}/include/boost/python
     USE_SOURCE_PERMISSIONS
     )
-  if( NOT WIN32
-      AND NOT EXISTS ${Boost_INSTALL_DIR}/lib/libboost_python.so
-      AND EXISTS ${Boost_INSTALL_DIR}/lib/libboost_python3.so )
-    execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink
-      ${Boost_INSTALL_DIR}/lib/libboost_python3.so
-      ${Boost_INSTALL_DIR}/lib/libboost_python.so )
-  endif()
+  foreach(pysuffix ${PYTHON_VERSION_MAJOR}
+                   ${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR})
+    if(NOT WIN32
+       AND EXISTS ${Boost_INSTALL_DIR}/lib/libboost_python${pysuffix}.so)
+      execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+        ${Boost_INSTALL_DIR}/lib/libboost_python${pysuffix}.so
+        ${Boost_INSTALL_DIR}/lib/libboost_python.so)
+    endif()
+  endforeach()
 endif()
 
 if(WIN32)
