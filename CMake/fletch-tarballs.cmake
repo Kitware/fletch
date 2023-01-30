@@ -220,15 +220,6 @@ if(WIN32)
   set(jom_md5 "a021066aefcea8999b382b1c7c12165e")
 endif()
 
-# libjson
-set(libjson_version_major 7)
-set(libjson_version_minor 6)
-set(libjson_version_patch 1)
-set(libjson_version "${libjson_version_major}.${libjson_version_minor}.${libjson_version_patch}")
-set(libjson_url "http://sourceforge.net/projects/libjson/files/libjson_${libjson_version}.zip")
-set(libjson_md5 "82f3fcbf9f8cf3c4e25e1bdd77d65164")
-list(APPEND fletch_external_sources libjson)
-
 # shapelib
 set(shapelib_version 1.4.1)
 set(shapelib_url "http://download.osgeo.org/shapelib/shapelib-${shapelib_version}.tar.gz")

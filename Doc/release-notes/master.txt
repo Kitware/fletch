@@ -20,3 +20,4 @@ Updates since v1.5.0
 * Update Ceres from 1.14.0 to 2.1.0
 * Update GLog from 0.3.5 to 0.6.0
 * Update SuiteSparse from 4.4.5 to 4.5.6
+* Remove libjson from Fletch
