@@ -118,8 +118,8 @@ minimum required version of CMake is 3.3.0, but newer versions are strongly
 recommended.
 
 Currently, a compiler with at C++11 support is expected (e.g. GCC 4.8, Visual
-Studio 2015) is required.  KWIVER requires C++11; however, Fletch may compile
-with older compilers.
+Studio 2015) is required.  KWIVER requires C++17 and some packages may require
+C++17 as well.
 
 CMake Options
 -------------
