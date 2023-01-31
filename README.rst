@@ -118,8 +118,8 @@ minimum required version of CMake is 3.3.0, but newer versions are strongly
 recommended.
 
 Currently, a compiler with at C++11 support is expected (e.g. GCC 4.8, Visual
-Studio 2015) is required.  KWIVER requires C++11; however, Fletch may compile
-with older compilers.
+Studio 2015) is required.  KWIVER requires C++17 and some packages may require
+C++17 as well.
 
 CMake Options
 -------------
@@ -137,7 +137,7 @@ want the C++ libraries built.
 ``fletch_ENABLE_ALL_PACKAGES`` Turn all packages on
                                (you can turn some back off later)
 ``fletch_BUILD_WITH_PYTHON``   Build all the packages with Python support
-``fletch_BUILD_CXX11``         Build using C++11 compiler options.
+``fletch_BUILD_CXX17``         Build using C++17 compiler options.
                                This is required for KWIVER.
 ``fletch_DOWNLOAD_DIR``        This is where Fletch will cache downloaded source
                                source code tarballs (default is ``src/Downloads``)

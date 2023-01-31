@@ -14,3 +14,10 @@ else()
     @ONLY
     )
 endif()
+
+file( COPY ${SuiteSparse_patch}/CHOLMOD/Makefile
+  DESTINATION ${SuiteSparse_source}/CHOLMOD/Lib
+  )
+file( COPY ${SuiteSparse_patch}/Makefile
+  DESTINATION ${SuiteSparse_source}
+  )
