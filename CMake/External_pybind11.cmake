@@ -6,12 +6,23 @@ if (PYTHON_EXECUTABLE)
   set(pybind_PYTHON_ARGS -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE})
 endif()
 
+# If a patch file exists, apply it
+set (pybind11_patch ${fletch_SOURCE_DIR}/Patches/pybind11/${pybind11_version})
+if (EXISTS ${pybind11_patch})
+  set(pybind11_PATCH_COMMAND ${CMAKE_COMMAND}
+      -Dpybind11_patch:PATH=${pybind11_patch}
+      -Dpybind11_source:PATH=${fletch_BUILD_PREFIX}/src/pybind11
+      -P ${pybind11_patch}/Patch.cmake
+    )
+endif()
+
 ExternalProject_Add(pybind11
   URL ${pybind11_url}
   URL_MD5 ${pybind11_md5}
   DOWNLOAD_NAME ${pybind11_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  PATCH_COMMAND ${pybind11_PATCH_COMMAND}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_STANDARD=17
