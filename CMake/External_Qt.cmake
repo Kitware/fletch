@@ -141,7 +141,7 @@ if(WIN32)
 else()
   set(env ${CMAKE_COMMAND} -E env)
 
-  set(configure_env_var PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig)
+  set(configure_env_var PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig DUMMYMAKEENVVAR="$(MAKE)")
   if(NOT "$ENV{PKG_CONFIG_PATH}" STREQUAL "")
     set(configure_env_var "${configure_env_var}:$ENV{PKG_CONFIG_PATH}")
   endif()
