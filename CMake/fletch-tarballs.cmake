@@ -114,13 +114,15 @@ set(ffnvcodec_url "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git")
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
   set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
-  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3" "4.4.1")
+  set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3" "4.4.1" "5.1.2")
   mark_as_advanced(FFmpeg_SELECT_VERSION)
 
   set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
   set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
 
-  if (_FFmpeg_version VERSION_EQUAL 4.4.1)
+  if (_FFmpeg_version VERSION_EQUAL 5.1.2)
+    set(FFmpeg_md5 "f44232183ae1ef814eac50dd382a2d7f")
+  elseif (_FFmpeg_version VERSION_EQUAL 4.4.1)
     set(FFmpeg_md5 "493da4b6a946b569fc65775ecde404ea")
   elseif (_FFmpeg_version VERSION_EQUAL 3.3.3)
     set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
