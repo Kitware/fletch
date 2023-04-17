@@ -141,7 +141,11 @@ if(WIN32)
 else()
   set(env ${CMAKE_COMMAND} -E env)
 
-  set(configure_env_var PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig DUMMYMAKEENVVAR="$(MAKE)")
+  set(configure_env_var PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig)
+  if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
+    # Needed to inform some versions of make that ./configure calls make internally
+    set(configure_env_var ${configure_env_var} DUMMYMAKEENVVAR="$(MAKE)")
+  endif()
   if(NOT "$ENV{PKG_CONFIG_PATH}" STREQUAL "")
     set(configure_env_var "${configure_env_var}:$ENV{PKG_CONFIG_PATH}")
   endif()
