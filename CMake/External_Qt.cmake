@@ -3,17 +3,17 @@
 option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
 if (Qt_version VERSION_LESS 5.0.0)
   if(BUILD_Qt_MINIMAL)
-    set(Qt_args_package -no-webkit -no-openssl)
+    set(Qt_args_package -no-webkit -no-sql-mysql -no-openssl)
   else()
     set(Qt_args_package -webkit)
   endif()
 elseif(Qt_version VERSION_LESS 5.12 AND
     CMAKE_CXX_COMPILER_ID MATCHES GNU AND
     CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-      set(Qt_args_package -skip qtwebengine -no-qml-debug -skip wayland)
+      set(Qt_args_package -skip qtwebengine -no-sql-mysql -no-qml-debug -skip wayland)
 else()
   if(BUILD_Qt_MINIMAL)
-    set(Qt_args_package -skip qtwebengine -no-qml-debug)
+    set(Qt_args_package -skip qtwebengine -no-sql-mysql -no-qml-debug)
     if(APPLE)
         #version of Qt being built has a build error in bluetooth on current OS X 10.15
         #current we do not need qtconnectivity
