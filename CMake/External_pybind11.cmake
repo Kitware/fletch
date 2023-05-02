@@ -14,6 +14,7 @@ ExternalProject_Add(pybind11
   ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
+    -DCMAKE_CXX_STANDARD=17
     # PYTHON_EXECUTABLE addded to cover when it's installed in nonstandard loc.
     # But don't pass if python isn't enabled. It will prevent pybind from finding it.
     ${pybind_PYTHON_ARGS}
