@@ -132,12 +132,11 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
     message("Unsupported FFmpeg version ${_FFmpeg_version}")
   endif()
 
-  list(APPEND fletch_external_sources FFmpeg)
-
   set(fletch_ENABLE_x264 ON CACHE BOOL "Include x264")
   set(fletch_ENABLE_x265 ON CACHE BOOL "Include x265")
   set(fletch_ENABLE_ffnvcodec ON CACHE BOOL "Include FFmpeg NVidia codec headers")
 endif()
+list(APPEND fletch_external_sources FFmpeg)
 
 # EIGEN
 set(Eigen_version 3.3.9)
