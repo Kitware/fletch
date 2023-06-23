@@ -1,27 +1,7 @@
-Fletch v1.6.0 Release Notes
+Fletch v1.7.0 Release Notes
 ===========================
 
-This is a minor release of Fletch that provides both new functionality and fixes over the previous v1.5.0 release.
+This is a minor release of Fletch that provides both new functionality and fixes over the previous v1.6.0 release.
 
-There are many other changes in this release. These are detailed in the change log below.
-
-Updates since v1.5.0
+Updates since v1.6.0
 --------------------
-
-* Updated Eigen from 3.3.7 to 3.3.9
-* Added options to use FFMpeg 4.4.1, 5.1.2
-* Patched FFmpeg to write KLV metadata in compliance with MISB standards
-* Patched FFmpeg to write unregistered SEI user data
-* Patched FFmpeg to record KLV synchronicity
-* Updated GDAL from 2.3.2 to 2.4.4
-* Added option to get OpenCV source for version 4.5.1 from PyPI
-* Added option to use VTK 9.1.0 and made 9.1 the default
-* Disabled Qt in VTK if it is not present
-* Added x264, x265, ffnvcodec
-* Patched PDAL to be compatible with C++17
-* Updated yaml-cpp to 0.7.0
-* Removed Caffe
-* Updated Boost to 1.78.0
-* Patched Qt jobserver bug when using certain versions of make
-* Set pybind11 to build with C++17
-* Ensured FFmpeg appears as an option in CMakeCache.txt when not enabled
