@@ -602,9 +602,9 @@ set(ZeroMQ_dlname "ZeroMQ-v${ZeroMQ_version}.tar.gz")
 list(APPEND fletch_external_sources ZeroMQ)
 
 # CPP ZeroMQ header
-set(cppzmq_version "4.2.3")
+set(cppzmq_version "4.10.0")
 set(cppzmq_url "https://github.com/zeromq/cppzmq/archive/v${cppzmq_version}.zip")
-set(cppzmq_md5 "f5a2ef3a4d47522fcb261171eb7ecfc4")
+set(cppzmq_md5 "b3110cc4146126cfde994f1fd8ae904b")
 set(cppzmq_dlname "cppzmq-v${cppzmq_version}.zip")
 list(APPEND fletch_external_sources cppzmq)
 
