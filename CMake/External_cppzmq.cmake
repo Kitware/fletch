@@ -3,9 +3,10 @@
 # dependency to "install" the cppzmq header. If ZeroMQ is not enabled, a
 # warning is shown.
 
-if(NOT fletch_ENABLE_ZeroMQ)
-  message(WARNING "cppzmq module enabled without ZeroMQ! Only the header will be installed!")
-endif()
+add_package_dependency(
+  PACKAGE cppzmq
+  PACKAGE_DEPENDENCY ZeroMQ
+)
 
 ExternalProject_Add(cppzmq
   URL ${cppzmq_url}
@@ -13,10 +14,6 @@ ExternalProject_Add(cppzmq
   DOWNLOAD_NAME ${cppzmq_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-   -Dcppzmq_patch:PATH=${fletch_SOURCE_DIR}/Patches/cppzmq
-   -Dcppzmq_source:PATH=${fletch_BUILD_PREFIX}/src/cppzmq
-   -P ${fletch_SOURCE_DIR}/Patches/cppzmq/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
