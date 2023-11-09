@@ -54,6 +54,10 @@ list(APPEND libtiff_args
   -DZLIB_LIBRARY_RELEASE=${ZLIB_LIBRARY_DEBUG}
   )
 
+option(libtiff_ENABLE_OPENGL "" ON)
+mark_as_advanced(libtiff_ENABLE_OPENGL)
+list(APPEND libtiff_args "-DENABLE_OPENGL:BOOL=${libtiff_ENABLE_OPENGL}")
+
 ExternalProject_Add(libtiff
   DEPENDS ${libtiff_DEPENDS}
   URL ${libtiff_url}
