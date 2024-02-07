@@ -560,9 +560,22 @@ set(Darnet_dlname "darknent-d206b6da7af1f4.zip")
 list(APPEND fletch_external_sources Darknet)
 
 # pybind11
-set(pybind11_version "2.10.3")
+if (fletch_ENABLE_pybind11 OR fletch_ENABLE_ALL_PACKAGES)
+  set(pybind11_SELECT_VERSION 2.5.0 CACHE STRING "Select the version of pybind11 to build.")
+  set_property(CACHE pybind11_SELECT_VERSION PROPERTY STRINGS "2.5.0" "2.10.3")
+endif()
+
+set(pybind11_version ${pybind11_SELECT_VERSION})
+
+if (pybind11_version VERSION_EQUAL 2.5.0)
+  set(pybind11_md5 "1ad2c611378fb440e8550a7eb6b31b89" )
+elseif (pybind11_version VERSION_EQUAL 2.10.3)
+  set(pybind11_md5 "a093dac9dfd613a5a7c2afa50a301098" )
+elseif(pybind11_version)
+  message(ERROR "pybind11 Version ${pybind11_version} Not Supported")
+endif()
+
 set(pybind11_url "https://github.com/pybind/pybind11/archive/v${pybind11_version}.tar.gz")
-set(pybind11_md5 "a093dac9dfd613a5a7c2afa50a301098")
 set(pybind11_dlname "pybind11-${pybind11_version}.tar.gz")
 list(APPEND fletch_external_sources pybind11)
 
