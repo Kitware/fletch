@@ -9,3 +9,10 @@ configure_file(
   ${FFmpeg_source}/libavformat/
   COPYONLY
  )
+
+ # Add patch to adapt to changing Vulkan API.
+configure_file(
+  ${FFmpeg_patch}/hwcontext_vulkan.c
+  ${FFmpeg_source}/libavutil/
+  COPYONLY
+ )
