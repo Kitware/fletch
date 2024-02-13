@@ -84,6 +84,9 @@ else()
     # Note: previously this var disabled curl and netcdf which are now handled
     # by _GDAL_ARGS_UNSUPPORTED
     set(_GDAL_ARGS_APPLE --without-libtool --with-local=/usr)
+  else ()
+    list(INSERT GDAL_CONFIGURE_COMMAND 0
+      LDFLAGS=-Wl,-rpath,<INSTALL_DIR>/lib)
   endif()
 
   # GDAL uses a configure based build system, so its important to disable
