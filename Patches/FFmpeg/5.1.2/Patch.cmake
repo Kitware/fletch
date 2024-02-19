@@ -3,6 +3,13 @@
 # External_FFmpeg.cmake.
 #-
 
+# Add patch to write KLV descriptors as required by MISB 1402.
+configure_file(
+  ${FFmpeg_patch}/mpegtsenc.c
+  ${FFmpeg_source}/libavformat/
+  COPYONLY
+)
+
 # Add patch to read KLV profile from descriptors.
 configure_file(
   ${FFmpeg_patch}/mpegts.c
