@@ -267,24 +267,24 @@ list(APPEND fletch_external_sources libkml)
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
   set(Qt_SELECT_VERSION 5.11.2 CACHE STRING "Select the version of Qt to build.")
-  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2" "5.12.8")
+  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2" "5.12.8" "5.15.12")
 
   set(Qt_version ${Qt_SELECT_VERSION})
   string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
   list(GET Qt_VERSION_LIST 0 Qt_version_major)
   list(GET Qt_VERSION_LIST 1 Qt_version_minor)
   list(GET Qt_VERSION_LIST 2 Qt_version_patch)
-  set(Qt_release_location new_archive) # official_releases or new_archive
 
   if (Qt_version VERSION_EQUAL 5.11.2)
     set(Qt_url "https://data.kitware.com/api/v1/file/600f0f492fa25629b91171ed/download/qt-everywhere-src-5.11.2.tar.xz")
     set(Qt_md5 "152a8ade9c11fe33ff5bc95310a1bb64")
   elseif (Qt_version VERSION_EQUAL 5.12.8)
-    set(Qt_release_location archive) # official_releases or new_archive
-    set(Qt_url "https://download.qt.io/${Qt_release_location}/qt/5.12/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
+    set(Qt_url "https://download.qt.io/archive/qt/5.12/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
     set(Qt_md5 "8ec2a0458f3b8e9c995b03df05e006e4")
+  elseif (Qt_version VERSION_EQUAL 5.15.12)
+    set(Qt_url "https://download.qt.io/archive/qt/5.15/${Qt_version}/single/qt-everywhere-opensource-src-${Qt_version}.tar.xz")
+    set(Qt_md5 "3fb1cd4f763f5d50d491508b7b99fb77")
   elseif (Qt_version VERSION_EQUAL 4.8.6)
-    set(Qt_release_location new_archive)
     set(Qt_url "https://data.kitware.com/api/v1/file/600f20782fa25629b9119696/download/qt-everywhere-opensource-src-4.8.6.tar.gz")
     set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
   else()
@@ -294,10 +294,10 @@ endif()
 list(APPEND fletch_external_sources Qt)
 
 # OpenCV
-# Support 3.4, 4.2, and 4.5.1 optionally
+# Support 3.4, 4.2, 4.5.1, 4.9 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0" "4.5.1")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0" "4.5.1" "4.9.0")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
   # Pulling from pypi for version 4.5.1
@@ -321,7 +321,10 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
   endif()
 
   # Paired contrib repo information
-  if (OpenCV_version VERSION_EQUAL 4.5.1)
+  if (OpenCV_version VERSION_EQUAL 4.9.0)
+    set(OpenCV_md5 "872cf2ded2c5e79cb5904563c0b35bf4")
+    set(OpenCV_contrib_md5 "e103e5c766c794f8c58435feca7e14d2")
+  elseif (OpenCV_version VERSION_EQUAL 4.5.1)
     if (fletch_USE_PYPI_OPENCV)
       set(OpenCV_md5 "0e178bd601b25a0a1ee0cd1e8c81bec0")
     else()
