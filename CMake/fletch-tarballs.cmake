@@ -267,7 +267,7 @@ list(APPEND fletch_external_sources libkml)
 if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     fletch_ENABLE_ALL_PACKAGES)
   set(Qt_SELECT_VERSION 5.11.2 CACHE STRING "Select the version of Qt to build.")
-  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "4.8.6" "5.11.2" "5.12.8" "5.15.12")
+  set_property(CACHE Qt_SELECT_VERSION PROPERTY STRINGS "5.11.2" "5.12.8" "5.15.12")
 
   set(Qt_version ${Qt_SELECT_VERSION})
   string(REPLACE "." ";" Qt_VERSION_LIST ${Qt_version})
@@ -282,11 +282,11 @@ if (fletch_ENABLE_Qt OR fletch_ENABLE_VTK OR fletch_ENABLE_qtExtensions OR
     set(Qt_url "https://download.qt.io/archive/qt/5.12/${Qt_version}/single/qt-everywhere-src-${Qt_version}.tar.xz")
     set(Qt_md5 "8ec2a0458f3b8e9c995b03df05e006e4")
   elseif (Qt_version VERSION_EQUAL 5.15.12)
-    set(Qt_url "https://download.qt.io/archive/qt/5.15/${Qt_version}/single/qt-everywhere-opensource-src-${Qt_version}.tar.xz")
+    # source URL, very slow:
+    # set(Qt_url "https://download.qt.io/archive/qt/5.15/${Qt_version}/single/qt-everywhere-opensource-src-${Qt_version}.tar.xz")
+    # local mirror:
+    set(Qt_url "https://www.paraview.org/files/dependencies/qt-everywhere-opensource-src-${Qt_version}.tar.xz")
     set(Qt_md5 "3fb1cd4f763f5d50d491508b7b99fb77")
-  elseif (Qt_version VERSION_EQUAL 4.8.6)
-    set(Qt_url "https://data.kitware.com/api/v1/file/600f20782fa25629b9119696/download/qt-everywhere-opensource-src-4.8.6.tar.gz")
-    set(Qt_md5 "2edbe4d6c2eff33ef91732602f3518eb")
   else()
     message(ERROR "Qt Version \"${Qt_version}\" Not Supported")
   endif()

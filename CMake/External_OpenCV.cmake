@@ -265,6 +265,12 @@ if (EXISTS ${OpenCV_patch})
     )
 endif()
 
+# explicitly enable non-free components in newest OpenCV
+if (OpenCV_SELECT_VERSION VERSION_GREATER_EQUAL 4.9.0)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DOPENCV_ENABLE_NONFREE:BOOL=ON)
+endif()
+
 # Include link to contrib repo if enabled
 if (fletch_ENABLE_OpenCV_contrib)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
