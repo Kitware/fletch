@@ -7,6 +7,7 @@ if(WIN32)
   set(msys_make ${fletch_BUILD_PREFIX}/src/msys2/usr/bin/make.exe)
   set(msys_env ${fletch_BUILD_PREFIX}/src/msys2/usr/bin/env.exe)
   set(mingw_prefix ${msys_env} MSYSTEM=MINGW64 PATH=/mingw64/bin:/usr/local/bin:/usr/bin:/bin)
+  file(TO_CMAKE_PATH "${fletch_BUILD_INSTALL_PREFIX}" msys_prefix)
 
   ExternalProject_Add(msys2
 	  URL ${msys2_url}
@@ -19,7 +20,7 @@ if(WIN32)
 	  BUILD_COMMAND
 	  ${mingw_prefix} ${msys_bash} -l -c "pacman -Syyq --noconfirm make gcc diffutils yasm nasm git pkgconf mingw-w64-x86_64-nasm mingw-w64-x86_64-gcc mingw-w64-x86_64-SDL2 mingw-w64-x86_64-binutils"
 	  INSTALL_COMMAND
-	  ${mingw_prefix} ${msys_bash} -l -c "cp /mingw64/bin/*.dll ${fletch_BUILD_INSTALL_PREFIX}/bin"
+	  ${mingw_prefix} ${msys_bash} -l -c "cp /mingw64/bin/*.dll ${msys_prefix}/bin"
   )
   fletch_external_project_force_install(PACKAGE msys2)
 
