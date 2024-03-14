@@ -139,10 +139,21 @@ endif()
 list(APPEND fletch_external_sources FFmpeg)
 
 # EIGEN
-set(Eigen_version 3.3.9)
-set(Eigen_url "https://gitlab.com/libeigen/eigen/-/archive/${Eigen_version}/eigen-${Eigen_version}.tar.gz")
-set(Eigen_md5 "609286804b0f79be622ccf7f9ff2b660")
-set(Eigen_dlname "eigen-${Eigen_version}.tar.gz")
+set(Eigen_SELECT_VERSION 3.3.9 CACHE STRING "Select the version of Eigen to build.")
+set_property(CACHE Eigen_SELECT_VERSION PROPERTY STRINGS "3.3.9" "3.4.0")
+mark_as_advanced(Eigen_SELECT_VERSION)
+
+set(_Eigen_version ${Eigen_SELECT_VERSION})
+if(_Eigen_version VERSION_EQUAL 3.3.9)
+  set(Eigen_md5 "609286804b0f79be622ccf7f9ff2b660")
+elseif(_Eigen_version VERSION_EQUAL 3.4.0)
+  set(Eigen_md5 "4c527a9171d71a72a9d4186e65bea559")
+elseif (_Eigen_supported AND _Eigen_version)
+  message("Unsupported Eigen version ${_Eigen_version}")
+endif()
+
+set(Eigen_url "https://gitlab.com/libeigen/eigen/-/archive/${_Eigen_version}/eigen-${_Eigen_version}.tar.gz")
+set(Eigen_dlname "eigen-${_Eigen_version}.tar.gz")
 list(APPEND fletch_external_sources Eigen)
 
 # log4cplus
