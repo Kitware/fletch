@@ -728,8 +728,6 @@ static int mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
             break;
         case AVMEDIA_TYPE_DATA:
             if (codec_id == AV_CODEC_ID_SMPTE_KLV) {
-                put_registration_descriptor(&q, MKTAG('K', 'L', 'V', 'A'));
-
                 if(st->codecpar->profile == FF_PROFILE_KLVA_SYNC) {
                     const char *tag = "KLVA";
                     *q++ = METADATA_DESCRIPTOR;
@@ -751,6 +749,8 @@ static int mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
                     *q++ = 0xc0; /* reserved|metadata_output_leak_rate */
                     *q++ = 0x00;
                     *q++ = 0x00;
+                } else {
+                    put_registration_descriptor(&q, MKTAG('K', 'L', 'V', 'A'));
                 }
             } else if (codec_id == AV_CODEC_ID_TIMED_ID3) {
                 const char *tag = "ID3 ";
