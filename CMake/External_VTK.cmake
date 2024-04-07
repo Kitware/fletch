@@ -65,7 +65,7 @@ set(vtk_cmake_args ${vtk_cmake_args}
   )
 
 # Qt
-if(QT_FOUND)
+if(fletch_ENABLE_Qt)
   if(Qt_version_major EQUAL 4)
     add_package_dependency(
       PACKAGE VTK
