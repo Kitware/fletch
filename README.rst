@@ -21,7 +21,7 @@ Some of the bigger projects that Fletch builds are
  - Boost
  - Eigen
 
-Additionally Fletch builds other projects required by the above like
+Additionally, Fletch builds other projects required by the above such as
 
  - libpng
  - libtiff
@@ -52,7 +52,7 @@ and projects like `MacPorts <https://www.macports.org/>`_ and `Homebrew <https:/
 on MacOS.  However, each package manager has
 its own versions of each of the packages and these are specific to the package
 manager and to the operating system.  If we make KWIVER build against Ubuntu
-16.04 packages it might not build against the packaged versions provided by RHEL
+20.04 packages it might not build against the packaged versions provided by RHEL
 or even another version of Ubuntu.  Furthermore, building on Windows with
 Visual Studio is a challenge because there is no standard package manager
 for Windows.
@@ -84,13 +84,9 @@ Pull the image from Dockerhub::
 
  "docker pull kitware/fletch:latest" (master)
                 or
- "docker pull kitware/fletch:v1.4.1" (release version)
+ "docker pull kitware/fletch:release" (release version)
 
 (`https://hub.docker.com/r/kitware/fletch <https://hub.docker.com/r/kitware/fletch>`_)
-
-or build the Fletch image using the dockerfile::
-
- "docker build -t fletch:tagname ."
 
 
 Building Fletch
@@ -99,27 +95,24 @@ Building Fletch
 Dependencies
 ------------
 
-On Linux systems, Install the following packages before building Fletch::
+On Linux systems, install the following packages before building Fletch::
 
-  # The following example uses the Ubuntu apt-get package manager
+  # The following example uses the Ubuntu (version 20.04 or newer) apt-get package manager.
   # These command may differ depending on your Linux flavor and package manager
   sudo apt-get install build-essential libgl1-mesa-dev
   sudo apt-get install libexpat1-dev
-  sudo apt-get install libgtk2.0-dev
   sudo apt-get install liblapack-dev
-  sudo apt-get install python2.7-dev
+  sudo apt-get install python3.8-dev
 
   # If you are using a RHEL-based system, e.g. RedHat, CentOS or Fedora
   # and enabling GDAL you might need to install redhat-rpm-config.
   {dnf|yum} install redhat-rpm-config
 
 Fletch uses CMake for easy cross-platform compilation. The
-minimum required version of CMake is 3.3.0, but newer versions are strongly
+minimum required version of CMake is 3.15, but newer versions are strongly
 recommended.
 
-Currently, a compiler with at C++11 support is expected (e.g. GCC 4.8, Visual
-Studio 2015) is required.  KWIVER requires C++11; however, Fletch may compile
-with older compilers.
+Currently, a compiler with at least C++17 support is expected (e.g. GCC 11).  KWIVER requires at least C++17; however, Fletch may compile with older compilers.
 
 CMake Options
 -------------
@@ -201,9 +194,9 @@ Running from a shell or cmd window::
   # Also, if using visual studio, you do no need to provide the build type
   cmake -DCMAKE_BUILD_TYPE=Release -Dfletch_ENABLE_ALL_PACKAGES=ON -Dfletch_BUILD_WITH_PYTHON=ON ../../src
 
-  # Again, python is very popular option, but is optional
+  # Again, python is a very popular option, but it is optional
 
-  # If you wish to turn off a package, for example VTK you would do it this way
+  # If you wish to turn off a package, for example VTK, you would do it this way
   cmake -Dfletch_ENABLE_VTK=OFF ../../src
 
 On Linux/OSX/MinGW, execute make
