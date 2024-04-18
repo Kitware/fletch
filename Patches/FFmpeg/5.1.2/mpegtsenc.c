@@ -120,6 +120,7 @@ typedef struct MpegTSWrite {
     int64_t last_pat_ts;
     int64_t last_sdt_ts;
     int64_t last_nit_ts;
+    int omit_sdt;
 
     uint8_t provider_name[256];
 
@@ -1319,9 +1320,10 @@ static void retransmit_si_info(AVFormatContext *s, int force_pat, int force_sdt,
     MpegTSWrite *ts = s->priv_data;
     int i;
 
-    if ((pcr != AV_NOPTS_VALUE && ts->last_sdt_ts == AV_NOPTS_VALUE) ||
-        (pcr != AV_NOPTS_VALUE && pcr - ts->last_sdt_ts >= ts->sdt_period) ||
-        force_sdt
+    if (!ts->omit_sdt &&
+        ((pcr != AV_NOPTS_VALUE && ts->last_sdt_ts == AV_NOPTS_VALUE) ||
+         (pcr != AV_NOPTS_VALUE && pcr - ts->last_sdt_ts >= ts->sdt_period) ||
+         force_sdt)
     ) {
         if (pcr != AV_NOPTS_VALUE)
             ts->last_sdt_ts = FFMAX(pcr, ts->last_sdt_ts);
@@ -2314,6 +2316,8 @@ static const AVOption options[] = {
       OFFSET(pat_period_us), AV_OPT_TYPE_DURATION, { .i64 = PAT_RETRANS_TIME * 1000LL }, 0, INT64_MAX, ENC },
     { "sdt_period", "SDT retransmission time limit in seconds",
       OFFSET(sdt_period_us), AV_OPT_TYPE_DURATION, { .i64 = SDT_RETRANS_TIME * 1000LL }, 0, INT64_MAX, ENC },
+    { "omit_sdt", "Omit the SDT",
+      OFFSET(omit_sdt), AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, ENC },
     { "nit_period", "NIT retransmission time limit in seconds",
       OFFSET(nit_period_us), AV_OPT_TYPE_DURATION, { .i64 = NIT_RETRANS_TIME * 1000LL }, 0, INT64_MAX, ENC },
     { NULL },
