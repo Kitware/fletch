@@ -179,7 +179,6 @@ If you are using ``ccmake`` or the CMake GUI,
 * Set the source and build locations
 * Check the option for ``fletch_ENABLE_ALL_PACKAGES`` and, if desired, ``fletch_BUILD_WITH_PYTHON``
 * Disable any packages that are not needed prior to configuring and generating the build files
-* Update ``FFmpeg_SELECT_VERSION "5.1.2" `` and ``OpenCV_SELECT_VERSION "4.9.0" `` if these are being built
 * Configure
 * Generate the build files
 
