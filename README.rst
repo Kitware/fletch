@@ -88,6 +88,9 @@ Pull the image from Dockerhub::
 
 (`https://hub.docker.com/r/kitware/fletch <https://hub.docker.com/r/kitware/fletch>`_)
 
+or build the Fletch image using the dockerfile:
+
+"docker build -t fletch:tagname ."
 
 Building Fletch
 ===============
@@ -122,7 +125,8 @@ Some projects will require other projects to be enabled.  Unless you are looking
 for a minimal build, the best way to get started is to set
 ``fletch_ENABLE_ALL_PACKAGES`` to ``ON`` and run the CMake configure step to
 enable all packages.  You can then individually turn off packages you don't
-want.  It is also useful to enable ``fletch_BUILD_WITH_PYTHON`` unless you only
+want by using the CMake GUI with the command ``ccmake .``, described below.
+It is also useful to enable ``fletch_BUILD_WITH_PYTHON`` unless you only
 want the C++ libraries built.
 
 ============================== ====================================================
@@ -142,7 +146,7 @@ Running CMake
 -------------
 
 You may run cmake directly from a shell or cmd window.
-On unix systems, the ccmake tool allows for interactive selection of CMake options.
+On unix systems, the ``ccmake`` tool allows for interactive selection of CMake options.
 Available for all platforms, the CMake GUI can set the source and build directories, options,
 "Configure" and "Generate" the build files all with the click of a few button.
 When running the cmake gui, we also recommend to select the 'Grouped' and 'Advanced' options
@@ -174,6 +178,8 @@ The recommended CMake configuration is to enable all packages and, if desired, p
 If you are using ``ccmake`` or the CMake GUI,
 * Set the source and build locations
 * Check the option for ``fletch_ENABLE_ALL_PACKAGES`` and, if desired, ``fletch_BUILD_WITH_PYTHON``
+* Disable any packages that are not needed prior to configuring and generating the build files
+* Update ``FFmpeg_SELECT_VERSION "5.1.2" `` and ``OpenCV_SELECT_VERSION "4.9.0" `` if these are being built
 * Configure
 * Generate the build files
 
