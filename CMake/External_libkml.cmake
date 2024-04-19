@@ -28,7 +28,6 @@ ExternalProject_Add(libkml
   DEPENDS ${_KML_DEPENDS}
   URL ${libkml_url}
   URL_MD5 ${libkml_md5}
-  DOWNLOAD_NAME ${libkml_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
@@ -57,4 +56,3 @@ set(KML_LIBNAME @KML_LIBNAME@)
 
 set(fletch_ENABLED_libkml TRUE)
 ")
-

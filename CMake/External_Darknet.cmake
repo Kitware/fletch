@@ -57,7 +57,6 @@ ExternalProject_Add(Darknet
   DEPENDS ${Darknet_DEPENDS}
   URL ${Darknet_url}
   URL_MD5 ${Darknet_md5}
-  DOWNLOAD_NAME ${Darnet_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}

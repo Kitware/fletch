@@ -10,7 +10,6 @@ endif()
 ExternalProject_Add(cppzmq
   URL ${cppzmq_url}
   URL_MD5 ${cppzmq_md5}
-  DOWNLOAD_NAME ${cppzmq_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}

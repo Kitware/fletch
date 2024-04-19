@@ -10,7 +10,6 @@ endif()
 ExternalProject_Add(GTest
   URL ${GTest_url}
   URL_MD5 ${GTest_md5}
-  DOWNLOAD_NAME ${GTest_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}

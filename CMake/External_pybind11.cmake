@@ -19,7 +19,6 @@ endif()
 ExternalProject_Add(pybind11
   URL ${pybind11_url}
   URL_MD5 ${pybind11_md5}
-  DOWNLOAD_NAME ${pybind11_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${pybind11_PATCH_COMMAND}

@@ -10,7 +10,6 @@ ExternalProject_Add(GLog
   DEPENDS ${GLog_DEPENDS}
   URL ${GLog_file}
   URL_MD5 ${GLog_md5}
-  DOWNLOAD_NAME ${GLog_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}

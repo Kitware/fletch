@@ -1,7 +1,6 @@
 ExternalProject_Add(log4cplus
     URL ${log4cplus_url}
     URL_MD5 ${log4cplus_md5}
-    DOWNLOAD_NAME ${log4cplus_dlname}
     ${COMMON_EP_ARGS}
     ${COMMON_CMAKE_EP_ARGS}
     CMAKE_ARGS
