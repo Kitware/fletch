@@ -297,13 +297,14 @@ endif()
 list(APPEND fletch_external_sources Qt)
 
 # OpenCV
-# Support 3.4, 4.2, 4.5.1, 4.9 optionally
+# Support 3.4, 4.2, 4.5.1, 4.7, 4.9 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
   set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
-  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0" "4.5.1" "4.9.0")
+  set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0" "4.5.1" "4.7.0" "4.9.0")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
 
+  # Optional contrib repo available for OpenCV version >= 3.x
   list(APPEND fletch_external_sources OpenCV_contrib)
   set(OpenCV_contrib_version "${OpenCV_version}")
 
@@ -313,6 +314,11 @@ if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPE
     set(OpenCV_md5 "872cf2ded2c5e79cb5904563c0b35bf4")
     set(OpenCV_contrib_url "https://data.kitware.com/api/v1/file/6622b161df5a87675edbc0bb/download/opencv-contrib.${OpenCV_version}.zip")
     set(OpenCV_contrib_md5 "e103e5c766c794f8c58435feca7e14d2")
+  elseif (OpenCV_version VERSION_EQUAL 4.7.0)
+    set(OpenCV_url "https://data.kitware.com/api/v1/file/664cd3cf85908871f9b3adb4/download/opencv.${OpenCV_version}.zip")
+    set(OpenCV_md5 "481a9ee5b0761978832d02d8861b8156")
+    set(OpenCV_contrib_url "https://data.kitware.com/api/v1/file/664cd3e985908871f9b3adb7/download/opencv-contrib.${OpenCV_version}.zip")
+    set(OpenCV_contrib_md5 "a3969f1db6732340e492c0323178f6f1")
   elseif (OpenCV_version VERSION_EQUAL 4.5.1)
     if (fletch_USE_PYPI_OPENCV)
       set(OpenCV_url "https://data.kitware.com/api/v1/file/6622b1d4df5a87675edbc0c4/download/opencv.${OpenCV_version}.tar.gz")
