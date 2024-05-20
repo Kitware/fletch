@@ -316,7 +316,6 @@ ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
   URL_MD5 ${OpenCV_md5}
-  DOWNLOAD_NAME ${OpenCV_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   SOURCE_SUBDIR ${OpenCV_SOURCE_DIR}

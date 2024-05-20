@@ -9,7 +9,6 @@ endif()
 ExternalProject_Add(TinyXML1
   URL ${TinyXML1_url}
   URL_MD5 ${TinyXML1_md5}
-  DOWNLOAD_NAME ${TinyXML1_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}

@@ -28,7 +28,6 @@ else()
   ExternalProject_Add(OpenBLAS
     URL ${OpenBLAS_url}
     URL_MD5 ${OpenBLAS_md5}
-    DOWNLOAD_NAME ${OpenBLAS_dlname}
     DEPENDS ${OpenBLAS_DEPENDS}
     ${COMMON_EP_ARGS}
     PATCH_COMMAND ${OpenBLAS_PATCH_COMMAND}

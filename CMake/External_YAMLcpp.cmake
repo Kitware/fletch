@@ -5,7 +5,6 @@ ExternalProject_Add(YAMLcpp
   DEPENDS ${_YAMLCPP_DEPENDS}
   URL ${YAMLcpp_url}
   URL_MD5 ${YAMLcpp_md5}
-  DOWNLOAD_NAME ${YAMLcpp_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS

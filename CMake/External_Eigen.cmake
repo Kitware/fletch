@@ -2,7 +2,6 @@
 ExternalProject_Add(Eigen
   URL ${Eigen_url}
   URL_MD5 ${Eigen_md5}
-  DOWNLOAD_NAME ${Eigen_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}

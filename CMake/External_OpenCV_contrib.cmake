@@ -12,7 +12,6 @@ endif()
 ExternalProject_Add(OpenCV_contrib
   URL ${OpenCV_contrib_url}
   URL_MD5 ${OpenCV_contrib_md5}
-  DOWNLOAD_NAME ${OpenCV_contrib_dlname}
   ${COMMON_EP_ARGS}
 
   # This is a support repository for OpenCV 3.x and does not contain any
