@@ -95,6 +95,13 @@ or build the Fletch image using the dockerfile:
 Building Fletch
 ===============
 
+Building Fletch results in a set of inter-compatable shared libraries suitable
+for use in downstream applications - with the primary consumer being
+`KWIVER <https://github.com/Kitware/kwiver>`_. Using the CMake configuration,
+the user specifies which libraries to build, and Fletch tries to ensure that
+the chosen set is compatible.
+
+
 Dependencies
 ------------
 
