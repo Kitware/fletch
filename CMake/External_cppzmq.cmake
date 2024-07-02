@@ -7,20 +7,34 @@ if(NOT fletch_ENABLE_ZeroMQ)
   message(WARNING "cppzmq module enabled without ZeroMQ! Only the header will be installed!")
 endif()
 
-ExternalProject_Add(cppzmq
-  URL ${cppzmq_url}
-  URL_MD5 ${cppzmq_md5}
-  ${COMMON_EP_ARGS}
-  ${COMMON_CMAKE_EP_ARGS}
-  PATCH_COMMAND ${CMAKE_COMMAND}
-   -Dcppzmq_patch:PATH=${fletch_SOURCE_DIR}/Patches/cppzmq
-   -Dcppzmq_source:PATH=${fletch_BUILD_PREFIX}/src/cppzmq
-   -P ${fletch_SOURCE_DIR}/Patches/cppzmq/Patch.cmake
-  CMAKE_ARGS
-    ${COMMON_CMAKE_ARGS}
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-)
+set(patch_args)
+if (cppzmq_version VERSION_LESS 4.10.0)
+  ExternalProject_Add(cppzmq
+    URL ${cppzmq_url}
+    URL_MD5 ${cppzmq_md5}
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
+    PATCH_COMMAND ${CMAKE_COMMAND}
+    -Dcppzmq_patch:PATH=${fletch_SOURCE_DIR}/Patches/cppzmq
+    -Dcppzmq_source:PATH=${fletch_BUILD_PREFIX}/src/cppzmq
+    -P ${fletch_SOURCE_DIR}/Patches/cppzmq/Patch.cmake
+    CMAKE_ARGS
+      ${COMMON_CMAKE_ARGS}
+      -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+      -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+  )
+else()
+  ExternalProject_Add(cppzmq
+    URL ${cppzmq_url}
+    URL_MD5 ${cppzmq_md5}
+    ${COMMON_EP_ARGS}
+    ${COMMON_CMAKE_EP_ARGS}
+    CMAKE_ARGS
+      ${COMMON_CMAKE_ARGS}
+      -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+      -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+  )
+endif()
 
 # CMake build configuration additions
 

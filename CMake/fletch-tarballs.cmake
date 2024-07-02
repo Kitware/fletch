@@ -618,9 +618,20 @@ set(ZeroMQ_md5 "da43d89dac623d99909fb95e2725fe05")
 list(APPEND fletch_external_sources ZeroMQ)
 
 # CPP ZeroMQ header
-set(cppzmq_version "4.2.3")
-set(cppzmq_url "https://data.kitware.com/api/v1/file/6622b07ddf5a87675edbc049/download/cppzmq.${cppzmq_version}.zip")
-set(cppzmq_md5 "f5a2ef3a4d47522fcb261171eb7ecfc4")
+set(cppzmq_SELECT_VERSION 4.2.3 CACHE STRING "Select the version of cppzmq to build.")
+set_property(CACHE cppzmq_SELECT_VERSION PROPERTY STRINGS "4.2.3" "4.10.0")
+mark_as_advanced(cppzmq_SELECT_VERSION)
+
+set(cppzmq_version ${cppzmq_SELECT_VERSION})
+set(cppzmq_url "https://github.com/zeromq/cppzmq/archive/v${cppzmq_version}.zip")
+if (cppzmq_version VERSION_EQUAL 4.2.3)
+  set(cppzmq_md5 "f5a2ef3a4d47522fcb261171eb7ecfc4")
+elseif (cppzmq_version VERSION_EQUAL 4.10.0)
+  set(cppzmq_md5 "b3110cc4146126cfde994f1fd8ae904b")
+  set(cppzmq_dlname "cppzmq-v${cppzmq_version}.zip")
+else()
+  message("Unsupported cppzmq version ${cppzmq_version}")
+endif()
 list(APPEND fletch_external_sources cppzmq)
 
 #+
