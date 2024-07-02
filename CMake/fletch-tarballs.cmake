@@ -121,25 +121,27 @@ set(yasm_md5 "38802696efbc27554d75d93a84a23183")
 # msys2
 if(WIN32)
   set(msys2_version "20220128")
-  set(msys2_url "https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-${msys2_version}.tar.xz")
+  set(msys2_url "https://data.kitware.com/api/v1/file/6622b0ecdf5a87675edbc0a6/download/msys2.${msys2_version}.tar.xz")
   set(msys2_md5 "45b3be3d1e30d01e0d95d5bd8e75244a")
 endif()
 
 # FFmpeg
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
-  set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
+  set(FFmpeg_SELECT_VERSION 4.4.1 CACHE STRING "Select the version of FFmpeg to build.")
   set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3" "4.4.1")
   mark_as_advanced(FFmpeg_SELECT_VERSION)
 
   set(_FFmpeg_version ${FFmpeg_SELECT_VERSION})
-  set(FFmpeg_url "http://www.ffmpeg.org/releases/ffmpeg-${_FFmpeg_version}.tar.gz")
 
   if (_FFmpeg_version VERSION_EQUAL 4.4.1)
+    set(FFmpeg_url "https://data.kitware.com/api/v1/file/6622b091df5a87675edbc05b/download/ffmpeg.${_FFmpeg_version}.tar.gz")
     set(FFmpeg_md5 "493da4b6a946b569fc65775ecde404ea")
   elseif (_FFmpeg_version VERSION_EQUAL 3.3.3)
+    set(FFmpeg_url "https://data.kitware.com/api/v1/file/6622b08adf5a87675edbc058/download/ffmpeg.${_FFmpeg_version}.tar.gz")
     set(FFmpeg_md5 "f32df06c16bdc32579b7fcecd56e03df")
   elseif (_FFmpeg_version VERSION_EQUAL 2.6.2)
+    set(FFmpeg_url "https://data.kitware.com/api/v1/file/6622b085df5a87675edbc055/download/ffmpeg.${_FFmpeg_version}.tar.gz")
     set(FFmpeg_md5 "412166ef045b2f84f23e4bf38575be20")
   elseif (_FFmpeg_supported AND _FFmpeg_version)
     message("Unsupported FFmpeg version ${_FFmpeg_version}")
