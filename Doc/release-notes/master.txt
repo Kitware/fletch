@@ -1,4 +1,4 @@
-Fletch v1.7.0 Release Notes
+Fletch v1.6.1 Release Notes
 ===========================
 
 This is a minor release of Fletch that provides both new functionality and fixes over the previous v1.6.0 release.
@@ -8,3 +8,4 @@ Updates since v1.6.0
 
 * Made pybind11 versions 2.5.0 and 2.10.3 available as options
 * Patched pybind11 version 2.10.3 to deal with premature deletion of python objects in c++
+* Added cppxmq 4.10.0 as an option
