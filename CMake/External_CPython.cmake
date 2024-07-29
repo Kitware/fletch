@@ -12,7 +12,7 @@ set( PYTHON_BASEPATH
   ${fletch_BUILD_INSTALL_PREFIX}/lib/python${CPython_version} )
 
 set( BUILT_PYTHON_EXE     ${fletch_BUILD_INSTALL_PREFIX}/bin/python )
-set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include )
+set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include/python${CPython_version} )
 set( BUILT_PYTHON_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/ )
 
 if( fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*" )
