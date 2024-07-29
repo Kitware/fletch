@@ -149,7 +149,13 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
 set( fletch_PYTHON_LIBS numpy cython ordered_set )
-set( fletch_PYTHON_LIB_CMDS "numpy==1.19.3" "Cython" "ordered_set" )
+set( fletch_PYTHON_LIB_CMDS "Cython" "ordered_set" )
+
+if( CPython_version VERSION_GREATER_EQUAL "3.8" )
+  list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.23.5")
+else()
+  list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.19.5")
+endif()
 
 if( NOT WIN32 )
   set( fletch_PYTHON_LIBS ${fletch_PYTHON_LIBS} wheel )
