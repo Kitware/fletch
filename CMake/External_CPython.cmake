@@ -52,7 +52,7 @@ if( WIN32 )
       -DPYTHON_BASEPATH:PATH=${PYTHON_BASEPATH}
       -P ${fletch_SOURCE_DIR}/Patches/CPython/install_python_windows.cmake
   )
-  
+
   set( LIBNAME python${CPython_version_major}.lib )
 
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
