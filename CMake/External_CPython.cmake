@@ -12,7 +12,7 @@ set( PYTHON_BASEPATH
   ${fletch_BUILD_INSTALL_PREFIX}/lib/python${CPython_version} )
 
 set( BUILT_PYTHON_EXE     ${fletch_BUILD_INSTALL_PREFIX}/bin/python )
-set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include )
+set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include/python${CPython_version} )
 set( BUILT_PYTHON_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/ )
 
 if( fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*" )
@@ -52,7 +52,7 @@ if( WIN32 )
       -DPYTHON_BASEPATH:PATH=${PYTHON_BASEPATH}
       -P ${fletch_SOURCE_DIR}/Patches/CPython/install_python_windows.cmake
   )
-  
+
   set( LIBNAME python${CPython_version_major}.lib )
 
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
@@ -145,99 +145,3 @@ set( PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_DIR} )
 set( PYTHON_LIBRARY ${PYTHON_LIBRARY} )
 set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 ")
-
-# --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
-
-set( fletch_PYTHON_LIBS numpy cython ordered_set )
-set( fletch_PYTHON_LIB_CMDS "numpy==1.19.3" "Cython" "ordered_set" )
-
-if( NOT WIN32 )
-  set( fletch_PYTHON_LIBS ${fletch_PYTHON_LIBS} wheel )
-  set( fletch_PYTHON_LIB_CMDS ${fletch_PYTHON_LIB_CMDS} "wheel" )
-endif()
-
-# ------------------------- LOOP OVER THE ABOVE --------------------------------
-
-if( WIN32 )
-  set( CUSTOM_PYTHONPATH
-    ${PYTHON_BASEPATH};${PYTHON_BASEPATH}/site-packages;${PYTHON_BASEPATH}/dist-packages )
-  set( CUSTOM_PATH
-    ${fletch_BUILD_INSTALL_PREFIX}/bin )
-  set( CUSTOM_PYTHONHOME
-    ${fletch_BUILD_INSTALL_PREFIX} )
-
-  set( ENV{PYTHONPATH} "${CUSTOM_PYTHONPATH}" )
-  set( ENV{PYTHONHOME} "${CUSTOM_PYTHONHOME}" )
-
-  string( REPLACE ";" "----" CUSTOM_PYTHONPATH "${CUSTOM_PYTHONPATH}" )
-  string( REPLACE ";" "----" CUSTOM_PATH "${CUSTOM_PATH}" )
-  string( REPLACE "/" "\\" CUSTOM_PYTHONHOME "${CUSTOM_PYTHONHOME}" )
-else()
-  set( CUSTOM_PYTHONPATH
-    ${PYTHON_BASEPATH}:${PYTHON_BASEPATH}/site-packages:${PYTHON_BASEPATH}/dist-packages )
-  set( CUSTOM_PATH
-    ${fletch_BUILD_INSTALL_PREFIX}/bin )
-  set( CUSTOM_PYTHONHOME
-    ${fletch_BUILD_INSTALL_PREFIX} )
-endif()
-
-set( fletch_PYTHON_LIBS_DEPS CPython )
-
-if( WIN32 )
-  ExternalProject_Add( CPython-pip
-    DEPENDS ${fletch_PYTHON_LIBS_DEPS}
-    PREFIX ${fletch_BUILD_PREFIX}
-    SOURCE_DIR ${fletch_CMAKE_DIR}
-    USES_TERMINAL_BUILD 1
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND  ${CMAKE_COMMAND}
-        -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
-               "PATH=${CUSTOM_PATH}"
-               "PYTHONUSERBASE=${CUSTOM_PYTHONHOME}"
-      ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/extract_pip.py
-    INSTALL_COMMAND ${CMAKE_COMMAND}
-      -DPYTHON_MAJOR:STRING=${PYTHON_VERSION_MAJOR}
-      -DPYTHON_MINOR:STRING=${PYTHON_VERSION_MINOR}
-      -DSOURCE_DIRECTORY:PATH=${fletch_BUILD_DIR}/build/src/CPython-pip-build
-      -DINSTALL_DIRECTORY:PATH=${fletch_BUILD_INSTALL_PREFIX}
-      -P ${fletch_SOURCE_DIR}/Patches/CPython/install_pip_windows.cmake
-    INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-    LIST_SEPARATOR "----"
-  )
-  set( fletch_PYTHON_LIBS_DEPS ${fletch_PYTHON_LIBS_DEPS} CPython-pip )
-endif()
-
-if( fletch_PYTHON_LIBS )
-  list( LENGTH fletch_PYTHON_LIBS DEP_COUNT )
-  math( EXPR DEP_COUNT "${DEP_COUNT} - 1" )
-
-  foreach( ID RANGE ${DEP_COUNT} )
-
-    list( GET fletch_PYTHON_LIBS ${ID} DEP )
-    list( GET fletch_PYTHON_LIB_CMDS ${ID} CMD )
-
-    set( fletch_PROJECT_LIST ${fletch_PROJECT_LIST} ${DEP} )
-
-    set( PYTHON_DEP_PIP_CMD pip install --user ${CMD} )
-    string( REPLACE " " ";" PYTHON_DEP_PIP_CMD "${PYTHON_DEP_PIP_CMD}" )
-
-    set( PYTHON_DEP_INSTALL
-      ${CMAKE_COMMAND} -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
-                              "PATH=${CUSTOM_PATH}"
-                              "PYTHONUSERBASE=${CUSTOM_PYTHONHOME}"
-        ${PYTHON_EXECUTABLE} -m ${PYTHON_DEP_PIP_CMD}
-      )
-
-    ExternalProject_Add( ${DEP}
-      DEPENDS ${fletch_PYTHON_LIBS_DEPS}
-      PREFIX ${fletch_BUILD_PREFIX}
-      SOURCE_DIR ${fletch_CMAKE_DIR}
-      USES_TERMINAL_BUILD 1
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND ${PYTHON_DEP_INSTALL}
-      INSTALL_COMMAND ""
-      INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
-      LIST_SEPARATOR "----"
-      )
-  endforeach()
-endif()

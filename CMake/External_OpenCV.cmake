@@ -128,7 +128,7 @@ if(fletch_ENABLE_OpenCV_TIFF)
     EMBEDDED
   )
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_TIFF=ON)
-  
+
   if (OpenCV_WITH_libtiff)
     if(NOT TIFF_FOUND)
       get_system_library_name(tiff tiff_lib)
@@ -136,7 +136,7 @@ if(fletch_ENABLE_OpenCV_TIFF)
       set(TIFF_LIBRARY_DEBUG ${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_lib})
       set(TIFF_LIBRARY_RELEASE ${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_lib})
     endif()
-  
+
     list(APPEND OpenCV_EXTRA_BUILD_FLAGS
       -DBUILD_TIFF:BOOL=OFF
       -DTIFF_INCLUDE_DIR:PATH=${TIFF_INCLUDE_DIR}
