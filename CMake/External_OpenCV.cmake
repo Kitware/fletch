@@ -8,6 +8,10 @@ option(fletch_ENABLE_OpenCV_highgui "Build OpenCV's highgui? (generally should b
 mark_as_advanced(fletch_ENABLE_OpenCV_highgui)
 list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_highgui=${fletch_ENABLE_OpenCV_highgui})
 
+if(NOT fletch_ENABLE_OpenCV_highgui AND WIN32)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_DIRECTX=OFF -DWITH_DSHOW=OFF)
+endif()
+
 # Allow OpenCV's GPU option to be explicitly turned off while keeping CUDA for everything else
 if(fletch_BUILD_WITH_CUDA)
   option(fletch_ENABLE_OpenCV_CUDA "Build OpenCV with CUDA support" TRUE )
