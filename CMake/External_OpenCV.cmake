@@ -18,6 +18,7 @@ if(fletch_BUILD_WITH_CUDA)
   mark_as_advanced(fletch_ENABLE_OpenCV_CUDA)
 else()
   unset(fletch_ENABLE_OpenCV_CUDA CACHE)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_NVCUVID=OFF)
 endif()
 
 # Allow OpenCV's FFMPEG option to be explicitly turned off
