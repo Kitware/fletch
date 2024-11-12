@@ -12,7 +12,7 @@ set( PYTHON_BASEPATH
   ${fletch_BUILD_INSTALL_PREFIX}/lib/python${CPython_version} )
 
 set( BUILT_PYTHON_EXE     ${fletch_BUILD_INSTALL_PREFIX}/bin/python )
-set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include )
+set( BUILT_PYTHON_INCLUDE ${fletch_BUILD_INSTALL_PREFIX}/include/python${CPython_version} )
 set( BUILT_PYTHON_LIBRARY ${fletch_BUILD_INSTALL_PREFIX}/ )
 
 if( fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*" )
@@ -52,7 +52,7 @@ if( WIN32 )
       -DPYTHON_BASEPATH:PATH=${PYTHON_BASEPATH}
       -P ${fletch_SOURCE_DIR}/Patches/CPython/install_python_windows.cmake
   )
-  
+
   set( LIBNAME python${CPython_version_major}.lib )
 
   set( BUILT_PYTHON_EXE     ${BUILT_PYTHON_EXE}.exe )
@@ -149,7 +149,13 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
 set( fletch_PYTHON_LIBS numpy cython ordered_set )
-set( fletch_PYTHON_LIB_CMDS "numpy==1.19.3" "Cython" "ordered_set" )
+set( fletch_PYTHON_LIB_CMDS "Cython" "ordered_set" )
+
+if( CPython_version VERSION_GREATER_EQUAL "3.8" )
+  list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.23.5")
+else()
+  list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.19.5")
+endif()
 
 if( NOT WIN32 )
   set( fletch_PYTHON_LIBS ${fletch_PYTHON_LIBS} wheel )
