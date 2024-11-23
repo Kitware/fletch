@@ -148,7 +148,7 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
-set( fletch_PYTHON_LIBS numpy cython ordered_set )
+set( fletch_PYTHON_LIBS cython ordered_set numpy )
 set( fletch_PYTHON_LIB_CMDS "Cython" "ordered_set" )
 
 if( CPython_version VERSION_GREATER_EQUAL "3.8" )
