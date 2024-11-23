@@ -83,6 +83,13 @@ else()
     set( CPYTHON_BUILD_ARGS_STATIC ${CPYTHON_BUILD_ARGS_STATIC} --with-pydebug )
   endif()
 
+  if( CPython_version VERSION_GREATER_EQUAL "3.8" )
+    set( CPYTHON_BUILD_ARGS_STATIC
+       ${CPYTHON_BUILD_ARGS_STATIC}
+       --with-openssl
+    )
+  endif()
+
   set( CPYTHON_BUILD_ARGS_SHARED ${CPYTHON_BUILD_ARGS_STATIC} --enable-shared )
 
   Fletch_Require_Make()
