@@ -294,6 +294,12 @@ if (EXISTS ${OpenCV_patch})
     )
 endif()
 
+# explicitly enable non-free components in newest OpenCV
+if (OpenCV_SELECT_VERSION VERSION_GREATER_EQUAL 4.9.0)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DOPENCV_ENABLE_NONFREE:BOOL=ON)
+endif()
+
 # Include link to contrib repo if enabled
 if (fletch_ENABLE_OpenCV_contrib)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
@@ -341,7 +347,6 @@ ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
   URL_MD5 ${OpenCV_md5}
-  DOWNLOAD_NAME ${OpenCV_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   SOURCE_SUBDIR ${OpenCV_SOURCE_DIR}
@@ -362,6 +367,7 @@ ExternalProject_Add(OpenCV
     -DWITH_JASPER:BOOL=False
     -DWITH_GTK:BOOL=False
     -DWITH_PROTOBUF:BOOL=False
+    -DWITH_LAPACK:BOOL=False
     ${OpenCV_EXTRA_BUILD_FLAGS}
     ${OpenCV_PYTHON_FLAGS}
   )

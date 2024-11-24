@@ -34,7 +34,6 @@ ExternalProject_Add(openjpeg
   URL ${openjpeg_url}
   URL_MD5 ${openjpeg_md5}
   DEPENDS ${openjpeg_DEPENDS}
-  DOWNLOAD_NAME ${openjpeg_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS

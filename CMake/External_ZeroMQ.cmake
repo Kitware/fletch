@@ -1,7 +1,6 @@
 ExternalProject_Add(ZeroMQ
   URL ${ZeroMQ_url}
   URL_MD5 ${ZeroMQ_md5}
-  DOWNLOAD_NAME ${ZeroMQ_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   CMAKE_ARGS

@@ -4,7 +4,7 @@ if (WIN32)
   set (BUILD_CXSPARSE_ONLY ON)
 else()
   set(_suite_sparese_build_shared ${BUILD_SHARED_LIBS})
-  option (BUILD_CXSPARSE_ONLY "Only build the CXSparse portion of SuiteSpars" OFF)
+  option (BUILD_CXSPARSE_ONLY "Only build the CXSparse portion of SuiteSparse" OFF)
 endif()
 
 if (BUILD_CXSPARSE_ONLY)

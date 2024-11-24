@@ -17,24 +17,9 @@ configure_file(
   COPYONLY
  )
 
-# Add patch to write unregistered SEI user data.
+ # Add patch to adapt to changing Vulkan API.
 configure_file(
-  ${FFmpeg_patch}/libx264.c
-  ${FFmpeg_source}/libavcodec/
+  ${FFmpeg_patch}/hwcontext_vulkan.c
+  ${FFmpeg_source}/libavutil/
   COPYONLY
-)
-configure_file(
-  ${FFmpeg_patch}/libx265.c
-  ${FFmpeg_source}/libavcodec/
-  COPYONLY
-)
-configure_file(
-  ${FFmpeg_patch}/nvenc.c
-  ${FFmpeg_source}/libavcodec/
-  COPYONLY
-)
-configure_file(
-  ${FFmpeg_patch}/nvenc.h
-  ${FFmpeg_source}/libavcodec/
-  COPYONLY
-)
+ )

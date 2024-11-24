@@ -72,13 +72,14 @@ if(WIN32)
   set(FFMPEG_COMMAND_PREFIX ${mingw_prefix} ${msys_bash})
   set(FFMPEG_BUILD_COMMAND ${FFMPEG_COMMAND_PREFIX} -c "make -j 8")
   set(FFMPEG_INSTALL_COMMAND ${FFMPEG_COMMAND_PREFIX} -c "make install")
+  file(TO_CMAKE_PATH "${fletch_BUILD_INSTALL_PREFIX}" ffmpeg_prefix)
 
   # We have to transform the path from C:/... to /c/...
   # because : is treated as a delimiter
   set(inner_cmd "env\
 	PKG_CONFIG_PATH=`cygpath ${FFMPEG_PKGCONFIG_PATH}`\
     ${fletch_BUILD_PREFIX}/src/FFmpeg/configure\
-    --prefix=${fletch_BUILD_INSTALL_PREFIX}\
+    --prefix=${ffmpeg_prefix}\
     --enable-runtime-cpudetect\
     ${_FFmpeg_x264}\
     ${_FFmpeg_x265}\

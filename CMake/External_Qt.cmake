@@ -1,27 +1,15 @@
 # The Qt external project for fletch
 
 option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
-if (Qt_version VERSION_LESS 5.0.0)
-  if(BUILD_Qt_MINIMAL)
-    set(Qt_args_package -no-webkit -no-sql-mysql -no-openssl)
-  else()
-    set(Qt_args_package -webkit)
+if(BUILD_Qt_MINIMAL)
+  set(Qt_args_package -skip qtwebengine -no-sql-mysql -no-qml-debug)
+  if(APPLE)
+      #version of Qt being built has a build error in bluetooth on current OS X 10.15
+      #current we do not need qtconnectivity
+      list(APPEND Qt_args_package -skip qtconnectivity)
   endif()
-elseif(Qt_version VERSION_LESS 5.12 AND
-    CMAKE_CXX_COMPILER_ID MATCHES GNU AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-      set(Qt_args_package -skip qtwebengine -no-sql-mysql -no-qml-debug -skip wayland)
 else()
-  if(BUILD_Qt_MINIMAL)
-    set(Qt_args_package -skip qtwebengine -no-sql-mysql -no-qml-debug)
-    if(APPLE)
-        #version of Qt being built has a build error in bluetooth on current OS X 10.15
-        #current we do not need qtconnectivity
-        list(APPEND Qt_args_package -skip qtconnectivity)
-    endif()
-  else()
-    set(Qt_args_package )
-  endif()
+  set(Qt_args_package )
 endif()
 
 
@@ -100,11 +88,7 @@ if(WIN32)
 
   set(JOM_EXE "${fletch_BUILD_PREFIX}/src/jom/jom.exe")
 
-  if (Qt_version VERSION_LESS 5.0.0)
-    set(Qt_configure configure.exe)
-  else()
-    set(Qt_configure configure.bat)
-  endif()
+  set(Qt_configure configure.bat)
 
   if(Qt_WITH_ZLib)
     # Jom needs the path to zlib.dll to build correctly with zlib
@@ -130,33 +114,16 @@ if(WIN32)
   # the second thread will error out because MD fails if the directory exists.  A
   # Work around is to turn off multi threaded builds for install:
   set(Qt_install_cmd ${JOM_EXE} -j1 install)
-  if (Qt_version VERSION_LESS 5.0.0)
-    #We have some trouble determining the correct platform for VS2013 and VS2017
-    if(MSVC12)
-      list(APPEND Qt_args_arch -platform win32-msvc2013)
-    elseif(MSVC AND NOT MSVC_VERSION LESS 1910)
-      list(APPEND Qt_args_arch -platform win32-msvc2017 -make nmake)
-    endif()
-  endif()
 else()
   set(env ${CMAKE_COMMAND} -E env)
 
   set(configure_env_var PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig)
+  if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
+    # Needed to inform some versions of make that ./configure calls make internally
+    set(configure_env_var ${configure_env_var} DUMMYMAKEENVVAR="$(MAKE)")
+  endif()
   if(NOT "$ENV{PKG_CONFIG_PATH}" STREQUAL "")
     set(configure_env_var "${configure_env_var}:$ENV{PKG_CONFIG_PATH}")
-  endif()
-  if (Qt_version VERSION_LESS 5.0.0)
-    if(BUILD_Qt_MINIMAL)
-      list(APPEND Qt_args_package -no-javascript-jit -no-script -no-scripttools)
-    else()
-      set(Qt_args_package -javascript-jit -script -scripttools)
-    endif()
-    # If we are using gcc >= 6.0 we need to turn off -no-script -no-scripttools
-    # until the build is fixed.
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
-      set(BUILD_Qt_MINIMAL TRUE CACHE BOOL "" FORCE)
-      message(STATUS "disabling script for GNU 6.0")
-    endif()
   endif()
 
   Fletch_Require_Make()
@@ -183,29 +150,14 @@ else()
       -qt-libjpeg -qt-pcre -system-zlib -system-libpng)
     if (UNIX AND NOT APPLE)
       list(APPEND Qt_configure
-        -qt-xcb -fontconfig -xkbcommon)
+        -fontconfig -xkbcommon)
+      if (Qt_version VERSION_LESS 5.15)
+        list(APPEND Qt_configure -qt-xcb)
+      endif()
     endif()
   endif()
 
-  if(APPLE)
-    if (Qt_version VERSION_LESS 5.0.0)
-      #Qt does not allow pure debug builds with frameworks.
-      #So far it only appears to cause an issue with APPLE,
-      #Until we decide framework is important, disable it.
-      #For reference, see http://qt-project.org/doc/qt-4.8/debug.html
-      set(Qt_args_framework "-no-framework")
-      set(Qt_args_arch -arch x86_64 -cocoa)
-      if(NOT (CMAKE_SYSTEM_VERSION VERSION_LESS "16"))
-        # Phonon is broken on macOS 10.12+ (Darwin 16+) due to QTKit.framework being removed.
-        list(APPEND Qt_args_other -no-phonon)
-      endif()
-    endif()
-  elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    # Create a spec file for gcc44 on RHEL5
-    if(CMAKE_C_COMPILER MATCHES "gcc44" OR CMAKE_CXX_COMPILER MATCHES "g\\+\\+44")
-      list(APPEND Qt_args_arch -platform linux-g++44)
-    endif()
-
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     # Disable AVX support if the kernel is too old
     string(REGEX MATCH "[0-9]+\\.[0-9]+\\.([0-9]+)?" KERNEL_VERSION "${CMAKE_SYSTEM_VERSION}")
     if(KERNEL_VERSION VERSION_LESS "2.6.30")
@@ -216,10 +168,10 @@ endif()
 
 
 # Set version specific output directory
-if (Qt_version VERSION_LESS 5.0.0)
-  set( Qt_DIR_NAME "qt4" )
-else()
+if (Qt_version VERSION_LESS 6.0.0)
   set( Qt_DIR_NAME "qt5" )
+else()
+  set( Qt_DIR_NAME "qt6" )
 endif()
 
 list( APPEND Qt_configure
@@ -239,22 +191,14 @@ list( APPEND Qt_configure
   ${Qt_args_framework}
   )
 
-if (NOT Qt_version VERSION_LESS 5.0.0)
+if (Qt_version VERSION_LESS 6.0.0)
 # The qtlocation module from Qt5 is currently broken.
 # Disable until a fix is found.
   list( APPEND Qt_configure
     -skip qtlocation )
 endif()
 
-# Additional options for Qt4
-if (Qt_version VERSION_LESS 5.0.0)
-  list( APPEND Qt_configure
-    -nomake demos -nomake translations -nomake linguist
-    -fast )
-endif()
-
-
-if (WIN32 AND NOT (Qt_version VERSION_LESS 5.0.0) )
+if (WIN32)
   # Dynamic OpenGL is the recommended way to build Qt5 on Windows
   # and is required by VTK
   list( APPEND Qt_configure
@@ -262,13 +206,8 @@ if (WIN32 AND NOT (Qt_version VERSION_LESS 5.0.0) )
 endif()
 
 if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  if (Qt_version VERSION_LESS 5.0.0)
-    list (APPEND Qt_configure
-      -platform unsupported/macx-clang )
-  else()
-    list (APPEND Qt_configure
-      -platform macx-clang )
-  endif()
+  list (APPEND Qt_configure
+    -platform macx-clang )
 endif()
 
 # If a patch file exists for this version, apply it
@@ -300,19 +239,7 @@ add_dependencies(Download Qt-download)
 
 fletch_external_project_force_install(PACKAGE Qt)
 
-if(Qt_version VERSION_LESS 5.0.0)
-  set(QT_QMAKE_EXECUTABLE ${fletch_BUILD_INSTALL_PREFIX}/bin/qmake
-    CACHE FILEPATH "" FORCE )
-
-  file(APPEND ${fletch_CONFIG_INPUT} [[
-########################################
-# Qt
-########################################
-set(QT_QMAKE_EXECUTABLE ${fletch_ROOT}/bin/qmake)
-
-set(fletch_ENABLED_Qt TRUE)
-]])
-else()
+if (Qt_version VERSION_LESS 6.0.0)
   set(Qt5_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/Qt5
     CACHE FILEPATH "" FORCE )
 
@@ -321,6 +248,18 @@ else()
 # Qt
 ########################################
 set(Qt5_DIR ${fletch_ROOT}/lib/cmake/Qt5)
+
+set(fletch_ENABLED_Qt TRUE)
+]])
+else()
+  set(Qt6_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/Qt6
+    CACHE FILEPATH "" FORCE )
+
+  file(APPEND ${fletch_CONFIG_INPUT} [[
+########################################
+# Qt
+########################################
+set(Qt6_DIR ${fletch_ROOT}/lib/cmake/Qt6)
 
 set(fletch_ENABLED_Qt TRUE)
 ]])

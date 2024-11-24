@@ -13,7 +13,6 @@ add_package_dependency(
 ExternalProject_Add(LevelDB
   URL ${LevelDB_url}
   URL_MD5 ${LevelDB_md5}
-  DOWNLOAD_NAME ${LevelDB_dlname}
   DEPENDS ${LevelDB_DEPENDS}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}

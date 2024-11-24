@@ -1,7 +1,6 @@
 ExternalProject_Add(GFlags
   URL ${GFlags_url}
   URL_MD5 ${GFlags_md5}
-  DOWNLOAD_NAME ${GFlags_dlname}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
   PATCH_COMMAND ${CMAKE_COMMAND}
