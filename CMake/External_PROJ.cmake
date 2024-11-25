@@ -9,12 +9,19 @@ else()
   find_package(SQLite3 REQUIRED)
 endif()
 
+set(PROJ_PATCH_COMMAND ${CMAKE_COMMAND}
+    -DPROJ_PATCH:PATH=${fletch_SOURCE_DIR}/Patches/PROJ
+    -DPROJ_SOURCE:PATH=${fletch_BUILD_PREFIX}/src/PROJ
+    -P ${fletch_SOURCE_DIR}/Patches/PROJ/Patch.cmake
+  )
+
 ExternalProject_Add(PROJ
   DEPENDS ${PROJ_DEPENDS}
   URL ${PROJ_file}
   URL_MD5 ${PROJ_md5}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  PATCH_COMMAND ${PROJ_PATCH_COMMAND}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     ${PROJ_ARGS_SQLite3}
