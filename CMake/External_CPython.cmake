@@ -159,7 +159,7 @@ set( fletch_PYTHON_LIBS cython ordered_set numpy )
 set( fletch_PYTHON_LIB_CMDS "Cython" "ordered_set" )
 
 if( CPython_version VERSION_GREATER_EQUAL "3.8" )
-  list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.23.5")
+  list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.25.2")
 else()
   list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.19.5")
 endif()
