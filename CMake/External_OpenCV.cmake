@@ -227,7 +227,7 @@ set(OpenCV_PYTHON_FLAGS
 if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_CPython)
   add_package_dependency(
     PACKAGE OpenCV
-    PACKAGE_DEPENDENCY CPython
+    PACKAGE_DEPENDENCY CPython numpy
   )
 endif()
 if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
