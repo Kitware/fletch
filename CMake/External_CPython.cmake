@@ -155,8 +155,7 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
-set( DEFAULT_LIBS "Cython<=3.0.0 ordered_set" )
-set( DEFAULT_HELP "Python libraries to pip install" )
+set( DEFAULT_LIBS "cython<3.0.0 ordered_set" )
 
 if( CPython_version VERSION_GREATER_EQUAL "3.8" )
   set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy==1.25.2" )
@@ -168,6 +167,7 @@ if( NOT WIN32 )
   set( DEFAULT_LIBS "${DEFAULT_LIBS} wheel" )
 endif()
 
+set( DEFAULT_HELP "Python libraries to pip install" )
 set( fletch_PYTHON_LIBRARIES "${DEFAULT_LIBS}" CACHE STRING "${DEFAULT_HELP}" )
 
 set( fletch_PYTHON_LIB_IDS PythonLibs )
