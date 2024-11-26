@@ -155,21 +155,23 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
-set( fletch_PYTHON_LIBS cython ordered_set numpy )
-set( fletch_PYTHON_LIB_CMDS "Cython" "ordered_set" )
+set( DEFAULT_LIBS "Cython<=3.0.0 ordered_set" )
+set( DEFAULT_HELP "Python libraries to pip install" )
 
 if( CPython_version VERSION_GREATER_EQUAL "3.8" )
-  list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.25.2")
+  set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy==1.25.2" )
 else()
-  list( APPEND fletch_PYTHON_LIB_CMDS "numpy==1.19.5")
+  set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy==1.19.5" )
 endif()
 
 if( NOT WIN32 )
-  set( fletch_PYTHON_LIBS ${fletch_PYTHON_LIBS} wheel )
-  set( fletch_PYTHON_LIB_CMDS ${fletch_PYTHON_LIB_CMDS} "wheel" )
+  set( DEFAULT_LIBS "${DEFAULT_LIBS} wheel" )
 endif()
 
-# ------------------------- LOOP OVER THE ABOVE --------------------------------
+set( fletch_PYTHON_LIBRARIES "${DEFAULT_LIBS}" CACHE STRING "${DEFAULT_HELP}" )
+
+set( fletch_PYTHON_LIB_IDS PythonLibs )
+set( fletch_PYTHON_LIB_CMDS "${fletch_PYTHON_LIBRARIES}" )
 
 if( WIN32 )
   set( CUSTOM_PYTHONPATH
@@ -220,13 +222,13 @@ if( WIN32 )
   set( fletch_PYTHON_LIBS_DEPS ${fletch_PYTHON_LIBS_DEPS} CPython-pip )
 endif()
 
-if( fletch_PYTHON_LIBS )
-  list( LENGTH fletch_PYTHON_LIBS DEP_COUNT )
+if( fletch_PYTHON_LIB_IDS )
+  list( LENGTH fletch_PYTHON_LIB_IDS DEP_COUNT )
   math( EXPR DEP_COUNT "${DEP_COUNT} - 1" )
 
   foreach( ID RANGE ${DEP_COUNT} )
 
-    list( GET fletch_PYTHON_LIBS ${ID} DEP )
+    list( GET fletch_PYTHON_LIB_IDS ${ID} DEP )
     list( GET fletch_PYTHON_LIB_CMDS ${ID} CMD )
 
     set( fletch_PROJECT_LIST ${fletch_PROJECT_LIST} ${DEP} )
