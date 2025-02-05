@@ -78,6 +78,7 @@ if(WIN32)
   # because : is treated as a delimiter
   set(inner_cmd "env\
 	PKG_CONFIG_PATH=`cygpath ${FFMPEG_PKGCONFIG_PATH}`\
+	CFLAGS='-Wno-incompatible-pointer-types'\
     ${fletch_BUILD_PREFIX}/src/FFmpeg/configure\
     --prefix=${ffmpeg_prefix}\
     --enable-runtime-cpudetect\
