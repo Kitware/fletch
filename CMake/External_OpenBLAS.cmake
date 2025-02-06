@@ -25,7 +25,7 @@ else()
     set(OpenBLAS_PATCH_COMMAND "")
   endif()
 
-  set(OpenBLAS_ENV DYNAMIC_ARCH=1 NO_AFFINITY=1 NUM_THREADS=32)
+  set(OpenBLAS_ENV DYNAMIC_ARCH=1 NO_AFFINITY=1 TARGET=GENERIC NUM_THREADS=32)
 
   ExternalProject_Add(OpenBLAS
     URL ${OpenBLAS_url}
