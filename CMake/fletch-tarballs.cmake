@@ -566,7 +566,7 @@ list(APPEND fletch_external_sources Darknet)
 
 # pybind11
 if (fletch_ENABLE_pybind11 OR fletch_ENABLE_ALL_PACKAGES)
-  set(pybind11_SELECT_VERSION 2.5.0 CACHE STRING "Select the version of pybind11 to build.")
+  set(pybind11_SELECT_VERSION 2.10.3 CACHE STRING "Select the version of pybind11 to build.")
   set_property(CACHE pybind11_SELECT_VERSION PROPERTY STRINGS "2.5.0" "2.10.3")
 endif()
 
