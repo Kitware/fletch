@@ -126,7 +126,7 @@ endif()
 # FFmpeg
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   # allow different versions to be selected for testing purposes
-  set(FFmpeg_SELECT_VERSION 3.3.3 CACHE STRING "Select the version of FFmpeg to build.")
+  set(FFmpeg_SELECT_VERSION 5.1.2 CACHE STRING "Select the version of FFmpeg to build.")
   set_property(CACHE FFmpeg_SELECT_VERSION PROPERTY STRINGS "2.6.2" "3.3.3" "4.4.1" "5.1.2")
   mark_as_advanced(FFmpeg_SELECT_VERSION)
 
@@ -337,7 +337,7 @@ list(APPEND fletch_external_sources Qt)
 # OpenCV
 # Support 3.4, 4.2, 4.5.1, 4.7, 4.9 optionally
 if (fletch_ENABLE_OpenCV OR fletch_ENABLE_ALL_PACKAGES OR AUTO_ENABLE_CAFFE_DEPENDENCY)
-  set(OpenCV_SELECT_VERSION 3.4.0 CACHE STRING "Select the  version of OpenCV to build.")
+  set(OpenCV_SELECT_VERSION 4.9.0 CACHE STRING "Select the  version of OpenCV to build.")
   set_property(CACHE OpenCV_SELECT_VERSION PROPERTY STRINGS "3.4.0" "4.2.0" "4.5.1" "4.7.0" "4.9.0")
 
   set(OpenCV_version ${OpenCV_SELECT_VERSION})
@@ -603,7 +603,7 @@ list(APPEND fletch_external_sources Darknet)
 
 # pybind11
 if (fletch_ENABLE_pybind11 OR fletch_ENABLE_ALL_PACKAGES)
-  set(pybind11_SELECT_VERSION 2.5.0 CACHE STRING "Select the version of pybind11 to build.")
+  set(pybind11_SELECT_VERSION 2.10.3 CACHE STRING "Select the version of pybind11 to build.")
   set_property(CACHE pybind11_SELECT_VERSION PROPERTY STRINGS "2.5.0" "2.8.1" "2.10.3")
 endif()
 
