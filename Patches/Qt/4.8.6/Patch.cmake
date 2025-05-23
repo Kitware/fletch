@@ -99,6 +99,13 @@ file(COPY
   ${Qt_source}/src/tools/moc)
 
 
+# Workaround to build Qt with GCC 9.0+
+file(COPY
+  ${Qt_patch}/src/corelib/global/qglobal.h
+  DESTINATION
+  ${Qt_source}/src/corelib/global)
+
+
 # gui/widgets
 file(COPY
   ${Qt_patch}/gui/widgets/qcocoamenu_mac.mm
