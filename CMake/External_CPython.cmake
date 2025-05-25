@@ -90,6 +90,13 @@ else()
     )
   endif()
 
+  if( CPython_version VERSION_GREATER_EQUAL "3.13" )
+    set( CPYTHON_BUILD_ARGS_STATIC
+       ${CPYTHON_BUILD_ARGS_STATIC}
+       --disable-gil
+    )
+  endif()
+
   set( CPYTHON_BUILD_ARGS_SHARED ${CPYTHON_BUILD_ARGS_STATIC} --enable-shared )
 
   Fletch_Require_Make()
