@@ -164,7 +164,9 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 
 set( DEFAULT_LIBS "cython<3.0.0 ordered_set" )
 
-if( CPython_version VERSION_GREATER_EQUAL "3.8" )
+if( CPython_version VERSION_GREATER_EQUAL "3.10" )
+  set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy==2.2.6 pip==25.1" )
+elseif( CPython_version VERSION_GREATER_EQUAL "3.8" )
   set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy==1.25.2 pip==25.0" )
 else()
   set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy==1.19.5" )
@@ -198,7 +200,7 @@ else()
   set( CUSTOM_PYTHONPATH
     ${PYTHON_BASEPATH}:${PYTHON_BASEPATH}/site-packages:${PYTHON_BASEPATH}/dist-packages )
   set( CUSTOM_PATH
-    ${fletch_BUILD_INSTALL_PREFIX}/bin )
+    ${fletch_BUILD_INSTALL_PREFIX}/bin:$ENV{PATH} )
   set( CUSTOM_PYTHONHOME
     ${fletch_BUILD_INSTALL_PREFIX} )
 endif()
