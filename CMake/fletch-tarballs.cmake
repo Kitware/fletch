@@ -468,7 +468,7 @@ if (fletch_ENABLE_PostgreSQL OR fletch_ENABLE_ALL_PACKAGES)
   elseif(PostgreSQL_SELECT_VERSION VERSION_EQUAL 10.23)
     # PostgreSQL 10.23
     set(PostgreSQL_version ${PostgreSQL_SELECT_VERSION})
-    set(PostgreSQL_url "https://data.kitware.com/api/v1/item/6837c50a22b9eb620eac12c2/download/postgresql.${PostgreSQL_version}.tar.bz2")
+    set(PostgreSQL_url "https://data.kitware.com/api/v1/file/6837c50a22b9eb620eac12c3/download/postgresql.${PostgreSQL_version}.tar.bz2")
     set(PostgreSQL_md5 "9dee14aaa9843206d20a952be465e01e")
   else()
     message(STATUS "PostgreSQL_SELECT_VERSION: Not supported")
