@@ -36,9 +36,17 @@ add_sources(../../port
   )
 
 #add sources from backend dir
-add_sources(../../backend/libpq
-  md5.c
-  ip.c)
+if(EXISTS ../../backend/libpq/md5.c)
+  # PostgreSQL 9
+  add_sources(../../backend/libpq
+    md5.c
+    ip.c)
+else()
+  # PostgreSQL 10
+  add_sources(../../common
+    md5.c
+    ip.c)
+endif()
 
 #add sources from backend dir
 add_sources(../../common/
