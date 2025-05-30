@@ -1,9 +1,10 @@
 
 if(WIN32)
-  set(_PostgreSQL_BUILD_IN_SOURCE_ARG)
-  set(_PostgreSQL_BUILD_INSTALL_ARG)
-
   if(PostgreSQL_SELECT_VERSION VERSION_LESS 10.23)
+    set(_PostgreSQL_BUILD_IN_SOURCE_ARG)
+    set(_PostgreSQL_BUILD_INSTALL_ARG)
+    set(_PostgreSQL_CONFIGURE_ARG)
+
     set(ARG
       ${COMMON_CMAKE_EP_ARGS}
       CMAKE_ARGS
@@ -15,9 +16,9 @@ if(WIN32)
         -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
       )
   else()
-    set(ARG
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND ""
+    set(_PostgreSQL_BUILD_IN_SOURCE_ARG BUILD_IN_SOURCE 1)
+    set(_PostgreSQL_CONFIGURE_ARG CONFIGURE_COMMAND echo "PostgreSQL Configure")
+    set(_PostgreSQL_BUILD_INSTALL_ARG BUILD_COMMAND echo "PostgreSQL Build"
       INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/bin
                                           ${fletch_BUILD_INSTALL_PREFIX}/bin
               COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/lib
@@ -27,6 +28,7 @@ if(WIN32)
               COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/include
                                           ${fletch_BUILD_INSTALL_PREFIX}/include
       )
+    set(ARG)
   endif()
 else()
   set(_PostgreSQL_ARGS_LIBXML2 --without-libxml)
