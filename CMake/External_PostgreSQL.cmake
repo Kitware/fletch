@@ -16,20 +16,21 @@ if(WIN32)
         -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     )
   else()
+    set(_PostgreSQL_SOURCE ${fletch_BUILD_PREFIX}/src/PostgreSQL)
     set(_PostgreSQL_BUILD_IN_SOURCE_ARG BUILD_IN_SOURCE 1)
     set(_PostgreSQL_CONFIGURE_ARG
-      CONFIGURE_COMMAND ${CMAKE_COMMAND} -E remove ${fletch_BUILD_PREFIX}/src/PostgreSQL/bin/zlib1.dll
-                COMMAND ${CMAKE_COMMAND} -E remove ${fletch_BUILD_PREFIX}/src/PostgreSQL/include/zlib.h
-                COMMAND ${CMAKE_COMMAND} -E remove ${fletch_BUILD_PREFIX}/src/PostgreSQL/lib/zlib.lib
+      CONFIGURE_COMMAND ${CMAKE_COMMAND} -E remove ${_PostgreSQL_SOURCE}/bin/zlib1.dll
+                COMMAND ${CMAKE_COMMAND} -E remove ${_PostgreSQL_SOURCE}/include/zlib.h
+                COMMAND ${CMAKE_COMMAND} -E remove ${_PostgreSQL_SOURCE}/lib/zlib.lib
     )
     set(_PostgreSQL_BUILD_INSTALL_ARG BUILD_COMMAND echo "PostgreSQL Build"
-      INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/bin
+      INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_directory ${_PostgreSQL_SOURCE}/bin
                                           ${fletch_BUILD_INSTALL_PREFIX}/bin
-              COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/lib
+              COMMAND ${CMAKE_COMMAND} -E copy_directory ${_PostgreSQL_SOURCE}/lib
                                           ${fletch_BUILD_INSTALL_PREFIX}/lib
-              COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/share
+              COMMAND ${CMAKE_COMMAND} -E copy_directory ${_PostgreSQL_SOURCE}/share
                                           ${fletch_BUILD_INSTALL_PREFIX}/share
-              COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/include
+              COMMAND ${CMAKE_COMMAND} -E copy_directory ${_PostgreSQL_SOURCE}/include
                                           ${fletch_BUILD_INSTALL_PREFIX}/include
     )
     set(ARG)
