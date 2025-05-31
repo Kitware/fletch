@@ -14,10 +14,14 @@ if(WIN32)
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
         -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-      )
+    )
   else()
     set(_PostgreSQL_BUILD_IN_SOURCE_ARG BUILD_IN_SOURCE 1)
-    set(_PostgreSQL_CONFIGURE_ARG CONFIGURE_COMMAND echo "PostgreSQL Configure")
+    set(_PostgreSQL_CONFIGURE_ARG
+      CONFIGURE_COMMAND ${CMAKE_COMMAND} -E remove ${fletch_BUILD_PREFIX}/src/PostgreSQL/bin/zlib1.dll
+                COMMAND ${CMAKE_COMMAND} -E remove ${fletch_BUILD_PREFIX}/src/PostgreSQL/include/zlib.h
+                COMMAND ${CMAKE_COMMAND} -E remove ${fletch_BUILD_PREFIX}/src/PostgreSQL/lib/zlib.lib
+    )
     set(_PostgreSQL_BUILD_INSTALL_ARG BUILD_COMMAND echo "PostgreSQL Build"
       INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/bin
                                           ${fletch_BUILD_INSTALL_PREFIX}/bin
@@ -27,7 +31,7 @@ if(WIN32)
                                           ${fletch_BUILD_INSTALL_PREFIX}/share
               COMMAND ${CMAKE_COMMAND} -E copy_directory ${fletch_BUILD_PREFIX}/src/PostgreSQL/include
                                           ${fletch_BUILD_INSTALL_PREFIX}/include
-      )
+    )
     set(ARG)
   endif()
 else()
