@@ -24,7 +24,23 @@ if(fletch_LTIDSDK_ROOT)
   set(_GDAL_MSVC_ARGS_LTISDK MRSID_DIR=${fletch_LTIDSDK_ROOT} MRSID_JP2=YES)
 endif()
 
-if (WIN32)
+if (GDAL_SELECT_VERSION VERSION_GREATER_EQUAL 3.5)
+  if (NOT LINUX)
+    message(ERROR "Fletch currenly only supports building GDAL Version \"${GDAL_SELECT_VERSION}\" for Linux.")
+  else()
+    Fletch_Require_Make()
+    ExternalProject_Add(GDAL
+      DEPENDS ${_GDAL_DEPENDS}
+      URL ${GDAL_file}
+      URL_MD5 ${GDAL_md5}
+      ${COMMON_EP_ARGS}
+      CMAKE_ARGS
+      ${COMMON_CMAKE_ARGS}
+      -DCMAKE_CXX_STANDARD=17
+      )
+  endif()
+
+elseif (WIN32)
   if(fletch_ENABLE_PNG)
     set(_GDAL_ARGS_PNG)
     set(_GDAL_ARGS_PNG PNGDIR=${fletch_BUILD_INSTALL_PREFIX}/include PNG_LIB=${PNG_LIBRARY})
@@ -208,4 +224,3 @@ set(GDAL_ROOT    \${fletch_ROOT})
 set(ENV{GDAL_ROOT} \${fletch_ROOT})
 set(fletch_ENABLED_GDAL TRUE)
 ")
-
