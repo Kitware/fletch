@@ -28,15 +28,25 @@ if (GDAL_SELECT_VERSION VERSION_GREATER_EQUAL 3.5)
   if (NOT LINUX)
     message(ERROR "Fletch currenly only supports building GDAL Version \"${GDAL_SELECT_VERSION}\" for Linux.")
   else()
+    if(fletch_ENABLE_PROJ)
+      set(_GDAL_ARGS_PROJ
+        -DPROJ_DIR:PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/cmake/proj
+        )
+      list(APPEND _GDAL_DEPENDS PROJ)
+    else()
+      find_package(PROJ REQUIRED)
+    endif()
+
     Fletch_Require_Make()
     ExternalProject_Add(GDAL
       DEPENDS ${_GDAL_DEPENDS}
       URL ${GDAL_file}
       URL_MD5 ${GDAL_md5}
       ${COMMON_EP_ARGS}
-      CMAKE_ARGS
-      ${COMMON_CMAKE_ARGS}
-      -DCMAKE_CXX_STANDARD=17
+        CMAKE_ARGS
+        ${COMMON_CMAKE_ARGS}
+        ${_GDAL_ARGS_PROJ}
+        -DCMAKE_CXX_STANDARD=17
       )
   endif()
 
