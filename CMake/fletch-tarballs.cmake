@@ -29,7 +29,7 @@ list(APPEND fletch_external_sources ZLib)
 
 # CPython
 if(fletch_ENABLE_CPython)
-  set(CPython_SELECT_VERSION 3.8.13 CACHE STRING "Select the version of Python to build.")
+  set(CPython_SELECT_VERSION 3.10.4 CACHE STRING "Select the version of Python to build.")
   set_property(CACHE CPython_SELECT_VERSION PROPERTY STRINGS "3.6.15" "3.8.13" "3.10.4")
   set(fletch_PYTHON_MAJOR_VERSION 3 CACHE INTERNAL "Required for CPython" FORCE)
 
