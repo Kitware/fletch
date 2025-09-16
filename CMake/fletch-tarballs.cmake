@@ -21,6 +21,41 @@
 #   External_foo.cmake files for examples)
 #-
 
+# ZLib
+set(ZLib_version 1.2.11)
+set(ZLib_url "https://data.kitware.com/api/v1/file/6622b59fdf5a87675edbc12d/download/zlib.${ZLib_version}.zip")
+set(zlib_md5 "9d6a627693163bbbf3f26403a3a0b0b1")
+list(APPEND fletch_external_sources ZLib)
+
+# CPython
+if(fletch_ENABLE_CPython)
+  set(CPython_SELECT_VERSION 3.8.13 CACHE STRING "Select the version of Python to build.")
+  set_property(CACHE CPython_SELECT_VERSION PROPERTY STRINGS "3.6.15" "3.8.13" "3.10.4")
+  set(fletch_PYTHON_MAJOR_VERSION 3 CACHE INTERNAL "Required for CPython" FORCE)
+
+  string(REPLACE "." ";" CPython_VERSION_LIST ${CPython_SELECT_VERSION})
+  list(GET CPython_VERSION_LIST 0 CPython_version_major)
+  list(GET CPython_VERSION_LIST 1 CPython_version_minor)
+  list(GET CPython_VERSION_LIST 2 CPython_version_patch)
+
+  set(CPython_version_modifier )
+  if(CPython_SELECT_VERSION VERSION_EQUAL 3.6.15)
+    set(CPython_version_modifier m)
+    set(CPython_md5 "325c4c92c8f0efadf1aba8d70b1f74e3")
+  elseif(CPython_SELECT_VERSION VERSION_EQUAL 3.8.13)
+    set(CPython_md5 "3daa024d29598baf42ee33019d4b5746")
+  elseif(CPython_SELECT_VERSION VERSION_EQUAL 3.10.4)
+    set(CPython_md5 "716d1a13c474c237a4044f129d9d7168")
+  else()
+    message(FATAL_ERROR "Unsupported CPython version")
+  endif()
+
+  set(CPython_version ${CPython_version_major}.${CPython_version_minor})
+  set(CPython_full_version ${CPython_version}.${CPython_version_patch})
+  set(CPython_url "https://github.com/python/cpython/archive/v${CPython_full_version}.zip")
+endif()
+list(APPEND fletch_external_sources CPython)
+
 # Boost
 
 # Support 1.78.0 (Default) and 1.65.1 optionally
@@ -41,12 +76,6 @@ if (fletch_ENABLE_Boost OR fletch_ENABLE_ALL_PACKAGES)
   endif()
 endif()
 list(APPEND fletch_external_sources Boost)
-
-# ZLib
-set(ZLib_version 1.2.11)
-set(ZLib_url "https://data.kitware.com/api/v1/file/6622b59fdf5a87675edbc12d/download/zlib.${ZLib_version}.zip")
-set(zlib_md5 "9d6a627693163bbbf3f26403a3a0b0b1")
-list(APPEND fletch_external_sources ZLib)
 
 # libjpeg-turbo
 set(libjpeg-turbo_version "1.4.0")
