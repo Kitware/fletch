@@ -83,7 +83,7 @@ if (fletch_BUILD_CXX11)
 endif()
 
 #
-# Do we want to build in Python support where available
+# Do we want to build in Python support into packages where available
 #
 option(fletch_BUILD_WITH_PYTHON "Build with Python support where appropriate" FALSE)
 
@@ -91,7 +91,8 @@ set(fletch_PYTHON_MAJOR_VERSION "3" CACHE STRING
   "Python version to use: 3, 2, or empty")
 set_property(CACHE fletch_PYTHON_MAJOR_VERSION PROPERTY STRINGS "3" "2")
 
-if (fletch_BUILD_WITH_PYTHON)
+# Find python if using an external python and not the internal version
+if (fletch_BUILD_WITH_PYTHON AND NOT fletch_ENABLE_CPython)
   # If we change python versions re-find the bin, include, and libs
   if (NOT _prev_fletch_pymajor_version STREQUAL fletch_PYTHON_MAJOR_VERSION)
     # but dont clobber initial settings in the instance they are specified via
@@ -106,21 +107,6 @@ if (fletch_BUILD_WITH_PYTHON)
       unset(PYTHON_LIBRARY_DEBUG CACHE)
     endif()
   endif()
-
-  # Choose python 2 or python 3
-  if (fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
-      set(fletch_python2 False)
-      set(fletch_python3 True)
-  elseif (fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
-      set(fletch_python2 True)
-      set(fletch_python3 False)
-      message( WARNING "Python 2 is at end of life. Please upgrade to Python 3")
-  else()
-      message("Unknown Python version")
-  endif()
-  # If a library supports setting the install location of their python libraries (i.e. opencv)
-  # This is where we would like it to go. (Not all libs support this... caffe...)
-  set(fletch_python_install ${fletch_BUILD_INSTALL_PREFIX}/lib/site-packages)
 
   # Make a copy so we can determine if the user changes python versions
   set(_prev_fletch_pymajor_version "${fletch_PYTHON_MAJOR_VERSION}" CACHE INTERNAL
@@ -141,6 +127,7 @@ if (fletch_BUILD_WITH_PYTHON)
   if(NOT ${_exitcode} EQUAL 0)
     message(FATAL_ERROR "Python command to get version failed with error code: ${_exitcode}")
   endif()
+
   # Remove supurflous newlines (artifacts of print)
   string(STRIP "${_python_version}" _python_version)
 
@@ -155,12 +142,22 @@ if (fletch_BUILD_WITH_PYTHON)
   if(${len} GREATER 1)
     set(lib_config)
     foreach(value ${PYTHON_LIBRARY})
-      if(lib_config STREQUAL "optimized")
+      if(lib_config STREQUAL "optimized" AND
+         NOT value STREQUAL "optimized" AND NOT value STREQUAL "debug")
         set(lib_config)
-        set(PYTHON_LIBRARY ${value})
-      elseif(lib_config STREQUAL "debug")
+        set(PYTHON_LIBRARY ${value} CACHE PATH "Python Library" FORCE)
+        break()
+      else()
+        set(lib_config ${value})
+      endif()
+    endforeach()
+    set(lib_config)
+    foreach(value ${PYTHON_LIBRARY})
+      if(lib_config STREQUAL "debug" AND
+         NOT value STREQUAL "optimized" AND NOT value STREQUAL "debug")
         set(lib_config)
-        set(PYTHON_LIBRARY_DEBUG ${value})
+        set(PYTHON_LIBRARY_DEBUG ${value} CACHE  PATH "Python Debug Library" FORCE)
+        break()
       else()
         set(lib_config ${value})
       endif()
@@ -168,7 +165,6 @@ if (fletch_BUILD_WITH_PYTHON)
     message(STATUS "PYTHON_LIBRARY : ${PYTHON_LIBRARY}")
     message(STATUS "PYTHON_LIBRARY_DEBUG : ${PYTHON_LIBRARY_DEBUG}")
   endif()
-
 endif()
 
 #
@@ -281,7 +277,40 @@ elseif(fletch_BUILD_WITH_CUDNN)
   message(WARNING "Disabling fletch_BUILD_WITH_CUDNN, You must have fletch_BUILD_WITH_CUDA enabled for this to be enabled")
 endif()
 
+#
+# Include external project identifiers and version numbers
+#
 include(fletch-tarballs)
+
+# Set up universal python paths used across the build
+if(fletch_BUILD_WITH_PYTHON OR fletch_ENABLE_CPython)
+  # Default fletch python package install location
+  #
+  # If a library supports setting the install location of their python libraries (i.e. opencv)
+  # This is where we would like it to go. (Not all libs support this)
+  if(fletch_ENABLE_CPython)
+    set(fletch_PYTHON_LIB_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/python${CPython_version})
+  else()
+    set(fletch_PYTHON_LIB_DIR ${fletch_BUILD_INSTALL_PREFIX}/lib/python${PYTHON_VERSION})
+  endif()
+  set(fletch_PYTHON_PACKAGES_DIR ${fletch_PYTHON_LIB_DIR}/site-packages)
+
+  # Enable flags for python 2 or 3
+  if(fletch_PYTHON_MAJOR_VERSION MATCHES "^3.*")
+    set(fletch_ENABLE_PYTHON2 False)
+    set(fletch_ENABLE_PYTHON3 True)
+  elseif(fletch_PYTHON_MAJOR_VERSION MATCHES "^2.*")
+    message( WARNING "Python 2 is at end of life. Please upgrade to Python 3")
+    set(fletch_ENABLE_PYTHON2 True)
+    set(fletch_ENABLE_PYTHON3 False)
+  else()
+    message("Unknown Python version")
+  endif()
+endif()
+
+#
+# Include external project add cmake command used for all projects
+#
 include(ExternalProject)
 
 #+

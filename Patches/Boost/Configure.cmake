@@ -8,30 +8,12 @@ if(NOT CMAKE_CXX_COMPILER_ID MATCHES MSVC)
 using ${BOOST_TOOLSET} : : \"${CMAKE_CXX_COMPILER}\" ;
 "
   )
-
-  if(fletch_BUILD_WITH_PYTHON)
-    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-      set(PYTHON_ARGUMENTS "<address-model>64")
-    endif()
-    get_filename_component(PYTHON_LIBRARY_DIR ${PYTHON_LIBRARY} DIRECTORY)
-    file(APPEND ${Boost_SOURCE_DIR}/tools/build/v2/user-config.jam "\n\
-using python : ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}\n\
-             : ${PYTHON_EXECUTABLE}\n\
-             : ${PYTHON_INCLUDE_DIR}\n\
-             : ${PYTHON_LIBRARY_DIR}\n\
-             : ${PYTHON_ARGUMENTS}\n\
-; "
-  )
-  endif()
 endif()
 
 if(WIN32)
   set(BOOTSTRAP ${Boost_SOURCE_DIR}/bootstrap.bat)
 else()
   set(BOOTSTRAP ${Boost_SOURCE_DIR}/bootstrap.sh)
-  if (fletch_BUILD_WITH_PYTHON)
-    set(BOOTSTRAP_ARGS "--with-python=${PYTHON_EXECUTABLE}")
-  endif()
 endif()
 execute_command_wrapper(
   "Boost.Configure.Bootstrap"
@@ -39,13 +21,19 @@ execute_command_wrapper(
   ${BOOTSTRAP} ${BOOTSTRAP_ARGS}
 )
 
+string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE STREQUAL "debug") # adjust for relwithdebinfo
+  set(CMAKE_BUILD_TYPE "release")
+endif()
+message("Boost.Configure.BCP.Build: Using variant=${CMAKE_BUILD_TYPE}")
+
 # Note: BCP has known issues with some msvc release builds so we always build
 # it in debug.
 execute_command_wrapper(
   "Boost.Configure.BCP.Build"
   ${Boost_SOURCE_DIR}/tools/bcp
   ${Boost_SOURCE_DIR}/b2${CMAKE_EXECUTABLE_SUFFIX}
-  variant=debug ${B2_ARGS}
+  variant=${CMAKE_BUILD_TYPE} ${B2_ARGS}
 )
 
 execute_command_wrapper(

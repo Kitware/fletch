@@ -182,6 +182,9 @@ else()
   # GDAL Python dosen't work well for GDAL 1, nor does it work well on Apple at the moment
   #-
   if (NOT APPLE AND fletch_BUILD_WITH_PYTHON AND NOT GDAL_SELECT_VERSION VERSION_LESS 2.0)
+    if (fletch_ENABLE_CPython)
+      list(APPEND _GDAL_DEPENDS CPython)
+    endif()
     set(_GDAL_ARGS_PYTHON --with-python=${PYTHON_EXECUTABLE} )
   endif()
 
