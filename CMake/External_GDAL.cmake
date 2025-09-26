@@ -25,7 +25,7 @@ if(fletch_LTIDSDK_ROOT)
 endif()
 
 if (GDAL_SELECT_VERSION VERSION_GREATER_EQUAL 3.5)
-  if (NOT LINUX)
+  if (NOT UNIX)
     message(ERROR "Fletch currenly only supports building GDAL Version \"${GDAL_SELECT_VERSION}\" for Linux.")
   else()
     if(fletch_ENABLE_PROJ)
