@@ -6,6 +6,4 @@ This is a minor release of Fletch that provides both new functionality and fixes
 Updates since v1.7.0
 --------------------
 
-Fixes since 1.7.0
------------------
-
+* Made PDAL version 2.9.2 available as an option
