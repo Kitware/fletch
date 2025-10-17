@@ -9,6 +9,16 @@ else()
   find_package(SQLite3 REQUIRED)
 endif()
 
+# Latest version of PROJ requires libtiff
+if (PROJ_version VERSION_EQUAL 9.6.2)
+  if(fletch_ENABLE_libtiff)
+    message(STATUS "PROJ depending on internal libtiff")
+    list(APPEND PROJ_DEPENDS libtiff)
+  else()
+    find_package(TIFF REQUIRED)
+  endif()
+endif()
+
 ExternalProject_Add(PROJ
   DEPENDS ${PROJ_DEPENDS}
   URL ${PROJ_file}

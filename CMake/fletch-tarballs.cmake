@@ -381,7 +381,7 @@ list(APPEND fletch_external_sources OpenCV)
 
 # SQLite3
 if (fletch_ENABLE_SQLite3 OR fletch_ENABLE_ALL_PACKAGES)
-  set(SQLite3_SELECT_VERSION 3.35.2 CACHE STRING "Select the major version of GDAL to build.")
+  set(SQLite3_SELECT_VERSION 3.35.2 CACHE STRING "Select the major version of SQLite3 to build.")
   set_property(CACHE SQLite3_SELECT_VERSION PROPERTY STRINGS "3.45.3" "3.35.2")
   message(STATUS "SQLite3 Select version: ${SQLite3_SELECT_VERSION}")
   if (SQLite3_SELECT_VERSION VERSION_EQUAL 3.45.3)
@@ -461,9 +461,20 @@ endif()
 list(APPEND fletch_external_sources GDAL)
 
 # PDAL
-set(PDAL_version 1.7.2)
-set(PDAL_url "https://data.kitware.com/api/v1/file/6622b24edf5a87675edbc0d0/download/pdal.${PDAL_version}.tar.gz")
-set(PDAL_md5 "a89710005fd54e6d2436955e2e542838")
+if (fletch_ENABLE_PDAL OR fletch_ENABLE_ALL_PACKAGES)
+  set(PDAL_SELECT_VERSION 1.7.2 CACHE STRING "Select the major version of PDAL to build.")
+  set_property(CACHE PDAL_SELECT_VERSION PROPERTY STRINGS "2.9.2" "1.7.2")
+  message(STATUS "PDAL Select version: ${PDAL_SELECT_VERSION}")
+  if (PDAL_SELECT_VERSION VERSION_EQUAL 2.9.2)
+    set(PDAL_version "2.9.2")
+    set(PDAL_url "https://data.kitware.com/api/v1/file/68d46bccaf4f192121e8168d/download/pdal.${PDAL_version}.tar.gz")
+    set(PDAL_md5 "f01e30e3e6aeb441488de11df93dee2c")
+  elseif (PDAL_SELECT_VERSION VERSION_EQUAL 1.7.2)
+    set(PDAL_version "1.7.2")
+    set(PDAL_url "https://data.kitware.com/api/v1/file/6622b24edf5a87675edbc0d0/download/pdal.${PDAL_version}.tar.gz")
+    set(PDAL_md5 "a89710005fd54e6d2436955e2e542838")
+  endif()
+endif()
 list(APPEND fletch_external_sources PDAL)
 
 # GeographicLib
