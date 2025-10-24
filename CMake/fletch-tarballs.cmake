@@ -238,9 +238,20 @@ set(SuiteSparse_md5 "a2926c27f8a5285e4a10265cc68bbc18")
 list(APPEND fletch_external_sources SuiteSparse)
 
 # Ceres Solver
-set(Ceres_version 1.14.0)
-set(Ceres_url "https://data.kitware.com/api/v1/file/6622b07ddf5a87675edbc043/download/ceres.${Ceres_version}.tar.gz")
-set(Ceres_md5 "fd9b4eba8850f0f2ede416cd821aafa5")
+set(Ceres_SELECT_VERSION 2.2.0 CACHE STRING "Select the version of Ceres to build.")
+set_property(CACHE Ceres_SELECT_VERSION PROPERTY STRINGS "1.14.0" "2.2.0")
+mark_as_advanced(Ceres_SELECT_VERSION)
+
+set(Ceres_version ${Ceres_SELECT_VERSION})
+if (Ceres_version VERSION_EQUAL 1.14.0)
+  set(Ceres_url "https://data.kitware.com/api/v1/file/6622b07ddf5a87675edbc043/download/ceres.${Ceres_version}.tar.gz")
+  set(Ceres_md5 "fd9b4eba8850f0f2ede416cd821aafa5")
+elseif (Ceres_version VERSION_EQUAL 2.2.0)
+  set(Ceres_url "https://data.kitware.com/api/v1/file/6762eeb1290777363f95c2b0/download/ceres.${Ceres_version}.tar.gz")
+  set(Ceres_md5 "b360c795a75c3e99d67a2a60f2004466")
+else()
+  message("Unknown Ceres version = ${Ceres_version}")
+endif()
 list(APPEND fletch_external_sources Ceres)
 
 if(NOT WIN32)
