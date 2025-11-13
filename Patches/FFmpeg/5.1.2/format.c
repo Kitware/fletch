@@ -264,8 +264,10 @@ int av_probe_input_buffer2(AVIOContext *pb, const AVInputFormat **fmt,
         /* Read probe data. */
         if ((ret = av_reallocp(&buf, probe_size + AVPROBE_PADDING_SIZE)) < 0)
             goto fail;
-        if ((ret = avio_read(pb, buf + buf_offset,
-                             probe_size - buf_offset)) < 0) {
+        while ((ret = avio_read(pb, buf + buf_offset,
+                                probe_size - buf_offset)) == AVERROR( EAGAIN ) );
+        if( ret < 0 )
+        {
             /* Fail if error was not end of file, otherwise, lower score. */
             if (ret != AVERROR_EOF)
                 goto fail;
