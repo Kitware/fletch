@@ -17,9 +17,21 @@ configure_file(
   COPYONLY
  )
 
- # Add patch to adapt to changing Vulkan API.
+# Add patch to adapt to changing Vulkan API.
 configure_file(
   ${FFmpeg_patch}/hwcontext_vulkan.c
   ${FFmpeg_source}/libavutil/
+  COPYONLY
+ )
+
+# Add patch to allow prevent errors related to AVIO_FLAG_NONBLOCKING
+configure_file(
+  ${FFmpeg_patch}/aviobuf.c
+  ${FFmpeg_source}/libavformat/
+  COPYONLY
+ )
+configure_file(
+  ${FFmpeg_patch}/format.c
+  ${FFmpeg_source}/libavformat/
   COPYONLY
  )
