@@ -6,6 +6,8 @@ This is a minor release of Fletch that provides both new functionality and fixes
 Updates since v1.6.1
 --------------------
 
+* Made Ceres version 2.2.0 available as an option
 * Made GDAL version 3.11.0 available for Linux builds
 * Made PROJ version 9.6.2 available as an option
 * Make SQLite version 3.45.3 available as an option
+* Patch Ceres 1.14.0 to find newer versions of TBB
