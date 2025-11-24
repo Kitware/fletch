@@ -41,6 +41,7 @@ ExternalProject_Add(Boost
   CONFIGURE_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_BUILD_TYPE=$<CONFIGURATION>
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
+	-DCMAKE_POLICY_VERSION_MINIMUM=3.5
     -DBoost_EXTRA_LIBS=${fletch_EXTRA_BOOST_LIBS}
     ${_Boost_DIR_ARGS}
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Configure.cmake
@@ -51,6 +52,7 @@ ExternalProject_Add(Boost
     -P ${fletch_SOURCE_DIR}/Patches/Boost/Build.cmake
   INSTALL_COMMAND ${CMAKE_COMMAND}
     -DCMAKE_VARS_FILE=${fletch_BUILD_PREFIX}/tmp/Boost/CMakeVars.cmake
+	-DCMAKE_POLICY_VERSION_MINIMUM=3.5
     ${_Boost_DIR_ARGS}
     -DBoost_source=${fletch_BUILD_PREFIX}/src/Boost
     -Dfletch_BUILD_WITH_PYTHON=${fletch_BUILD_WITH_PYTHON}
