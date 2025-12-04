@@ -23,6 +23,7 @@ ExternalProject_Add(colmap
     -P ${fletch_SOURCE_DIR}/Patches/colmap/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
+    -DCMAKE_CUDA_ARCHITECTURES=all-major
     -DBoost_ROOT=${BOOST_ROOT}
     -DCeres_DIR=${Ceres_DIR}
     -DEigen_DIR=${Eigen_DIR}
