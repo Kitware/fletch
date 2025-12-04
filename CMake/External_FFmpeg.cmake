@@ -80,6 +80,7 @@ if(WIN32)
 	PKG_CONFIG_PATH=`cygpath ${FFMPEG_PKGCONFIG_PATH}`\
 	CFLAGS='-Wno-incompatible-pointer-types'\
     ${fletch_BUILD_PREFIX}/src/FFmpeg/configure\
+    --toolchain=msvc\
     --prefix=${ffmpeg_prefix}\
     --enable-runtime-cpudetect\
     ${_FFmpeg_x264}\
