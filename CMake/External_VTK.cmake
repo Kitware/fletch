@@ -26,6 +26,12 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DModule_vtkInfovisBoostGraphAlgorithms:BOOL=OFF
 )
 
+# hdf5
+# Disable hdf5 since it causes build errors on manylinux
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DVTK_MODULE_ENABLE_VTK_hdf5:STRING=NO
+)
+
 # libxml2
 if(NOT WIN32)
   add_package_dependency(
