@@ -35,3 +35,10 @@ configure_file(
   ${FFmpeg_source}/libavformat/
   COPYONLY
  )
+
+ # Add patch to fix errors on manylinux builds - fixed in later versions of FFmpeg
+ configure_file(
+  ${FFmpeg_patch}/mathops.h
+  ${FFmpeg_source}/libavcodec/x86/
+  COPYONLY
+ )
