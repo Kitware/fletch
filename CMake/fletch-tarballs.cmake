@@ -120,9 +120,9 @@ set(yasm_md5 "38802696efbc27554d75d93a84a23183")
 
 # msys2
 if(WIN32)
-  set(msys2_version "20220128")
-  set(msys2_url "https://data.kitware.com/api/v1/file/6622b0ecdf5a87675edbc0a6/download/msys2.${msys2_version}.tar.xz")
-  set(msys2_md5 "45b3be3d1e30d01e0d95d5bd8e75244a")
+  set(msys2_version "20250221")
+  set(msys2_url "https://data.kitware.com/api/v1/file/692fff5180eaefe49a4abb81/download/msys2.${msys2_version}.tar.xz")
+  set(msys2_md5 "981422147c367b3b035402b63e4e0c27")
 endif()
 
 # FFmpeg
