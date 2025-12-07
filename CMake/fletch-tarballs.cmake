@@ -732,6 +732,27 @@ else()
 endif()
 list(APPEND fletch_external_sources cppzmq)
 
+# Not supporting Windows builds of these for now
+if(NOT WIN32)
+  # FreeImage
+  set(freeimage_version 3.19.10)
+  set(freeimage_url "https://data.kitware.com/api/v1/file/68e57457e5c7892678d7f029/download/freeimage.${freeimage_version}.tar.gz")
+  set(freeimage_md5 "cfe8cbde0133fab86886ac8ffb5ba11d")
+  list(APPEND fletch_external_sources freeimage)
+
+  # GLEW
+  set(glew_version 2.2.0)
+  set(glew_url "https://data.kitware.com/api/v1/file/68e57454e5c7892678d7f026/download/glew.${glew_version}.tar.gz")
+  set(glew_md5 "97779480d76c269b68a6554498e30bc4")
+  list(APPEND fletch_external_sources glew)
+
+  # colmap
+  set(colmap_version 3.12.6)
+  set(colmap_url "https://data.kitware.com/api/v1/file/68e565f3e5c7892678d7f01f/download/colmap.${colmap_version}.tar.gz")
+  set(colmap_md5 "58eebe790777397df124af8829568918")
+  list(APPEND fletch_external_sources colmap)
+endif()
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
