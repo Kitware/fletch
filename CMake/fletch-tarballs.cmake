@@ -522,11 +522,15 @@ list(APPEND fletch_external_sources CppDB)
 
 # VTK
 if (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
-  set(VTK_SELECT_VERSION 9.1 CACHE STRING "Select the version of VTK to build.")
-  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 8.0 8.2 9.0 9.1)
+  set(VTK_SELECT_VERSION 9.5 CACHE STRING "Select the version of VTK to build.")
+  set_property(CACHE VTK_SELECT_VERSION PROPERTY STRINGS 8.0 8.2 9.0 9.1 9.5)
 endif()
 
-if (VTK_SELECT_VERSION VERSION_EQUAL 9.1)
+if (VTK_SELECT_VERSION VERSION_EQUAL 9.5)
+  set(VTK_version 9.5.2)
+  set(VTK_url "https://data.kitware.com/api/v1/file/69335731687bfaed77250c35/download/vtk.${VTK_version}.tar.gz")
+  set(VTK_md5 "0506164a7118772878bf165927a19cdb")
+elseif (VTK_SELECT_VERSION VERSION_EQUAL 9.1)
   set(VTK_version 9.1.0)
   set(VTK_url "https://data.kitware.com/api/v1/file/6622b582df5a87675edbc118/download/vtk.${VTK_version}.tar.gz")
   set(VTK_md5 "96508e51d7c3764cd5aba06fffd9864e")
