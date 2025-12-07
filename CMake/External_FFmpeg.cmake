@@ -87,6 +87,8 @@ if(WIN32)
     ${_FFmpeg_zlib}\
     ${_FFmpeg_cuda}\
     ${_shared_lib_params}\
+    --disable-static\
+    --enable-shared\
     --enable-rpath\
     --disable-programs\
     --disable-asm")
