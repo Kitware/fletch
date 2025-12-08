@@ -116,7 +116,7 @@ else()
     )
 endif()
 
-if (_FFmpeg_version VERSION_LESS 3.3.0)
+if(_FFmpeg_version VERSION_LESS 3.3.0)
   # memalign-hack is only needed for windows and older versions of ffmpeg
   list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-memalign-hack)
   # bzlib errors if not found in newer versions (previously it did not)
