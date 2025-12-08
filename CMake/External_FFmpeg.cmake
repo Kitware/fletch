@@ -124,10 +124,6 @@ if(_FFmpeg_version VERSION_LESS 3.3.0)
   list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-outdev=sdl)
 endif()
 
-if(BUILD_SHARED_LIBS)
-  list(APPEND FFMPEG_CONFIGURE_COMMAND --disable-static --enable-shared)
-endif()
-
 if(APPLE)
   list(APPEND FFMPEG_CONFIGURE_COMMAND --sysroot=${CMAKE_OSX_SYSROOT} --disable-doc)
 endif()
