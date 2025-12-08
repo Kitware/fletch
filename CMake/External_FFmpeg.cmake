@@ -132,6 +132,10 @@ if(APPLE)
   list(APPEND FFMPEG_CONFIGURE_COMMAND --sysroot=${CMAKE_OSX_SYSROOT} --disable-doc)
 endif()
 
+if(fletch_BUILD_CXX17)
+  list(APPEND FFMPEG_CONFIGURE_COMMAND --extra-cxxflags="-std=c++17")
+endif()
+
 ExternalProject_Add(FFmpeg
   URL ${FFmpeg_file}
   DEPENDS ${ffmpeg_DEPENDS}
