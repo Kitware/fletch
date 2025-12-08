@@ -16,3 +16,9 @@ file(COPY
   ${libkml_patch}/unzip.c
   DESTINATION ${libkml_source}/third_party/zlib-1.2.3/contrib/minizip
 )
+
+# Fix C++17 compatibility: remove deprecated std::binary_function
+file(COPY
+  ${libkml_patch}/convenience/feature_list.cc
+  DESTINATION ${libkml_source}/src/kml/convenience/
+)
