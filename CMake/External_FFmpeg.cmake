@@ -87,8 +87,6 @@ if(WIN32)
     ${_FFmpeg_zlib}\
     ${_FFmpeg_cuda}\
     ${_shared_lib_params}\
-    --disable-static\
-    --enable-shared\
     --enable-rpath\
     --disable-programs\
     --disable-asm")
@@ -124,6 +122,10 @@ if (_FFmpeg_version VERSION_LESS 3.3.0)
   # bzlib errors if not found in newer versions (previously it did not)
   list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-bzlib)
   list(APPEND FFMPEG_CONFIGURE_COMMAND --enable-outdev=sdl)
+endif()
+
+if(BUILD_SHARED_LIBS)
+  list(APPEND FFMPEG_CONFIGURE_COMMAND --disable-static --enable-shared)
 endif()
 
 if(APPLE)
