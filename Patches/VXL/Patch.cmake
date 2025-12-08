@@ -36,3 +36,8 @@ file(COPY ${VXL_patch}//vcl/CMakeLists.txt
 file(COPY ${VXL_patch}/v3p/openjpeg2/opj_includes.h
   DESTINATION ${VXL_source}/v3p/openjpeg2/
 )
+
+# Fix C++17 compatibility: replace deprecated std::bind2nd with lambda
+file(COPY ${VXL_patch}/core/vil/algo/vil_gauss_filter.cxx
+  DESTINATION ${VXL_source}/core/vil/algo/
+)
