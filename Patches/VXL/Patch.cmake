@@ -38,6 +38,8 @@ file(COPY ${VXL_patch}/v3p/openjpeg2/opj_includes.h
 )
 
 # Fix C++17 compatibility: replace deprecated std::bind2nd with lambda
-file(COPY ${VXL_patch}/core/vil/algo/vil_gauss_filter.cxx
-  DESTINATION ${VXL_source}/core/vil/algo/
-)
+if(fletch_BUILD_CXX17)
+  file(COPY ${VXL_patch}/core/vil/algo/vil_gauss_filter.cxx
+    DESTINATION ${VXL_source}/core/vil/algo/
+  )
+endif()

@@ -18,7 +18,9 @@ file(COPY
 )
 
 # Fix C++17 compatibility: remove deprecated std::binary_function
-file(COPY
-  ${libkml_patch}/convenience/feature_list.cc
-  DESTINATION ${libkml_source}/src/kml/convenience/
-)
+if(fletch_BUILD_CXX17)
+  file(COPY
+    ${libkml_patch}/convenience/feature_list.cc
+    DESTINATION ${libkml_source}/src/kml/convenience/
+  )
+endif()
