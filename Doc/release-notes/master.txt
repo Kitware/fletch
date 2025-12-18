@@ -1,22 +1,11 @@
-Fletch v1.6.2 Release Notes
+Fletch v1.8.0 Release Notes
 ===========================
 
-This is a minor release of Fletch that provides both new functionality and fixes over the previous v1.6.1 release.
+This is a minor release of Fletch that provides both new functionality and fixes over the previous v1.7.0 release.
 
-Updates since v1.6.1
+Updates since v1.7.0
 --------------------
 
-* Made OpenBLAS version 0.3.30 available as an option and made it the default
-* Made VTK version 9.5 available as an option and made it the default
-* Made Ceres version 2.2.0 available as an option
-* Made GDAL version 3.11.0 available for Linux builds
-* Made PROJ version 9.6.2 available as an option
-* Make SQLite version 3.45.3 available as an option
-* Patch Ceres 1.14.0 to find newer versions of TBB
-* Add COLMAP, along with its dependencies GLEW and FreeImage
-
-Fixes since 1.6.1
+Fixes since 1.7.0
 -----------------
 
-* PROJ how builds against fletch built libtiff if available
-* Disable hdf5 in VTK to prevent build errors
