@@ -588,6 +588,30 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources LMDB)
 endif()
 
+# libsvm
+if(NOT WIN32)
+  if (fletch_ENABLE_libsvm OR fletch_ENABLE_ALL_PACKAGES)
+    set(libsvm_SELECT_VERSION 3.35 CACHE STRING "Select the version of libsvm to build.")
+    set_property(CACHE libsvm_SELECT_VERSION PROPERTY STRINGS "3.1" "3.35")
+  endif()
+
+  set(libsvm_version ${libsvm_SELECT_VERSION})
+
+  if (libsvm_version VERSION_EQUAL 3.1)
+    # Version 3.1 with custom HIK (Histogram Intersection Kernel) patch
+    set(libsvm_url "https://github.com/cjlin1/libsvm/archive/refs/tags/v311.tar.gz")
+    set(libsvm_md5 "d0c82df1f0d5d9e6fb8e0e8e8f953dc6")
+    set(libsvm_apply_patch TRUE)
+  elseif (libsvm_version VERSION_EQUAL 3.35)
+    set(libsvm_url "https://github.com/cjlin1/libsvm/archive/refs/tags/v335.tar.gz")
+    set(libsvm_md5 "ceee0a4268c9fae25b7d43b27e47e311")
+    set(libsvm_apply_patch FALSE)
+  elseif(libsvm_version)
+    message(ERROR "libsvm version ${libsvm_version} not supported")
+  endif()
+  list(APPEND fletch_external_sources libsvm)
+endif()
+
 # HDF5
 if (fletch_ENABLE_HDF5 OR fletch_ENABLE_ALL_PACKAGES)
   set(HDF5_SELECT_VERSION 1.12.0 CACHE STRING "Select the major version of HDF5 to build.")
