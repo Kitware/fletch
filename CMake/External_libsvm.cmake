@@ -9,7 +9,7 @@ else()
   # The output is libsvm.so.2 on Linux
   set(LIBSVM_LIB_NAME libsvm.so.2)
 
-  # Set up patch command for version 3.1 (HIK kernel support)
+  # Set up patch command for version 3.11 (HIK kernel support)
   if(libsvm_apply_patch)
     set(libsvm_PATCH_COMMAND ${CMAKE_COMMAND}
       -Dlibsvm_patch:PATH=${fletch_SOURCE_DIR}/Patches/libsvm
