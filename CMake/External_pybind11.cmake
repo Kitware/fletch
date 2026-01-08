@@ -1,5 +1,5 @@
-if (NOT fletch_BUILD_CXX11)
-  message(FATAL_ERROR "CXX11 must be enabled to use pybind11")
+if (NOT fletch_BUILD_CXX17)
+  message(FATAL_ERROR "CXX17 must be enabled to use pybind11")
 endif()
 
 if (fletch_ENABLE_CPython)
