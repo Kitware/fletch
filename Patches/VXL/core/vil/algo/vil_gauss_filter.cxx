@@ -124,6 +124,7 @@ void vil_gauss_filter_gen_ntap(double sd, unsigned diff,
   // normalise the result
   assert(sum >= 0.0);
   double norm = 1.0 / sum;
+  // Use lambda instead of deprecated std::bind2nd for C++17 compatibility
   std::transform(filter.begin(), filter.end(), filter.begin(),
-                 std::bind2nd(std::multiplies<double>(), norm));
+                [norm](double x) { return x * norm; });
 }

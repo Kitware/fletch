@@ -121,10 +121,9 @@ size_t FeatureList::RegionSplit(const RegionPtr& region, size_t max,
 
 // This function object is used by STL sort() to order Features
 // by score.  Results in sort of highest score first.
-struct CompareFeatures
-    : public std::binary_function<kmldom::FeaturePtr,
-                                  kmldom::FeaturePtr,
-                                  bool> {
+// Note: std::binary_function was removed in C++17, but it was only used
+// for type definitions that are not required for the functor to work.
+struct CompareFeatures {
   bool operator()(const kmldom::FeaturePtr& a,
                   const kmldom::FeaturePtr& b) const {
     return GetFeatureScore(a) > GetFeatureScore(b);
