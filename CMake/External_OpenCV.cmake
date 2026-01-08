@@ -312,7 +312,7 @@ if (CMAKE_COMPILER_IS_GNUCC AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5)
 endif()
 
 # OpenCV 3.3.0 has an option to enable C++ 11
-if (fletch_BUILD_CXX11)
+if (fletch_BUILD_CXX17)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DENABLE_CXX11:BOOL=ON)
 endif()
 
