@@ -33,6 +33,7 @@ add_sources(../../port
   system.c
   win32error.c
   win32setlocale.c
+  pg_strong_random.c
   )
 
 #add sources from backend dir
@@ -45,7 +46,13 @@ else()
   # PostgreSQL 10
   add_sources(../../common
     md5.c
-    ip.c)
+    ip.c
+    base64.c
+    scram-common.c
+    sha2.c
+    saslprep.c
+    unicode_norm.c
+    )
 endif()
 
 #add sources from backend dir
@@ -68,6 +75,7 @@ file(WRITE ${pq_BINARY_DIR}/pgdll.def "${DEF_FILE}")
 list(APPEND pq_SOURCES
   win32.c
   fe-auth.c
+  fe-auth-scram.c
   fe-protocol2.c
   fe-protocol3.c
   fe-connect.c
@@ -84,6 +92,20 @@ list(APPEND pq_SOURCES
 
 configure_file(${pq_SOURCE_DIR}/../../include/pg_config.h.win32
   ${pq_BINARY_DIR}/pg_config.h)
+
+# Add missing BLCKSZ and XLOG_BLCKSZ definitions required by PostgreSQL 10+
+# These are needed by c.h for PGAlignedBlock and PGAlignedXLogBlock structs
+file(APPEND ${pq_BINARY_DIR}/pg_config.h "
+
+/* Size of a disk block --- this also limits the size of a tuple.
+   BLCKSZ must be a power of 2. Default is 8192 (8KB). */
+#define BLCKSZ 8192
+
+/* Size of a WAL file block. XLOG_BLCKSZ must be a power of 2.
+   Default is 8192 (8KB). */
+#define XLOG_BLCKSZ 8192
+")
+
 configure_file(${pq_SOURCE_DIR}/../../include/pg_config_ext.h.win32
   ${pq_BINARY_DIR}/pg_config_ext.h)
 configure_file(${pq_SOURCE_DIR}/../../include/port/win32.h
