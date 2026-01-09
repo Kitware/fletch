@@ -15,7 +15,7 @@ if (EXISTS ${PROJ_patch})
   set(PROJ_PATCH_COMMAND ${CMAKE_COMMAND}
       -DPROJ_PATCH:PATH=${fletch_SOURCE_DIR}/Patches/PROJ
       -DPROJ_SOURCE:PATH=${fletch_BUILD_PREFIX}/src/PROJ
-      -P ${fletch_SOURCE_DIR}/Patches/PROJ/Patch.cmake
+      -P ${fletch_SOURCE_DIR}/Patches/PROJ/${PROJ_version}/Patch.cmake
     )
 endif()
 
