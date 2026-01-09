@@ -231,6 +231,23 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_CPython)
   )
 endif()
 if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
+  # Get NumPy include path via Python call since CMake's find_package doesn't work reliably
+  execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} -c "import numpy; print(numpy.get_include())"
+    OUTPUT_VARIABLE NUMPY_INCLUDE_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    RESULT_VARIABLE NUMPY_RESULT
+  )
+  if(NUMPY_RESULT EQUAL 0 AND NUMPY_INCLUDE_DIR)
+    message(STATUS "Found NumPy include dir: ${NUMPY_INCLUDE_DIR}")
+    set(NUMPY_FLAGS
+      -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_NUMPY_INCLUDE_DIRS:PATH=${NUMPY_INCLUDE_DIR}
+    )
+  else()
+    message(WARNING "Could not determine NumPy include directory. OpenCV Python bindings may fail to build.")
+    set(NUMPY_FLAGS "")
+  endif()
+
   set(OpenCV_PYTHON_FLAGS
     -DBUILD_opencv_python:BOOL=${fletch_BUILD_WITH_PYTHON}
     -DBUILD_opencv_python2:BOOL=${fletch_ENABLE_PYTHON2}
@@ -243,6 +260,7 @@ if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
     -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
     -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
     -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_LIBRARY_DEBUG:FILEPATH=${PYTHON_LIBRARY_DEBUG}
+    ${NUMPY_FLAGS}
     )
   if(WIN32 AND MSVC)
     get_filename_component(PYTHON_LIB_BASE "${PYTHON_LIBRARY}" DIRECTORY)
