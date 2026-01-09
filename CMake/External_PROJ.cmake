@@ -9,11 +9,25 @@ else()
   find_package(SQLite3 REQUIRED)
 endif()
 
-set(PROJ_PATCH_COMMAND ${CMAKE_COMMAND}
-    -DPROJ_PATCH:PATH=${fletch_SOURCE_DIR}/Patches/PROJ
-    -DPROJ_SOURCE:PATH=${fletch_BUILD_PREFIX}/src/PROJ
-    -P ${fletch_SOURCE_DIR}/Patches/PROJ/Patch.cmake
-  )
+# If a patch file exists for this version, apply it
+set(PROJ_patch ${fletch_SOURCE_DIR}/Patches/PROJ/${PROJ_version})
+if (EXISTS ${PROJ_patch})
+  set(PROJ_PATCH_COMMAND ${CMAKE_COMMAND}
+      -DPROJ_PATCH:PATH=${fletch_SOURCE_DIR}/Patches/PROJ
+      -DPROJ_SOURCE:PATH=${fletch_BUILD_PREFIX}/src/PROJ
+      -P ${fletch_SOURCE_DIR}/Patches/PROJ/Patch.cmake
+    )
+endif()
+
+# Latest version of PROJ requires libtiff
+if (PROJ_version VERSION_EQUAL 9.6.2)
+  if(fletch_ENABLE_libtiff)
+    message(STATUS "PROJ depending on internal libtiff")
+    list(APPEND PROJ_DEPENDS libtiff)
+  else()
+    find_package(TIFF REQUIRED)
+  endif()
+endif()
 
 ExternalProject_Add(PROJ
   DEPENDS ${PROJ_DEPENDS}
