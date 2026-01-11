@@ -30,6 +30,17 @@ if (fletch_ENABLE_CPython)
   )
 endif()
 
+set(yasm_patch ${fletch_SOURCE_DIR}/Patches/yasm)
+if(EXISTS ${yasm_patch})
+  set(yasm_PATCH_COMMAND ${CMAKE_COMMAND}
+    -Dyasm_patch:PATH=${yasm_patch}
+    -Dyasm_source:PATH=${fletch_BUILD_PREFIX}/src/yasm
+    -P ${yasm_patch}/Patch.cmake
+    )
+else()
+  set(yasm_PATCH_COMMAND "")
+endif()
+
 if (NOT _external_yasm_include)
   set(_external_yasm_include TRUE)
   ExternalProject_Add(yasm
@@ -38,6 +49,7 @@ if (NOT _external_yasm_include)
     URL_MD5 ${yasm_md5}
     ${COMMON_EP_ARGS}
     ${COMMON_CMAKE_EP_ARGS}
+    PATCH_COMMAND ${yasm_PATCH_COMMAND}
     INSTALL_COMMAND ""
     CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=Release
