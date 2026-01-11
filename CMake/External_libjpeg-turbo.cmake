@@ -14,11 +14,9 @@ if(WIN32)
         -Dlibjpeg-turbo_source:PATH=${fletch_BUILD_PREFIX}/src/libjpeg-turbo
         -P ${fletch_SOURCE_DIR}/Patches/libjpeg-turbo/Patch.cmake
     CMAKE_ARGS
+      ${COMMON_CMAKE_ARGS}
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
       -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
-      -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-      -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-      -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
       -DNASM:FILEPATH=${fletch_YASM}
     )
 
