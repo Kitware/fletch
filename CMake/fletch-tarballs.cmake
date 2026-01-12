@@ -113,7 +113,7 @@ set(openjpeg_url "https://data.kitware.com/api/v1/file/6622b230df5a87675edbc0cd/
 set(openjpeg_md5 "6a1f8aaa1fe55d2088e3a9c942e0f698")
 list(APPEND fletch_external_sources openjpeg)
 
-# YASM for building jpeg-turbo or x264, not third party library
+# YASM for building jpeg-turbo, not third party library
 set(yasm_version "1.3.0")
 set(yasm_url "https://data.kitware.com/api/v1/file/6622b59ddf5a87675edbc127/download/yasm.${yasm_version}.tar.gz")
 set(yasm_md5 "38802696efbc27554d75d93a84a23183")
@@ -124,6 +124,20 @@ if(WIN32)
   set(msys2_url "https://data.kitware.com/api/v1/file/692fff5180eaefe49a4abb81/download/msys2.${msys2_version}.tar.xz")
   set(msys2_md5 "981422147c367b3b035402b63e4e0c27")
 endif()
+
+# x264
+set(x264_version "bfc87b7a330f75f5c9a21e56081e4b20344f139e")
+set(x264_url "https://data.kitware.com/api/v1/file/6622b59bdf5a87675edbc11e/download/x264.${x264_version}.tar.bz2")
+set(x264_md5 "fd71fead6422ccb5094207c9d2ad70bd")
+
+# x265
+set(x265_version "3.4")
+set(x265_url "https://data.kitware.com/api/v1/file/6622b59cdf5a87675edbc121/download/x265.${x265_version}.tar.gz")
+set(x265_md5 "d867c3a7e19852974cf402c6f6aeaaf3")
+
+# FFmpeg NVidia codec headers
+set(ffnvcodec_version "n11.1.5.1")
+set(ffnvcodec_url "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git")
 
 # FFmpeg
 if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
@@ -155,26 +169,6 @@ if (fletch_ENABLE_FFmpeg OR fletch_ENABLE_ALL_PACKAGES)
   set(fletch_ENABLE_ffnvcodec ON CACHE BOOL "Include FFmpeg NVidia codec headers")
 endif()
 list(APPEND fletch_external_sources FFmpeg)
-
-# x264
-if(_FFmpeg_version VERSION_LESS 4.0.0)
-  set(x264_version "8c297425")
-  set(x264_url "https://code.videolan.org/videolan/x264/-/archive/${x264_version}/x264-${x264_version}.zip")
-  set(x264_md5 "3a98581aeae4018aad3861583c4e71c8")
-else()
-  set(x264_version "bfc87b7a330f75f5c9a21e56081e4b20344f139e")
-  set(x264_url "https://data.kitware.com/api/v1/file/6622b59bdf5a87675edbc11e/download/x264.${x264_version}.tar.bz2")
-  set(x264_md5 "fd71fead6422ccb5094207c9d2ad70bd")
-endif()
-
-# x265
-set(x265_version "3.4")
-set(x265_url "https://data.kitware.com/api/v1/file/6622b59cdf5a87675edbc121/download/x265.${x265_version}.tar.gz")
-set(x265_md5 "d867c3a7e19852974cf402c6f6aeaaf3")
-
-# FFmpeg NVidia codec headers
-set(ffnvcodec_version "n11.1.5.1")
-set(ffnvcodec_url "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git")
 
 # EIGEN
 set(Eigen_SELECT_VERSION 3.3.9 CACHE STRING "Select the version of Eigen to build.")
