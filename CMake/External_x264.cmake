@@ -3,20 +3,48 @@ if(BUILD_SHARED_LIBS)
     --enable-shared
     )
 else()
-  set(_shared_lib_params
-    --enable-static
-    --enable-pic
-    --extra-cflags=-fPIC
-    --extra-cxxflags=-fPIC
-    --disable-asm
-    )
+  if(WIN32)
+    # MSVC doesn't use -fPIC
+    set(_shared_lib_params
+      --enable-static
+      --disable-asm
+      )
+  else()
+    set(_shared_lib_params
+      --enable-static
+      --enable-pic
+      --extra-cflags=-fPIC
+      --extra-cxxflags=-fPIC
+      --disable-asm
+      )
+  endif()
 endif()
 
 if(WIN32)
   include(External_msys2)
   list(APPEND x264_DEPENDS msys2)
-  set(X264_COMMAND_PREFIX ${mingw_prefix} ${msys_bash})
-  set(_win32_config_params --host=x86_64-w64-mingw32)
+
+  # Get the Visual Studio tools directory from CMAKE_C_COMPILER (cl.exe)
+  get_filename_component(_MSVC_TOOLS_DIR "${CMAKE_C_COMPILER}" DIRECTORY)
+  # Convert Windows path to MSYS2 path format
+  string(REPLACE "\\" "/" _MSVC_TOOLS_DIR_UNIX "${_MSVC_TOOLS_DIR}")
+  string(REGEX REPLACE "^([A-Za-z]):" "/\\1" _MSVC_TOOLS_PATH "${_MSVC_TOOLS_DIR_UNIX}")
+
+  # Use MSYS environment (not MINGW64) with MSVC tools in PATH
+  set(X264_COMMAND_PREFIX ${msys_env} MSYSTEM=MSYS PATH=${_MSVC_TOOLS_PATH}:/usr/local/bin:/usr/bin:/bin ${msys_bash})
+
+  # Get INCLUDE and LIB paths from Visual Studio
+  set(_MSVC_INCLUDE_DIRS "$ENV{INCLUDE}")
+  set(_MSVC_LIB_DIRS "$ENV{LIB}")
+  if(_MSVC_INCLUDE_DIRS)
+    string(REPLACE "\\" "/" _MSVC_INCLUDE_DIRS "${_MSVC_INCLUDE_DIRS}")
+  endif()
+  if(_MSVC_LIB_DIRS)
+    string(REPLACE "\\" "/" _MSVC_LIB_DIRS "${_MSVC_LIB_DIRS}")
+  endif()
+
+  # Configure x264 with MSVC - set CC=cl to use MSVC compiler
+  set(_win32_config_params CC=cl)
   set(X264_BUILD_COMMAND ${X264_COMMAND_PREFIX} -c "make -j 8")
   set(X264_INSTALL_COMMAND ${X264_COMMAND_PREFIX} -c "make install")
 else()
@@ -27,16 +55,22 @@ else()
   set(X264_INSTALL_COMMAND ${MAKE_EXECUTABLE} install)
 endif()
 
-set(X264_CONFIGURE_COMMAND
-  ${X264_COMMAND_PREFIX}
-  ${fletch_BUILD_PREFIX}/src/x264/configure
-  --prefix=${fletch_BUILD_INSTALL_PREFIX}
-  --disable-cli
-  --disable-opencl
-  --disable-asm
-  ${_shared_lib_params}
-  ${_win32_config_params}
-  )
+if(WIN32)
+  set(X264_CONFIGURE_COMMAND
+    ${X264_COMMAND_PREFIX} -c
+    "env INCLUDE='${_MSVC_INCLUDE_DIRS}' LIB='${_MSVC_LIB_DIRS}' ${_win32_config_params} ${fletch_BUILD_PREFIX}/src/x264/configure --prefix=${fletch_BUILD_INSTALL_PREFIX} --disable-cli --disable-opencl --disable-asm ${_shared_lib_params}"
+    )
+else()
+  set(X264_CONFIGURE_COMMAND
+    ${X264_COMMAND_PREFIX}
+    ${fletch_BUILD_PREFIX}/src/x264/configure
+    --prefix=${fletch_BUILD_INSTALL_PREFIX}
+    --disable-cli
+    --disable-opencl
+    --disable-asm
+    ${_shared_lib_params}
+    )
+endif()
 
 ExternalProject_Add(x264
   URL ${x264_url}
