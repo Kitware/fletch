@@ -93,9 +93,16 @@ endif()
 # If a patch file exists, apply it
 set (VXL_patch ${fletch_SOURCE_DIR}/Patches/VXL)
 if (EXISTS ${VXL_patch})
+  # Determine if FFmpeg 5.x patches should be applied
+  set(VXL_APPLY_FFMPEG5_PATCH OFF)
+  if(fletch_ENABLE_FFmpeg AND _FFmpeg_version VERSION_GREATER_EQUAL 5)
+    set(VXL_APPLY_FFMPEG5_PATCH ON)
+  endif()
+
   set(VXL_PATCH_COMMAND ${CMAKE_COMMAND}
       -DVXL_PATCH_DIR:PATH=${VXL_patch}
       -DVXL_SOURCE_DIR:PATH=${fletch_BUILD_PREFIX}/src/VXL
+      -DVXL_APPLY_FFMPEG5_PATCH:BOOL=${VXL_APPLY_FFMPEG5_PATCH}
       -P ${VXL_patch}/Patch.cmake
     )
 endif()

@@ -15,7 +15,8 @@ file(COPY ${VXL_PATCH_DIR}/v3p/openjpeg2/opj_includes.h
 )
 
 # Apply FFmpeg 5.x compatibility patches for vidl_ffmpeg
-if(EXISTS ${VXL_PATCH_DIR}/core/vidl)
+# Only applied when VXL_APPLY_FFMPEG5_PATCH is set (FFmpeg >= 5.0 is enabled)
+if(VXL_APPLY_FFMPEG5_PATCH AND EXISTS ${VXL_PATCH_DIR}/core/vidl)
   message(STATUS "Applying FFmpeg 5.x compatibility patches for vidl")
 
   file(COPY ${VXL_PATCH_DIR}/core/vidl/vidl_ffmpeg_init.cxx
