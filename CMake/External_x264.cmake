@@ -33,16 +33,6 @@ if(WIN32)
   # Use MSYS environment (not MINGW64) with MSVC tools in PATH
   set(X264_COMMAND_PREFIX ${msys_env} MSYSTEM=MSYS PATH=${_MSVC_TOOLS_PATH}:/usr/local/bin:/usr/bin:/bin ${msys_bash})
 
-  # Get INCLUDE and LIB paths from Visual Studio
-  set(_MSVC_INCLUDE_DIRS "$ENV{INCLUDE}")
-  set(_MSVC_LIB_DIRS "$ENV{LIB}")
-  if(_MSVC_INCLUDE_DIRS)
-    string(REPLACE "\\" "/" _MSVC_INCLUDE_DIRS "${_MSVC_INCLUDE_DIRS}")
-  endif()
-  if(_MSVC_LIB_DIRS)
-    string(REPLACE "\\" "/" _MSVC_LIB_DIRS "${_MSVC_LIB_DIRS}")
-  endif()
-
   # Configure x264 with MSVC - set CC=cl to use MSVC compiler
   set(_win32_config_params CC=cl)
   set(X264_BUILD_COMMAND ${X264_COMMAND_PREFIX} -c "make -j 8")
@@ -56,9 +46,17 @@ else()
 endif()
 
 if(WIN32)
+  # Build command string similar to FFmpeg pattern - use multiline string and replace semicolons
+  set(x264_inner_cmd "${_win32_config_params}\
+    ${fletch_BUILD_PREFIX}/src/x264/configure\
+    --prefix=${fletch_BUILD_INSTALL_PREFIX}\
+    --disable-cli\
+    --disable-opencl\
+    --disable-asm\
+    ${_shared_lib_params}")
+  string(REPLACE ";" " " x264_inner_cmd "${x264_inner_cmd}")
   set(X264_CONFIGURE_COMMAND
-    ${X264_COMMAND_PREFIX} -c
-    "env INCLUDE='${_MSVC_INCLUDE_DIRS}' LIB='${_MSVC_LIB_DIRS}' ${_win32_config_params} ${fletch_BUILD_PREFIX}/src/x264/configure --prefix=${fletch_BUILD_INSTALL_PREFIX} --disable-cli --disable-opencl --disable-asm ${_shared_lib_params}"
+    ${X264_COMMAND_PREFIX} -c ${x264_inner_cmd}
     )
 else()
   set(X264_CONFIGURE_COMMAND
