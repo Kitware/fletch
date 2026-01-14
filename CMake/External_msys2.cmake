@@ -21,7 +21,7 @@ if(WIN32)
 	  CONFIGURE_COMMAND
 	  ${msys_prefix_cmd} ${msys_bash} -l -c "pacman -Syyuq --noconfirm"
 	  BUILD_COMMAND
-	  ${msys_prefix_cmd} ${msys_bash} -l -c "pacman -Syyq --noconfirm make diffutils yasm nasm git pkgconf"
+	  ${msys_prefix_cmd} ${msys_bash} -l -c "pacman -Syyq --noconfirm make diffutils yasm nasm git pkgconf mingw-w64-x86_64-gcc"
 	  INSTALL_COMMAND ""
   )
   fletch_external_project_force_install(PACKAGE msys2)
