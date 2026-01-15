@@ -32,6 +32,84 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DVTK_MODULE_ENABLE_VTK_hdf5:STRING=NO
 )
 
+# --- Disable unused VTK modules not needed by KWIVER/VIAME/VIVIA ---
+# Parallel/MPI modules (not used)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DVTK_Group_MPI:BOOL=OFF
+  -DModule_vtkIOParallel:BOOL=OFF
+  -DModule_vtkIOParallelXML:BOOL=OFF
+  -DModule_vtkFiltersParallel:BOOL=OFF
+  -DModule_vtkFiltersParallelImaging:BOOL=OFF
+  -DModule_vtkParallelCore:BOOL=OFF
+  -DModule_vtkParallelMPI:BOOL=OFF
+)
+# Specialized IO modules (not used)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DModule_vtkIOGDAL:BOOL=OFF
+  -DModule_vtkIOGeoJSON:BOOL=OFF
+  -DModule_vtkIOMySQL:BOOL=OFF
+  -DModule_vtkIOODBC:BOOL=OFF
+  -DModule_vtkIONetCDF:BOOL=OFF
+  -DModule_vtkIOAMR:BOOL=OFF
+  -DModule_vtkIOCityGML:BOOL=OFF
+  -DModule_vtkIOExodus:BOOL=OFF
+  -DModule_vtkIOFFMPEG:BOOL=OFF
+  -DModule_vtkIOLSDyna:BOOL=OFF
+  -DModule_vtkIOTRUCHAS:BOOL=OFF
+  -DModule_vtkIOVeraOut:BOOL=OFF
+  -DModule_vtkIOSegY:BOOL=OFF
+  -DModule_vtkIOXdmf2:BOOL=OFF
+  -DModule_vtkIOXdmf3:BOOL=OFF
+  -DModule_vtkIOVPIC:BOOL=OFF
+  -DModule_vtkIOParallelNetCDF:BOOL=OFF
+  -DModule_vtkIOH5part:BOOL=OFF
+  -DModule_vtkIOInfovis:BOOL=OFF
+)
+# Domain-specific modules (not used)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DModule_vtkDomainsChemistry:BOOL=OFF
+  -DModule_vtkDomainsChemistryOpenGL2:BOOL=OFF
+  -DModule_vtkGeovisCore:BOOL=OFF
+)
+# Tk/Matplotlib rendering (not used)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DModule_vtkRenderingTk:BOOL=OFF
+  -DModule_vtkRenderingMatplotlib:BOOL=OFF
+)
+
+# VTK 9.x uses different naming convention (VTK_MODULE_ENABLE_VTK_*)
+if(NOT VTK_SELECT_VERSION VERSION_LESS 9.0)
+  set(vtk_cmake_args ${vtk_cmake_args}
+    -DVTK_MODULE_ENABLE_VTK_IOParallel:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOParallelXML:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_FiltersParallel:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_FiltersParallelImaging:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_ParallelCore:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_ParallelMPI:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOGDAL:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOGeoJSON:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOMySQL:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOODBC:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IONetCDF:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOAMR:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOCityGML:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOExodus:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOFFMPEG:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOLSDyna:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOTRUCHAS:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOVeraOut:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOSegY:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOXdmf2:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOXdmf3:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOVPIC:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_DomainsChemistry:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_DomainsChemistryOpenGL2:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_GeovisCore:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_RenderingTk:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_RenderingMatplotlib:STRING=NO
+  )
+endif()
+
 # libxml2
 if(NOT WIN32)
   add_package_dependency(
