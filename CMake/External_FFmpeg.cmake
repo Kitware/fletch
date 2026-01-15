@@ -88,7 +88,11 @@ if(WIN32)
     ${_shared_lib_params}\
     --enable-rpath\
     --disable-programs\
-    --disable-asm")
+    --disable-asm\
+    --disable-swresample\
+    --disable-avdevice\
+    --disable-postproc\
+    --disable-doc")
   string(REPLACE ";" " " inner_cmd "${inner_cmd}")
   set(FFMPEG_CONFIGURE_COMMAND
     ${FFMPEG_COMMAND_PREFIX} -x -c ${inner_cmd}
@@ -112,6 +116,12 @@ else()
     --cxx=${CMAKE_CXX_COMPILER}
     --enable-rpath
     --disable-programs
+    # Disable unused FFmpeg libraries (not used by KWIVER/VIAME)
+    --disable-swresample
+    --disable-avdevice
+    --disable-postproc
+    # Disable documentation
+    --disable-doc
     )
 endif()
 
