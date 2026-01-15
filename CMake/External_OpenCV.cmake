@@ -327,6 +327,8 @@ if (fletch_ENABLE_OpenCV_contrib)
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
   #Don't build these contrib modules, they fail on VS.
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_bioinspired:BOOL=FALSE)
+  # Disable hdf module to avoid MPI dependency from system HDF5
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_hdf:BOOL=OFF)
 
   if (fletch_ENABLE_GFlags)
     list(APPEND OpenCV_EXTRA_BUILD_FLAGS -Dgflags_DIR:PATH=${GFlags_DIR})
