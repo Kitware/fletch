@@ -83,6 +83,18 @@ else()
 endif()
 
 
+# --- Disable unused OpenCV main modules ---
+# Only build modules actually used by KWIVER/VIAME:
+#   core, imgproc, imgcodecs, highgui, videoio, video, calib3d,
+#   features2d, flann, objdetect, ml, photo
+# Disable modules not used:
+list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+  -DBUILD_opencv_dnn:BOOL=OFF
+  -DBUILD_opencv_gapi:BOOL=OFF
+  -DBUILD_opencv_stitching:BOOL=OFF
+  )
+
+
 # Handle GPU disable flag
 if(fletch_ENABLE_OpenCV_CUDA)
   format_passdowns("CUDA" CUDA_BUILD_FLAGS)
@@ -321,14 +333,65 @@ endif()
 # Include link to contrib repo if enabled
 if (fletch_ENABLE_OpenCV_contrib)
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS "-DOPENCV_EXTRA_MODULES_PATH:PATH=${OpenCV_contrib_MODULE_PATH}")
-  # turn off cnn_3dobj because it introduces cyclic dependency between OpenCV and Caffe
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS "-DBUILD_opencv_cnn_3dobj:BOOL=OFF")
   list(APPEND OpenCV_EXTRA_BUILD_FLAGS "-DOPENCV_ENABLE_NONFREE:BOOL=ON")
   list(APPEND OpenCV_DEPENDS OpenCV_contrib)
-  #Don't build these contrib modules, they fail on VS.
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_bioinspired:BOOL=FALSE)
-  # Disable hdf module to avoid MPI dependency from system HDF5
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_opencv_hdf:BOOL=OFF)
+
+  # --- Disable unused OpenCV contrib modules ---
+  # Only xfeatures2d is used by KWIVER/VIAME from contrib.
+  # Disable all other contrib modules to reduce build time and dependencies.
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+    -DBUILD_opencv_alphamat:BOOL=OFF
+    -DBUILD_opencv_aruco:BOOL=OFF
+    -DBUILD_opencv_barcode:BOOL=OFF
+    -DBUILD_opencv_bgsegm:BOOL=OFF
+    -DBUILD_opencv_bioinspired:BOOL=OFF
+    -DBUILD_opencv_ccalib:BOOL=OFF
+    -DBUILD_opencv_cnn_3dobj:BOOL=OFF
+    -DBUILD_opencv_cudabgsegm:BOOL=OFF
+    -DBUILD_opencv_cudafeatures2d:BOOL=OFF
+    -DBUILD_opencv_cudafilters:BOOL=OFF
+    -DBUILD_opencv_cudalegacy:BOOL=OFF
+    -DBUILD_opencv_cudastereo:BOOL=OFF
+    -DBUILD_opencv_cvv:BOOL=OFF
+    -DBUILD_opencv_datasets:BOOL=OFF
+    -DBUILD_opencv_dnn_objdetect:BOOL=OFF
+    -DBUILD_opencv_dnn_superres:BOOL=OFF
+    -DBUILD_opencv_dnns_easily_fooled:BOOL=OFF
+    -DBUILD_opencv_dpm:BOOL=OFF
+    -DBUILD_opencv_face:BOOL=OFF
+    -DBUILD_opencv_freetype:BOOL=OFF
+    -DBUILD_opencv_fuzzy:BOOL=OFF
+    -DBUILD_opencv_hdf:BOOL=OFF
+    -DBUILD_opencv_hfs:BOOL=OFF
+    -DBUILD_opencv_img_hash:BOOL=OFF
+    -DBUILD_opencv_intensity_transform:BOOL=OFF
+    -DBUILD_opencv_julia:BOOL=OFF
+    -DBUILD_opencv_line_descriptor:BOOL=OFF
+    -DBUILD_opencv_matlab:BOOL=OFF
+    -DBUILD_opencv_mcc:BOOL=OFF
+    -DBUILD_opencv_optflow:BOOL=OFF
+    -DBUILD_opencv_ovis:BOOL=OFF
+    -DBUILD_opencv_phase_unwrapping:BOOL=OFF
+    -DBUILD_opencv_plot:BOOL=OFF
+    -DBUILD_opencv_quality:BOOL=OFF
+    -DBUILD_opencv_rapid:BOOL=OFF
+    -DBUILD_opencv_reg:BOOL=OFF
+    -DBUILD_opencv_rgbd:BOOL=OFF
+    -DBUILD_opencv_saliency:BOOL=OFF
+    -DBUILD_opencv_sfm:BOOL=OFF
+    -DBUILD_opencv_shape:BOOL=OFF
+    -DBUILD_opencv_stereo:BOOL=OFF
+    -DBUILD_opencv_structured_light:BOOL=OFF
+    -DBUILD_opencv_superres:BOOL=OFF
+    -DBUILD_opencv_surface_matching:BOOL=OFF
+    -DBUILD_opencv_text:BOOL=OFF
+    -DBUILD_opencv_tracking:BOOL=OFF
+    -DBUILD_opencv_videostab:BOOL=OFF
+    -DBUILD_opencv_viz:BOOL=OFF
+    -DBUILD_opencv_wechat_qrcode:BOOL=OFF
+    -DBUILD_opencv_xobjdetect:BOOL=OFF
+    -DBUILD_opencv_xphoto:BOOL=OFF
+    )
 
   if (fletch_ENABLE_GFlags)
     list(APPEND OpenCV_EXTRA_BUILD_FLAGS -Dgflags_DIR:PATH=${GFlags_DIR})
