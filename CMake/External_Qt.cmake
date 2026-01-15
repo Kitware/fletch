@@ -1,11 +1,12 @@
 # The Qt external project for fletch
 
-option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascipt and script" TRUE)
+option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, javascript and script" TRUE)
 if(BUILD_Qt_MINIMAL)
-  set(Qt_args_package -skip qtwebengine -no-qml-debug)
+  # Minimal build skips heavy modules not used by KWIVER/VIAME/VIVIA
+  # qtlocation is broken in Qt5 and not needed
+  set(Qt_args_package -skip qtwebengine -skip qtlocation -no-qml-debug)
   if(APPLE)
-      #version of Qt being built has a build error in bluetooth on current OS X 10.15
-      #current we do not need qtconnectivity
+      # qtconnectivity has build errors on macOS and is not needed
       list(APPEND Qt_args_package -skip qtconnectivity)
   endif()
 else()
@@ -143,8 +144,36 @@ else()
   set(Qt_args_other -no-cups -optimized-qmake)
 
   if (Qt_version VERSION_GREATER 5.12)
+    # Skip Qt modules not used by KWIVER/VIAME/VIVIA
+    # Used modules: Core, Gui, Widgets, Network, Concurrent, Xml, Test
     list(APPEND Qt_configure
-      -skip qtconnectivity -skip qtgamepad -skip qtlocation -skip qtmultimedia -skip qtsensors -skip qtserialport -skip qtwayland -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -nomake examples -nomake tests -no-dbus -no-openssl)
+      -skip qtconnectivity
+      -skip qtgamepad
+      -skip qtlocation
+      -skip qtmultimedia
+      -skip qtsensors
+      -skip qtserialport
+      -skip qtwayland
+      -skip qtwebchannel
+      -skip qtwebengine
+      -skip qtwebsockets
+      -skip qtdeclarative
+      -skip qt3d
+      -skip qtcharts
+      -skip qtdatavis3d
+      -skip qtpurchasing
+      -skip qtvirtualkeyboard
+      -skip qtnetworkauth
+      -skip qtremoteobjects
+      -skip qtscxml
+      -skip qtspeech
+      -skip qtsvg
+      -skip qtscript
+      -skip qtserialbus
+      -skip qtlottie
+      -skip qtquick3d
+      -skip qtquicktimeline
+      -nomake examples -nomake tests -no-dbus -no-openssl)
     list(APPEND Qt_configure
       -qt-libjpeg -qt-pcre -system-zlib -system-libpng)
     if (UNIX AND NOT APPLE)
@@ -189,13 +218,6 @@ list( APPEND Qt_configure
   ${Qt_args_other}
   ${Qt_args_framework}
   )
-
-if (Qt_version VERSION_LESS 6.0.0)
-# The qtlocation module from Qt5 is currently broken.
-# Disable until a fix is found.
-  list( APPEND Qt_configure
-    -skip qtlocation )
-endif()
 
 if (WIN32)
   # Dynamic OpenGL is the recommended way to build Qt5 on Windows
