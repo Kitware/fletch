@@ -41,10 +41,13 @@ execute_command_wrapper(
   ${Boost_SOURCE_DIR}
   ${Boost_SOURCE_DIR}/dist/bin/bcp${CMAKE_EXECUTABLE_SUFFIX}
   --boost=${Boost_SOURCE_DIR} build config
-  lexical_cast smart_ptr foreach uuid assign asio function_types
-  typeof iostreams algorithm accumulators
-  context date_time thread filesystem regex chrono system signals2 timer
-  integer property_tree graph spirit fusion ${Boost_EXTRA_LIBS}
+  # Components used by KWIVER/VIAME/VIVIA:
+  # - Built libraries: chrono date_time filesystem iostreams program_options regex system thread
+  # - Header-only: algorithm assign graph integer lexical_cast property_tree ptr_container smart_ptr
+  lexical_cast smart_ptr assign algorithm
+  iostreams ptr_container
+  date_time thread filesystem regex chrono system program_options
+  integer property_tree graph ${Boost_EXTRA_LIBS}
   ${Boost_BUILD_DIR}
 )
 
