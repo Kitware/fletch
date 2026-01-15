@@ -47,6 +47,13 @@ ExternalProject_Add(PROJ
     -DBUILD_LIBPROJ_SHARED:BOOL=ON
     -DBUILD_TESTING:BOOL=OFF
     -DPROJ_TESTS:BOOL=OFF
+    # --- Disable unused PROJ components (not used by KWIVER/VIAME/VIVIA) ---
+    # Only the library is needed, not the command-line tools
+    -DBUILD_APPS:BOOL=OFF
+    # Disable network/CURL support for remote grid downloads
+    -DENABLE_CURL:BOOL=OFF
+    # Disable projsync utility for syncing transformation grids
+    -DBUILD_PROJSYNC:BOOL=OFF
   )
 
 fletch_external_project_force_install(PACKAGE PROJ)
