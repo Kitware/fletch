@@ -190,9 +190,9 @@ class build_ext(Command):
             # the 'lib' directory is for binary installs - we assume that
             # must be the *native* platform.  But we don't really support
             # cross-compiling via a binary install anyway, so we let it go.
-            self.library_dirs.append(os.path.join(sys.exec_prefix, 'lib'))
+            self.library_dirs.append(os.path.join(sys.exec_prefix, '..', 'lib'))
             if sys.base_exec_prefix != sys.prefix:  # Issue 16116
-                self.library_dirs.append(os.path.join(sys.base_exec_prefix, 'lib'))
+                self.library_dirs.append(os.path.join(sys.base_exec_prefix, '..', 'lib'))
             if self.debug:
                 self.build_temp = os.path.join(self.build_temp, "Debug")
             else:
