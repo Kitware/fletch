@@ -379,6 +379,12 @@ set (COMMON_CMAKE_ARGS
   -DCUDAToolkit_NVCC_EXECUTABLE=${CUDA_NVCC_EXECUTABLE}
   )
 
+if (WIN32)
+  list(APPEND COMMON_CMAKE_ARGS
+    -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL
+  )
+endif()
+
 #
 #  Set up fletch targets
 #
