@@ -104,6 +104,42 @@ if (WIN32)
     )
 endif()
 
+# --- Disable unused ITK modules not needed by KWIVER/VIAME/SEAL/VIVIA ---
+# Deprecated/Review modules (not used)
+list (APPEND itk_cmake_args
+  -DModule_ITKReview:BOOL=OFF
+  -DModule_ITKDeprecated:BOOL=OFF
+)
+# Video modules (only OpenCV bridge is used)
+list (APPEND itk_cmake_args
+  -DModule_ITKVideoFiltering:BOOL=OFF
+  -DModule_ITKVideoIO:BOOL=OFF
+)
+# Specialized/Domain modules (not used)
+list (APPEND itk_cmake_args
+  -DModule_ITKBioCell:BOOL=OFF
+  -DModule_ITKVtkGlue:BOOL=OFF
+  -DModule_ITKSuperPixel:BOOL=OFF
+  -DModule_ITKFEM:BOOL=OFF
+  -DModule_ITKFEMRegistration:BOOL=OFF
+)
+# Testing modules (not needed for deployment)
+list (APPEND itk_cmake_args
+  -DModule_ITKTestKernel:BOOL=OFF
+)
+# Additional modules not used by KWIVER/VIAME/SEAL/VIVIA
+list (APPEND itk_cmake_args
+  -DModule_ITKMINC:BOOL=OFF
+  -DModule_ITKDCMTK:BOOL=OFF
+  -DModule_ITKIOBruker:BOOL=OFF
+  -DModule_ITKIOMINC:BOOL=OFF
+  -DModule_MGHIO:BOOL=OFF
+  -DModule_GenericLabelInterpolator:BOOL=OFF
+  -DModule_HigherOrderAccurateGradient:BOOL=OFF
+  -DModule_IOSTL:BOOL=OFF
+  -DModule_ITKVoronoi:BOOL=OFF
+)
+
 ExternalProject_Add(ITK
   DEPENDS ${ITK_DEPENDS}
   URL ${ITK_file}
