@@ -7,3 +7,4 @@ Updates since v1.7.0
 --------------------
 
 * Made PDAL version 2.9.2 available as an option
+* Add CastXML
