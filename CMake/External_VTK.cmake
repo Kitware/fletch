@@ -76,6 +76,44 @@ set(vtk_cmake_args ${vtk_cmake_args}
   -DModule_vtkRenderingTk:BOOL=OFF
   -DModule_vtkRenderingMatplotlib:BOOL=OFF
 )
+# Web/HTTP modules (not used)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DModule_vtkWebCore:BOOL=OFF
+  -DModule_vtkWebGLExporter:BOOL=OFF
+)
+# Additional IO modules (not used by KWIVER/VIAME/SEAL/VIVIA)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DModule_vtkIOCGNS:BOOL=OFF
+  -DModule_vtkIOEnSight:BOOL=OFF
+  -DModule_vtkIOMotionFX:BOOL=OFF
+  -DModule_vtkIOCONVERGECFD:BOOL=OFF
+  -DModule_vtkIOFLUENTCFD:BOOL=OFF
+  -DModule_vtkIOParallelLSDyna:BOOL=OFF
+  -DModule_vtkIOOCCT:BOOL=OFF
+  -DModule_vtkIOADIOS2:BOOL=OFF
+  -DModule_vtkIOLAS:BOOL=OFF
+  -DModule_vtkIOCellGrid:BOOL=OFF
+  -DModule_vtkIOChemistry:BOOL=OFF
+  -DModule_vtkIOIOSS:BOOL=OFF
+  -DModule_vtkIOTecplotTable:BOOL=OFF
+  -DModule_vtkIOMINC:BOOL=OFF
+  -DModule_vtkIOPDAL:BOOL=OFF
+  -DModule_vtkIOAsynchronous:BOOL=OFF
+)
+# DICOM/Medical (not used)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DModule_vtkDICOM:BOOL=OFF
+)
+# VTK-m Acceleration (not used)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DModule_vtkAcceleratorsVTKm:BOOL=OFF
+  -DVTK_USE_VTKM:BOOL=OFF
+)
+# Virtual Reality modules (not used)
+set(vtk_cmake_args ${vtk_cmake_args}
+  -DModule_vtkRenderingOpenVR:BOOL=OFF
+  -DModule_vtkRenderingVR:BOOL=OFF
+)
 
 # VTK 9.x uses different naming convention (VTK_MODULE_ENABLE_VTK_*)
 if(NOT VTK_SELECT_VERSION VERSION_LESS 9.0)
@@ -107,6 +145,36 @@ if(NOT VTK_SELECT_VERSION VERSION_LESS 9.0)
     -DVTK_MODULE_ENABLE_VTK_GeovisCore:STRING=NO
     -DVTK_MODULE_ENABLE_VTK_RenderingTk:STRING=NO
     -DVTK_MODULE_ENABLE_VTK_RenderingMatplotlib:STRING=NO
+    # Web/HTTP modules (not used)
+    -DVTK_MODULE_ENABLE_VTK_WebCore:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_WebGLExporter:STRING=NO
+    # Additional IO modules (not used by KWIVER/VIAME/SEAL/VIVIA)
+    -DVTK_MODULE_ENABLE_VTK_IOCGNS:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOEnSight:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOMotionFX:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOCONVERGECFD:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOFLUENT:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOParallelLSDyna:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOOCCT:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOADIOS2:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOLAS:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOCellGrid:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOChemistry:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOIOSS:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOTecplotTable:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOMINC:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOPDAL:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_IOAsynchronous:STRING=NO
+    # DICOM/Medical (not used)
+    -DVTK_MODULE_ENABLE_VTK_DICOM:STRING=NO
+    # VTK-m Acceleration (not used)
+    -DVTK_MODULE_ENABLE_VTK_AcceleratorsVTKmCore:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_AcceleratorsVTKmDataModel:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_AcceleratorsVTKmFilters:STRING=NO
+    # Virtual Reality modules (not used)
+    -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_RenderingVR:STRING=NO
+    -DVTK_MODULE_ENABLE_VTK_RenderingOpenXR:STRING=NO
   )
 endif()
 
