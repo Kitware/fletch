@@ -14,6 +14,7 @@ Updates since v1.6.1
 * Make SQLite version 3.45.3 available as an option
 * Patch Ceres 1.14.0 to find newer versions of TBB
 * Add COLMAP, along with its dependencies GLEW and FreeImage
+* Add CastXML
 
 Fixes since 1.6.1
 -----------------
