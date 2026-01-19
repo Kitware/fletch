@@ -57,6 +57,7 @@ else()
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ./configure
       --prefix=${fletch_BUILD_INSTALL_PREFIX}
+      --disable-static
       ${_libjpeg-turbo_ARGS_APPLE}
       NASM=${fletch_YASM}
       CFLAGS=-fPIC
