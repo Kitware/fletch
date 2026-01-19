@@ -77,9 +77,9 @@ add_custom_target(fletch-build-install)
 
 # Include CXX11 support
 set(fletch_CXX_STANDARD_VERSION "98")
-option(fletch_BUILD_CXX11 "" TRUE)
-if (fletch_BUILD_CXX11)
-  set(fletch_CXX_STANDARD_VERSION "11")
+option(fletch_BUILD_CXX17 "" TRUE)
+if (fletch_BUILD_CXX17)
+  set(fletch_CXX_STANDARD_VERSION "17")
 endif()
 
 #

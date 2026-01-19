@@ -33,6 +33,7 @@ ExternalProject_Add(libkml
   PATCH_COMMAND ${CMAKE_COMMAND}
     -Dlibkml_patch:PATH=${fletch_SOURCE_DIR}/Patches/libkml
     -Dlibkml_source:PATH=${fletch_BUILD_PREFIX}/src/libkml
+    -Dfletch_BUILD_CXX17:BOOL=${fletch_BUILD_CXX17}
     -P ${fletch_SOURCE_DIR}/Patches/libkml/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
