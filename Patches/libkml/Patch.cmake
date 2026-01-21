@@ -24,3 +24,24 @@ if(fletch_BUILD_CXX17)
     DESTINATION ${libkml_source}/src/kml/convenience/
   )
 endif()
+
+# Fix CMake 3.29+ compatibility: export() generated files cannot be installed
+# with install(FILES), must use install(EXPORT) instead
+file(READ "${libkml_source}/CMakeLists.txt" _cmake_content)
+
+# Add EXPORT KMLTargets to INSTALL(TARGETS kml ...)
+string(REPLACE
+"  INSTALL(TARGETS kml
+    RUNTIME DESTINATION bin COMPONENT RuntimeLibraries"
+"  INSTALL(TARGETS kml
+    EXPORT KMLTargets
+    RUNTIME DESTINATION bin COMPONENT RuntimeLibraries"
+  _cmake_content "${_cmake_content}")
+
+# Replace install(FILES ... KMLTargets.cmake) with install(EXPORT KMLTargets ...)
+string(REPLACE
+  "INSTALL(FILES \${libkml_BINARY_DIR}/KMLTargets.cmake DESTINATION lib/cmake)"
+  "install(EXPORT KMLTargets FILE KMLTargets.cmake DESTINATION lib/cmake)"
+  _cmake_content "${_cmake_content}")
+
+file(WRITE "${libkml_source}/CMakeLists.txt" "${_cmake_content}")
