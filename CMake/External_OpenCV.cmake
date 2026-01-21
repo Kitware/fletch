@@ -114,31 +114,40 @@ else()
 endif()
 
 # libtiff
-add_package_dependency(
-  PACKAGE OpenCV
-  PACKAGE_DEPENDENCY libtiff
-  PACKAGE_DEPENDENCY_ALIAS TIFF
-  OPTIONAL
-  EMBEDDED
-)
-list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_TIFF=ON)
 
-if (OpenCV_WITH_libtiff)
-  if(NOT TIFF_FOUND)
-    get_system_library_name(tiff tiff_lib)
-    set(TIFF_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
-    set(TIFF_LIBRARY_DEBUG ${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_lib})
-    set(TIFF_LIBRARY_RELEASE ${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_lib})
+# Allow OpenCV's tiff support to be turned off
+option(fletch_ENABLE_OpenCV_TIFF "Build OpenCV with tiff image support" TRUE )
+mark_as_advanced(fletch_ENABLE_OpenCV_TIFF)
+
+if(fletch_ENABLE_OpenCV_TIFF)
+  add_package_dependency(
+    PACKAGE OpenCV
+    PACKAGE_DEPENDENCY libtiff
+    PACKAGE_DEPENDENCY_ALIAS TIFF
+    OPTIONAL
+    EMBEDDED
+  )
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DWITH_TIFF=ON)
+  
+  if (OpenCV_WITH_libtiff)
+    if(NOT TIFF_FOUND)
+      get_system_library_name(tiff tiff_lib)
+      set(TIFF_INCLUDE_DIR ${fletch_BUILD_INSTALL_PREFIX}/include)
+      set(TIFF_LIBRARY_DEBUG ${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_lib})
+      set(TIFF_LIBRARY_RELEASE ${fletch_BUILD_INSTALL_PREFIX}/lib/${tiff_lib})
+    endif()
+  
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS
+      -DBUILD_TIFF:BOOL=OFF
+      -DTIFF_INCLUDE_DIR:PATH=${TIFF_INCLUDE_DIR}
+      -DTIFF_LIBRARY_DEBUG:FILEPATH=${TIFF_LIBRARY_DEBUG}
+      -DTIFF_LIBRARY_RELEASE:FILEPATH=${TIFF_LIBRARY_RELEASE}
+      )
+  else()
+    list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_TIFF=ON)
   endif()
-
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS
-    -DBUILD_TIFF:BOOL=OFF
-    -DTIFF_INCLUDE_DIR:PATH=${TIFF_INCLUDE_DIR}
-    -DTIFF_LIBRARY_DEBUG:FILEPATH=${TIFF_LIBRARY_DEBUG}
-    -DTIFF_LIBRARY_RELEASE:FILEPATH=${TIFF_LIBRARY_RELEASE}
-    )
 else()
-  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_TIFF=ON)
+  list(APPEND OpenCV_EXTRA_BUILD_FLAGS -DBUILD_TIFF=OFF -DWITH_TIFF=OFF)
 endif()
 
 # ZLIB
