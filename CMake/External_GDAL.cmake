@@ -161,7 +161,8 @@ else()
     set(GDAL_CONFIGURE_COMMAND ${env} ${env_var} ${GDAL_CONFIGURE_COMMAND})
   endif()
 
-  if(fletch_ENABLE_libxml2)
+  # GDAL 3 no long supports a path to our libxml2
+  if(fletch_ENABLE_libxml2 AND GDAL_SELECT_VERSION VERSION_LESS "3.0")
     list(APPEND _GDAL_DEPENDS libxml2)
     set(_GDAL_ARGS_XML2 "--with-xml2=${LIBXML2_ROOT}/bin/xml2-config")
   endif()
