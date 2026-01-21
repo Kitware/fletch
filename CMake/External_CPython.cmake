@@ -37,6 +37,11 @@ if( WIN32 )
     set( CPYTHON_BUILD_ARGS ${CPYTHON_BUILD_ARGS} -c Release )
   endif()
 
+  # Add free-threaded (GIL-less) build flag for Python 3.13+
+  if( CPython_free_threaded )
+    set( CPYTHON_BUILD_ARGS ${CPYTHON_BUILD_ARGS} --disable-gil )
+  endif()
+
   ExternalProject_Add( CPython
     DEPENDS ${CPython_DEPENDS}
     URL ${CPython_url}
@@ -88,6 +93,11 @@ else()
        ${CPYTHON_BUILD_ARGS_STATIC}
        --with-openssl=/usr
     )
+  endif()
+
+  # Add free-threaded (GIL-less) build flag for Python 3.13+
+  if( CPython_free_threaded )
+    set( CPYTHON_BUILD_ARGS_STATIC ${CPYTHON_BUILD_ARGS_STATIC} --disable-gil )
   endif()
 
   set( CPYTHON_BUILD_ARGS_SHARED ${CPYTHON_BUILD_ARGS_STATIC} --enable-shared )
