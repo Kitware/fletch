@@ -717,6 +717,20 @@ if(fletch_ENABLE_qtExtensions OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources qtExtensions)
 
+# Leptonica
+set(Leptonica_version "1.76.0")
+set(Leptonica_url "https://github.com/DanBloomberg/leptonica/archive/${Leptonica_version}.tar.gz")
+set(Leptonica_md5 "acb724d63929021ef175ed502ee5b20d")
+set(lep_dlname "leptonica-${Leptonica_version}.tar.gz")
+list(APPEND fletch_external_sources Leptonica)
+
+# Tesseract
+set(Tesseract_version "3.05.02")
+set(Tesseract_url "https://github.com/tesseract-ocr/tesseract/archive/${Tesseract_version}.tar.gz")
+set(Tesseract_md5 "d3b8661f878aed931cf3a7595e69b989")
+set(tess_dlname "tesseract-${Tesseract_version}.tar.gz")
+list(APPEND fletch_external_sources Tesseract)
+
 # ZeroMQ
 set(ZeroMQ_version "4.2.5")
 set(ZeroMQ_url "https://data.kitware.com/api/v1/file/6622b59edf5a87675edbc12a/download/zeromq.${ZeroMQ_version}.tar.gz")
