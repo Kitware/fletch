@@ -306,12 +306,13 @@ def _getuserbase():
 
 
 # Same to sysconfig.get_path('purelib', os.name+'_user')
+# Modified to use Linux-style paths on Windows to match sysconfig 'nt_user' scheme
 def _get_path(userbase):
     version = sys.version_info
 
     if os.name == 'nt':
-        ver_nodot = sys.winver.replace('.', '')
-        return f'{userbase}\\Python{ver_nodot}\\site-packages'
+        # Use Linux-style path to match the patched 'nt_user' scheme in sysconfig.py
+        return f'{userbase}/lib/python{version[0]}.{version[1]}/site-packages'
 
     if sys.platform == 'darwin' and sys._framework:
         return f'{userbase}/lib/python/site-packages'
