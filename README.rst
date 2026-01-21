@@ -218,6 +218,17 @@ Even though MSVC supports building multiple configurations, you should only buil
 If you need multiple configurations you should create multiple sub-folders and repeat the above instructions for each configuration.
 Also If you enable Python, please ensure that python is on your Windows PATH
 
+.. note::
+   Building with `Ninja <https://ninja-build.org/>`_ is highly recommended and can produce significantly faster build times.
+
+   To use Ninja as your CMake generator, modify your ``cmake`` command like so::
+
+     cmake -G Ninja ...
+
+   Then, to build, you can use the following command::
+
+     ninja
+
 Getting Help
 ============
 
