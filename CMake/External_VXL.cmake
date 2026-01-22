@@ -91,6 +91,10 @@ elseif(WIN32)
   set(VXL_ARGS_V3P
     # Geotiff
     )
+  # MSVC needs increased template depth for vidl_color.cxx and vidl_convert.cxx
+  set(VXL_EXTRA_CMAKE_CXX_FLAGS
+    -DVXL_EXTRA_CMAKE_CXX_FLAGS:STRING=/templateDepth:2000
+    )
 endif()
 
 # If a patch file exists, apply it
