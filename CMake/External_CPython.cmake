@@ -194,10 +194,10 @@ set( PYTHON_LIBRARY_DEBUG ${PYTHON_LIBRARY_DEBUG} )
 
 # --------------------- ADD ANY EXTRA PYTHON LIBS HERE -------------------------
 
-set( DEFAULT_LIBS "cython<3.0.0 ordered_set" )
+set( DEFAULT_LIBS "cython ordered_set" )
 
 if( CPython_version VERSION_GREATER_EQUAL "3.8" )
-  set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy==1.25.2 pip==25.0" )
+  set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy pip" )
 else()
   set( DEFAULT_LIBS "${DEFAULT_LIBS} numpy==1.19.5" )
 endif()
