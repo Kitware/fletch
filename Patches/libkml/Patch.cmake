@@ -44,4 +44,17 @@ string(REPLACE
   "install(EXPORT KMLTargets FILE KMLTargets.cmake DESTINATION lib/cmake)"
   _cmake_content "${_cmake_content}")
 
+# Add expat target to the export set when building internal expat
+# The expat target needs to be in the same export set as kml since kml links to it
+string(REPLACE
+  "LIST(APPEND KML_TARGETS expat)"
+  "LIST(APPEND KML_TARGETS expat)
+  # Install expat target with export set for CMake 3.29+ compatibility
+  INSTALL(TARGETS expat
+    EXPORT KMLTargets
+    RUNTIME DESTINATION bin COMPONENT RuntimeLibraries
+    LIBRARY DESTINATION lib COMPONENT RuntimeLibraries
+    ARCHIVE DESTINATION lib COMPONENT Development)"
+  _cmake_content "${_cmake_content}")
+
 file(WRITE "${libkml_source}/CMakeLists.txt" "${_cmake_content}")
