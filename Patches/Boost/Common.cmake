@@ -32,7 +32,14 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES PGI)
   set(BOOST_TOOLSET pgi)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 19.10)
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.50)
+    # VS 2026 and beyond - use msvc-14.3 (we patch msvc.jam to detect VS 2026)
+    set(BOOST_TOOLSET msvc-14.3)
+  elseif(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.30)
+    set(BOOST_TOOLSET msvc-14.3)
+  elseif(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.20)
+    set(BOOST_TOOLSET msvc-14.2)
+  elseif(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 19.10)
     set(BOOST_TOOLSET msvc-14.1)
   elseif(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 19)
     set(BOOST_TOOLSET msvc-14.0)
@@ -82,9 +89,10 @@ list(APPEND B2_FLAVOR_ARGS runtime-link=shared)
 list(APPEND B2_FLAVOR_ARGS threading=multi)
 
 # Compile the complete list of B2 args
+# Note: removed --ignore-site-config to allow proper toolset configuration
 set(B2_ARGS
   --abbreviate-paths -j${NCPU} --toolset=${BOOST_TOOLSET} --disable-icu --without-python
-  -sNO_BZIP2=1 ${BOOST_CXX_ARGS} --ignore-site-config
+  -sNO_BZIP2=1 ${BOOST_CXX_ARGS}
   ${B2_FLAVOR_ARGS}
 )
 
