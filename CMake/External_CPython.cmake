@@ -42,6 +42,35 @@ if( WIN32 )
     set( CPYTHON_BUILD_ARGS ${CPYTHON_BUILD_ARGS} --disable-gil )
   endif()
 
+  # Determine the platform toolset to match the current Visual Studio version
+  if( CMAKE_GENERATOR_TOOLSET )
+    set( CPYTHON_PLATFORM_TOOLSET ${CMAKE_GENERATOR_TOOLSET} )
+  elseif( MSVC_TOOLSET_VERSION )
+    set( CPYTHON_PLATFORM_TOOLSET v${MSVC_TOOLSET_VERSION} )
+  elseif( CMAKE_GENERATOR MATCHES "Visual Studio ([0-9]+)" )
+    # Extract VS version from generator and construct toolset (e.g., VS 18 -> v180)
+    set( CPYTHON_PLATFORM_TOOLSET v${CMAKE_MATCH_1}0 )
+  endif()
+
+  # Create a wrapper script to call build.bat with the correct MSBuild properties
+  # This avoids CMake list parsing issues with the = sign
+  # Note: The MSBuild property must be quoted to prevent batch from splitting at =
+  if( CPYTHON_PLATFORM_TOOLSET )
+    set( CPYTHON_BUILD_SCRIPT ${fletch_BUILD_PREFIX}/tmp/CPython/build_python.bat )
+    # Use SHIFT to handle the first argument (directory) and pass remaining args
+    file( WRITE ${CPYTHON_BUILD_SCRIPT}
+"@echo off
+setlocal
+set CPYTHON_DIR=%~1
+shift
+cd /d %CPYTHON_DIR%
+call PCBuild\\build.bat %1 %2 %3 %4 %5 %6 %7 %8 %9 \"/p:PlatformToolset=${CPYTHON_PLATFORM_TOOLSET}\"
+" )
+    set( CPYTHON_BUILD_CMD ${CPYTHON_BUILD_SCRIPT} ${CPYTHON_DIR} ${CPYTHON_BUILD_ARGS} )
+  else()
+    set( CPYTHON_BUILD_CMD PCBuild/build.bat ${CPYTHON_BUILD_ARGS} )
+  endif()
+
   ExternalProject_Add( CPython
     DEPENDS ${CPython_DEPENDS}
     URL ${CPython_url}
@@ -50,7 +79,7 @@ if( WIN32 )
     BUILD_IN_SOURCE 1
     PATCH_COMMAND ${CPYTHON_PATCH_CMD}
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND PCBuild/build.bat ${CPYTHON_BUILD_ARGS}
+    BUILD_COMMAND ${CPYTHON_BUILD_CMD}
     INSTALL_COMMAND ${CMAKE_COMMAND}
       -Dfletch_BUILD_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
       -DCPYTHON_BUILD_LOC:PATH=${CPYTHON_DIR}
