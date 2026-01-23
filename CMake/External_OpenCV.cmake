@@ -37,6 +37,9 @@ endif()
 
 # --- Configure OpenCV dependencies ---
 
+# Build up environment variables for OpenCV build
+set(OpenCV_ENV_VARS "")
+
 # Set FFmpeg dependency if we're locally building it.
 if(fletch_ENABLE_OpenCV_FFmpeg)
   message(STATUS "OpenCV depending on fletch FFmpeg")
@@ -46,9 +49,7 @@ if(fletch_ENABLE_OpenCV_FFmpeg)
   # our install target library pkgconfig directory on the path link in order to
   # take precedence.
   if(NOT WIN32)
-      # Setting ``cmake_command`` to add custom configuretion to CMAKE_ARGS generation
-      set(custom_cmake_command CMAKE_COMMAND env PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH} ${CMAKE_COMMAND})
-      message(STATUS "Custom cmake comand for OpenCV: \"${custom_cmake_command}\"")
+      list(APPEND OpenCV_ENV_VARS "PKG_CONFIG_PATH=${fletch_BUILD_INSTALL_PREFIX}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
   else()
     message(WARNING "Custom linking of FFMPEG with OpenCV is undefined on Windows. OpenCV may correctly find the locally built FFmpeg, but it is not guaranteed.")
     # TODO: Figure out how OpenCV finds ffmpeg on Windows.
@@ -278,6 +279,16 @@ if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
     set(NUMPY_FLAGS "")
   endif()
 
+  # Set PYTHONPATH for OpenCV Python binding generation.
+  # The hdr_parser module is in the OpenCV source tree and needs to be importable.
+  set(OPENCV_PYTHON_SRC_DIR "${fletch_BUILD_PREFIX}/src/OpenCV/modules/python/src2")
+  if(WIN32)
+    list(APPEND OpenCV_ENV_VARS "PYTHONPATH=${OPENCV_PYTHON_SRC_DIR}")
+  else()
+    list(APPEND OpenCV_ENV_VARS "PYTHONPATH=${OPENCV_PYTHON_SRC_DIR}:$ENV{PYTHONPATH}")
+  endif()
+  message(STATUS "OpenCV Python binding PYTHONPATH: ${OPENCV_PYTHON_SRC_DIR}")
+
   set(OpenCV_PYTHON_FLAGS
     -DBUILD_opencv_python:BOOL=${fletch_BUILD_WITH_PYTHON}
     -DBUILD_opencv_python2:BOOL=${fletch_ENABLE_PYTHON2}
@@ -295,10 +306,32 @@ if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
   if(WIN32 AND MSVC)
     get_filename_component(PYTHON_LIB_BASE "${PYTHON_LIBRARY}" DIRECTORY)
 
+    # On Windows, OpenCV needs the Python library path in the linker flags because
+    # Python.h contains pragma comments that automatically link python310.lib.
+    # We need to set both MODULE and SHARED linker flags to cover all link targets.
     set(OPENCV_PYTHON_FLAGS
       ${OPENCV_PYTHON_FLAGS}
-      -DCMAKE_MODULE_LINKER_FLAGS:STRING="/libpath:\"${PYTHON_LIB_BASE}\" ${CMAKE_MODULE_LINKER_FLAGS}"
+      -DCMAKE_MODULE_LINKER_FLAGS:STRING=/machine:x64\ /libpath:\"${PYTHON_LIB_BASE}\"
+      -DCMAKE_SHARED_LINKER_FLAGS:STRING=/machine:x64\ /libpath:\"${PYTHON_LIB_BASE}\"
       )
+  endif()
+
+  # On Windows, CPython may install headers directly in 'include/' rather than
+  # 'include/python3.xx/'. OpenCV's FindPythonLibs expects version-specific dirs.
+  # Check if Python.h exists in the expected location, if not create symlinks/copies.
+  if(WIN32 AND NOT EXISTS "${PYTHON_INCLUDE_DIR}/Python.h")
+    # Headers might be in the parent include directory
+    get_filename_component(PYTHON_INCLUDE_PARENT "${PYTHON_INCLUDE_DIR}" DIRECTORY)
+    if(EXISTS "${PYTHON_INCLUDE_PARENT}/Python.h")
+      message(STATUS "OpenCV: Python headers in ${PYTHON_INCLUDE_PARENT}, creating ${PYTHON_INCLUDE_DIR}")
+      file(MAKE_DIRECTORY "${PYTHON_INCLUDE_DIR}")
+      file(GLOB PYTHON_HEADERS "${PYTHON_INCLUDE_PARENT}/*.h")
+      file(COPY ${PYTHON_HEADERS} DESTINATION "${PYTHON_INCLUDE_DIR}")
+      # Also copy cpython subdirectory if it exists
+      if(EXISTS "${PYTHON_INCLUDE_PARENT}/cpython")
+        file(COPY "${PYTHON_INCLUDE_PARENT}/cpython" DESTINATION "${PYTHON_INCLUDE_DIR}")
+      endif()
+    endif()
   endif()
   message(STATUS "Configuring OpenCV Python : ${OpenCV_PYTHON_FLAGS}")
 endif()
@@ -444,6 +477,16 @@ else()
   set(OpenCV_SOURCE_DIR ./)
 endif()
 
+# Construct custom cmake command with environment variables if any were set
+if(OpenCV_ENV_VARS)
+  if(WIN32)
+    set(OpenCV_custom_cmake_command CMAKE_COMMAND ${CMAKE_COMMAND} -E env ${OpenCV_ENV_VARS} ${CMAKE_COMMAND})
+  else()
+    set(OpenCV_custom_cmake_command CMAKE_COMMAND env ${OpenCV_ENV_VARS} ${CMAKE_COMMAND})
+  endif()
+  message(STATUS "OpenCV custom cmake command with env: ${OpenCV_ENV_VARS}")
+endif()
+
 ExternalProject_Add(OpenCV
   DEPENDS ${OpenCV_DEPENDS}
   URL ${OpenCV_url}
@@ -454,7 +497,7 @@ ExternalProject_Add(OpenCV
 
   PATCH_COMMAND ${OPENCV_PATCH_COMMAND}
 
-  ${custom_cmake_command}
+  ${OpenCV_custom_cmake_command}
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
