@@ -12,6 +12,8 @@
 
 if(WIN32)
   file(WRITE ${PostgreSQL_source}/CMakeLists.txt "
+cmake_minimum_required(VERSION 3.10)
+project(PostgreSQL)
 add_subdirectory(src)
 ")
   file(WRITE ${PostgreSQL_source}/src/CMakeLists.txt "

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.16.0)
 project(libsvm VERSION 3.11 LANGUAGES CXX)
 
 # Build shared library from svm.cpp
