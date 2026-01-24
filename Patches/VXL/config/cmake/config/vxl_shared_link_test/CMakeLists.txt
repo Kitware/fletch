@@ -1,5 +1,5 @@
 #
-cmake_minimum_required(VERSION 3.5.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10.0 FATAL_ERROR)
 # Set policies consistent with newer versions of cmake
 # to ease integration with projects that require newer
 # cmake versions.
@@ -8,7 +8,7 @@ foreach(p
     ## Only policies introduced after the cmake_minimum_required
     ## version need to explicitly be set to NEW.
 
-    ##----- Policies Introduced by CMake 3.10¶
+    ##----- Policies Introduced by CMake 3.10
     CMP0071  #: Let AUTOMOC and AUTOUIC process GENERATED files.
     CMP0070  #: Define file(GENERATE) behavior for relative paths.
     ##----- Policies Introduced by CMake 3.9
