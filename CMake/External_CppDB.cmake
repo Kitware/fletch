@@ -26,9 +26,8 @@ ExternalProject_Add(CppDB
     -DCppDB_source=${fletch_BUILD_PREFIX}/src/CppDB
     -P ${fletch_SOURCE_DIR}/Patches/CppDB/Patch.cmake
   CMAKE_ARGS
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-    -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+    ${COMMON_CMAKE_ARGS}
+    -DDISABLE_SQLITE:BOOL=ON
     ${_CppDB_ARGS_PostgreSQL}
 )
 

@@ -121,6 +121,9 @@ ExternalProject_Add(libgeotiff
   URL_MD5 ${libgeotiff_md5}
   ${COMMON_EP_ARGS}
   ${COMMON_CMAKE_EP_ARGS}
+  PATCH_COMMAND ${CMAKE_COMMAND}
+      -Dlibgeotiff_source:PATH=${fletch_BUILD_PREFIX}/src/libgeotiff
+      -P ${fletch_SOURCE_DIR}/Patches/libgeotiff/Patch.cmake
   CMAKE_ARGS
     ${COMMON_CMAKE_ARGS}
     -DCMAKE_INSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
