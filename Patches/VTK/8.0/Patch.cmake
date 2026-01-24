@@ -40,3 +40,8 @@ file(COPY ${VTK_PATCH_DIR}/Wrapping/PythonCore/vtkPythonArgs.cxx
 file(COPY ${VTK_PATCH_DIR}/CMake/VTKGenerateExportHeader.cmake
   DESTINATION ${VTK_SOURCE_DIR}/CMake/
 )
+
+# Fix for CMake 4 compatibility - CMP0022 policy cannot be set to OLD
+file(COPY ${VTK_PATCH_DIR}/ThirdParty/libproj4/vtklibproj4/cmake/policies.cmake
+  DESTINATION ${VTK_SOURCE_DIR}/ThirdParty/libproj4/vtklibproj4/cmake/
+)
