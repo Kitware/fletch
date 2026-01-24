@@ -11,6 +11,12 @@ if (WIN32)
     ${libjpeg-turbo_patch}/simd/CMakeLists.txt
     DESTINATION ${libjpeg-turbo_source}/simd/
     )
+
+  # Remove cmake_policy(SET CMP0022 OLD) which is no longer supported
+  # in newer CMake versions
+  file(READ ${libjpeg-turbo_source}/CMakeLists.txt _cmakelists_content)
+  string(REPLACE "cmake_policy(SET CMP0022 OLD)" "" _cmakelists_content "${_cmakelists_content}")
+  file(WRITE ${libjpeg-turbo_source}/CMakeLists.txt "${_cmakelists_content}")
 endif()
 
 # Patch config.guess for arm boards.
