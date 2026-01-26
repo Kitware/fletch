@@ -95,6 +95,8 @@ else()
       -DLLVM_INCLUDE_DOCS:BOOL=OFF
       -DLLVM_ENABLE_OCAMLDOC:BOOL=OFF
       -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN:BOOL=ON
+      -DLLVM_FORCE_VC_REPOSITORY:STRING=https://github.com/llvm/llvm-project.git
+      -DLLVM_FORCE_VC_REVISION:STRING=2078da43e25a4623cab2d0d60decddf709aaea28
       # Disable unneeded compression support in llvm
       -DLLVM_USE_STATIC_ZSTD:BOOL=OFF
       -DLLVM_ENABLE_ZLIB:BOOL=OFF
@@ -127,6 +129,8 @@ else()
       -DLLVM_CONFIG:PATH=${CMAKE_CURRENT_BINARY_DIR}/llvm/bin/llvm-config
       -DLLVM_DIR:PATH=${LLVM_DIR}
       -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN:BOOL=ON
+      -DLLVM_FORCE_VC_REPOSITORY:STRING=https://github.com/llvm/llvm-project.git
+      -DLLVM_FORCE_VC_REVISION:STRING=2078da43e25a4623cab2d0d60decddf709aaea28
       ${osx_args}
     ${verbose_command}
     ${download_extract_timestamp_flag}
@@ -160,5 +164,5 @@ ExternalProject_Add(castxml
     ${linux_args}
   ${verbose_command}
   LOG_BUILD 0
-  INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/castxml
+  INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
   )
