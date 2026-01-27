@@ -518,6 +518,24 @@ ExternalProject_Add(OpenCV
 
 fletch_external_project_force_install(PACKAGE OpenCV)
 
+# Patch cv2 Python bindings to fix circular import issues
+# The gapi and typing submodules have circular imports that fail when OpenCV
+# is built without GStreamer support or when cv2 attributes are accessed
+# before the module is fully initialized
+if(fletch_BUILD_WITH_PYTHON AND EXISTS ${OpenCV_patch}/python_stubs)
+  set(OpenCV_CV2_INSTALL_DIR "${fletch_PYTHON_PACKAGES_DIR}/cv2")
+  ExternalProject_Add_Step(OpenCV patch_python_stubs
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      ${OpenCV_patch}/python_stubs/cv2/gapi/__init__.py
+      ${OpenCV_CV2_INSTALL_DIR}/gapi/__init__.py
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      ${OpenCV_patch}/python_stubs/cv2/typing/__init__.py
+      ${OpenCV_CV2_INSTALL_DIR}/typing/__init__.py
+    DEPENDEES install
+    COMMENT "Patching OpenCV Python stubs to fix circular imports"
+  )
+endif()
+
 set(OpenCV_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE PATH "" FORCE)
 
 #OpenCV installs its config file in a different location on Windows
