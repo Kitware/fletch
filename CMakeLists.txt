@@ -21,6 +21,10 @@ endif()
 # We're setting to OLD for now because we're not ready to remove
 # fletch_external_project_force_install before a release. Once we
 # remove fletch_external_project_force_install, we can set this to NEW or remove.
+if(POLICY CMP0135)
+  cmake_policy(SET CMP0135 NEW)
+endif()
+
 if(POLICY CMP0114)
   cmake_policy(SET CMP0114 OLD)
 endif()
@@ -412,7 +416,7 @@ foreach(source ${fletch_external_sources})
     # if it exists
     if (TARGET ${source}-install)
       add_dependencies(fletch-build-install ${source}-install)
-      add_custom_command(TARGET fletch-build-install
+      add_custom_command(TARGET fletch-build-install POST_BUILD
         COMMAND ${CMAKE_COMMAND} --build ${fletch_BINARY_DIR} --target ${source}-install
         )
       set_target_properties(${source}-install PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD True)
