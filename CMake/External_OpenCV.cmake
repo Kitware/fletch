@@ -266,19 +266,40 @@ if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_CPython)
   )
 endif()
 if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
-  # Construct NumPy include path from the Python packages directory.
-  # On a first build numpy is not yet installed (PythonLibs runs at build time),
-  # so execute_process cannot detect it. Instead we construct the expected path.
+  # Detect NumPy include path. First try system NumPy, then fall back to
+  # constructing the expected path in the fletch packages directory.
   # NumPy 2.x uses _core/include, NumPy 1.x uses core/include.
-  if(EXISTS "${fletch_PYTHON_PACKAGES_DIR}/numpy/_core/include")
+  set(NUMPY_INCLUDE_DIR "")
+
+  # First, check if NumPy already exists in the fletch packages directory
+  if(EXISTS "${fletch_PYTHON_PACKAGES_DIR}/numpy/_core/include/numpy/ndarrayobject.h")
     set(NUMPY_INCLUDE_DIR "${fletch_PYTHON_PACKAGES_DIR}/numpy/_core/include")
-  elseif(EXISTS "${fletch_PYTHON_PACKAGES_DIR}/numpy/core/include")
+  elseif(EXISTS "${fletch_PYTHON_PACKAGES_DIR}/numpy/core/include/numpy/ndarrayobject.h")
     set(NUMPY_INCLUDE_DIR "${fletch_PYTHON_PACKAGES_DIR}/numpy/core/include")
-  else()
-    # Neither path exists yet (first build). Default to NumPy 2.x layout.
-    set(NUMPY_INCLUDE_DIR "${fletch_PYTHON_PACKAGES_DIR}/numpy/_core/include")
   endif()
-  message(STATUS "NumPy include dir: ${NUMPY_INCLUDE_DIR}")
+
+  # If not found in fletch packages, try to detect system NumPy
+  if(NOT NUMPY_INCLUDE_DIR)
+    execute_process(
+      COMMAND "${PYTHON_EXECUTABLE}" -c "import numpy; print(numpy.get_include())"
+      RESULT_VARIABLE _numpy_process
+      OUTPUT_VARIABLE _numpy_system_include
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    if(_numpy_process EQUAL 0 AND EXISTS "${_numpy_system_include}/numpy/ndarrayobject.h")
+      set(NUMPY_INCLUDE_DIR "${_numpy_system_include}")
+      message(STATUS "Using system NumPy include dir: ${NUMPY_INCLUDE_DIR}")
+    endif()
+  endif()
+
+  # Fall back to constructing the expected path (for when fletch builds NumPy)
+  if(NOT NUMPY_INCLUDE_DIR)
+    set(NUMPY_INCLUDE_DIR "${fletch_PYTHON_PACKAGES_DIR}/numpy/_core/include")
+    message(STATUS "NumPy not found, using expected path: ${NUMPY_INCLUDE_DIR}")
+  else()
+    message(STATUS "NumPy include dir: ${NUMPY_INCLUDE_DIR}")
+  endif()
   set(NUMPY_FLAGS
     -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_NUMPY_INCLUDE_DIRS:PATH=${NUMPY_INCLUDE_DIR}
   )
