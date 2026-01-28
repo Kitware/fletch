@@ -313,29 +313,20 @@ if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
     # On Windows, OpenCV needs the Python library path in the linker flags because
     # Python.h contains pragma comments that automatically link python310.lib.
     # We need to set both MODULE and SHARED linker flags to cover all link targets.
-    set(OPENCV_PYTHON_FLAGS
-      ${OPENCV_PYTHON_FLAGS}
+    set(OpenCV_PYTHON_FLAGS
+      ${OpenCV_PYTHON_FLAGS}
       -DCMAKE_MODULE_LINKER_FLAGS:STRING=/machine:x64\ /libpath:\"${PYTHON_LIB_BASE}\"
       -DCMAKE_SHARED_LINKER_FLAGS:STRING=/machine:x64\ /libpath:\"${PYTHON_LIB_BASE}\"
       )
   endif()
 
-  # On Windows, CPython may install headers directly in 'include/' rather than
+  # On Windows, CPython installs headers directly in 'include/' rather than
   # 'include/python3.xx/'. OpenCV's FindPythonLibs expects version-specific dirs.
-  # Check if Python.h exists in the expected location, if not create symlinks/copies.
-  if(WIN32 AND NOT EXISTS "${PYTHON_INCLUDE_DIR}/Python.h")
-    # Headers might be in the parent include directory
+  # We handle this by adding a pre-configure step (see below) that copies headers
+  # after CPython is built but before OpenCV configures.
+  if(WIN32 AND fletch_ENABLE_CPython)
     get_filename_component(PYTHON_INCLUDE_PARENT "${PYTHON_INCLUDE_DIR}" DIRECTORY)
-    if(EXISTS "${PYTHON_INCLUDE_PARENT}/Python.h")
-      message(STATUS "OpenCV: Python headers in ${PYTHON_INCLUDE_PARENT}, creating ${PYTHON_INCLUDE_DIR}")
-      file(MAKE_DIRECTORY "${PYTHON_INCLUDE_DIR}")
-      file(GLOB PYTHON_HEADERS "${PYTHON_INCLUDE_PARENT}/*.h")
-      file(COPY ${PYTHON_HEADERS} DESTINATION "${PYTHON_INCLUDE_DIR}")
-      # Also copy cpython subdirectory if it exists
-      if(EXISTS "${PYTHON_INCLUDE_PARENT}/cpython")
-        file(COPY "${PYTHON_INCLUDE_PARENT}/cpython" DESTINATION "${PYTHON_INCLUDE_DIR}")
-      endif()
-    endif()
+    set(OpenCV_NEEDS_PYTHON_HEADER_COPY TRUE)
   endif()
   message(STATUS "Configuring OpenCV Python : ${OpenCV_PYTHON_FLAGS}")
 endif()
@@ -521,6 +512,21 @@ ExternalProject_Add(OpenCV
   )
 
 fletch_external_project_force_install(PACKAGE OpenCV)
+
+# On Windows, copy Python headers to version-specific directory before OpenCV configures.
+# CPython installs headers to include/, but OpenCV expects include/python3.xx/.
+# This step runs after CPython is built (OpenCV depends on CPython) but before configure.
+if(OpenCV_NEEDS_PYTHON_HEADER_COPY)
+  ExternalProject_Add_Step(OpenCV copy_python_headers
+    COMMAND ${CMAKE_COMMAND}
+      -DPYTHON_INCLUDE_DIR=${PYTHON_INCLUDE_DIR}
+      -DPYTHON_INCLUDE_PARENT=${PYTHON_INCLUDE_PARENT}
+      -P ${fletch_SOURCE_DIR}/Patches/OpenCV/copy_python_headers.cmake
+    DEPENDEES patch
+    DEPENDERS configure
+    COMMENT "Copying Python headers to ${PYTHON_INCLUDE_DIR} for OpenCV"
+  )
+endif()
 
 # Patch cv2 Python bindings to fix circular import issues
 # The gapi and typing submodules have circular imports that fail when OpenCV
