@@ -293,5 +293,6 @@ if( fletch_PYTHON_LIB_IDS )
       INSTALL_DIR ${fletch_BUILD_INSTALL_PREFIX}
       LIST_SEPARATOR "----"
       )
+    set( fletch_ENABLE_${DEP} ON )
   endforeach()
 endif()

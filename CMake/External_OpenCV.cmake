@@ -258,26 +258,30 @@ set(OpenCV_PYTHON_FLAGS
 if(fletch_BUILD_WITH_PYTHON AND fletch_ENABLE_CPython)
   add_package_dependency(
     PACKAGE OpenCV
-    PACKAGE_DEPENDENCY CPython PythonLibs
+    PACKAGE_DEPENDENCY CPython
+  )
+  add_package_dependency(
+    PACKAGE OpenCV
+    PACKAGE_DEPENDENCY PythonLibs
   )
 endif()
 if(fletch_BUILD_WITH_PYTHON AND BUILD_SHARED_LIBS)
-  # Get NumPy include path via Python call since CMake's find_package doesn't work reliably
-  execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} -c "import numpy; print(numpy.get_include())"
-    OUTPUT_VARIABLE NUMPY_INCLUDE_DIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    RESULT_VARIABLE NUMPY_RESULT
-  )
-  if(NUMPY_RESULT EQUAL 0 AND NUMPY_INCLUDE_DIR)
-    message(STATUS "Found NumPy include dir: ${NUMPY_INCLUDE_DIR}")
-    set(NUMPY_FLAGS
-      -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_NUMPY_INCLUDE_DIRS:PATH=${NUMPY_INCLUDE_DIR}
-    )
+  # Construct NumPy include path from the Python packages directory.
+  # On a first build numpy is not yet installed (PythonLibs runs at build time),
+  # so execute_process cannot detect it. Instead we construct the expected path.
+  # NumPy 2.x uses _core/include, NumPy 1.x uses core/include.
+  if(EXISTS "${fletch_PYTHON_PACKAGES_DIR}/numpy/_core/include")
+    set(NUMPY_INCLUDE_DIR "${fletch_PYTHON_PACKAGES_DIR}/numpy/_core/include")
+  elseif(EXISTS "${fletch_PYTHON_PACKAGES_DIR}/numpy/core/include")
+    set(NUMPY_INCLUDE_DIR "${fletch_PYTHON_PACKAGES_DIR}/numpy/core/include")
   else()
-    message(WARNING "Could not determine NumPy include directory. OpenCV Python bindings may fail to build.")
-    set(NUMPY_FLAGS "")
+    # Neither path exists yet (first build). Default to NumPy 2.x layout.
+    set(NUMPY_INCLUDE_DIR "${fletch_PYTHON_PACKAGES_DIR}/numpy/_core/include")
   endif()
+  message(STATUS "NumPy include dir: ${NUMPY_INCLUDE_DIR}")
+  set(NUMPY_FLAGS
+    -DPYTHON${fletch_PYTHON_MAJOR_VERSION}_NUMPY_INCLUDE_DIRS:PATH=${NUMPY_INCLUDE_DIR}
+  )
 
   # Set PYTHONPATH for OpenCV Python binding generation.
   # The hdr_parser module is in the OpenCV source tree and needs to be importable.
