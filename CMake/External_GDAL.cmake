@@ -26,7 +26,7 @@ endif()
 
 if (GDAL_SELECT_VERSION VERSION_GREATER_EQUAL 3.5)
   if (NOT UNIX)
-    message(ERROR "Fletch currenly only supports building GDAL Version \"${GDAL_SELECT_VERSION}\" for Linux.")
+    message(ERROR "Fletch currently only supports building GDAL Version \"${GDAL_SELECT_VERSION}\" for Unix.")
   else()
     if(fletch_ENABLE_PROJ)
       set(_GDAL_ARGS_PROJ
