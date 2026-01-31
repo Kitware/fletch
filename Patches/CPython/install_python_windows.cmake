@@ -39,3 +39,18 @@ ${WIN_INSTALL_PREFIX}\\DLLs
 import site
 " )
 message( "Created ${PYTHON_PTH_FILE} for Python path configuration" )
+
+# Create sitecustomize.py to re-enable PYTHONPATH processing.
+# When a ._pth file is present, Python ignores PYTHONPATH. But packages like
+# PyTorch rely on PYTHONPATH during their build to find source modules
+# (torchgen, tools). The sitecustomize.py runs via "import site" in the ._pth
+# file and restores the standard PYTHONPATH behavior.
+file( WRITE "${PYTHON_BASEPATH}/sitecustomize.py"
+"import os, sys
+_pp = os.environ.get('PYTHONPATH', '')
+if _pp:
+    for _p in reversed(_pp.split(os.pathsep)):
+        if _p and _p not in sys.path:
+            sys.path.insert(0, _p)
+" )
+message( "Created ${PYTHON_BASEPATH}/sitecustomize.py for PYTHONPATH support" )
