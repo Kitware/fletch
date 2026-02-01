@@ -88,7 +88,7 @@ if(WIN32)
 
   set(JOM_EXE "${fletch_BUILD_PREFIX}/src/jom/jom.exe")
 
-  set(Qt_configure configure.bat)
+  set(Qt_configure "${fletch_BUILD_PREFIX}/src/Qt/configure.bat")
 
   if(Qt_WITH_ZLib)
     # Jom needs the path to zlib.dll to build correctly with zlib
