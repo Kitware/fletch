@@ -258,6 +258,19 @@ ExternalProject_Add(Qt
   )
 add_dependencies(Download Qt-download)
 
+# On Windows, Qt's install step may not copy rcc.exe to the install prefix
+# (the configure-time bootstrap build puts it in qtbase/bin/ but the install
+# target sometimes omits it). Copy it manually if missing after install.
+if(WIN32)
+  ExternalProject_Add_Step(Qt copy_rcc
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      "${fletch_BUILD_PREFIX}/src/Qt/qtbase/bin/rcc.exe"
+      "${fletch_BUILD_INSTALL_PREFIX}/bin/rcc.exe"
+    DEPENDEES install
+    COMMENT "Ensuring rcc.exe is installed"
+  )
+endif()
+
 fletch_external_project_force_install(PACKAGE Qt)
 
 if (Qt_version VERSION_LESS 6.0.0)

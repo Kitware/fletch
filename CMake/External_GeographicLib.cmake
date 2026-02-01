@@ -17,6 +17,20 @@ ExternalProject_Add(GeographicLib
 
 fletch_external_project_force_install(PACKAGE GeographicLib)
 
+# On Windows with multi-config generators (Visual Studio), the install step
+# may not copy tool executables from bin/Release/ to the install prefix.
+# Run cmake --install with --config Release to ensure all targets are installed.
+if(WIN32 AND CMAKE_CONFIGURATION_TYPES)
+  ExternalProject_Add_Step(GeographicLib install_release
+    COMMAND ${CMAKE_COMMAND} --install
+      ${fletch_BUILD_PREFIX}/src/GeographicLib-build
+      --config Release
+      --prefix ${fletch_BUILD_INSTALL_PREFIX}
+    DEPENDEES install
+    COMMENT "Installing GeographicLib Release binaries"
+  )
+endif()
+
 set(GeographicLib_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
 file(APPEND ${fletch_CONFIG_INPUT} "
