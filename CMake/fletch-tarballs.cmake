@@ -774,6 +774,11 @@ if(NOT WIN32)
   list(APPEND fletch_external_sources colmap)
 endif()
 
+set(CastXML_version "0b677ec7bd49fa64bf7761aaed5a5129293c8094")
+set(CastXML_url "https://data.kitware.com/api/v1/file/696922f03b9bcc32c3188556/download/CastXML.${CastXML_version}.tar.gz")
+set(CastXML_md5 "21fefb82b41eca4c3a65f8d07d080643")
+list(APPEND fletch_external_sources CastXML)
+
 #+
 # Iterate through our sources, create local filenames and set up the "ENABLE"
 # options
