@@ -96,6 +96,7 @@ if (EXISTS ${VXL_patch})
   set(VXL_PATCH_COMMAND ${CMAKE_COMMAND}
       -DVXL_PATCH_DIR:PATH=${VXL_patch}
       -DVXL_SOURCE_DIR:PATH=${fletch_BUILD_PREFIX}/src/VXL
+      -Dfletch_BUILD_CXX17:BOOL=${fletch_BUILD_CXX17}
       -P ${VXL_patch}/Patch.cmake
     )
 endif()
