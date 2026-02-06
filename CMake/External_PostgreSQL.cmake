@@ -57,7 +57,22 @@ ExternalProject_Add(PostgreSQL
   ${ARG}
 )
 
-if (NOT WIN32)
+if(WIN32)
+  # Download and install pre-built PostgreSQL server binaries (initdb, pg_ctl,
+  # psql, etc.) since the source build only produces the libpq client library.
+  if(PostgreSQL_binaries_url)
+    ExternalProject_Add_Step(PostgreSQL install_server_binaries
+      COMMENT "Installing PostgreSQL server binaries"
+      DEPENDEES install
+      COMMAND ${CMAKE_COMMAND}
+        -DPostgreSQL_binaries_url:STRING=${PostgreSQL_binaries_url}
+        -DPostgreSQL_binaries_md5:STRING=${PostgreSQL_binaries_md5}
+        -DINSTALL_PREFIX:PATH=${fletch_BUILD_INSTALL_PREFIX}
+        -DDOWNLOAD_DIR:PATH=${fletch_BUILD_PREFIX}/src/PostgreSQL-binaries
+        -P ${fletch_SOURCE_DIR}/Patches/PostgreSQL/install_server_windows.cmake
+    )
+  endif()
+else()
   if (fletch_BUILD_POSTGRESQL_CONTRIB)
     Fletch_Require_Make()
     ExternalProject_Add_Step(PostgreSQL build_contrib
