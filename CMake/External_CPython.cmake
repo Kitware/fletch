@@ -247,6 +247,7 @@ if( WIN32 )
     BUILD_COMMAND  ${CMAKE_COMMAND}
         -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
                "PATH=${CUSTOM_PATH}"
+               "PYTHONHOME=${CUSTOM_PYTHONHOME}"
                "PYTHONUSERBASE=${CUSTOM_PYTHONHOME}"
       ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/extract_pip.py
     INSTALL_COMMAND ${CMAKE_COMMAND}
