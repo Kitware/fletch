@@ -244,18 +244,84 @@ if (EXISTS ${Qt_patch})
     )
 endif()
 
-ExternalProject_Add(Qt
-  DEPENDS ${Qt_DEPENDS}
-  URL ${Qt_file}
-  URL_MD5 ${Qt_md5}
-  ${COMMON_EP_ARGS}
-  BUILD_IN_SOURCE 1
-  PATCH_COMMAND ${QT_PATCH_COMMAND}
-  CONFIGURE_COMMAND ${Qt_configure}
-  BUILD_COMMAND ${Qt_build}
-  INSTALL_COMMAND ${Qt_install_cmd}
-  STEP_TARGETS download
-  )
+if(WIN32)
+  # On Windows, CMake's default ExternalProject extraction uses file(RENAME)
+  # to move the extracted directory, which fails for Qt's massive source tree
+  # (includes Chromium with hundreds of thousands of files).
+  # Write a custom extraction script that uses robocopy instead of file(RENAME).
+  set(_qt_extract_script "${CMAKE_CURRENT_BINARY_DIR}/extract-Qt-win32.cmake")
+  set(_qt_src_dir "${fletch_BUILD_PREFIX}/src/Qt")
+  set(_qt_tmp_dir "${fletch_BUILD_PREFIX}/src/ex-Qt-tmp")
+  file(WRITE "${_qt_extract_script}" "
+cmake_minimum_required(VERSION \${CMAKE_VERSION})
+set(filename \"${Qt_file}\")
+set(directory \"${_qt_src_dir}\")
+set(tmp_dir \"${_qt_tmp_dir}\")
+if(EXISTS \"\${tmp_dir}\")
+  file(REMOVE_RECURSE \"\${tmp_dir}\")
+endif()
+file(MAKE_DIRECTORY \"\${tmp_dir}\")
+message(STATUS \"extracting Qt... [tar xf]\")
+execute_process(COMMAND \${CMAKE_COMMAND} -E tar xf \${filename} --touch
+  WORKING_DIRECTORY \${tmp_dir}
+  RESULT_VARIABLE rv)
+if(NOT rv EQUAL 0)
+  file(REMOVE_RECURSE \"\${tmp_dir}\")
+  message(FATAL_ERROR \"Extract of Qt failed\")
+endif()
+message(STATUS \"extracting Qt... [analysis]\")
+file(GLOB contents \"\${tmp_dir}/*\")
+list(REMOVE_ITEM contents \"\${tmp_dir}/.DS_Store\")
+list(LENGTH contents n)
+if(NOT n EQUAL 1 OR NOT IS_DIRECTORY \"\${contents}\")
+  set(contents \"\${tmp_dir}\")
+endif()
+message(STATUS \"extracting Qt... [move via robocopy]\")
+if(EXISTS \"\${directory}\")
+  file(REMOVE_RECURSE \"\${directory}\")
+endif()
+file(MAKE_DIRECTORY \"\${directory}\")
+execute_process(
+  COMMAND robocopy \"\${contents}\" \"\${directory}\" /E /MOVE /NFL /NDL /NJH /NJS /NC /NS /NP
+  RESULT_VARIABLE rv)
+# robocopy returns 0-7 on success, 8+ on error
+if(rv GREATER 7)
+  message(FATAL_ERROR \"robocopy move failed with code \${rv}\")
+endif()
+message(STATUS \"extracting Qt... [clean up]\")
+if(EXISTS \"\${tmp_dir}\")
+  file(REMOVE_RECURSE \"\${tmp_dir}\")
+endif()
+message(STATUS \"extracting Qt... done\")
+")
+  ExternalProject_Add(Qt
+    DEPENDS ${Qt_DEPENDS}
+    URL ${Qt_file}
+    URL_MD5 ${Qt_md5}
+    ${COMMON_EP_ARGS}
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    EXTRACT_COMMAND ${CMAKE_COMMAND} -P "${_qt_extract_script}"
+    BUILD_IN_SOURCE 1
+    PATCH_COMMAND ${QT_PATCH_COMMAND}
+    CONFIGURE_COMMAND ${Qt_configure}
+    BUILD_COMMAND ${Qt_build}
+    INSTALL_COMMAND ${Qt_install_cmd}
+    STEP_TARGETS download
+    )
+else()
+  ExternalProject_Add(Qt
+    DEPENDS ${Qt_DEPENDS}
+    URL ${Qt_file}
+    URL_MD5 ${Qt_md5}
+    ${COMMON_EP_ARGS}
+    BUILD_IN_SOURCE 1
+    PATCH_COMMAND ${QT_PATCH_COMMAND}
+    CONFIGURE_COMMAND ${Qt_configure}
+    BUILD_COMMAND ${Qt_build}
+    INSTALL_COMMAND ${Qt_install_cmd}
+    STEP_TARGETS download
+    )
+endif()
 add_dependencies(Download Qt-download)
 
 # On Windows, Qt's install step may not copy rcc.exe to the install prefix
