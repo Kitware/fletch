@@ -19,17 +19,25 @@ fletch_external_project_force_install(PACKAGE GeographicLib)
 
 # On Windows with multi-config generators (Visual Studio), the install step
 # may not copy tool executables from bin/Release/ to the install prefix.
-# Run cmake --install with --config Release to ensure all targets are installed.
+# Explicitly copy each tool executable after install.
 if(WIN32 AND CMAKE_CONFIGURATION_TYPES)
-  ExternalProject_Add_Step(GeographicLib install_release
-    COMMAND ${CMAKE_COMMAND} --install
-      ${fletch_BUILD_PREFIX}/src/GeographicLib-build
-      --config Release
-      --prefix ${fletch_BUILD_INSTALL_PREFIX}
+  set(_geo_tools CartConvert ConicProj GeodesicProj GeoConvert GeodSolve
+                 GeoidEval Gravity MagneticField Planimeter RhumbSolve
+                 TransverseMercatorProj)
+  set(_geo_copy_cmds)
+  foreach(_tool ${_geo_tools})
+    list(APPEND _geo_copy_cmds
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${fletch_BUILD_PREFIX}/src/GeographicLib-build/bin/Release/${_tool}.exe"
+        "${fletch_BUILD_INSTALL_PREFIX}/bin/${_tool}.exe")
+  endforeach()
+  ExternalProject_Add_Step(GeographicLib copy_tools
+    ${_geo_copy_cmds}
     DEPENDEES install
-    COMMENT "Installing GeographicLib Release binaries"
+    COMMENT "Copying GeographicLib tool executables to install prefix"
   )
 endif()
+
 
 set(GeographicLib_ROOT ${fletch_BUILD_INSTALL_PREFIX} CACHE STRING "")
 
