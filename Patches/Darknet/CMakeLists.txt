@@ -1,6 +1,6 @@
 project( Darknet )
 
-cmake_minimum_required( VERSION 3.0 )
+cmake_minimum_required(VERSION 3.5)
 
 if( WIN32 )
   OPTION( BUILD_SHARED_LIBS  "Build components shared or not"  FALSE )
