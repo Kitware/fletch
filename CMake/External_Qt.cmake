@@ -4,7 +4,9 @@ option(BUILD_Qt_MINIMAL "Build a reduced set of Qt packages. Removes webkit, jav
 if(BUILD_Qt_MINIMAL)
   # Minimal build skips heavy modules not used by KWIVER/VIAME/VIVIA
   # qtlocation is broken in Qt5 and not needed
-  set(Qt_args_package -skip qtwebengine -skip qtlocation -no-qml-debug)
+  # qtspeech's SAPI plugin pulls in atlbase.h (ATL) which is absent from
+  # MSVC BuildTools installs, breaking the Windows build
+  set(Qt_args_package -skip qtwebengine -skip qtlocation -skip qtspeech -no-qml-debug)
   if(APPLE)
       # qtconnectivity has build errors on macOS and is not needed
       list(APPEND Qt_args_package -skip qtconnectivity)
