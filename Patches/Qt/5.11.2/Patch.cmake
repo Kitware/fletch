@@ -25,6 +25,12 @@ file(COPY ${Qt_patch}/qtbase/src/corelib/global/qrandom.cpp
   DESTINATION ${Qt_source}/qtbase/src/corelib/global/
   )
 
+# Patch for MSVC 19.30+ (VS 2022) where stdext::make_(un)checked_array_iterator
+# were removed in C++20 mode, breaking qvector.h/qlist.h/qvarlengtharray.h.
+file(COPY ${Qt_patch}/qtbase/src/corelib/global/qcompilerdetection.h
+  DESTINATION ${Qt_source}/qtbase/src/corelib/global/
+  )
+
 
 # Patch for gcc 9.1 and updated kernel headers.
 if (NOT WIN32)
