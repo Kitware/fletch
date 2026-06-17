@@ -50,14 +50,27 @@ set(VXL_ARGS_CONTRIB
   # the old unprefixed names are silently ignored, leaving VXL_BUILD_CONTRIB OFF
   # so contrib/rpl (rrel/rsdl, required by KWIVER's vxl arrow) is never built.
   # Pass both spellings so it works regardless of the pinned VXL version.
+  # KWIVER/VIAME only need contrib/rpl (rrel, rsdl). Enable contrib + rpl and
+  # disable every other contrib package. NOTE: VXL_BUILD_BRL defaults ON and is
+  # gated on VXL_BUILD_CORE_VIDEO, so once core video is enabled BRL would turn on
+  # and fail to compile (brl/bbas/baio) under c3fd279/GCC-13 -- it must be OFF.
   -DVXL_BUILD_CONTRIB:BOOL=ON
   -DVXL_BUILD_RPL:BOOL=ON
   -DVXL_BUILD_BRL:BOOL=OFF
+  -DVXL_BUILD_GEL:BOOL=OFF
+  -DVXL_BUILD_MUL:BOOL=OFF
   -DVXL_BUILD_MUL_TOOLS:BOOL=OFF
+  -DVXL_BUILD_OXL:BOOL=OFF
+  -DVXL_BUILD_OUL:BOOL=OFF
   -DVXL_BUILD_PRIP:BOOL=OFF
+  -DVXL_BUILD_TBL:BOOL=OFF
+  -DVXL_BUILD_CONVERSIONS:BOOL=OFF
+  # Legacy unprefixed spellings for older VXL snapshots (e.g. 0bb0ca9)
   -DBUILD_CONTRIB:BOOL=ON
   -DBUILD_RPL:BOOL=ON
   -DBUILD_BRL:BOOL=OFF
+  -DBUILD_GEL:BOOL=OFF
+  -DBUILD_MUL:BOOL=OFF
   -DBUILD_MUL_TOOLS:BOOL=OFF
   -DBUILD_PRIP:BOOL=OFF
   # Disable unused RPL sub-modules (rgtl/rtvl not used by KWIVER/VIAME)
