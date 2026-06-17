@@ -46,6 +46,15 @@ add_package_dependency(
   )
 
 set(VXL_ARGS_CONTRIB
+  # The version-stamped VXL (c3fd279) renamed these options with a VXL_ prefix;
+  # the old unprefixed names are silently ignored, leaving VXL_BUILD_CONTRIB OFF
+  # so contrib/rpl (rrel/rsdl, required by KWIVER's vxl arrow) is never built.
+  # Pass both spellings so it works regardless of the pinned VXL version.
+  -DVXL_BUILD_CONTRIB:BOOL=ON
+  -DVXL_BUILD_RPL:BOOL=ON
+  -DVXL_BUILD_BRL:BOOL=OFF
+  -DVXL_BUILD_MUL_TOOLS:BOOL=OFF
+  -DVXL_BUILD_PRIP:BOOL=OFF
   -DBUILD_CONTRIB:BOOL=ON
   -DBUILD_RPL:BOOL=ON
   -DBUILD_BRL:BOOL=OFF
