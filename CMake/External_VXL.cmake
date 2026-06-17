@@ -67,7 +67,10 @@ set(VXL_ARGS_CONTRIB
 
 # Handle FFMPEG configuration
 # FFmpeg 5.x support is provided via patches in Patches/VXL/core/vidl/
+# c3fd279 renamed this option with a VXL_ prefix; pass both so vidl (needed by
+# KWIVER's vidl_ffmpeg_video_input) is actually built regardless of VXL version.
 list(APPEND VXL_ARGS_VIDL
+  -DVXL_BUILD_CORE_VIDEO:BOOL=ON
   -DBUILD_CORE_VIDEO:BOOL=ON
   )
 if(fletch_ENABLE_FFmpeg)
