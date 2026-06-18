@@ -579,10 +579,12 @@ elseif (fletch_ENABLE_VTK OR fletch_ENABLE_ALL_PACKAGES)
 endif()
 list(APPEND fletch_external_sources VTK)
 
-# VXL
-set(VXL_version "c3fd27959f51e0469a7a6075e975f245ac306f3d")
+# VXL -- pinned to the commit tagged v3.5.0 (the .zip mtime is unreliable, so
+# track the commit hash). Reports version 3.5.0, which still satisfies ITK's
+# find_package(VXL 2.0.2) via VXL's backward-compatible VXLConfigVersion.cmake.
+set(VXL_version "ecacd8cb08773d1dc100605e6d634706d34c9fc5")
 set(VXL_url "https://github.com/vxl/vxl/archive/${VXL_version}.zip")
-set(VXL_md5 "9ae63bb158ae3e5e2104152093a4c46c")
+set(VXL_md5 "c271220bed4f479faec5895de80a4def")
 list(APPEND fletch_external_sources VXL)
 
 # ITK

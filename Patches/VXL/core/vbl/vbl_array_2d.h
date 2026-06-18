@@ -1,9 +1,6 @@
 // This is core/vbl/vbl_array_2d.h
 #ifndef vbl_array_2d_h_
 #define vbl_array_2d_h_
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma interface
-#endif
 //:
 // \file
 // \brief Contains class for a templated 2d array
@@ -19,8 +16,10 @@
 
 #include <iosfwd>
 #include <cstddef>
-#include <vcl_compiler.h>
-#include <stdint.h>
+#include <cstdint> // for SIZE_MAX in the construct() overflow guard (fletch patch)
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 
 //: simple 2D array
 template <class T>
@@ -153,6 +152,7 @@ class vbl_array_2d
   void construct(size_type m, size_type n) {
     num_rows_ = m;
     num_cols_ = n;
+    // fletch patch: guard against integer overflow in the m*n allocation below
     if (m != 0 && n != 0 && n < SIZE_MAX &&
         m < SIZE_MAX && m < SIZE_MAX/n) {
       rows_ = new T * [m];

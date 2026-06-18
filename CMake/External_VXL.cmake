@@ -45,46 +45,34 @@ add_package_dependency(
   PACKAGE_DEPENDENCY PNG
   )
 
+# NOTE: VXL renamed all of its build options with a "VXL_" prefix around the
+# c3fd279 revision; older revisions used the unprefixed "BUILD_*" names. We pass
+# BOTH spellings so the same flags take effect regardless of the pinned
+# VXL_version (unrecognized cache vars are simply ignored by CMake).
+# KWIVER only needs the RPL package (rrel/rgrl/rsdl); when VXL_BUILD_CONTRIB is
+# ON every other contrib package defaults ON too, so each is disabled explicitly.
 set(VXL_ARGS_CONTRIB
-  # The version-stamped VXL (c3fd279) renamed these options with a VXL_ prefix;
-  # the old unprefixed names are silently ignored, leaving VXL_BUILD_CONTRIB OFF
-  # so contrib/rpl (rrel/rsdl, required by KWIVER's vxl arrow) is never built.
-  # Pass both spellings so it works regardless of the pinned VXL version.
-  # KWIVER/VIAME only need contrib/rpl (rrel, rsdl). Enable contrib + rpl and
-  # disable every other contrib package. NOTE: VXL_BUILD_BRL defaults ON and is
-  # gated on VXL_BUILD_CORE_VIDEO, so once core video is enabled BRL would turn on
-  # and fail to compile (brl/bbas/baio) under c3fd279/GCC-13 -- it must be OFF.
-  -DVXL_BUILD_CONTRIB:BOOL=ON
-  -DVXL_BUILD_RPL:BOOL=ON
-  -DVXL_BUILD_BRL:BOOL=OFF
-  -DVXL_BUILD_GEL:BOOL=OFF
-  -DVXL_BUILD_MUL:BOOL=OFF
-  -DVXL_BUILD_MUL_TOOLS:BOOL=OFF
-  -DVXL_BUILD_OXL:BOOL=OFF
-  -DVXL_BUILD_OUL:BOOL=OFF
-  -DVXL_BUILD_PRIP:BOOL=OFF
-  -DVXL_BUILD_TBL:BOOL=OFF
-  -DVXL_BUILD_CONVERSIONS:BOOL=OFF
-  # Legacy unprefixed spellings for older VXL snapshots (e.g. 0bb0ca9)
-  -DBUILD_CONTRIB:BOOL=ON
-  -DBUILD_RPL:BOOL=ON
-  -DBUILD_BRL:BOOL=OFF
-  -DBUILD_GEL:BOOL=OFF
-  -DBUILD_MUL:BOOL=OFF
-  -DBUILD_MUL_TOOLS:BOOL=OFF
-  -DBUILD_PRIP:BOOL=OFF
+  -DBUILD_CONTRIB:BOOL=ON       -DVXL_BUILD_CONTRIB:BOOL=ON
+  -DBUILD_RPL:BOOL=ON           -DVXL_BUILD_RPL:BOOL=ON
+  -DBUILD_BRL:BOOL=OFF          -DVXL_BUILD_BRL:BOOL=OFF
+  -DBUILD_GEL:BOOL=OFF          -DVXL_BUILD_GEL:BOOL=OFF
+  -DBUILD_MUL:BOOL=OFF          -DVXL_BUILD_MUL:BOOL=OFF
+  -DBUILD_MUL_TOOLS:BOOL=OFF    -DVXL_BUILD_MUL_TOOLS:BOOL=OFF
+  -DBUILD_OXL:BOOL=OFF          -DVXL_BUILD_OXL:BOOL=OFF
+  -DBUILD_OUL:BOOL=OFF          -DVXL_BUILD_OUL:BOOL=OFF
+  -DBUILD_TBL:BOOL=OFF          -DVXL_BUILD_TBL:BOOL=OFF
+  -DBUILD_PRIP:BOOL=OFF         -DVXL_BUILD_PRIP:BOOL=OFF
+  -DBUILD_CONVERSIONS:BOOL=OFF  -DVXL_BUILD_CONVERSIONS:BOOL=OFF
   # Disable unused RPL sub-modules (rgtl/rtvl not used by KWIVER/VIAME)
   -DVXL_BUILD_RPL_RGTL:BOOL=OFF
   -DVXL_BUILD_RPL_RTVL:BOOL=OFF
   )
 
 # Handle FFMPEG configuration
-# FFmpeg 5.x support is provided via patches in Patches/VXL/core/vidl/
-# c3fd279 renamed this option with a VXL_ prefix; pass both so vidl (needed by
-# KWIVER's vidl_ffmpeg_video_input) is actually built regardless of VXL version.
+# FFmpeg 5.x support is provided via patches in Patches/VXL/core/vidl/ (upstream
+# VXL, including v3.5.0, only supports up to libavcodec 56 / FFmpeg ~2.8).
 list(APPEND VXL_ARGS_VIDL
-  -DVXL_BUILD_CORE_VIDEO:BOOL=ON
-  -DBUILD_CORE_VIDEO:BOOL=ON
+  -DBUILD_CORE_VIDEO:BOOL=ON    -DVXL_BUILD_CORE_VIDEO:BOOL=ON
   )
 if(fletch_ENABLE_FFmpeg)
   add_package_dependency(
@@ -154,22 +142,22 @@ ExternalProject_Add(VXL
     ${VXL_ARGS_V3P}
     ${VXL_EXTRA_CMAKE_CXX_FLAGS}
     ${COMMON_CMAKE_ARGS}
-    -DBUILD_EXAMPLES:BOOL=OFF
-    -DBUILD_TESTING:BOOL=OFF
-    -DBUILD_DOCUMENTATION:BOOL=OFF
+    -DBUILD_EXAMPLES:BOOL=OFF            -DVXL_BUILD_EXAMPLES:BOOL=OFF
+    -DBUILD_TESTING:BOOL=OFF            -DVXL_BUILD_TESTS:BOOL=OFF
+    -DBUILD_DOCUMENTATION:BOOL=OFF       -DVXL_BUILD_DOCUMENTATION:BOOL=OFF
     -DBUILD_FOR_VXL_DASHBOARD:BOOL=ON
-    # Core modules used by KWIVER/VIAME:
-    -DBUILD_CORE_GEOMETRY:BOOL=ON
-    -DBUILD_CORE_NUMERICS:BOOL=ON
-    -DBUILD_CORE_IMAGING:BOOL=ON
-    -DBUILD_CORE_SERIALISATION:BOOL=ON
+    # Core modules used by KWIVER/VIAME (old + VXL_-prefixed names, see note above):
+    -DBUILD_CORE_GEOMETRY:BOOL=ON       -DVXL_BUILD_CORE_GEOMETRY:BOOL=ON
+    -DBUILD_CORE_NUMERICS:BOOL=ON       -DVXL_BUILD_CORE_NUMERICS:BOOL=ON
+    -DBUILD_CORE_IMAGING:BOOL=ON        -DVXL_BUILD_CORE_IMAGING:BOOL=ON
+    -DBUILD_CORE_SERIALISATION:BOOL=ON  -DVXL_BUILD_CORE_SERIALISATION:BOOL=ON
     # Core modules NOT used by KWIVER/VIAME:
-    -DBUILD_CORE_PROBABILITY:BOOL=OFF
-    -DBUILD_BRL:BOOL=OFF
-    -DBUILD_GEL:BOOL=OFF
-    -DBUILD_MUL:BOOL=OFF
-    -DBUILD_MUL_TOOLS:BOOL=OFF
-    -DBUILD_TBL:BOOL=OFF
+    -DBUILD_CORE_PROBABILITY:BOOL=OFF   -DVXL_BUILD_CORE_PROBABILITY:BOOL=OFF
+    -DBUILD_BRL:BOOL=OFF                -DVXL_BUILD_BRL:BOOL=OFF
+    -DBUILD_GEL:BOOL=OFF                -DVXL_BUILD_GEL:BOOL=OFF
+    -DBUILD_MUL:BOOL=OFF                -DVXL_BUILD_MUL:BOOL=OFF
+    -DBUILD_MUL_TOOLS:BOOL=OFF          -DVXL_BUILD_MUL_TOOLS:BOOL=OFF
+    -DBUILD_TBL:BOOL=OFF                -DVXL_BUILD_TBL:BOOL=OFF
     -DVXL_USE_DCMTK:BOOL=OFF
     -DVXL_BUILD_DCMTK:BOOL=OFF
     -DJPEG_LIBRARY:FILEPATH=${JPEG_LIBRARY}
