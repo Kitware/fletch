@@ -142,6 +142,15 @@ ExternalProject_Add(VXL
     ${VXL_ARGS_V3P}
     ${VXL_EXTRA_CMAKE_CXX_FLAGS}
     ${COMMON_CMAKE_ARGS}
+    # Force VXL to build as static libs on Windows. VXL v3.5.0 has template-
+    # instantiation macros (e.g. VNL_IO_VECTOR_INSTANTIATE in vnl_io_vector.hxx)
+    # that use VNL_EXPORT for cross-module template specializations. VS 2026
+    # / MSVC 14.5x strictly treats `template __declspec(dllimport)` as an
+    # extern declaration, producing LNK2019 in vnl_io and LNK2005 in
+    # rrel/vgl_algo when CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS is also on. Static
+    # libs sidestep both: VNL_STATIC_DEFINE is defined, VNL_EXPORT becomes a
+    # no-op, and auto-DEF generation is not triggered.
+    -DBUILD_SHARED_LIBS:BOOL=OFF
     -DBUILD_EXAMPLES:BOOL=OFF            -DVXL_BUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF            -DVXL_BUILD_TESTS:BOOL=OFF
     -DBUILD_DOCUMENTATION:BOOL=OFF       -DVXL_BUILD_DOCUMENTATION:BOOL=OFF
