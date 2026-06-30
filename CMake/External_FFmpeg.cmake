@@ -70,7 +70,13 @@ if(WIN32)
   include(External_msys2)
   list(APPEND ffmpeg_DEPENDS msys2)
   set(FFMPEG_COMMAND_PREFIX ${mingw_prefix} ${msys_bash})
-  set(FFMPEG_BUILD_COMMAND ${FFMPEG_COMMAND_PREFIX} -c "make -j 8")
+  # Use -j 2 (was -j 8) to avoid parallel-make race that occasionally drops a
+  # libavfilter object before makedef runs ("Object does not exist: vf_maskfun.o").
+  # FFmpeg's gnu-make doesn't track makedef vs OBJS as a hard dep when the
+  # outer driver (msbuild) is also running 5 parallel vcxproj's, so the dep
+  # graph effectively has 5*8=40 concurrent compiles and races more often
+  # than it should. Slowing FFmpeg slightly trades wall-clock for reliability.
+  set(FFMPEG_BUILD_COMMAND ${FFMPEG_COMMAND_PREFIX} -c "make -j 2")
   set(FFMPEG_INSTALL_COMMAND ${FFMPEG_COMMAND_PREFIX} -c "make install")
   file(TO_CMAKE_PATH "${fletch_BUILD_INSTALL_PREFIX}" ffmpeg_prefix)
 
