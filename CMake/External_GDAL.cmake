@@ -25,8 +25,8 @@ if(fletch_LTIDSDK_ROOT)
 endif()
 
 if (GDAL_SELECT_VERSION VERSION_GREATER_EQUAL 3.5)
-  if (NOT LINUX)
-    message(ERROR "Fletch currenly only supports building GDAL Version \"${GDAL_SELECT_VERSION}\" for Linux.")
+  if (NOT UNIX)
+    message(ERROR "Fletch currently only supports building GDAL Version \"${GDAL_SELECT_VERSION}\" for Unix.")
   else()
     if(fletch_ENABLE_PROJ)
       set(_GDAL_ARGS_PROJ
@@ -43,8 +43,9 @@ if (GDAL_SELECT_VERSION VERSION_GREATER_EQUAL 3.5)
       URL ${GDAL_file}
       URL_MD5 ${GDAL_md5}
       ${COMMON_EP_ARGS}
-        CMAKE_ARGS
+      CMAKE_ARGS
         ${COMMON_CMAKE_ARGS}
+        -DBUILD_PYTHON_BINDINGS:BOOL=OFF
         ${_GDAL_ARGS_PROJ}
         -DCMAKE_CXX_STANDARD=17
       )
