@@ -47,5 +47,13 @@ if _pp:
     for _p in reversed(_pp.split(os.pathsep)):
         if _p and _p not in sys.path:
             sys.path.insert(0, _p)
+# A ._pth file also forces isolated mode, which drops the implicit sys.path[0]
+# entry CPython normally adds (the working directory for -c and -m). Legacy
+# sdists rely on it: colormath's setup.py does 'import colormath' to read its
+# version, and pip runs that through 'python -c' from the unpacked source dir,
+# so without this the install dies with ModuleNotFoundError. Restore it for
+# -c/-m only, matching stock CPython; script runs are left alone.
+if sys.argv and sys.argv[0] in ('-c', '-m') and '' not in sys.path:
+    sys.path.insert(0, '')
 " )
 message( "Created ${PYTHON_BASEPATH}/sitecustomize.py for PYTHONPATH support" )
