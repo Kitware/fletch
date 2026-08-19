@@ -244,12 +244,29 @@ if( WIN32 )
     SOURCE_DIR ${fletch_CMAKE_DIR}
     USES_TERMINAL_BUILD 1
     CONFIGURE_COMMAND ""
+    # Bootstrap pip from CPython's own bundled ensurepip wheel rather than the
+    # vendored Patches/CPython/extract_pip.py (a get-pip.py carrying pip 21.3.1
+    # and pinning pip<22.0). That blob cannot even be imported on Python 3.12+:
+    # its vendored pkg_resources uses pkgutil.ImpImporter, removed in 3.12, so
+    # the bootstrap dies with "module 'pkgutil' has no attribute 'ImpImporter'".
+    # ensurepip ships the pip wheel matching the interpreter being built, needs
+    # no network, and --user targets PYTHONUSERBASE, which the patched sysconfig
+    # 'nt_user' scheme maps to <prefix>/lib/pythonX.Y/site-packages (scripts to
+    # <prefix>/bin) -- the layout the rest of fletch and VIAME expect.
+    # setuptools/wheel are no longer bundled with ensurepip (dropped in 3.12),
+    # so install them afterwards to match what get-pip.py used to provide.
     BUILD_COMMAND  ${CMAKE_COMMAND}
         -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
                "PATH=${CUSTOM_PATH}"
                "PYTHONHOME=${CUSTOM_PYTHONHOME}"
                "PYTHONUSERBASE=${CUSTOM_PYTHONHOME}"
-      ${PYTHON_EXECUTABLE} ${fletch_SOURCE_DIR}/Patches/CPython/extract_pip.py
+      ${PYTHON_EXECUTABLE} -m ensurepip --upgrade --default-pip --user
+    COMMAND ${CMAKE_COMMAND}
+        -E env "PYTHONPATH=${CUSTOM_PYTHONPATH}"
+               "PATH=${CUSTOM_PATH}"
+               "PYTHONHOME=${CUSTOM_PYTHONHOME}"
+               "PYTHONUSERBASE=${CUSTOM_PYTHONHOME}"
+      ${PYTHON_EXECUTABLE} -m pip install --user --upgrade setuptools wheel
     INSTALL_COMMAND ${CMAKE_COMMAND}
       -DPYTHON_MAJOR:STRING=${PYTHON_VERSION_MAJOR}
       -DPYTHON_MINOR:STRING=${PYTHON_VERSION_MINOR}
