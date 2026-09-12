@@ -11,6 +11,5 @@ file(COPY
   ${SQLite3_patch}/CMakeLists.txt
   ${SQLite3_patch}/SQLite3Config.cmake.in
   ${SQLite3_patch}/SQLite3ConfigVersion.cmake.in
-  ${SQLite3_patch}/sqlite3.def
   DESTINATION ${SQLite3_source}
 )

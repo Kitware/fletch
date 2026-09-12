@@ -32,6 +32,9 @@ option(SQLite3_ENABLE_COLUMN_METADATA "Additional APIs that provide convenient a
 option(SQLite3_ENABLE_RTREE "Support for R*Tree indexes" ON)
 option(SQLite3_ENABLE_LOAD_EXTENSIONS "Support loadable extensions" ON)
 option(SQLite3_ENABLE_EXECUTABLE "Build the sqlite (static) executable" OFF)
+option(SQLite3_ENABLE_DESERIALIZE "sqlite3_serialize / sqlite3_deserialize" ON)
+option(SQLite3_ENABLE_FTS "Full-text search (FTS3/4/5)" ON)
+option(SQLite3_ENABLE_JSON "JSON1 functions" ON)
 
 if(SQLite3_ENABLE_THREADSAFE)
   add_definitions(-DSQLITE_THREADSAFE=1)
@@ -48,14 +51,41 @@ if(SQLite3_ENABLE_LOAD_EXTENSIONS)
 else()
   add_definitions(-DSQLITE_OMIT_LOAD_EXTENSION=1)
 endif()
+# Python's _sqlite3 extension links sqlite3_serialize, so a library built
+# without this cannot satisfy it and "import sqlite3" fails at load time.
+if(SQLite3_ENABLE_DESERIALIZE)
+  add_definitions(-DSQLITE_ENABLE_DESERIALIZE=1)
+endif()
+if(SQLite3_ENABLE_FTS)
+  add_definitions(-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1
+                  -DSQLITE_ENABLE_FTS5=1)
+endif()
+if(SQLite3_ENABLE_JSON)
+  add_definitions(-DSQLITE_ENABLE_JSON1=1)
+endif()
 
 set(sqlite_sources
     sqlite3.c
     sqlite3.h
     sqlite3ext.h
-    sqlite3.def
 )
 add_library(sqlite3 ${sqlite_sources} )
+
+# Export the whole public API on Windows.
+#
+# This build used to hand the linker a vendored sqlite3.def whose export list
+# stopped being updated long before the 3.35 source it was applied to: 192
+# symbols, missing sqlite3_close_v2, sqlite3_trace_v2, sqlite3_serialize,
+# sqlite3_create_window_function and some eighty more. Python's _sqlite3
+# extension imports several of them, so every Windows install failed
+# "import sqlite3" with STATUS_ENTRYPOINT_NOT_FOUND (0xc0000139), which in turn
+# broke anything reaching huggingface_hub or transformers. Defining SQLITE_API
+# as dllexport is SQLite's own documented way to build the DLL, and cannot go
+# stale as the vendored version moves.
+if(WIN32 AND BUILD_SHARED_LIBS)
+  target_compile_definitions(sqlite3
+    PRIVATE "SQLITE_API=__declspec(dllexport)")
+endif()
 
 target_link_libraries( sqlite3 ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT})
 set_target_properties( sqlite3 PROPERTIES
@@ -63,7 +93,7 @@ set_target_properties( sqlite3 PROPERTIES
 )
 list(APPEND SQLite3_TARGETS sqlite3)
 if(SQLite3_ENABLE_EXECUTABLE)
-  add_executable(sqlite3_exe ${sqlite_sources} shell.c sqlite3.def)
+  add_executable(sqlite3_exe ${sqlite_sources} shell.c)
   target_link_libraries(sqlite3_exe ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT})
   list(APPEND SQLite3_TARGETS sqlite3_exe)
 endif()
